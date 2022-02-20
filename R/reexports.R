@@ -55,40 +55,40 @@ rxode2::rxClean
 #' @export
 rxode2::rxCat
 
-#' @importFrom nlmixr2 nlme
+#' @importFrom nlmixr2est nlme
 #' @export
 nlmixr2est::nlme
 
-#' @importFrom nlmixr2 ACF
+#' @importFrom nlmixr2est ACF
 #' @export
 nlmixr2est::ACF
 
-#' @importFrom nlmixr2 VarCorr
+#' @importFrom nlmixr2est VarCorr
 #' @export
 nlmixr2est::VarCorr
 
-#' @importFrom nlmixr2 getVarCov
+#' @importFrom nlmixr2est getVarCov
 #' @export
 nlmixr2est::getVarCov
 
 
-#' @importFrom nlmixr2 augPred
+#' @importFrom nlmixr2est augPred
 #' @export
 nlmixr2est::augPred
 
-#' @importFrom nlmixr2 fixef
+#' @importFrom nlmixr2est fixef
 #' @export
 nlmixr2est::fixef
 
-#' @importFrom nlmixr2 fixed.effects
+#' @importFrom nlmixr2est fixed.effects
 #' @export
 nlmixr2est::fixed.effects
 
-#' @importFrom nlmixr2 ranef
+#' @importFrom nlmixr2est ranef
 #' @export
 nlmixr2est::ranef
 
-#' @importFrom nlmixr2 random.effects
+#' @importFrom nlmixr2est random.effects
 #' @export
 nlmixr2est::random.effects
 
@@ -104,91 +104,91 @@ rxode2::add.dosing
 #' @export
 rxode2::add.sampling
 
-#' @importFrom nlmixr2 pdDiag
+#' @importFrom nlmixr2est pdDiag
 #' @export
 nlmixr2est::pdDiag
 
-#' @importFrom nlmixr2 pdSymm
+#' @importFrom nlmixr2est pdSymm
 #' @export
 nlmixr2est::pdSymm
 
-#' @importFrom nlmixr2 pdLogChol
+#' @importFrom nlmixr2est pdLogChol
 #' @export
 nlmixr2est::pdLogChol
 
-#' @importFrom nlmixr2 pdIdent
+#' @importFrom nlmixr2est pdIdent
 #' @export
 nlmixr2est::pdIdent
 
-#' @importFrom nlmixr2 pdCompSymm
+#' @importFrom nlmixr2est pdCompSymm
 #' @export
 nlmixr2est::pdCompSymm
 
-#' @importFrom nlmixr2 pdBlocked
+#' @importFrom nlmixr2est pdBlocked
 #' @export
 nlmixr2est::pdBlocked
 
-#' @importFrom nlmixr2 pdNatural
+#' @importFrom nlmixr2est pdNatural
 #' @export
 nlmixr2est::pdNatural
 
-#' @importFrom nlmixr2 pdConstruct
+#' @importFrom nlmixr2est pdConstruct
 #' @export
 nlmixr2est::pdConstruct
 
-#' @importFrom nlmixr2 pdFactor
+#' @importFrom nlmixr2est pdFactor
 #' @export
 nlmixr2est::pdFactor
 
-#' @importFrom nlmixr2 pdMat
+#' @importFrom nlmixr2est pdMat
 #' @export
 nlmixr2est::pdMat
 
-#' @importFrom nlmixr2 pdMatrix
+#' @importFrom nlmixr2est pdMatrix
 #' @export
 nlmixr2est::pdMatrix
 
-#' @importFrom nlmixr2 reStruct
+#' @importFrom nlmixr2est reStruct
 #' @export
 nlmixr2est::reStruct
 
-#' @importFrom nlmixr2 varWeights
+#' @importFrom nlmixr2est varWeights
 #' @export
 nlmixr2est::varWeights
 
-#' @importFrom nlmixr2 varPower
+#' @importFrom nlmixr2est varPower
 #' @export
 nlmixr2est::varPower
 
-#' @importFrom nlmixr2 varFixed
+#' @importFrom nlmixr2est varFixed
 #' @export
 nlmixr2est::varFixed
 
-#' @importFrom nlmixr2 varFunc
+#' @importFrom nlmixr2est varFunc
 #' @export
 nlmixr2est::varFunc
 
-#' @importFrom nlmixr2 varExp
+#' @importFrom nlmixr2est varExp
 #' @export
 nlmixr2est::varExp
 
-#' @importFrom nlmixr2 varConstPower
+#' @importFrom nlmixr2est varConstPower
 #' @export
 nlmixr2est::varConstPower
 
-#' @importFrom nlmixr2 varIdent
+#' @importFrom nlmixr2est varIdent
 #' @export
 nlmixr2est::varIdent
 
-#' @importFrom nlmixr2 varComb
+#' @importFrom nlmixr2est varComb
 #' @export
 nlmixr2est::varComb
 
-#' @importFrom nlmixr2 groupedData
+#' @importFrom nlmixr2est groupedData
 #' @export
 nlmixr2est::groupedData
 
-#' @importFrom nlmixr2 getData
+#' @importFrom nlmixr2est getData
 #' @export
 nlmixr2est::getData
 
