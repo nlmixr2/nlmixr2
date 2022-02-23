@@ -34,3 +34,5 @@ Imports:
     rxode2
 Depends: 
     nlmixr2data
+Suggests:
+    nlmixr2plot
