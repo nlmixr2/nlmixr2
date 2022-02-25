@@ -17,6 +17,13 @@
 \alias{rxSolve}
 \alias{rxClean}
 \alias{rxCat}
+\alias{nlmixr2}
+\alias{nlmixr}
+\alias{saemControl}
+\alias{foceiControl}
+\alias{nlmixr2NlmeControl}
+\alias{nlmeControl}
+\alias{tableControl}
 \alias{nlme}
 \alias{ACF}
 \alias{VarCorr}
@@ -68,7 +75,7 @@ below to see their documentation.
 \describe{
   \item{magrittr}{\code{\link[magrittr:pipe]{\%>\%}}}
 
-  \item{nlmixr2est}{\code{\link[nlmixr2est:reexports]{ACF}}, \code{\link[nlmixr2est:reexports]{VarCorr}}, \code{\link[nlmixr2est:reexports]{augPred}}, \code{\link[nlmixr2est:reexports]{fixed.effects}}, \code{\link[nlmixr2est:reexports]{fixef}}, \code{\link[nlmixr2est:reexports]{getData}}, \code{\link[nlmixr2est:reexports]{getVarCov}}, \code{\link[nlmixr2est:reexports]{groupedData}}, \code{\link[nlmixr2est:reexports]{nlme}}, \code{\link[nlmixr2est:reexports]{pdBlocked}}, \code{\link[nlmixr2est:reexports]{pdCompSymm}}, \code{\link[nlmixr2est:reexports]{pdConstruct}}, \code{\link[nlmixr2est:reexports]{pdDiag}}, \code{\link[nlmixr2est:reexports]{pdFactor}}, \code{\link[nlmixr2est:reexports]{pdIdent}}, \code{\link[nlmixr2est:reexports]{pdLogChol}}, \code{\link[nlmixr2est:reexports]{pdMat}}, \code{\link[nlmixr2est:reexports]{pdMatrix}}, \code{\link[nlmixr2est:reexports]{pdNatural}}, \code{\link[nlmixr2est:reexports]{pdSymm}}, \code{\link[nlmixr2est:reexports]{random.effects}}, \code{\link[nlmixr2est:reexports]{ranef}}, \code{\link[nlmixr2est:reexports]{reStruct}}, \code{\link[nlmixr2est:reexports]{varComb}}, \code{\link[nlmixr2est:reexports]{varConstPower}}, \code{\link[nlmixr2est:reexports]{varExp}}, \code{\link[nlmixr2est:reexports]{varFixed}}, \code{\link[nlmixr2est:reexports]{varFunc}}, \code{\link[nlmixr2est:reexports]{varIdent}}, \code{\link[nlmixr2est:reexports]{varPower}}, \code{\link[nlmixr2est:reexports]{varWeights}}}
+  \item{nlmixr2est}{\code{\link[nlmixr2est:reexports]{ACF}}, \code{\link[nlmixr2est:reexports]{VarCorr}}, \code{\link[nlmixr2est:reexports]{augPred}}, \code{\link[nlmixr2est:reexports]{fixed.effects}}, \code{\link[nlmixr2est:reexports]{fixef}}, \code{\link[nlmixr2est]{foceiControl}}, \code{\link[nlmixr2est:reexports]{getData}}, \code{\link[nlmixr2est:reexports]{getVarCov}}, \code{\link[nlmixr2est:reexports]{groupedData}}, \code{\link[nlmixr2est:reexports]{nlme}}, \code{\link[nlmixr2est:nlmixr2NlmeControl]{nlmeControl}}, \code{\link[nlmixr2est:nlmixr2]{nlmixr}}, \code{\link[nlmixr2est]{nlmixr2}}, \code{\link[nlmixr2est]{nlmixr2NlmeControl}}, \code{\link[nlmixr2est:reexports]{pdBlocked}}, \code{\link[nlmixr2est:reexports]{pdCompSymm}}, \code{\link[nlmixr2est:reexports]{pdConstruct}}, \code{\link[nlmixr2est:reexports]{pdDiag}}, \code{\link[nlmixr2est:reexports]{pdFactor}}, \code{\link[nlmixr2est:reexports]{pdIdent}}, \code{\link[nlmixr2est:reexports]{pdLogChol}}, \code{\link[nlmixr2est:reexports]{pdMat}}, \code{\link[nlmixr2est:reexports]{pdMatrix}}, \code{\link[nlmixr2est:reexports]{pdNatural}}, \code{\link[nlmixr2est:reexports]{pdSymm}}, \code{\link[nlmixr2est:reexports]{random.effects}}, \code{\link[nlmixr2est:reexports]{ranef}}, \code{\link[nlmixr2est:reexports]{reStruct}}, \code{\link[nlmixr2est]{saemControl}}, \code{\link[nlmixr2est]{tableControl}}, \code{\link[nlmixr2est:reexports]{varComb}}, \code{\link[nlmixr2est:reexports]{varConstPower}}, \code{\link[nlmixr2est:reexports]{varExp}}, \code{\link[nlmixr2est:reexports]{varFixed}}, \code{\link[nlmixr2est:reexports]{varFunc}}, \code{\link[nlmixr2est:reexports]{varIdent}}, \code{\link[nlmixr2est:reexports]{varPower}}, \code{\link[nlmixr2est:reexports]{varWeights}}}
 
   \item{rxode2}{\code{\link[rxode2:rxode2]{RxODE}}, \code{\link[rxode2]{add.dosing}}, \code{\link[rxode2]{add.sampling}}, \code{\link[rxode2]{et}}, \code{\link[rxode2]{et}}, \code{\link[rxode2]{eventTable}}, \code{\link[rxode2:logit]{expit}}, \code{\link[rxode2:stat_amt]{geom_amt}}, \code{\link[rxode2:stat_cens]{geom_cens}}, \code{\link[rxode2]{ini}}, \code{\link[rxode2]{logit}}, \code{\link[rxode2:reexports]{lotri}}, \code{\link[rxode2]{model}}, \code{\link[rxode2]{probit}}, \code{\link[rxode2:probit]{probitInv}}, \code{\link[rxode2]{rxCat}}, \code{\link[rxode2]{rxClean}}, \code{\link[rxode2:rxSolve]{rxControl}}, \code{\link[rxode2:rxParams]{rxParam}}, \code{\link[rxode2]{rxParams}}, \code{\link[rxode2]{rxSolve}}, \code{\link[rxode2:rxode2]{rxode}}, \code{\link[rxode2]{rxode2}}, \code{\link[rxode2]{stat_amt}}, \code{\link[rxode2]{stat_cens}}}
 }}

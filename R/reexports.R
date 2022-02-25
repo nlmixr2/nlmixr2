@@ -55,6 +55,34 @@ rxode2::rxClean
 #' @export
 rxode2::rxCat
 
+#' @importFrom nlmixr2est nlmixr2
+#' @export
+nlmixr2est::nlmixr2
+
+#' @importFrom nlmixr2est nlmixr
+#' @export
+nlmixr2est::nlmixr
+
+#' @importFrom nlmixr2est saemControl
+#' @export
+nlmixr2est::saemControl
+
+#' @importFrom nlmixr2est foceiControl
+#' @export
+nlmixr2est::foceiControl
+
+#' @importFrom nlmixr2est nlmixr2NlmeControl
+#' @export
+nlmixr2est::nlmixr2NlmeControl
+
+#' @importFrom nlmixr2est nlmeControl
+#' @export
+nlmixr2est::nlmeControl
+
+#' @importFrom nlmixr2est tableControl
+#' @export
+nlmixr2est::tableControl
+
 #' @importFrom nlmixr2est nlme
 #' @export
 nlmixr2est::nlme
