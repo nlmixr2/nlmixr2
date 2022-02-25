@@ -31,10 +31,12 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Imports: 
     nlmixr2est,
-    rxode2
+    rxode2,
+    nlmixr2plot
 Depends: 
     nlmixr2data
 Suggests: 
     rmarkdown,
     knitr
 VignetteBuilder: knitr
+
