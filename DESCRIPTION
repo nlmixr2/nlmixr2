@@ -34,3 +34,7 @@ Imports:
     rxode2
 Depends: 
     nlmixr2data
+Suggests: 
+    rmarkdown,
+    knitr
+VignetteBuilder: knitr
