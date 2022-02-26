@@ -1,3 +1,4 @@
+#' @import nlmixr2plot
 #' @importFrom magrittr %>%
 #' @export
 magrittr::`%>%`
@@ -55,70 +56,6 @@ rxode2::rxClean
 #' @export
 rxode2::rxCat
 
-#' @importFrom nlmixr2est nlmixr2
-#' @export
-nlmixr2est::nlmixr2
-
-#' @importFrom nlmixr2est nlmixr
-#' @export
-nlmixr2est::nlmixr
-
-#' @importFrom nlmixr2est saemControl
-#' @export
-nlmixr2est::saemControl
-
-#' @importFrom nlmixr2est foceiControl
-#' @export
-nlmixr2est::foceiControl
-
-#' @importFrom nlmixr2est nlmixr2NlmeControl
-#' @export
-nlmixr2est::nlmixr2NlmeControl
-
-#' @importFrom nlmixr2est nlmeControl
-#' @export
-nlmixr2est::nlmeControl
-
-#' @importFrom nlmixr2est tableControl
-#' @export
-nlmixr2est::tableControl
-
-#' @importFrom nlmixr2est nlme
-#' @export
-nlmixr2est::nlme
-
-#' @importFrom nlmixr2est ACF
-#' @export
-nlmixr2est::ACF
-
-#' @importFrom nlmixr2est VarCorr
-#' @export
-nlmixr2est::VarCorr
-
-#' @importFrom nlmixr2est getVarCov
-#' @export
-nlmixr2est::getVarCov
-
-
-#' @importFrom nlmixr2est augPred
-#' @export
-nlmixr2est::augPred
-
-#' @importFrom nlmixr2est fixef
-#' @export
-nlmixr2est::fixef
-
-#' @importFrom nlmixr2est fixed.effects
-#' @export
-nlmixr2est::fixed.effects
-
-#' @importFrom nlmixr2est ranef
-#' @export
-nlmixr2est::ranef
-
-#' @importFrom nlmixr2est random.effects
-#' @export
-nlmixr2est::random.effects
 
 #' @importFrom rxode2 eventTable
 #' @export
@@ -257,3 +194,92 @@ rxode2::stat_amt
 #' @importFrom rxode2 rxControl
 #' @export
 rxode2::rxControl
+
+#' @importFrom nlmixr2plot geom_amt
+#' @export
+nlmixr2plot::geom_amt
+
+#' @importFrom nlmixr2plot geom_cens
+#' @export
+nlmixr2plot::geom_cens
+
+#' @importFrom nlmixr2plot stat_amt
+#' @export
+nlmixr2plot::stat_amt
+
+#' @importFrom nlmixr2plot stat_cens
+#' @export
+nlmixr2plot::stat_cens
+
+#' @importFrom nlmixr2plot traceplot
+#' @export
+nlmixr2plot::traceplot
+
+#' @importFrom nlmixr2plot vpcPlot
+#' @export
+nlmixr2plot::vpcPlot
+
+#' @importFrom nlmixr2est nlmixr2
+#' @export
+nlmixr2est::nlmixr2
+
+#' @importFrom nlmixr2est nlmixr
+#' @export
+nlmixr2est::nlmixr
+
+#' @importFrom nlmixr2est saemControl
+#' @export
+nlmixr2est::saemControl
+
+#' @importFrom nlmixr2est foceiControl
+#' @export
+nlmixr2est::foceiControl
+
+#' @importFrom nlmixr2est nlmixr2NlmeControl
+#' @export
+nlmixr2est::nlmixr2NlmeControl
+
+#' @importFrom nlmixr2est nlmeControl
+#' @export
+nlmixr2est::nlmeControl
+
+#' @importFrom nlmixr2est tableControl
+#' @export
+nlmixr2est::tableControl
+
+#' @importFrom nlmixr2est nlme
+#' @export
+nlmixr2est::nlme
+
+#' @importFrom nlmixr2est ACF
+#' @export
+nlmixr2est::ACF
+
+#' @importFrom nlmixr2est VarCorr
+#' @export
+nlmixr2est::VarCorr
+
+#' @importFrom nlmixr2est getVarCov
+#' @export
+nlmixr2est::getVarCov
+
+
+#' @importFrom nlmixr2est augPred
+#' @export
+nlmixr2est::augPred
+
+#' @importFrom nlmixr2est fixef
+#' @export
+nlmixr2est::fixef
+
+#' @importFrom nlmixr2est fixed.effects
+#' @export
+nlmixr2est::fixed.effects
+
+#' @importFrom nlmixr2est ranef
+#' @export
+nlmixr2est::ranef
+
+#' @importFrom nlmixr2est random.effects
+#' @export
+nlmixr2est::random.effects
