@@ -22,10 +22,23 @@ The goal of nlmixr2 is to support easy and robust nonlinear mixed effects models
 
 ## Installation
 
-You can install the development version of nlmixr2 like so:
+You can install the development version of nlmixr2 and its nlmixr2-family dependencies like so:
 
 ``` r
+remotes::install_github("nlmixr2/lotri")
+remotes::install_github("nlmixr2/rxode2")
+remotes::install_github("nlmixr2/nlmixr2data")
+remotes::install_github("nlmixr2/nlmixr2est")
+remotes::install_github("nlmixr2/nlmixr2plot")
+remotes::install_github("nlmixr2/nlmixr2extra")
 remotes::install_github("nlmixr2/nlmixr2")
+```
+
+Optional supporting packages can be installed like so:
+
+``` r
+remotes::install_github("nlmixr2/xpose.nlmixr") # Additional goodness of fit plots
+remotes::install_github("nlmixr2/nlmixr2targets") # Simplify work with the `targets` package
 ```
 
 ## Example
@@ -33,7 +46,6 @@ remotes::install_github("nlmixr2/nlmixr2")
 This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
-
 library(nlmixr2)
 
 ## The basic model consiss of an ini block that has initial estimates
@@ -69,5 +81,3 @@ print(fit)
 ```{r}
 plot(fit)
 ```
-
-
