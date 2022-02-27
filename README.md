@@ -4,6 +4,7 @@
 # nlmixr2
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
 The goal of nlmixr2 is to support easy and robust nonlinear mixed
@@ -15,9 +16,9 @@ You can install the development version of nlmixr2 and its
 nlmixr2-family dependencies like so:
 
 ``` r
+remotes::install_github("nlmixr2/nlmixr2data")
 remotes::install_github("nlmixr2/lotri")
 remotes::install_github("nlmixr2/rxode2")
-remotes::install_github("nlmixr2/nlmixr2data")
 remotes::install_github("nlmixr2/nlmixr2est")
 remotes::install_github("nlmixr2/nlmixr2plot")
 remotes::install_github("nlmixr2/nlmixr2extra")
@@ -27,7 +28,9 @@ remotes::install_github("nlmixr2/nlmixr2")
 Optional supporting packages can be installed like so:
 
 ``` r
+remotes::install_github("ggPMXdevelopment/ggPMX") # Goodness of fit plots
 remotes::install_github("nlmixr2/xpose.nlmixr") # Additional goodness of fit plots
+remotes::install_github("RichardHooijmaijers/shinyMixR") # Shiny run manager (like Piranha)
 remotes::install_github("nlmixr2/nlmixr2targets") # Simplify work with the `targets` package
 ```
 
@@ -64,47 +67,52 @@ one.compartment <- function() {
 
 ## The fit is performed by the function nlmixr/nlmix2 specifying the model, data and estimate
 fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
-#> i parameter labels from comments will be replaced by 'label()'
-#> Warning in checkmate::assertIntegerish(indLinMatExpOrder, len = 1, min = 1, :
-#> partial argument match of 'min' to 'min.len'
-#> > loading into symengine environment...
-#> > pruning branches (`if`/`else`) of saem model...
-#> v done
-#> > finding duplicate expressions in saem model...
+#> ℹ parameter labels from comments will be replaced by 'label()'
+#> → loading into symengine environment...
+#> → pruning branches (`if`/`else`) of saem model...
+#> ✔ done
+#> → finding duplicate expressions in saem model...
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> > optimizing duplicate expressions in saem model...
+#> → optimizing duplicate expressions in saem model...
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> v done
+#> ✔ done
+#> → creating rxode2 include directory
+#> → getting R compile options
+#> → precompiling headers
+#> ✔ done
 #> rxode2 1.0.0 using 4 threads (see ?getRxThreads)
-#>   no cache: create with `rxCreateCache()`
 #> Calculating covariance matrix
-#> > loading into symengine environment...
-#> > pruning branches (`if`/`else`) of saem model...
-#> v done
-#> > finding duplicate expressions in saem predOnly model 0...
-#> > finding duplicate expressions in saem predOnly model 1...
-#> > optimizing duplicate expressions in saem predOnly model 1...
-#> > finding duplicate expressions in saem predOnly model 2...
-#> v done
-#> > Calculating residuals/tables
-#> v done
-#> > compress origData in nlmixr2 object, save 5952
-#> > compress phiM in nlmixr2 object, save 60048
-#> > compress parHist in nlmixr2 object, save 9424
-#> > compress saem0 in nlmixr2 object, save 23304
-#> Warning: partial argument match of 'min' to 'min.len'
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
+#> → loading into symengine environment...
+#> → pruning branches (`if`/`else`) of saem model...
+#> ✔ done
+#> → finding duplicate expressions in saem predOnly model 0...
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
+#> → finding duplicate expressions in saem predOnly model 1...
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
+#> → optimizing duplicate expressions in saem predOnly model 1...
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
+#> → finding duplicate expressions in saem predOnly model 2...
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
+#> ✔ done
+#> → Calculating residuals/tables
+#> ✔ done
+#> → compress origData in nlmixr2 object, save 5952
+#> → compress phiM in nlmixr2 object, save 62360
+#> → compress parHist in nlmixr2 object, save 9440
+#> → compress saem0 in nlmixr2 object, save 23104
 print(fit)
-#> -- nlmixr SAEM OBJF by FOCEi approximation -------------------------------------
+#> ── nlmixr SAEM OBJF by FOCEi approximation ─────────────────────────────────────
 #> 
 #>  Gaussian/Laplacian Likelihoods: AIC() or $objf etc. 
 #>  FOCEi CWRES & Likelihoods: addCwres() 
 #> 
-#> -- Time (sec $time): -----------------------------------------------------------
+#> ── Time (sec $time): ───────────────────────────────────────────────────────────
 #> 
-#>         setup covariance saem table compress other
-#> elapsed 0.002       0.01  9.3  0.05     0.03 6.088
+#>            setup covariance  saem table compress    other
+#> elapsed 0.001848   0.017007 5.482 0.021     0.02 1.710145
 #> 
-#> -- Population Parameters ($parFixed or $parFixedDf): ---------------------------
+#> ── Population Parameters ($parFixed or $parFixedDf): ───────────────────────────
 #> 
 #>        Parameter  Est.     SE %RSE Back-transformed(95%CI) BSV(CV%) Shrink(SD)%
 #> tka       Log Ka 0.454  0.196 43.1       1.57 (1.07, 2.31)     71.5   -0.0203% 
@@ -117,14 +125,14 @@ print(fit)
 #>   Full BSV covariance ($omega) or correlation ($omegaR; diagonals=SDs) 
 #>   Distribution stats (mean/skewness/kurtosis/p-value) available in $shrink 
 #> 
-#> -- Fit Data (object is a modified tibble): -------------------------------------
-#> # A tibble: 132 x 19
+#> ── Fit Data (object is a modified tibble): ─────────────────────────────────────
+#> # A tibble: 132 × 19
 #>   ID     TIME    DV  PRED    RES IPRED   IRES  IWRES eta.ka eta.cl   eta.v    cp
 #>   <fct> <dbl> <dbl> <dbl>  <dbl> <dbl>  <dbl>  <dbl>  <dbl>  <dbl>   <dbl> <dbl>
 #> 1 1      0     0.74  0     0.74   0     0.74   1.07   0.103 -0.491 -0.0820  0   
 #> 2 1      0.25  2.84  3.27 -0.426  3.87 -1.03  -1.48   0.103 -0.491 -0.0820  3.87
 #> 3 1      0.57  6.57  5.85  0.723  6.82 -0.246 -0.356  0.103 -0.491 -0.0820  6.82
-#> # ... with 129 more rows, and 7 more variables: depot <dbl>, center <dbl>,
+#> # … with 129 more rows, and 7 more variables: depot <dbl>, center <dbl>,
 #> #   ka <dbl>, cl <dbl>, v <dbl>, tad <dbl>, dosenum <dbl>
 ```
 

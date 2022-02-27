@@ -25,9 +25,9 @@ The goal of nlmixr2 is to support easy and robust nonlinear mixed effects models
 You can install the development version of nlmixr2 and its nlmixr2-family dependencies like so:
 
 ``` r
+remotes::install_github("nlmixr2/nlmixr2data")
 remotes::install_github("nlmixr2/lotri")
 remotes::install_github("nlmixr2/rxode2")
-remotes::install_github("nlmixr2/nlmixr2data")
 remotes::install_github("nlmixr2/nlmixr2est")
 remotes::install_github("nlmixr2/nlmixr2plot")
 remotes::install_github("nlmixr2/nlmixr2extra")
@@ -37,7 +37,9 @@ remotes::install_github("nlmixr2/nlmixr2")
 Optional supporting packages can be installed like so:
 
 ``` r
+remotes::install_github("ggPMXdevelopment/ggPMX") # Goodness of fit plots
 remotes::install_github("nlmixr2/xpose.nlmixr") # Additional goodness of fit plots
+remotes::install_github("RichardHooijmaijers/shinyMixR") # Shiny run manager (like Piranha)
 remotes::install_github("nlmixr2/nlmixr2targets") # Simplify work with the `targets` package
 ```
 
