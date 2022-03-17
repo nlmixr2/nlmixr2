@@ -1,0 +1,164 @@
+---
+title: "Advanced Model Modification"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Advanced Model Modification}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(nlmixr2)
+```
+
+# Introduction
+
+Models are typically written manually for fitting.  But in some cases, you may want to modify a model that already exists.  The modifications can be done in several different ways.  Typical modification methods can update a parameter estimate, fix a parameter, or unfix a parameter.  Less commonly used methods can add or remove parameters and combine multiple models.
+
+# Setup
+
+To prepare for the examples below, we will setup a model without fitting it yet.
+
+```{r model-definition}
+pheno <- function() {
+  ini({
+    tcl <- log(0.008); label("typical value of clearance")
+    tv <-  log(0.6); label("typical value of volume")
+    eta.cl + eta.v ~ c(1, 
+                       0.01, 1); label("interindividual variability on clearance and volume")
+    add.err <- 0.1; label("residual variability")
+  })
+  model({
+    cl <- exp(tcl + eta.cl) # individual value of clearance
+    v <- exp(tv + eta.v)    # individual value of volume
+    ke <- cl / v            # elimination rate constant
+    d/dt(A1) = - ke * A1    # model differential equation
+    cp = A1 / v             # concentration in plasma
+    cp ~ add(add.err)  # define error model
+  })
+}
+
+pheno_mod <- nlmixr(pheno)
+```
+
+# Parameter Modification
+
+## Update Initial Estimates
+
+After an initial model fit, you may want to modify the initial estimates for the parameters in the model.  In the example below, the initial condition is updated to a single value or to have limits.  Note the difference int he normalized syntax of the model for `tcl` in the `ini()` section.
+
+```{r update-manual-single}
+pheno_mod_update_single <-
+  pheno_mod %>%
+  ini(tcl=log(0.006))
+
+pheno_mod
+pheno_mod_update_single
+```
+
+```{r update-manual-limits}
+pheno_mod_update_limits <-
+  pheno_mod %>%
+  ini(tcl=log(c(0.001, 0.006, 0.1)))
+
+pheno_mod
+pheno_mod_update_limits
+```
+
+## Fix a Parameter
+
+Parameters can be fixed or unfixed, as well.
+
+```{r update-fixed-unfixed}
+pheno_mod_update_fixed <-
+  pheno_mod %>%
+  ini(tcl=fixed(log(0.006)))
+
+pheno_mod
+pheno_mod_update_fixed
+
+pheno_mod_update_unfixed <-
+  pheno_mod_update_fixed %>%
+  ini(tcl=unfix(log(0.006)))
+
+pheno_mod
+pheno_mod_update_unfixed
+```
+
+## Add a Parameter
+
+FIXME: This does not yet work.
+
+A new parameter can also be added to the model, also with the `ini()` function.
+
+```{r add-param, eval=FALSE}
+pheno_mod_new_param <-
+  pheno_mod %>%
+  ini(new_param=1.1)
+```
+
+# Model Modification
+
+The model itself can also be modified.  For example, perhaps it would help to have the unbound concentration in a model as a calculated parameter at the end.  To modify the model, you need to add the `append` argument to the `model()` call.
+
+```{r update-model}
+pheno_mod_unbound <-
+  pheno_mod %>%
+  # assume 10% unbound
+  model(cp_unbound=cp*0.1, append=TRUE)
+
+pheno_mod_unbound
+```
+
+Perhaps the model would be better-described by having a new 
+
+# Model Composition
+
+Two models may be combined with the `rxode2::rxAppendModel()` function.  To do this, the second model must have a covariate that is a left-hand-side assignment in the first model.
+
+Setting up an indirect response model, the concentration affecting the output rate of the `eff` compartment is `ceff`.
+
+```{r indirect_model}
+indirect_response <- function() {
+  ini({
+     tkin <- log(1)
+     tkout <- log(1)
+     tic50 <- log(10)
+     gamma <- fix(1)
+     idr.sd <- 1
+   })
+  model({
+     kin <- exp(tkin)
+     kout <- exp(tkout)
+     ic50 <- exp(tic50)
+     d/dt(eff) <- kin - kout*(1-ceff^gamma/(ic50^gamma+ceff^gamma))
+     eff ~ add(idr.sd)
+  })
+}
+```
+
+Now, make the `pheno_mod` model have a `ceff` parameter using the same concepts as described in the [Model Modification] section.
+
+```{r pheno-indirect-prep}
+pheno_mod_ceff <-
+  pheno_mod %>%
+  model(ceff=cp, append=TRUE)
+pheno_mod_ceff
+```
+
+Since `ceff` can now link the pheno model to the indirect response model, the two models can be combined.
+
+```{r model-composition}
+pheno_indirect <-
+  pheno_mod_ceff %>%
+  rxode2::rxAppendModel(indirect_response)
+
+pheno_indirect
+```
