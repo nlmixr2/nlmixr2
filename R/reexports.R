@@ -287,3 +287,7 @@ nlmixr2est::random.effects
 #' @importFrom nlmixr2est .nlmixrNlmeFun
 #' @export
 nlmixr2est::.nlmixrNlmeFun
+
+#' @importFrom nlmixr2plot traceplot
+#' @export
+nlmixr2plot::traceplot
