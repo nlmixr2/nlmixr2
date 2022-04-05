@@ -17,22 +17,6 @@
 \alias{rxSolve}
 \alias{rxClean}
 \alias{rxCat}
-\alias{nlmixr2}
-\alias{nlmixr}
-\alias{saemControl}
-\alias{foceiControl}
-\alias{nlmixr2NlmeControl}
-\alias{nlmeControl}
-\alias{tableControl}
-\alias{nlme}
-\alias{ACF}
-\alias{VarCorr}
-\alias{getVarCov}
-\alias{augPred}
-\alias{fixef}
-\alias{fixed.effects}
-\alias{ranef}
-\alias{random.effects}
 \alias{eventTable}
 \alias{add.dosing}
 \alias{add.sampling}
@@ -68,6 +52,23 @@
 \alias{rxControl}
 \alias{traceplot}
 \alias{vpcPlot}
+\alias{nlmixr2}
+\alias{nlmixr}
+\alias{saemControl}
+\alias{foceiControl}
+\alias{nlmixr2NlmeControl}
+\alias{nlmeControl}
+\alias{tableControl}
+\alias{nlme}
+\alias{ACF}
+\alias{VarCorr}
+\alias{getVarCov}
+\alias{augPred}
+\alias{fixef}
+\alias{fixed.effects}
+\alias{ranef}
+\alias{random.effects}
+\alias{.nlmixrNlmeFun}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -77,7 +78,7 @@ below to see their documentation.
 \describe{
   \item{magrittr}{\code{\link[magrittr:pipe]{\%>\%}}}
 
-  \item{nlmixr2est}{\code{\link[nlmixr2est:reexports]{ACF}}, \code{\link[nlmixr2est:reexports]{VarCorr}}, \code{\link[nlmixr2est:reexports]{augPred}}, \code{\link[nlmixr2est:reexports]{fixed.effects}}, \code{\link[nlmixr2est:reexports]{fixef}}, \code{\link[nlmixr2est]{foceiControl}}, \code{\link[nlmixr2est:reexports]{getData}}, \code{\link[nlmixr2est:reexports]{getVarCov}}, \code{\link[nlmixr2est:reexports]{groupedData}}, \code{\link[nlmixr2est:reexports]{nlme}}, \code{\link[nlmixr2est:nlmixr2NlmeControl]{nlmeControl}}, \code{\link[nlmixr2est:nlmixr2]{nlmixr}}, \code{\link[nlmixr2est]{nlmixr2}}, \code{\link[nlmixr2est]{nlmixr2NlmeControl}}, \code{\link[nlmixr2est:reexports]{pdBlocked}}, \code{\link[nlmixr2est:reexports]{pdCompSymm}}, \code{\link[nlmixr2est:reexports]{pdConstruct}}, \code{\link[nlmixr2est:reexports]{pdDiag}}, \code{\link[nlmixr2est:reexports]{pdFactor}}, \code{\link[nlmixr2est:reexports]{pdIdent}}, \code{\link[nlmixr2est:reexports]{pdLogChol}}, \code{\link[nlmixr2est:reexports]{pdMat}}, \code{\link[nlmixr2est:reexports]{pdMatrix}}, \code{\link[nlmixr2est:reexports]{pdNatural}}, \code{\link[nlmixr2est:reexports]{pdSymm}}, \code{\link[nlmixr2est:reexports]{random.effects}}, \code{\link[nlmixr2est:reexports]{ranef}}, \code{\link[nlmixr2est:reexports]{reStruct}}, \code{\link[nlmixr2est]{saemControl}}, \code{\link[nlmixr2est]{tableControl}}, \code{\link[nlmixr2est:reexports]{varComb}}, \code{\link[nlmixr2est:reexports]{varConstPower}}, \code{\link[nlmixr2est:reexports]{varExp}}, \code{\link[nlmixr2est:reexports]{varFixed}}, \code{\link[nlmixr2est:reexports]{varFunc}}, \code{\link[nlmixr2est:reexports]{varIdent}}, \code{\link[nlmixr2est:reexports]{varPower}}, \code{\link[nlmixr2est:reexports]{varWeights}}}
+  \item{nlmixr2est}{\code{\link[nlmixr2est:dot-nlmixrNlmeFun]{.nlmixrNlmeFun}}, \code{\link[nlmixr2est:reexports]{ACF}}, \code{\link[nlmixr2est:reexports]{VarCorr}}, \code{\link[nlmixr2est:reexports]{augPred}}, \code{\link[nlmixr2est:reexports]{fixed.effects}}, \code{\link[nlmixr2est:reexports]{fixef}}, \code{\link[nlmixr2est]{foceiControl}}, \code{\link[nlmixr2est:reexports]{getData}}, \code{\link[nlmixr2est:reexports]{getVarCov}}, \code{\link[nlmixr2est:reexports]{groupedData}}, \code{\link[nlmixr2est:reexports]{nlme}}, \code{\link[nlmixr2est:nlmixr2NlmeControl]{nlmeControl}}, \code{\link[nlmixr2est:nlmixr2]{nlmixr}}, \code{\link[nlmixr2est]{nlmixr2}}, \code{\link[nlmixr2est]{nlmixr2NlmeControl}}, \code{\link[nlmixr2est:reexports]{pdBlocked}}, \code{\link[nlmixr2est:reexports]{pdCompSymm}}, \code{\link[nlmixr2est:reexports]{pdConstruct}}, \code{\link[nlmixr2est:reexports]{pdDiag}}, \code{\link[nlmixr2est:reexports]{pdFactor}}, \code{\link[nlmixr2est:reexports]{pdIdent}}, \code{\link[nlmixr2est:reexports]{pdLogChol}}, \code{\link[nlmixr2est:reexports]{pdMat}}, \code{\link[nlmixr2est:reexports]{pdMatrix}}, \code{\link[nlmixr2est:reexports]{pdNatural}}, \code{\link[nlmixr2est:reexports]{pdSymm}}, \code{\link[nlmixr2est:reexports]{random.effects}}, \code{\link[nlmixr2est:reexports]{ranef}}, \code{\link[nlmixr2est:reexports]{reStruct}}, \code{\link[nlmixr2est]{saemControl}}, \code{\link[nlmixr2est]{tableControl}}, \code{\link[nlmixr2est:reexports]{varComb}}, \code{\link[nlmixr2est:reexports]{varConstPower}}, \code{\link[nlmixr2est:reexports]{varExp}}, \code{\link[nlmixr2est:reexports]{varFixed}}, \code{\link[nlmixr2est:reexports]{varFunc}}, \code{\link[nlmixr2est:reexports]{varIdent}}, \code{\link[nlmixr2est:reexports]{varPower}}, \code{\link[nlmixr2est:reexports]{varWeights}}}
 
   \item{nlmixr2plot}{\code{\link[nlmixr2plot:reexports]{geom_amt}}, \code{\link[nlmixr2plot:reexports]{geom_cens}}, \code{\link[nlmixr2plot:reexports]{stat_amt}}, \code{\link[nlmixr2plot:reexports]{stat_cens}}, \code{\link[nlmixr2plot]{traceplot}}, \code{\link[nlmixr2plot]{vpcPlot}}}
 

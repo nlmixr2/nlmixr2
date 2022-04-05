@@ -283,3 +283,7 @@ nlmixr2est::ranef
 #' @importFrom nlmixr2est random.effects
 #' @export
 nlmixr2est::random.effects
+
+#' @importFrom nlmixr2est .nlmixrNlmeFun
+#' @export
+nlmixr2est::.nlmixrNlmeFun
