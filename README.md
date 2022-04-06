@@ -20,8 +20,8 @@ remotes::install_github("nlmixr2/nlmixr2data")
 remotes::install_github("nlmixr2/lotri")
 remotes::install_github("nlmixr2/rxode2")
 remotes::install_github("nlmixr2/nlmixr2est")
-remotes::install_github("nlmixr2/nlmixr2plot")
 remotes::install_github("nlmixr2/nlmixr2extra")
+remotes::install_github("nlmixr2/nlmixr2plot")
 remotes::install_github("nlmixr2/nlmixr2")
 ```
 
@@ -76,10 +76,6 @@ fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
 #> → optimizing duplicate expressions in saem model...
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> ✔ done
-#> → creating rxode2 include directory
-#> → getting R compile options
-#> → precompiling headers
-#> ✔ done
 #> rxode2 1.0.0 using 4 threads (see ?getRxThreads)
 #> Calculating covariance matrix
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
@@ -99,8 +95,8 @@ fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
 #> ✔ done
 #> → compress origData in nlmixr2 object, save 5952
 #> → compress phiM in nlmixr2 object, save 62360
-#> → compress parHist in nlmixr2 object, save 9440
-#> → compress saem0 in nlmixr2 object, save 23104
+#> → compress parHist in nlmixr2 object, save 9408
+#> → compress saem0 in nlmixr2 object, save 23016
 print(fit)
 #> ── nlmixr SAEM OBJF by FOCEi approximation ─────────────────────────────────────
 #> 
@@ -110,7 +106,7 @@ print(fit)
 #> ── Time (sec $time): ───────────────────────────────────────────────────────────
 #> 
 #>            setup covariance  saem table compress    other
-#> elapsed 0.001848   0.017007 5.482 0.021     0.02 1.710145
+#> elapsed 0.002547   0.008005 2.518  0.03    0.023 1.729448
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ───────────────────────────
 #> 
