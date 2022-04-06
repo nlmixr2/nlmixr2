@@ -300,3 +300,10 @@ nlmixr2est::addCwres
 #' @export
 nlmixr2est::addNpde
 
+#' @importFrom nlmixr2est addNpde
+#' @export
+nlmixr2est::addNpde
+
+#' @importFrom nlmixr2est addTable
+#' @export
+nlmixr2est::addTable
