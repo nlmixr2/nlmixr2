@@ -39,7 +39,6 @@ try a full PBPK model. This one was published for mavoglurant
 # nlmixr model
 
 ```{r}
-
 library(nlmixr2)
 library(xpose)
 library(xpose.nlmixr)
