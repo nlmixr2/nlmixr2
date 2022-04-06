@@ -291,3 +291,12 @@ nlmixr2est::.nlmixrNlmeFun
 #' @importFrom nlmixr2plot traceplot
 #' @export
 nlmixr2plot::traceplot
+
+#' @importFrom nlmixr2est addCwres
+#' @export
+nlmixr2est::addCwres
+
+#' @importFrom nlmixr2est addNpde
+#' @export
+nlmixr2est::addNpde
+
