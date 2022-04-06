@@ -307,3 +307,7 @@ nlmixr2est::addNpde
 #' @importFrom nlmixr2est addTable
 #' @export
 nlmixr2est::addTable
+
+#' @importFrom nlmixr2est setOfv
+#' @export
+nlmixr2est::setOfv
