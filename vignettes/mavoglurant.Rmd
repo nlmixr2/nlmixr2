@@ -17,15 +17,6 @@ knitr::opts_chunk$set(
   out.width = "100%"
   )
 
-## These options cache the models and the model simulations in R
-## To run the actual models on your system, take the save options off.
-nlmixrVersion <- as.character(packageVersion("nlmixr2"));
-## options(nlmixr.save=TRUE,
-##         nlmixr.save.dir=file.path(system.file(package="nlmixr"), nlmixrVersion),
-##         huxtable.knit_print_df = FALSE);
-## if (!dir.exists(getOption("nlmixr.save.dir")))
-##     dir.create(getOption("nlmixr.save.dir"))
-##     dir.create(getOption("nlmixr.save.dir"))
 ```
 
 ![nlmixr](logo.png)
@@ -143,7 +134,7 @@ pbpk <- function(){
   })
 }
 
-dat = read.csv("Mavoglurant_A2121_nmpk.csv")
+dat <- read.csv("Mavoglurant_A2121_nmpk.csv")
 dat$occ = unlist(with(dat, tapply(EVID, ID, function(x) cumsum(x>0))))
 dat = subset(dat, occ==1)
 dat = subset(dat, ID<812) ## First 20
@@ -195,7 +186,7 @@ gofs <- function(fit){
     print(res_distrib(xpdb) +
           ylab("Density") +
           xlab("Conditional Weighted Residuals"));
-    ##Visual Predictive Checks
+    # Visual Predictive Checks
     f1 <- vpc.ui(fit,n=500,stratify=c("dose"), show=list(obs_dv=T), log_y=TRUE,
            bins = c(0, 2, 4, 6, 8, 10, 20, 30, 40, 50),
            ylab = "Mavoglurant Concentrations (ng/mL)",
@@ -214,7 +205,7 @@ gofs <- function(fit){
 fit.addProp.S <- nlmixr(pbpk, dat, est="saem", control=list(print=0), 
                         table=list(cwres=TRUE, npde=TRUE))
 
-gofs(fit.addProp.S);
+gofs(fit.addProp.S)
 ```
 
 ## Change error to lognormal
@@ -234,7 +225,7 @@ In this case you can see that the AIC for the log-normal model is
 better than the AIC for the addProp model.
 
 ```{r}
-gofs(fit.lnorm.S);
+gofs(fit.lnorm.S)
 ```
 
 
@@ -247,11 +238,11 @@ estimation methods.
 fit.addProp.F <- fit.addProp.S %>%
     nlmixr(est="focei",
            control=list(print=0), 
-           table=list(cwres=TRUE, npde=TRUE));
+           table=list(cwres=TRUE, npde=TRUE))
 ## Since this was a model pipline, the data
 ## remains the same as the last fit.
 
-gofs(fit.addProp.F);
+gofs(fit.addProp.F)
 ```
 
 ## Log-normal
