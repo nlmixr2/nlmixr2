@@ -147,7 +147,7 @@ gofs <- function(fit){
     ################################################################################
     ## Standard plots
     ################################################################################
-    plot(fit);
+    plot(fit)
 
     xpdb <- xpose_data_nlmixr(fit) ## Convert to nlmixr object
 
@@ -187,11 +187,11 @@ gofs <- function(fit){
           ylab("Density") +
           xlab("Conditional Weighted Residuals"));
     # Visual Predictive Checks
-    f1 <- vpc.ui(fit,n=500,stratify=c("dose"), show=list(obs_dv=T), log_y=TRUE,
+    f1 <- vpcPlot(fit,n=500,stratify="DOSE", show=list(obs_dv=T), log_y=TRUE,
            bins = c(0, 2, 4, 6, 8, 10, 20, 30, 40, 50),
            ylab = "Mavoglurant Concentrations (ng/mL)",
            xlab = "Time (hours)")
-    f2 <- vpc.ui(fit,n=500, show=list(obs_dv=T), bins = c(0, 2, 4, 6, 8, 10, 20, 30, 40, 50), log_y=TRUE,
+    f2 <- vpcPlot(fit,n=500, show=list(obs_dv=T), bins = c(0, 2, 4, 6, 8, 10, 20, 30, 40, 50), log_y=TRUE,
                  ylab = "Mavoglurant Concentrations (ng/mL)", xlab = "Time (hours)")
     plot(f1)
     plot(f2)
