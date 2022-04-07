@@ -84,6 +84,8 @@ d3 = read.csv("Simulated_WBC_pacl_ddmore_samePK_nlmixr.csv", na.string = ".")
 
 fit.S <- nlmixr(wbc, d3, est="saem", list(print=0), table=list(cwres=TRUE, npde=TRUE))
 
+library(xpose.nlmixr)
+
 xpdb <- xpose_data_nlmixr(fit.S)
 
 plot(fit.S)
