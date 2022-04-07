@@ -123,9 +123,11 @@ print(res_distrib(xpdb) +
       ylab("Density") +
       xlab("Conditional Weighted Residuals"))
 
-vpc.ui(fit.S, n=500, n_bins = 10, show=list(obs_dv=T), ylab = "Neutrophil Count (10^9/L)", xlab = "Time (h)")
+vpcPlot(fit.S, n=500, n_bins = 10, show=list(obs_dv=T),
+        ylab = "Neutrophil Count (10^9/L)", xlab = "Time (h)")
 
-vpc.ui(fit.S, n=500, bins = c(0,170,300,350,500,600,900,3000,4580), show=list(obs_dv=T), ylab = "Neutrophil Count (10^9/L)", xlab = "Time (h)")
+vpcPlot(fit.S, n=500, bins = c(0,170,300,350,500,600,900,3000,4580),
+        show=list(obs_dv=T), ylab = "Neutrophil Count (10^9/L)", xlab = "Time (h)")
 
 ```
 
