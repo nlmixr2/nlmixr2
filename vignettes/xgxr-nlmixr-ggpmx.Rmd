@@ -273,17 +273,16 @@ Now that the parsing of the nlmixr model  is complete start and compare a few mo
 
 
 ```{r}
-
 ## First try log-normal (since the variability seemed proportional to concentration)
 cmt2fit.logn <- nlmixr(cmt2m, dat2, "saem",
-                       #control=list(print=0), 
+                       control=list(print=0), 
                        table=tableControl(cwres=TRUE, npde=TRUE))
 
 
 ## Now try proportional
 cmt2fit.prop <- cmt2fit.logn %>%
     update(linCmt() ~ prop(prop.sd)) %>%
-    nlmixr(est="saem", #control=list(print=0),
+    nlmixr(est="saem", control=list(print=0),
            table=tableControl(npde=TRUE, cwres=TRUE))
 
 ## now try add+prop
@@ -340,7 +339,7 @@ ctr %>% pmx_plot_abs_iwres_ipred
 
 ```{r, fig.width=4, fig.height=8}
 ## For this display only show 1x1 individual plot for ID 110 for time < 12
-ctr %>% pmx_plot_individual(1, filter=ID == 110 & TIME > 0 & TIME < 12, 
+ctr %>% pmx_plot_individual(1, filter=ID == 31 & TIME > 0 & TIME < 12, 
                             facets = list(nrow = 1, ncol = 1))
 ```
 
@@ -356,27 +355,20 @@ This creates two reports with default settings, both a [pdf](https://github.com/
 
 ```{r, fig.width=4, fig.height=8}
 ctr %>% pmx_plot_eta_box
-
 ```
 
 ```{r, fig.width=4, fig.height=8}
-
 ctr %>% pmx_plot_eta_hist
-
 ```
 
 ```{r}
-
 ctr %>% pmx_plot_eta_matrix
-
 ```
 
 This creates two reports with default settings, both a [pdf](https://github.com/nlmixr2/nlmixr2/raw/master/vignettes/nlmixr_report.pdf) and [word](https://github.com/nlmixr2/nlmixr2/raw/master/vignettes/nlmixr_report.docx) document. The report can be customized by editing the default template to include project specificities (change labels, stratifications, filtering, etc.).
 
 ```{r}
-
 ctr %>% pmx_plot_eta_matrix
-
 ```
 
 # Simulation of a new scenario with RxODE
@@ -392,7 +384,6 @@ In this case we wish to simulate with some variability and see what
 happens at steady state:
 
 ```{r}
-
 # Start a new simulation
 (ev <- et(amt=100, ii=8, ss=1))
 
@@ -411,10 +402,9 @@ fixed parameter estimates and covariances you can very easily with
 nlmixr/RxODE:
 
 ```{r}
-
 set.seed(100)
 
-sim1 <- simulate(cmt2fit.logn, events=ev, nSub=100, nStud=100)
+sim1 <- simulate(cmt2fit.logn, newdata=ev, nSub=100, nStud=100)
 
 print(sim1)
 ```
@@ -423,24 +413,18 @@ You may examine the simulated study information easily, as show in the
 `RxODE` printout:
 
 ```{r}
-
 head(sim1$thetaMat)
-
 ```
 
 You can also see the covariance matricies that are simulated (note
 they come from an inverse Wishart distribution):
 
 ```{r}
-
 head(sim1$omegaList)
-
 ```
 
 ```{r}
-
 head(sim1$sigmaList)
-
 ```
 
 It is also easy enough to create a plot to see what is going on with
@@ -448,7 +432,9 @@ the simulation:
 
 ```{r}
 
-p1 <- plot(sim1) ## This returns a ggplot2 object
+conf <- confint(sim1, "sim")
+
+p1 <- plot(conf) ## This returns a ggplot2 object
 
 ## you can tweak the plot by the standard ggplot commands
 p1 + xlab("Time (hr)") + 
