@@ -2,7 +2,7 @@
 title: "Censoring in nlmixr"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{censoring}
+  %\VignetteIndexEntry{Censoring in nlmixr}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
