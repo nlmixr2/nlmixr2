@@ -32,7 +32,8 @@ RoxygenNote: 7.1.2
 Imports: 
     nlmixr2est,
     rxode2,
-    nlmixr2plot
+    nlmixr2plot,
+    magrittr
 Depends: 
     nlmixr2data
 Suggests: 
