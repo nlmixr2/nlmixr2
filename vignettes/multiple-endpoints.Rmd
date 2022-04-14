@@ -324,16 +324,16 @@ print(fit.TOS)
 plot(fit.TOS)
 
 
-v1s <- vpcPlot(fit.TOS, show=list(obs_dv=T), scales="free_y") +
+v1s <- vpcPlot(fit.TOS, show=list(obs_dv=TRUE), scales="free_y") +
   ylab("Warfarin Cp [mg/L] or PCA") +
   xlab("Time [h]")
 
-v2s <- vpcPlot(fit.TOS, show=list(obs_dv=T), pred_corr = TRUE) +
+v2s <- vpcPlot(fit.TOS, show=list(obs_dv=TRUE), pred_corr = TRUE) +
   ylab("Prediction Corrected Warfarin Cp [mg/L] or PCA") +
   xlab("Time [h]")
 
-library(patchwork)
-v1s / v2s
+v1s
+v2s
 ```
 
 ## FOCEi fits
@@ -350,13 +350,14 @@ fit.TOF <- nlmixr(pk.turnover.emax3, warfarin, "focei", control=list(print=0),
 print(fit.TOF)
 plot(fit.TOF)
 
-v1f <- vpcPlot(fit.TOF, show=list(obs_dv=T), scales="free_y") +
+v1f <- vpcPlot(fit.TOF, show=list(obs_dv=TRUE), scales="free_y") +
   ylab("Warfarin Cp [mg/L] or PCA") +
   xlab("Time [h]")
 
-v2f <- vpcPlot(fit.TOF, show=list(obs_dv=T), pred_corr = TRUE) +
+v2f <- vpcPlot(fit.TOF, show=list(obs_dv=TRUE), pred_corr = TRUE) +
   ylab("Prediction Corrected Warfarin Cp [mg/L] or PCA") +
   xlab("Time [h]")
 
-v1f / v2f
+v1f
+v2f
 ```

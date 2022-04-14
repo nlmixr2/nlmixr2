@@ -82,12 +82,12 @@ plot(augPred(fit))
 ```{r}
 library(ggplot2)
 p1 <- vpcPlot(fit, show=list(obs_dv=TRUE));
-p1 <- p1+ ylab("Concentrations")
+p1 <- p1 + ylab("Concentrations")
 
 ## A prediction-corrected VPC
 p2 <- vpcPlot(fit, pred_corr = TRUE, show=list(obs_dv=TRUE))
-p2 <- p2+ ylab("Prediction-Corrected Concentrations")
+p2 <- p2 + ylab("Prediction-Corrected Concentrations")
 
-library(patchwork)
-p1 / p2
+p1
+p2
 ```
