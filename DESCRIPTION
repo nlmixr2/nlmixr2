@@ -40,4 +40,3 @@ Suggests:
     rmarkdown,
     knitr
 VignetteBuilder: knitr
-

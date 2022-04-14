@@ -1,16 +1,18 @@
 ---
-title: "Unexplained variabilities in nlmixr"
+title: "Residual variabilities in nlmixr"
 date: "`r Sys.Date()`"
 output:
-  html_document:
+  rmarkdown::html_vignette:
     self_contained: no
+vignette: >
+  %\VignetteIndexEntry{Residual variabilities in nlmixr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
-
-The following residuals are available for the nlmixr unexplained variabilities:
+The following residuals are available for the nlmixr2 residual unexplained variability:
 
 - **additive** or **constant** `y ~ add(add.sd)`
 - **proportional** `y ~ prop(prop.sd)` or `y ~ propT(prop.sd)`
 - **additive** plus **proportional** `y~add(add.sd) + prop(prop.sd)` or 
 - **lognormal** 
-

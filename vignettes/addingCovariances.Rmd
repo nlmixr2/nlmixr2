@@ -1,9 +1,13 @@
 ---
-title: "Example Model: Phenobarbitol with correlations"
+title: "Random Effect Covariances"
 date: "`r Sys.Date()`"
 output:
-  html_document:
+  rmarkdown::html_vignette:
     self_contained: no
+vignette: >
+  %\VignetteIndexEntry{Random Effect Covariances}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, echo=FALSE}
@@ -14,7 +18,6 @@ knitr::opts_chunk$set(
   warning = FALSE,
   out.width = "100%"
   )
-
 ```
 
 ![nlmixr](logo.png)

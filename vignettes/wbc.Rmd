@@ -1,9 +1,13 @@
 ---
-title: "Friberg Myelosuppression model"
+title: "Friberg myelosuppression model"
 author: "Yuan Xiong" 
 output:
-  html_document:
+  rmarkdown::html_vignette:
     self_contained: no
+vignette: >
+  %\VignetteIndexEntry{Friberg myelosuppression model}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}
