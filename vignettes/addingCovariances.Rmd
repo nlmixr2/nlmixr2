@@ -1,9 +1,13 @@
 ---
-title: "Example Model: Phenobarbitol with correlations"
+title: "Random Effect Covariances"
 date: "`r Sys.Date()`"
 output:
-  html_document:
+  rmarkdown::html_vignette:
     self_contained: no
+vignette: >
+  %\VignetteIndexEntry{Random Effect Covariances}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, echo=FALSE}
@@ -14,7 +18,6 @@ knitr::opts_chunk$set(
   warning = FALSE,
   out.width = "100%"
   )
-
 ```
 
 ![nlmixr](logo.png)
@@ -82,12 +85,12 @@ plot(augPred(fit))
 ```{r}
 library(ggplot2)
 p1 <- vpcPlot(fit, show=list(obs_dv=TRUE));
-p1 <- p1+ ylab("Concentrations")
+p1 <- p1 + ylab("Concentrations")
 
 ## A prediction-corrected VPC
 p2 <- vpcPlot(fit, pred_corr = TRUE, show=list(obs_dv=TRUE))
-p2 <- p2+ ylab("Prediction-Corrected Concentrations")
+p2 <- p2 + ylab("Prediction-Corrected Concentrations")
 
-library(patchwork)
-p1 / p2
+p1
+p2
 ```

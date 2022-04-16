@@ -1,9 +1,13 @@
 ---
-title: "Using Broom with nlmixr"
+title: "Using broom with nlmixr2"
 date: "`r Sys.Date()`"
 output:
-  html_document:
+  rmarkdown::html_vignette:
     self_contained: no
+vignette: >
+  %\VignetteIndexEntry{Using broom with nlmixr2}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 ```{r, echo=FALSE}
 knitr::opts_chunk$set(
@@ -13,7 +17,6 @@ knitr::opts_chunk$set(
   warning = FALSE,
   out.width = "100%"
   )
-
 ``` 
 ![nlmixr](logo.png)
 
@@ -262,8 +265,7 @@ piping the tidy information to dplyr to filter the effects and then to
 the `dotwhisker` package to plot the model parameter confidence
 intervals.
 
-```{r}
-
+```{r eval=require("dotwhisker")}
 options(broom.mixed.sep2=": ", broom.mixed.sep2=", ")
 library(ggplot2)
 library(dotwhisker)
@@ -280,7 +282,7 @@ This allows easy creation of report ready tables in many formats including word.
 
 Huxtable relies on the `broom` implementation
 
-```{r}
+```{r eval=require("huxtable")}
 library(huxtable)
 tbl <- huxreg('Phenobarbitol'=fit.s)
 
@@ -289,12 +291,12 @@ tbl
 
 You can also use `huxtable` to compare runs:
 
-```{r}
+```{r eval=require("huxtable")}
 huxreg('SAEM'=fit.s, 'FOCEi'=fit.f)
 ```
 
 A word-based table can also be easily created with the tool:
-```{r}
+```{r eval=require("officer") & require("flextable")}
 library(officer)
 library(flextable)
 
