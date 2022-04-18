@@ -270,6 +270,14 @@ nlmixr2plot::traceplot
 #' @inherit nlmixr2plot::vpcPlot
 nlmixr2plot::vpcPlot
 
+
+#' @importFrom nlmixr2est vpcSim
+#' @export
+#' @rdname vpcSim
+#' @name vpcSim
+#' @inherit nlmixr2est::vpcSim
+nlmixr2est::vpcSim
+
 #' @importFrom nlmixr2est nlmixr2
 #' @export
 #' @rdname nlmixr2
