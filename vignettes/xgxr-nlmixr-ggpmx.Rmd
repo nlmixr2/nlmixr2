@@ -435,19 +435,19 @@ It is also easy enough to create a plot to see what is going on with
 the simulation:
 
 ```{r}
-
 conf <- confint(sim1, "sim")
 
 p1 <- plot(conf) ## This returns a ggplot2 object
 
 ## you can tweak the plot by the standard ggplot commands
 p1 + xlab("Time (hr)") + 
-    ylab("Simulated Concentrations of TID steady state")
+  ylab("Simulated Concentrations of TID steady state")
 
 # And put the same plot on a semi-log plot
 p1 + xlab("Time (hr)") + 
-    ylab("Simulated Concentrations of TID steady state") +
-    xgx_scale_y_log10()
+  ylab("Simulated Concentrations of TID steady state") +
+  xgx_scale_y_log10()
+
 ```
 
 For more complex simulations with variability you can also [simulate
