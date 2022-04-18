@@ -265,38 +265,61 @@ nlmixr2plot::traceplot
 
 #' @importFrom nlmixr2plot vpcPlot
 #' @export
+#' @rdname vpcPlot
+#' @name vpcPlot
+#' @inherit nlmixr2plot::vpcPlot
 nlmixr2plot::vpcPlot
 
 #' @importFrom nlmixr2est nlmixr2
 #' @export
+#' @rdname nlmixr2
+#' @name nlmixr2
+#' @inherit nlmixr2est::nlmixr2
 nlmixr2est::nlmixr2
 
 #' @importFrom nlmixr2est nlmixr
 #' @export
+#' @rdname nlmixr2
+#' @name nlmixr
 nlmixr2est::nlmixr
 
 #' @importFrom nlmixr2est saemControl
 #' @export
+#' @rdname saemControl
+#' @name saemControl
+#' @inherit nlmixr2est::saemControl
 nlmixr2est::saemControl
 
 #' @importFrom nlmixr2est foceiControl
 #' @export
+#' @rdname foceiControl
+#' @name foceiControl
+#' @inherit nlmixr2est::foceiControl
 nlmixr2est::foceiControl
 
 #' @importFrom nlmixr2est nlmixr2NlmeControl
 #' @export
+#' @rdname nlmixr2NlmeControl
+#' @name nlmixr2NlmeControl
+#' @inherit nlmixr2est::nlmixr2NlmeControl
 nlmixr2est::nlmixr2NlmeControl
 
 #' @importFrom nlmixr2est nlmeControl
 #' @export
+#' @rdname nlmixr2nlmeControl
+#' @name nlmeControl
 nlmixr2est::nlmeControl
 
 #' @importFrom nlmixr2est tableControl
 #' @export
+#' @rdname tableControl
+#' @name tableControl
+#' @inherit nlmixr2est::tableControl
 nlmixr2est::tableControl
 
 #' @importFrom nlmixr2est nlme
 #' @export
+#' @inherit nlmixr2est::tableControl
 nlmixr2est::nlme
 
 #' @importFrom nlmixr2est ACF
@@ -338,20 +361,28 @@ nlmixr2est::.nlmixrNlmeFun
 
 #' @importFrom nlmixr2est addCwres
 #' @export
+#' @rdname addCwres
+#' @name addCwres
+#' @inherit nlmixr2est::addCwres
 nlmixr2est::addCwres
 
 #' @importFrom nlmixr2est addNpde
 #' @export
-nlmixr2est::addNpde
-
-#' @importFrom nlmixr2est addNpde
-#' @export
+#' @rdname addNpde
+#' @name addNpde
+#' @inherit nlmixr2est::addNpde
 nlmixr2est::addNpde
 
 #' @importFrom nlmixr2est addTable
 #' @export
+#' @rdname addTable
+#' @name addTable
+#' @inherit nlmixr2est::addTable
 nlmixr2est::addTable
 
 #' @importFrom nlmixr2est setOfv
 #' @export
+#' @rdname setOfv
+#' @name setOfv
+#' @inherit nlmixr2est::setOfv
 nlmixr2est::setOfv
