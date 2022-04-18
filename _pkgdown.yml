@@ -1,0 +1,6 @@
+url: https://nlmixr2.github.io/nlmixr2
+template:
+  bootstrap: 5
+  params:
+    bootswatch: flatly
+
