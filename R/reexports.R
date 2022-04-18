@@ -5,22 +5,35 @@ magrittr::`%>%`
 
 #' @importFrom rxode2 rxode2
 #' @export
+#' @inherit rxode2::rxode2
+#' @rdname rxode2
+#' @name rxode2
 rxode2::rxode2
 
 #' @importFrom rxode2 rxode
 #' @export
+#' @rdname rxode2
+#' @name rxode
 rxode2::rxode
 
 #' @importFrom rxode2 RxODE
 #' @export
+#' @rdname rxode2
+#' @name rxode
 rxode2::RxODE
 
 #' @importFrom rxode2 ini
 #' @export
+#' @rdname ini
+#' @name ini
+#' @inherit rxode2::ini
 rxode2::ini
 
 #' @importFrom rxode2 model
 #' @export
+#' @rdname model
+#' @name model
+#' @inherit rxode2::model
 rxode2::model
 
 #' @importFrom rxode2 lotri
@@ -30,43 +43,73 @@ rxode2::lotri
 
 #' @importFrom rxode2 logit
 #' @export
+#' @rdname logit
+#' @name logit
+#' @inherit rxode2::logit
 rxode2::logit
 
 #' @importFrom rxode2 expit
 #' @export
+#' @rdname expit
+#' @name expit
+#' @inherit rxode2::expit
 rxode2::expit
 
 #' @importFrom rxode2 probit
 #' @export
+#' @rdname probit
+#' @name probit
+#' @inherit rxode2::probit
 rxode2::probit
 
 #' @importFrom rxode2 probitInv
 #' @export
+#' @rdname probitInv
+#' @name probitInv
+#' @inherit rxode2::probitInv
 rxode2::probitInv
 
 #' @importFrom rxode2 rxSolve
 #' @export
+#' @rdname rxSolve
+#' @name rxSolve
+#' @inherit rxode2::rxSolve
 rxode2::rxSolve
 
 #' @importFrom rxode2 rxClean
 #' @export
+#' @rdname rxClean
+#' @name rxClean
+#' @inherit rxode2::rxClean
 rxode2::rxClean
 
 #' @importFrom rxode2 rxCat
 #' @export
+#' @rdname rxCat
+#' @name rxCat
+#' @inherit rxode2::rxCat
 rxode2::rxCat
 
 
 #' @importFrom rxode2 eventTable
 #' @export
+#' @rdname eventTable
+#' @name eventTable
+#' @inherit rxode2::eventTable
 rxode2::eventTable
 
 #' @importFrom rxode2 add.dosing
 #' @export
+#' @rdname add.dosing
+#' @name add.dosing
+#' @inherit rxode2::add.dosing
 rxode2::add.dosing
 
 #' @importFrom rxode2 add.sampling
 #' @export
+#' @rdname add.sampling
+#' @name add.sampling
+#' @inherit rxode2::add.sampling
 rxode2::add.sampling
 
 #' @importFrom nlmixr2est pdDiag
@@ -159,60 +202,65 @@ nlmixr2est::getData
 
 #' @importFrom rxode2 et
 #' @export
+#' @rdname et
+#' @name et
+#' @inherit rxode2::et
 rxode2::et
 
 #' @importFrom rxode2 rxParams
 #' @export
+#' @rdname rxParams
+#' @name rxParams
+#' @inherit rxode2::rxParams
 rxode2::rxParams
 
 #' @importFrom rxode2 rxParam
 #' @export
+#' @rdname rxParams
+#' @name rxParam
 rxode2::rxParam
-
-
-#' @importFrom rxode2 et
-#' @export
-rxode2::et
 
 #' @importFrom rxode2 geom_cens
 #' @export
+#' @rdname geom_cens
+#' @name geom_cens
+#' @inherit rxode2::geom_cens
 rxode2::geom_cens
 
 #' @importFrom rxode2 geom_amt
 #' @export
+#' @rdname geom_amt
+#' @name geom_amt
+#' @inherit rxode2::geom_amt
 rxode2::geom_amt
 
 
 #' @importFrom rxode2 stat_cens
 #' @export
+#' @rdname stat_cens
+#' @name stat_cens
+#' @inherit rxode2::stat_cens
 rxode2::stat_cens
 
 #' @importFrom rxode2 stat_amt
 #' @export
+#' @rdname stat_amt
+#' @name stat_amt
+#' @inherit rxode2::stat_amt
 rxode2::stat_amt
 
 #' @importFrom rxode2 rxControl
 #' @export
+#' @rdname rxControl
+#' @name rxControl
+#' @inherit rxode2::rxControl
 rxode2::rxControl
-
-#' @importFrom nlmixr2plot geom_amt
-#' @export
-nlmixr2plot::geom_amt
-
-#' @importFrom nlmixr2plot geom_cens
-#' @export
-nlmixr2plot::geom_cens
-
-#' @importFrom nlmixr2plot stat_amt
-#' @export
-nlmixr2plot::stat_amt
-
-#' @importFrom nlmixr2plot stat_cens
-#' @export
-nlmixr2plot::stat_cens
 
 #' @importFrom nlmixr2plot traceplot
 #' @export
+#' @rdname traceplot
+#' @name traceplot
+#' @inherit nlmixr2plot::traceplot
 nlmixr2plot::traceplot
 
 #' @importFrom nlmixr2plot vpcPlot
@@ -287,10 +335,6 @@ nlmixr2est::random.effects
 #' @importFrom nlmixr2est .nlmixrNlmeFun
 #' @export
 nlmixr2est::.nlmixrNlmeFun
-
-#' @importFrom nlmixr2plot traceplot
-#' @export
-nlmixr2plot::traceplot
 
 #' @importFrom nlmixr2est addCwres
 #' @export
