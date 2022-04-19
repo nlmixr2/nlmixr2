@@ -3,8 +3,22 @@
 \docType{import}
 \name{reexports}
 \alias{reexports}
+\alias{rxode2}
+\alias{rxode}
+\alias{RxODE}
 \alias{\%>\%}
+\alias{ini}
+\alias{model}
 \alias{lotri}
+\alias{expit}
+\alias{probit}
+\alias{probitInv}
+\alias{rxSolve}
+\alias{rxClean}
+\alias{rxCat}
+\alias{eventTable}
+\alias{add.dosing}
+\alias{add.sampling}
 \alias{pdDiag}
 \alias{pdSymm}
 \alias{pdLogChol}
@@ -27,6 +41,14 @@
 \alias{varComb}
 \alias{groupedData}
 \alias{getData}
+\alias{et}
+\alias{rxParams}
+\alias{rxParam}
+\alias{geom_cens}
+\alias{geom_amt}
+\alias{stat_cens}
+\alias{stat_amt}
+\alias{rxControl}
 \alias{nlme}
 \alias{ACF}
 \alias{VarCorr}
@@ -38,20 +60,6 @@
 \alias{random.effects}
 \alias{.nlmixrNlmeFun}
 \title{Objects exported from other packages}
-\value{
-A list of table options for nlmixr2
-}
-\description{
-Output table/data.frame options
-}
-\details{
-If you ever want to add CWRES/FOCEi objective function you can use the \code{\link[nlmixr2est]{addCwres}}
-
-If you ever want to add NPDE/EPRED columns you can use the \code{\link[nlmixr2est]{addNpde}}
-}
-\author{
-Matthew L. Fidler
-}
 \keyword{internal}
 \description{
 These objects are imported from other packages. Follow the links
@@ -62,6 +70,6 @@ below to see their documentation.
 
   \item{nlmixr2est}{\code{\link[nlmixr2est:dot-nlmixrNlmeFun]{.nlmixrNlmeFun}}, \code{\link[nlmixr2est:reexports]{ACF}}, \code{\link[nlmixr2est:reexports]{VarCorr}}, \code{\link[nlmixr2est:reexports]{augPred}}, \code{\link[nlmixr2est:reexports]{fixed.effects}}, \code{\link[nlmixr2est:reexports]{fixef}}, \code{\link[nlmixr2est:reexports]{getData}}, \code{\link[nlmixr2est:reexports]{getVarCov}}, \code{\link[nlmixr2est:reexports]{groupedData}}, \code{\link[nlmixr2est:reexports]{nlme}}, \code{\link[nlmixr2est:reexports]{pdBlocked}}, \code{\link[nlmixr2est:reexports]{pdCompSymm}}, \code{\link[nlmixr2est:reexports]{pdConstruct}}, \code{\link[nlmixr2est:reexports]{pdDiag}}, \code{\link[nlmixr2est:reexports]{pdFactor}}, \code{\link[nlmixr2est:reexports]{pdIdent}}, \code{\link[nlmixr2est:reexports]{pdLogChol}}, \code{\link[nlmixr2est:reexports]{pdMat}}, \code{\link[nlmixr2est:reexports]{pdMatrix}}, \code{\link[nlmixr2est:reexports]{pdNatural}}, \code{\link[nlmixr2est:reexports]{pdSymm}}, \code{\link[nlmixr2est:reexports]{random.effects}}, \code{\link[nlmixr2est:reexports]{ranef}}, \code{\link[nlmixr2est:reexports]{reStruct}}, \code{\link[nlmixr2est:reexports]{varComb}}, \code{\link[nlmixr2est:reexports]{varConstPower}}, \code{\link[nlmixr2est:reexports]{varExp}}, \code{\link[nlmixr2est:reexports]{varFixed}}, \code{\link[nlmixr2est:reexports]{varFunc}}, \code{\link[nlmixr2est:reexports]{varIdent}}, \code{\link[nlmixr2est:reexports]{varPower}}, \code{\link[nlmixr2est:reexports]{varWeights}}}
 
-  \item{rxode2}{\code{\link[rxode2:reexports]{lotri}}}
+  \item{rxode2}{\code{\link[rxode2:rxode2]{RxODE}}, \code{\link[rxode2]{add.dosing}}, \code{\link[rxode2]{add.sampling}}, \code{\link[rxode2]{et}}, \code{\link[rxode2]{eventTable}}, \code{\link[rxode2:logit]{expit}}, \code{\link[rxode2:stat_amt]{geom_amt}}, \code{\link[rxode2:stat_cens]{geom_cens}}, \code{\link[rxode2]{ini}}, \code{\link[rxode2:reexports]{lotri}}, \code{\link[rxode2]{model}}, \code{\link[rxode2]{probit}}, \code{\link[rxode2:probit]{probitInv}}, \code{\link[rxode2]{rxCat}}, \code{\link[rxode2]{rxClean}}, \code{\link[rxode2:rxSolve]{rxControl}}, \code{\link[rxode2:rxParams]{rxParam}}, \code{\link[rxode2]{rxParams}}, \code{\link[rxode2]{rxSolve}}, \code{\link[rxode2:rxode2]{rxode}}, \code{\link[rxode2]{rxode2}}, \code{\link[rxode2]{stat_amt}}, \code{\link[rxode2]{stat_cens}}}
 }}
 

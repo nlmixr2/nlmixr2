@@ -1,0 +1,141 @@
+#' @import nlmixr2plot
+#'
+.genHardReExport <- function(fun) {
+  .args <- deparse(eval(str2lang(paste0("args(", fun, ")"))))
+  .args <- .args[-length(.args)]
+  .formalArgs <- as.character(eval(str2lang(paste0("formalArgs(", fun, ")"))))
+  .w <- which(.formalArgs == "...")
+  .formalArgs <- paste0(.formalArgs, "=", .formalArgs)
+  .has3 <- FALSE
+  if (length(.w) > 0) {
+    .formalArgs[.w] <- "..."
+    .has3 <- TRUE
+  }
+  .formalArgs <- paste(.formalArgs, collapse=", ")
+  .newFun <- strsplit(fun, "::")[[1]][2]
+  if (.has3) {
+    return(paste(c(paste0("#' @inherit ", fun),
+                   paste0("#' @param ... Additional arguments passed to [", fun, "()]."),
+                   "#' @export",
+                   deparse(str2lang(paste(c(paste0(.newFun, " <- ", paste(.args, collapse="\n"), " {"),
+                                            paste0(fun, "(", .formalArgs, ")"),
+                                            "}"), collapse="\n")))
+                   ),
+                   collapse="\n"))
+  }
+  paste(c(paste0("#' @inherit ", fun),
+          "#' @export",
+          deparse(str2lang(paste(c(paste0(.newFun, " <- ", paste(.args, collapse="\n"), " {"),
+                  paste0(fun, "(", .formalArgs, ")"),
+                  "}"), collapse="\n")))
+          ), collapse="\n")
+}
+
+.genSoftReExport <- function(fun, alias=NULL) {
+  .newFun <- strsplit(fun, "::")[[1]]
+  .pkg <- .newFun[1]
+  .fun <- .newFun[2]
+  if (is.na(.fun)) return("")
+  if (!is.null(alias)) {
+    .fun2 <- strsplit(alias, "::")[[1]][2]
+    paste(c(paste0("#' @importFrom ", .pkg, " ", .fun),
+            paste0("#' @rdname ", .fun2),
+            "#' @export",
+            fun), collapse="\n")
+  } else {
+    paste(c(paste0("#' @importFrom ", .pkg, " ", .fun),
+            "#' @export",
+            fun), collapse="\n")
+  }
+}
+
+.genReexports <- function(soft=c("rxode2::rxode2",
+                                 "rxode2::rxode",
+                                 "rxode2::RxODE",
+                                 "magrittr::`%>%`",
+                                 "rxode2::ini",
+                                 "rxode2::model",
+                                 "rxode2::lotri",
+                                 "rxode2::expit",
+                                 "rxode2::probit",
+                                 "rxode2::probitInv",
+                                 "rxode2::rxSolve",
+                                 "rxode2::rxClean",
+                                 "rxode2::rxCat",
+                                 "rxode2::eventTable",
+                                 "rxode2::add.dosing",
+                                 "rxode2::add.sampling",
+                                 "nlmixr2est::pdDiag",
+                                 "nlmixr2est::pdSymm",
+                                 "nlmixr2est::pdLogChol",
+                                 "nlmixr2est::pdIdent",
+                                 "nlmixr2est::pdCompSymm",
+                                 "nlmixr2est::pdBlocked",
+                                 "nlmixr2est::pdNatural",
+                                 "nlmixr2est::pdConstruct",
+                                 "nlmixr2est::pdFactor",
+                                 "nlmixr2est::pdMat",
+                                 "nlmixr2est::pdMatrix",
+                                 "nlmixr2est::reStruct",
+                                 "nlmixr2est::varWeights",
+                                 "nlmixr2est::varPower",
+                                 "nlmixr2est::varFixed",
+                                 "nlmixr2est::varFunc",
+                                 "nlmixr2est::varExp",
+                                 "nlmixr2est::varConstPower",
+                                 "nlmixr2est::varIdent",
+                                 "nlmixr2est::varComb",
+                                 "nlmixr2est::groupedData",
+                                 "nlmixr2est::getData",
+                                 "rxode2::et",
+                                 "rxode2::rxParams",
+                                 "rxode2::rxParam",
+                                 "rxode2::geom_cens",
+                                 "rxode2::geom_amt",
+                                 "rxode2::stat_cens",
+                                 "rxode2::stat_amt",
+                                 "rxode2::rxControl",
+                                 "nlmixr2est::nlme",
+                                 "nlmixr2est::ACF",
+                                 "nlmixr2est::VarCorr",
+                                 "nlmixr2est::getVarCov",
+                                 "nlmixr2est::augPred",
+                                 "nlmixr2est::fixef",
+                                 "nlmixr2est::fixed.effects",
+                                 "nlmixr2est::ranef",
+                                 "nlmixr2est::random.effects",
+                                 "nlmixr2est::.nlmixrNlmeFun"),
+                          hard=c("nlmixr2plot::traceplot",
+                                 "nlmixr2est::vpcSim",
+                                 "nlmixr2plot::vpcPlot",
+                                 "nlmixr2est::nlmixr2",
+                                 "nlmixr2est::saemControl",
+                                 "nlmixr2est::foceiControl",
+                                 "nlmixr2est::nlmixr2NlmeControl",
+                                 "nlmixr2est::tableControl",
+                                 "nlmixr2est::addCwres",
+                                 "nlmixr2est::addNpde",
+                                 "nlmixr2est::addTable",
+                                 "nlmixr2est::setOfv"),
+                          alias=list("nlmixr2est::nlmeControl"="nlmixr2est::nlmixr2NlmeControl",
+                                     "nlmixr2est::nlmixr2"="nlmixr2est::nlmixr")
+                          ) {
+  writeLines(c("# Generated from .genReexports()\n",
+               paste(vapply(soft, .genSoftReExport, character(1), USE.NAMES=FALSE),
+                     collapse="\n\n")),
+             devtools::package_file("R/reexports.R"))
+  writeLines(c("# Generated from .genReexports()\n",
+               paste(vapply(hard, .genHardReExport, character(1), USE.NAMES=FALSE),
+                     collapse="\n\n")),
+             devtools::package_file("R/hardReexports.R"))
+  writeLines(c("# Generated from .genReexports()\n",
+               paste(vapply(seq_along(alias), function(i) {
+                 .alias <- names(alias)[i]
+                 paste(vapply(alias[[i]], function(x){
+                   .genSoftReExport(x, .alias)
+                 }, character(1), USE.NAMES=FALSE),
+                 collapse="\n\n")
+               }, character(1), USE.NAMES=FALSE), collapse="\n\n")),
+             devtools::package_file("R/aliasReexports.R"))
+}
+
