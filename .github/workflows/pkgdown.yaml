@@ -75,7 +75,6 @@ jobs:
           remotes::install_cran("tidyr")
           remotes::install_cran("xgxr")
           remotes::install_dev("pkgdown")
-          install.packages(c("xpose.nlmixr","ggPMX", "xgxr"))
         shell: Rscript {0}
 
       - name: Install package.
