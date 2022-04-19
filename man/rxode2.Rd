@@ -5,7 +5,7 @@
 \alias{rxode2}
 \alias{rxode}
 \alias{RxODE}
-\title{Objects exported from other packages}
+\title{Create an ODE-based model specification (from \code{rxode2})}
 \value{
 An object (environment) of class \code{rxode2} (see Chambers and Temple Lang (2001))
 consisting of the following list of strings and functions:\preformatted{* `model` a character string holding the source model specification.

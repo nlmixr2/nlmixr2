@@ -3,7 +3,7 @@
 \docType{import}
 \name{addCwres}
 \alias{addCwres}
-\title{Objects exported from other packages}
+\title{Add conditional weighted residuals to fit (from \code{nlmixr2est})}
 \value{
 fit with CWRES
 }

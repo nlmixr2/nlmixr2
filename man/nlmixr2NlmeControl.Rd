@@ -3,7 +3,7 @@
 \docType{import}
 \name{nlmixr2NlmeControl}
 \alias{nlmixr2NlmeControl}
-\title{Objects exported from other packages}
+\title{Control options for the \code{nlme} procedure (from \code{nlmixr2est})}
 \description{
 The values supplied in the function call replace the defaults and
 a list with all possible arguments is returned.  The returned list

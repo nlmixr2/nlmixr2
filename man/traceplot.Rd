@@ -3,7 +3,7 @@
 \docType{import}
 \name{traceplot}
 \alias{traceplot}
-\title{Objects exported from other packages}
+\title{Produce trace-plot for fit if applicable (from \code{nlmixr2plot})}
 \value{
 Fit traceplot or nothing.
 }

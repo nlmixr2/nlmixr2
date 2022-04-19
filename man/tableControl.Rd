@@ -3,7 +3,7 @@
 \docType{import}
 \name{tableControl}
 \alias{tableControl}
-\title{Objects exported from other packages}
+\title{Table output control options for the \code{nlme} procedure (from \code{nlmixr2est})}
 \value{
 A list of table options for nlmixr2
 }

@@ -3,7 +3,7 @@
 \docType{import}
 \name{rxCat}
 \alias{rxCat}
-\title{Objects exported from other packages}
+\title{Use cat when rxode2.verbose is TRUE}
 \value{
 nothing
 }

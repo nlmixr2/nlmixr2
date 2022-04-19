@@ -3,7 +3,7 @@
 \docType{import}
 \name{et}
 \alias{et}
-\title{Objects exported from other packages}
+\title{Event Table Function (from \code{rxode2})}
 \value{
 A new event table
 }

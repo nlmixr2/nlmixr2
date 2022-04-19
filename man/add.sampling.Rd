@@ -3,7 +3,7 @@
 \docType{import}
 \name{add.sampling}
 \alias{add.sampling}
-\title{Objects exported from other packages}
+\title{Add sampling to \code{rxode2} event table (from \code{rxode2()})}
 \value{
 eventTable with updated sampling.  (Note the event table
 will be updated even if you don't reassign the eventTable)

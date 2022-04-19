@@ -3,7 +3,7 @@
 \docType{import}
 \name{geom_cens}
 \alias{geom_cens}
-\title{Objects exported from other packages}
+\title{Add censoring shading to the plot (from \code{rxode2})}
 \value{
 This returns a ggplot2 stat
 }

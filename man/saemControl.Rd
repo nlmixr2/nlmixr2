@@ -3,7 +3,7 @@
 \docType{import}
 \name{saemControl}
 \alias{saemControl}
-\title{Objects exported from other packages}
+\title{Control options for the \code{saem} procedure (from \code{nlmixr2est})}
 \value{
 List of options to be used in \code{\link[nlmixr2est]{nlmixr2}} fit for
     SAEM.

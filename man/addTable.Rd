@@ -3,7 +3,7 @@
 \docType{import}
 \name{addTable}
 \alias{addTable}
-\title{Objects exported from other packages}
+\title{Add NPDE to he plot (from \code{nlmixr2est})}
 \value{
 Fit with table information attached
 }

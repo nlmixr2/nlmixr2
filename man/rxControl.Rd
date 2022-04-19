@@ -3,7 +3,7 @@
 \docType{import}
 \name{rxControl}
 \alias{rxControl}
-\title{Objects exported from other packages}
+\title{Control options for \code{rxode2} solves}
 \value{
 An \dQuote{rxSolve} solve object that stores the solved
 value in a special data.frame or other type as determined by

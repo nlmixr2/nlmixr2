@@ -3,7 +3,7 @@
 \docType{import}
 \name{eventTable}
 \alias{eventTable}
-\title{Objects exported from other packages}
+\title{Event Table (from \code{rxode2()})}
 \value{
 A modified data.frame with the following accessible functions:
 \itemize{

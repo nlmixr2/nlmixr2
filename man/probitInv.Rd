@@ -3,7 +3,7 @@
 \docType{import}
 \name{probitInv}
 \alias{probitInv}
-\title{Objects exported from other packages}
+\title{Probit-inverse function}
 \value{
 values from probit, probitInv and probitNormInfo
 }

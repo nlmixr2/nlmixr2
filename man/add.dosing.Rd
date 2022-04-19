@@ -3,7 +3,7 @@
 \docType{import}
 \name{add.dosing}
 \alias{add.dosing}
-\title{Objects exported from other packages}
+\title{Add dosing to \code{rxode2} event table (from \code{rxode2()})}
 \value{
 eventTable with updated dosing (note the event table will
 be updated anyway)

@@ -3,7 +3,7 @@
 \docType{import}
 \name{logit}
 \alias{logit}
-\title{Objects exported from other packages}
+\title{logit transform}
 \value{
 values from logit and expit
 }

@@ -3,7 +3,7 @@
 \docType{import}
 \name{geom_amt}
 \alias{geom_amt}
-\title{Objects exported from other packages}
+\title{Add dosing times to the plot (from \code{rxode2})}
 \value{
 This returns a stat_amt in context of a ggplot2 plot
 }

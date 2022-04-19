@@ -4,7 +4,7 @@
 \name{nlmixr2}
 \alias{nlmixr2}
 \alias{nlmixr}
-\title{Objects exported from other packages}
+\title{Non-linear mixed effect models in R (from \code{nlmixr2est})}
 \value{
 Either a nlmixr2 model or a nlmixr2 fit object
 }

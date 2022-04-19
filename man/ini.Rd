@@ -3,7 +3,7 @@
 \docType{import}
 \name{ini}
 \alias{ini}
-\title{Objects exported from other packages}
+\title{Ini block for rxode2/nlmixr models (from \code{rxode2})}
 \value{
 Ini block
 }

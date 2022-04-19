@@ -3,7 +3,7 @@
 \docType{import}
 \name{addNpde}
 \alias{addNpde}
-\title{Objects exported from other packages}
+\title{Add NPDE to he plnot (from \code{nlmixr2est})}
 \value{
 New nlmixr2 fit object
 }

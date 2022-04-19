@@ -3,7 +3,7 @@
 \docType{import}
 \name{vpcSim}
 \alias{vpcSim}
-\title{Objects exported from other packages}
+\title{Produce VPC-plot for fit if applicable (from \code{nlmixr2est})}
 \value{
 data frame of the VPC simulation
 }

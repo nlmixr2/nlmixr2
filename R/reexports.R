@@ -8,6 +8,7 @@ magrittr::`%>%`
 #' @inherit rxode2::rxode2
 #' @rdname rxode2
 #' @name rxode2
+#' @title Create an ODE-based model specification (from `rxode2`)
 rxode2::rxode2
 
 #' @importFrom rxode2 rxode
@@ -26,6 +27,7 @@ rxode2::RxODE
 #' @export
 #' @rdname ini
 #' @name ini
+#' @title Ini block for rxode2/nlmixr models (from `rxode2`)
 #' @inherit rxode2::ini
 rxode2::ini
 
@@ -33,7 +35,8 @@ rxode2::ini
 #' @export
 #' @rdname model
 #' @name model
-#' @inherit rxode2::model
+#' @title Model block for rxode2/nlmixr models (from `rxode2`)
+#' #' @inherit rxode2::model
 rxode2::model
 
 #' @importFrom rxode2 lotri
@@ -46,12 +49,14 @@ rxode2::lotri
 #' @rdname logit
 #' @name logit
 #' @inherit rxode2::logit
+#' @title logit transform
 rxode2::logit
 
 #' @importFrom rxode2 expit
 #' @export
 #' @rdname expit
 #' @name expit
+#' @title expit transform
 #' @inherit rxode2::expit
 rxode2::expit
 
@@ -59,6 +64,7 @@ rxode2::expit
 #' @export
 #' @rdname probit
 #' @name probit
+#' @title probit function
 #' @inherit rxode2::probit
 rxode2::probit
 
@@ -66,6 +72,7 @@ rxode2::probit
 #' @export
 #' @rdname probitInv
 #' @name probitInv
+#' @title Probit-inverse function
 #' @inherit rxode2::probitInv
 rxode2::probitInv
 
@@ -73,6 +80,7 @@ rxode2::probitInv
 #' @export
 #' @rdname rxSolve
 #' @name rxSolve
+#' @title Solving & Simulation of a ODE/solved system (from `rxode2`)
 #' @inherit rxode2::rxSolve
 rxode2::rxSolve
 
@@ -80,6 +88,7 @@ rxode2::rxSolve
 #' @export
 #' @rdname rxClean
 #' @name rxClean
+#' @title Clean Cached Binaries (from `rxode2`)
 #' @inherit rxode2::rxClean
 rxode2::rxClean
 
@@ -88,6 +97,7 @@ rxode2::rxClean
 #' @rdname rxCat
 #' @name rxCat
 #' @inherit rxode2::rxCat
+#' @title Use cat when rxode2.verbose is TRUE
 rxode2::rxCat
 
 
@@ -95,6 +105,7 @@ rxode2::rxCat
 #' @export
 #' @rdname eventTable
 #' @name eventTable
+#' @title Event Table (from `rxode2()`)
 #' @inherit rxode2::eventTable
 rxode2::eventTable
 
@@ -102,6 +113,7 @@ rxode2::eventTable
 #' @export
 #' @rdname add.dosing
 #' @name add.dosing
+#' @title Add dosing to `rxode2` event table (from `rxode2()`)
 #' @inherit rxode2::add.dosing
 rxode2::add.dosing
 
@@ -109,6 +121,7 @@ rxode2::add.dosing
 #' @export
 #' @rdname add.sampling
 #' @name add.sampling
+#' @title Add sampling to `rxode2` event table (from `rxode2()`)
 #' @inherit rxode2::add.sampling
 rxode2::add.sampling
 
@@ -204,6 +217,7 @@ nlmixr2est::getData
 #' @export
 #' @rdname et
 #' @name et
+#' @title  Event Table Function (from `rxode2`)
 #' @inherit rxode2::et
 rxode2::et
 
@@ -211,6 +225,7 @@ rxode2::et
 #' @export
 #' @rdname rxParams
 #' @name rxParams
+#' @title Parameters specified by the model (from `rxode2`)
 #' @inherit rxode2::rxParams
 rxode2::rxParams
 
@@ -225,12 +240,14 @@ rxode2::rxParam
 #' @rdname geom_cens
 #' @name geom_cens
 #' @inherit rxode2::geom_cens
+#' @title Add censoring shading to the plot (from `rxode2`)
 rxode2::geom_cens
 
 #' @importFrom rxode2 geom_amt
 #' @export
 #' @rdname geom_amt
 #' @name geom_amt
+#' @title Add dosing times to the plot (from `rxode2`)
 #' @inherit rxode2::geom_amt
 rxode2::geom_amt
 
@@ -254,6 +271,7 @@ rxode2::stat_amt
 #' @rdname rxControl
 #' @name rxControl
 #' @inherit rxode2::rxControl
+#' @title Control options for `rxode2` solves
 rxode2::rxControl
 
 #' @importFrom nlmixr2plot traceplot
@@ -261,6 +279,7 @@ rxode2::rxControl
 #' @rdname traceplot
 #' @name traceplot
 #' @inherit nlmixr2plot::traceplot
+#' @title Produce trace-plot for fit if applicable (from `nlmixr2plot`)
 nlmixr2plot::traceplot
 
 #' @importFrom nlmixr2plot vpcPlot
@@ -268,6 +287,7 @@ nlmixr2plot::traceplot
 #' @rdname vpcPlot
 #' @name vpcPlot
 #' @inherit nlmixr2plot::vpcPlot
+#' @title Produce VPC-plot for fit if applicable (from `nlmixr2plot`)
 nlmixr2plot::vpcPlot
 
 
@@ -276,12 +296,14 @@ nlmixr2plot::vpcPlot
 #' @rdname vpcSim
 #' @name vpcSim
 #' @inherit nlmixr2est::vpcSim
+#' @title Produce VPC-plot for fit if applicable (from `nlmixr2est`)
 nlmixr2est::vpcSim
 
 #' @importFrom nlmixr2est nlmixr2
 #' @export
 #' @rdname nlmixr2
 #' @name nlmixr2
+#' @title Non-linear mixed effect models in R (from `nlmixr2est`)
 #' @inherit nlmixr2est::nlmixr2
 nlmixr2est::nlmixr2
 
@@ -296,12 +318,14 @@ nlmixr2est::nlmixr
 #' @rdname saemControl
 #' @name saemControl
 #' @inherit nlmixr2est::saemControl
+#' @title Control options for the `saem` procedure (from `nlmixr2est`)
 nlmixr2est::saemControl
 
 #' @importFrom nlmixr2est foceiControl
 #' @export
 #' @rdname foceiControl
 #' @name foceiControl
+#' @title Control options for the `saem` procedure (from `nlmixr2est`)
 #' @inherit nlmixr2est::foceiControl
 nlmixr2est::foceiControl
 
@@ -310,6 +334,7 @@ nlmixr2est::foceiControl
 #' @rdname nlmixr2NlmeControl
 #' @name nlmixr2NlmeControl
 #' @inherit nlmixr2est::nlmixr2NlmeControl
+#' @title Control options for the `nlme` procedure (from `nlmixr2est`)
 nlmixr2est::nlmixr2NlmeControl
 
 #' @importFrom nlmixr2est nlmeControl
@@ -323,6 +348,7 @@ nlmixr2est::nlmeControl
 #' @rdname tableControl
 #' @name tableControl
 #' @inherit nlmixr2est::tableControl
+#' @title Table output control options for the `nlme` procedure (from `nlmixr2est`)
 nlmixr2est::tableControl
 
 #' @importFrom nlmixr2est nlme
@@ -372,6 +398,7 @@ nlmixr2est::.nlmixrNlmeFun
 #' @rdname addCwres
 #' @name addCwres
 #' @inherit nlmixr2est::addCwres
+#' @title Add conditional weighted residuals to fit (from `nlmixr2est`)
 nlmixr2est::addCwres
 
 #' @importFrom nlmixr2est addNpde
@@ -379,6 +406,7 @@ nlmixr2est::addCwres
 #' @rdname addNpde
 #' @name addNpde
 #' @inherit nlmixr2est::addNpde
+#' @title Add NPDE to he plnot (from `nlmixr2est`)
 nlmixr2est::addNpde
 
 #' @importFrom nlmixr2est addTable
@@ -386,6 +414,7 @@ nlmixr2est::addNpde
 #' @rdname addTable
 #' @name addTable
 #' @inherit nlmixr2est::addTable
+#' @title Add NPDE to he plot (from `nlmixr2est`)
 nlmixr2est::addTable
 
 #' @importFrom nlmixr2est setOfv
@@ -393,4 +422,5 @@ nlmixr2est::addTable
 #' @rdname setOfv
 #' @name setOfv
 #' @inherit nlmixr2est::setOfv
+#' @title Set the method to calculate the objective function
 nlmixr2est::setOfv

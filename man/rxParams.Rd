@@ -4,7 +4,7 @@
 \name{rxParams}
 \alias{rxParams}
 \alias{rxParam}
-\title{Objects exported from other packages}
+\title{Parameters specified by the model (from \code{rxode2})}
 \value{
 When extracting the parameters from an rxode2 model, a
 character vector listing the parameters in the model.

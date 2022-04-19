@@ -3,7 +3,7 @@
 \docType{import}
 \name{rxClean}
 \alias{rxClean}
-\title{Objects exported from other packages}
+\title{Clean Cached Binaries (from \code{rxode2})}
 \value{
 TRUE if successful
 }

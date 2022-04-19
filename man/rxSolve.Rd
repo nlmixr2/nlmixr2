@@ -3,7 +3,7 @@
 \docType{import}
 \name{rxSolve}
 \alias{rxSolve}
-\title{Objects exported from other packages}
+\title{Solving & Simulation of a ODE/solved system (from \code{rxode2})}
 \value{
 An \dQuote{rxSolve} solve object that stores the solved
 value in a special data.frame or other type as determined by

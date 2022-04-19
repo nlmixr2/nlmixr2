@@ -3,7 +3,7 @@
 \docType{import}
 \name{setOfv}
 \alias{setOfv}
-\title{Objects exported from other packages}
+\title{Set the method to calculate the objective function}
 \value{
 Nothing
 }

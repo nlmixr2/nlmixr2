@@ -3,7 +3,7 @@
 \docType{import}
 \name{vpcPlot}
 \alias{vpcPlot}
-\title{Objects exported from other packages}
+\title{Produce VPC-plot for fit if applicable (from \code{nlmixr2plot})}
 \value{
 Simulated dataset (invisibly)
 }

@@ -3,7 +3,7 @@
 \docType{import}
 \name{foceiControl}
 \alias{foceiControl}
-\title{Objects exported from other packages}
+\title{Control options for the \code{saem} procedure (from \code{nlmixr2est})}
 \value{
 The control object that changes the options for the FOCEi
   family of estimation methods

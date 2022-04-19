@@ -3,17 +3,8 @@
 \docType{import}
 \name{model}
 \alias{model}
-\title{Objects exported from other packages}
-\value{
-Model block with ini information included.  \code{ini} must be
-called before \code{model} block
-}
-\description{
-Model block for rxode2/nlmixr models
-}
-\author{
-Matthew Fidler
-}
+\title{Model block for rxode2/nlmixr models (from \code{rxode2})
+#' @inherit rxode2::model}
 \keyword{internal}
 \description{
 These objects are imported from other packages. Follow the links
