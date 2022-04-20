@@ -38,5 +38,6 @@ Depends:
     nlmixr2data
 Suggests: 
     rmarkdown,
-    knitr
+    knitr,
+    devtools
 VignetteBuilder: knitr
