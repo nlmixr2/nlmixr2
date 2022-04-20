@@ -104,7 +104,9 @@
                                  "nlmixr2est::fixed.effects",
                                  "nlmixr2est::ranef",
                                  "nlmixr2est::random.effects",
-                                 "nlmixr2est::.nlmixrNlmeFun"),
+                                 "nlmixr2est::.nlmixrNlmeFun",
+                                 "nlmixr2est::nlmeControl",
+                                 "nlmixr2est::nlmixr"),
                           hard=c("nlmixr2plot::traceplot",
                                  "nlmixr2est::vpcSim",
                                  "nlmixr2plot::vpcPlot",
@@ -116,9 +118,7 @@
                                  "nlmixr2est::addCwres",
                                  "nlmixr2est::addNpde",
                                  "nlmixr2est::addTable",
-                                 "nlmixr2est::setOfv"),
-                          alias=list("nlmixr2est::nlmeControl"="nlmixr2est::nlmixr2NlmeControl",
-                                     "nlmixr2est::nlmixr2"="nlmixr2est::nlmixr")
+                                 "nlmixr2est::setOfv")
                           ) {
   writeLines(c("# Generated from .genReexports()\n",
                paste(vapply(soft, .genSoftReExport, character(1), USE.NAMES=FALSE),
@@ -128,14 +128,5 @@
                paste(vapply(hard, .genHardReExport, character(1), USE.NAMES=FALSE),
                      collapse="\n\n")),
              devtools::package_file("R/hardReexports.R"))
-  writeLines(c("# Generated from .genReexports()\n",
-               paste(vapply(seq_along(alias), function(i) {
-                 .alias <- names(alias)[i]
-                 paste(vapply(alias[[i]], function(x){
-                   .genSoftReExport(x, .alias)
-                 }, character(1), USE.NAMES=FALSE),
-                 collapse="\n\n")
-               }, character(1), USE.NAMES=FALSE), collapse="\n\n")),
-             devtools::package_file("R/aliasReexports.R"))
 }
 
