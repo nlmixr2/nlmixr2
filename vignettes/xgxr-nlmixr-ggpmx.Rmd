@@ -26,11 +26,8 @@ This shows an example of integrated workflow between `xgxr` `nlmixr` and
 `ggPmx`
 
 ```{r load}
-devtools::load_all("~/src/rxode2")
-devtools::load_all("~/src/nlmixr2est")
-devtools::load_all("~/src/nlmixr2extra")
-devtools::load_all("~/src/nlmixr2plot")
-devtools::load_all("~/src/nlmixr2")
+library(rxode2)
+library(nlmixr2)
 library(xgxr)
 library(readr)
 library(ggplot2)
