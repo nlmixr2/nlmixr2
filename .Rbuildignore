@@ -54,3 +54,6 @@
 ^vignettes/nlmixr_report.docx$
 ^vignettes/pheno.docx$
 ^vignettes/*.pdf
+^.github/*.*
+^CheatSheet_nlmixr_191114.pdf$
+^CheatSheet_nlmixr_191114.pptx$
