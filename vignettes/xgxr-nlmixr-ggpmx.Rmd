@@ -5,8 +5,11 @@ output:
     self_contained: no
 vignette: >
   %\VignetteIndexEntry{xgxr and ggPMX integration with nlmixr2}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r, include = FALSE}
@@ -19,11 +22,15 @@ knitr::opts_chunk$set(
   )
 ```
 
-This shows an example of integrated workflow between `xgxr` `nlmixr`
-and `ggPmx`
+This shows an example of integrated workflow between `xgxr` `nlmixr` and
+`ggPmx`
 
 ```{r load}
-library(nlmixr2)
+devtools::load_all("~/src/rxode2")
+devtools::load_all("~/src/nlmixr2est")
+devtools::load_all("~/src/nlmixr2extra")
+devtools::load_all("~/src/nlmixr2plot")
+devtools::load_all("~/src/nlmixr2")
 library(xgxr)
 library(readr)
 library(ggplot2)
@@ -57,27 +64,27 @@ pk_data_cycle1 <- pk_data %>%
 
 ## Use xgxr for simplified concentration over time, colored by Dose, mean +/- 95% CI
 
-Often in exploring data it is worthwhile to plot by dose by each
-nominal time and add the 95% confidence interval. This typical plot
-can be cumbersome and lack some nice features that `xgxr` can help
-with.  Note the following helper functions:
+Often in exploring data it is worthwhile to plot by dose by each nominal
+time and add the 95% confidence interval. This typical plot can be
+cumbersome and lack some nice features that `xgxr` can help with. Note
+the following helper functions:
 
-- `xgx_theme_set()` this sets the theme to black and white color theme
-  and other best practices in `xgxr`.
-  
-- `xgx_geom_ci()` which creates the Confidence Interval and mean plots
-  in a simple interface. 
-  
-- `xgx_scale_y_log10()` which creates a log-scale that includes the
-  minor grids that immediately show the viewer that the plot is a
-  semi-log plot without carefully examining the y axis.
-  
-- `xgx_scale_x_time_units()` which creates an appropriate scale based on
-  your times observed and the units you use. It also allows you to
-  convert units easily for the right display.
-  
-- `xgx_annote_status()` which adds a `DRAFT` annotation which is often
-  considered best practice when the data or plots are draft.
+-   `xgx_theme_set()` this sets the theme to black and white color theme
+    and other best practices in `xgxr`.
+
+-   `xgx_geom_ci()` which creates the Confidence Interval and mean plots
+    in a simple interface.
+
+-   `xgx_scale_y_log10()` which creates a log-scale that includes the
+    minor grids that immediately show the viewer that the plot is a
+    semi-log plot without carefully examining the y axis.
+
+-   `xgx_scale_x_time_units()` which creates an appropriate scale based
+    on your times observed and the units you use. It also allows you to
+    convert units easily for the right display.
+
+-   `xgx_annote_status()` which adds a `DRAFT` annotation which is often
+    considered best practice when the data or plots are draft.
 
 ```{r}
 xgx_theme_set() # This uses black and white theme based on xgxr best
@@ -119,10 +126,9 @@ stratified by dose
 ## Concentration over time, faceted by Dose, mean +/- 95% CI, overlaid on gray spaghetti plots
 
 Not only is it useful to look at the mean concentrations, it is often
-useful to look at the mean concentrations and their relationship
-between actual individual profiles.  Using `ggplot` coupled with the
-`xgxr` helper functions used above, we can easily create these plots
-as well:
+useful to look at the mean concentrations and their relationship between
+actual individual profiles. Using `ggplot` coupled with the `xgxr`
+helper functions used above, we can easily create these plots as well:
 
 ```{r}
 ggplot(data = pk_data_cycle1, aes(x = TIME, y = LIDV)) +
@@ -142,9 +148,9 @@ and higher with later times.
 
 ## Exploring the dose linearity
 
-A common way to explore the dose linearity is to normalize by the
-dose.  If the confidence intervals overlap, often this is a dose
-linear example.
+A common way to explore the dose linearity is to normalize by the dose.
+If the confidence intervals overlap, often this is a dose linear
+example.
 
 ```{r}
 ggplot(data = pk_data_cycle1,
@@ -159,8 +165,9 @@ ggplot(data = pk_data_cycle1,
   xgx_annotate_status(status)
 ```
 
-This example seems to be dose-linear, with the exception of the
-censored data. This can be made even more clear by removing the censored data for this plot:
+This example seems to be dose-linear, with the exception of the censored
+data. This can be made even more clear by removing the censored data for
+this plot:
 
 ```{r}
 ggplot(data = pk_data_cycle1 %>% filter(CENS == 0),
@@ -176,15 +183,15 @@ ggplot(data = pk_data_cycle1 %>% filter(CENS == 0),
 ```
 
 The lowest dose, with the most censoring, is the one that seems to be
-the outlier.  That is likely an artifact of censoring.
+the outlier. That is likely an artifact of censoring.
 
-Other ways to explore the data include by looking at normalized Cmax
-and AUC values (which we will skip in this vignette).
+Other ways to explore the data include by looking at normalized Cmax and
+AUC values (which we will skip in this vignette).
 
 # Exploring Covariates in the dataset
 
-Using the `xgx` helper functions to `ggplot` you can explore the
-effect of high baseline weight.  This particular plot is shown below:
+Using the `xgx` helper functions to `ggplot` you can explore the effect
+of high baseline weight. This particular plot is shown below:
 
 ```{r}
 ggplot(data = pk_data_cycle1, aes(x = NOMTIME,
@@ -198,14 +205,14 @@ ggplot(data = pk_data_cycle1, aes(x = NOMTIME,
     labs(y = conc_label, color = w100_label) +
     xgx_annotate_status(status)
 ```
+
 It seems that the weight effect is not extreme for either dose group
 
 ## Summary of exploratory analysis findings
 
-From the exploratory analysis we see:
-- The doses seem proportional
-- The PK seems to have a 2-compartment model
-- Censoring has a large effect on the PK data.
+From the exploratory analysis we see: - The doses seem proportional -
+The PK seems to have a 2-compartment model - Censoring has a large
+effect on the PK data.
 
 # Fitting the data with nlmixr
 
@@ -218,7 +225,8 @@ dat <- case1_pkpd %>%
   filter(TRTACT != "Placebo")
 ```
 
-Next, for the purpose of this demostrtaion we will subset to 7 patients per dose group):
+Next, for the purpose of this demostrtaion we will subset to 7 patients
+per dose group):
 
 ```{r}
 doses <- unique(dat$DOSE)
@@ -235,10 +243,10 @@ dat2 <- do.call("rbind",
                 }))
 ```
 
-This approach is not only good for demonstration, but allows a variety of
-structural models to be applied more quickly while developing a base model. 
-The full dataset can then be applied to the selected model to make sure it
-makes sense with all the data.
+This approach is not only good for demonstration, but allows a variety
+of structural models to be applied more quickly while developing a base
+model. The full dataset can then be applied to the selected model to
+make sure it makes sense with all the data.
 
 Next create a 2 compartment model:
 
@@ -272,16 +280,14 @@ cmt2m <- nlmixr(cmt2)
 print(cmt2m)
 ```
 
-
-Now that the parsing of the nlmixr model  is complete start and compare a few models:
-
+Now that the parsing of the nlmixr model is complete start and compare a
+few models:
 
 ```{r}
 ## First try log-normal (since the variability seemed proportional to concentration)
 cmt2fit.logn <- nlmixr(cmt2m, dat2, "saem",
                        control=list(print=0), 
                        table=tableControl(cwres=TRUE, npde=TRUE))
-
 
 ## Now try proportional
 cmt2fit.prop <- cmt2fit.logn %>%
@@ -296,7 +302,9 @@ cmt2fit.add.prop <- cmt2fit.prop %>%
            table=tableControl(npde=TRUE, cwres=TRUE))
 ```
 
-Now that we have run 3 different estimation methods, we can compare the results side-by-side
+Now that we have run 3 different estimation methods, we can compare the
+results side-by-side
+
 ```{r}
 library(huxtable)
 
@@ -304,14 +312,12 @@ huxreg("lognormal"=cmt2fit.logn, "proportional"=cmt2fit.prop, "add+prop"=cmt2fit
        statistics=c(N="nobs", "logLik", "AIC"))
 ```
 
-Note that the additive and proportional model has the additive
-component approach zero.  When comparing the objective functions of
-log-normal and proportional models, the proportional model has the
-lowest objective function value. (Since we modeled log-normal without
-data transformation it is appropriate to compare the AIC/Objective
-function values)
+Note that the additive and proportional model has the additive component
+approach zero. When comparing the objective functions of log-normal and
+proportional models, the proportional model has the lowest objective
+function value. (Since we modeled log-normal without data transformation
+it is appropriate to compare the AIC/Objective function values)
 
- 
 # Model Diagnostics with ggPMX
 
 ```{r, fig.width=4, fig.height=8}
@@ -355,7 +361,13 @@ ctr %>% pmx_plot_iwres_dens
 ctr %>% pmx_plot_eta_qq
 ```
 
-This creates two reports with default settings, both a [pdf](https://github.com/nlmixr2/nlmixr2/raw/master/vignettes/nlmixr_report.pdf) and [word](https://github.com/nlmixr2/nlmixr2/raw/master/vignettes/nlmixr_report.docx) document. The report can be customized by editing the default template to include project specificities (change labels, stratifications, filtering, etc.).
+This creates two reports with default settings, both a
+[pdf](https://github.com/nlmixr2/nlmixr2/raw/master/vignettes/nlmixr_report.pdf)
+and
+[word](https://github.com/nlmixr2/nlmixr2/raw/master/vignettes/nlmixr_report.docx)
+document. The report can be customized by editing the default template
+to include project specificities (change labels, stratifications,
+filtering, etc.).
 
 ```{r, fig.width=4, fig.height=8}
 ctr %>% pmx_plot_eta_box
@@ -369,20 +381,26 @@ ctr %>% pmx_plot_eta_hist
 ctr %>% pmx_plot_eta_matrix
 ```
 
-This creates two reports with default settings, both a [pdf](https://github.com/nlmixr2/nlmixr2/raw/master/vignettes/nlmixr_report.pdf) and [word](https://github.com/nlmixr2/nlmixr2/raw/master/vignettes/nlmixr_report.docx) document. The report can be customized by editing the default template to include project specificities (change labels, stratifications, filtering, etc.).
+This creates two reports with default settings, both a
+[pdf](https://github.com/nlmixr2/nlmixr2/raw/master/vignettes/nlmixr_report.pdf)
+and
+[word](https://github.com/nlmixr2/nlmixr2/raw/master/vignettes/nlmixr_report.docx)
+document. The report can be customized by editing the default template
+to include project specificities (change labels, stratifications,
+filtering, etc.).
 
 ```{r}
 ctr %>% pmx_plot_eta_matrix
 ```
 
-# Simulation of a new scenario with RxODE
+# Simulation of a new scenario with `rxode2`
 
-By creating events you can simply simulate a new scenario.  Perhaps
-your drug development team wants to explore the 100 mg dose 3 times a
-day dosing to see what happens with the PK.  You can simply simulate
-from the nlmixr model using a [new event
-table](https://nlmixr2.github.io/RxODE/articles/RxODE-event-table.html)
-created from RxODE.
+By creating events you can simply simulate a new scenario. Perhaps your
+drug development team wants to explore the 100 mg dose 3 times a day
+dosing to see what happens with the PK. You can simply simulate from the
+nlmixr model using a [new event
+table](https://nlmixr2.github.io/rxode2/articles/rxode2-event-table.html)
+created from `rxode2()`.
 
 In this case we wish to simulate with some variability and see what
 happens at steady state:
@@ -398,30 +416,28 @@ print(ev)
 
 A nlmixr model already includes information about the parameter
 estimates and can simulate without uncertainty in the population
-parameters or covariances, like what is done for a VPC. 
+parameters or covariances, like what is done for a VPC.
 
 If you wish to simulate `100` patients repeated by `100` different
-theoretical studies where you simulate from the uncertainty in the
-fixed parameter estimates and covariances you can very easily with
-nlmixr/RxODE:
+theoretical studies where you simulate from the uncertainty in the fixed
+parameter estimates and covariances you can very easily with
+nlmixr2/rxode2:
 
 ```{r}
 set.seed(100)
-
-sim1 <- simulate(cmt2fit.logn, newdata=ev, nSub=100, nStud=100)
-
+sim1 <- rxSolve(cmt2fit.logn, ev, nSub=100, nStud=100)
 print(sim1)
 ```
 
 You may examine the simulated study information easily, as show in the
-`RxODE` printout:
+`rxode2()` printout:
 
 ```{r}
 head(sim1$thetaMat)
 ```
 
-You can also see the covariance matricies that are simulated (note
-they come from an inverse Wishart distribution):
+You can also see the covariance matricies that are simulated (note they
+come from an inverse Wishart distribution):
 
 ```{r}
 head(sim1$omegaList)
@@ -431,8 +447,8 @@ head(sim1$omegaList)
 head(sim1$sigmaList)
 ```
 
-It is also easy enough to create a plot to see what is going on with
-the simulation:
+It is also easy enough to create a plot to see what is going on with the
+simulation:
 
 ```{r}
 conf <- confint(sim1, "sim")
@@ -452,6 +468,5 @@ p1 + xlab("Time (hr)") +
 
 For more complex simulations with variability you can also [simulate
 dosing windows and sampling
-windows](https://nlmixr2.github.io/RxODE/articles/RxODE-event-table.html#add-doses-and-samples-within-a-sampling-window)
+windows](https://nlmixr2.github.io/rxode2/articles/rxode2-event-table.html#add-doses-and-samples-within-a-sampling-window)
 and use any tool you want to summarize it in the way you wish.
-

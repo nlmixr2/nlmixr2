@@ -318,7 +318,7 @@ name. Please note that:
   does not allow variable starting with `_` to be assigned without
   quoting them.
 * Naming variables that start with `rx_` or `nlmixr_` is not allowed,
-  since RxODE and nlmixr use these prefixes internally for certain
+  since `rxode2()` and nlmixr use these prefixes internally for certain
   estimation routines and for calculating residuals.
 * Variable names are case-sensitive, just like they are in R. `CL` is
   not the same as `Cl`.
@@ -386,10 +386,10 @@ The `model` block specifies the model, and is analogous to the `$PK`,
 
 Once the initialization block has been defined, you can define a model
 in terms of the variables defined in the `ini` block. You can also mix
-RxODE blocks into the model if needed.
+`rxode2()` blocks into the model if needed.
 
 The current method of defining a nlmixr model is to specify the
-parameters, and then any required RxODE lines. Continuing the
+parameters, and then any required `rxode2()` lines. Continuing the
 annotated example:
 
 
@@ -525,7 +525,7 @@ f <- function(){
 A few things to keep in mind: 
 *	Currently the solved systems support either oral dosing, IV dosing
      or IV infusion dosing and does not allow mixing the dosing types.
-*	While RxODE allows mixing of solved systems and ODEs, this has not
+*	While `rxode2()` allows mixing of solved systems and ODEs, this has not
      been implemented in nlmixr yet.
 *	The solved systems implemented are the one, two and three
      compartment models with or without first-order absorption. Each
@@ -548,6 +548,6 @@ nlmixr(f)
 ```
 
 In general this gives you information about the model (what type of
-solved system/RxODE), initial estimates as well as the code for the
+solved system/`rxode2()`), initial estimates as well as the code for the
 model block.
 

@@ -127,14 +127,14 @@ notation makes it so you do not have to rename your compartments to
 run nlmixr model functions.
 
 The other thing to note is that the `cp` is specified by an ODE
-compartment above the number of compartments defined in the `RxODE`
+compartment above the number of compartments defined in the `rxode2`
 part of the `nlmixr` model. This is because `cp` is not a defined
 compartment, but a related variable `cp`.
 
 The last thing to notice that the `cmt` items are numbered `cmt=5` for
 `cp` or `cmt=4` for `effect` even though they were specified in the
 model first by `cp` and `cmt`.  This ordering is because `effect` is a
-compartment in the `RxODE` system. Of course `cp` is related to the
+compartment in the `rxode2` system. Of course `cp` is related to the
 compartment `central`, and it may make more sense to pair `cp` with
 the `central` compartment.
 
