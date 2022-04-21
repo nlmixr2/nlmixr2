@@ -119,7 +119,10 @@
                                  "nlmixr2est::addCwres",
                                  "nlmixr2est::addNpde",
                                  "nlmixr2est::addTable",
-                                 "nlmixr2est::setOfv")
+                                 "nlmixr2est::setOfv",
+                                 "nlmixr2extra::preconditionFit",
+                                 "nlmixr2extra::bootstrapFit",
+                                 "nlmixr2extra::covarSearchAuto")
                           ) {
   writeLines(c("# Generated from .genReexports()\n",
                paste(vapply(soft, .genSoftReExport, character(1), USE.NAMES=FALSE),

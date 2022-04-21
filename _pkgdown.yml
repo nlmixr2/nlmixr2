@@ -3,4 +3,72 @@ template:
   bootstrap: 5
   params:
     bootswatch: flatly
-
+reference:
+- title: Running/Parsing `nlmixr2` model
+  contents:
+  - nlmixr2
+- title: Estimation options
+  contents:
+  - foceiControl
+  - saemControl
+  - nlmixrNlmeControl
+- title: Post-fit table functions
+  contents:
+  - addNpde
+  - addCwres
+  - addTable
+- title: Utility functions for nlmixr2 fits
+  contents:
+  - bootstrapFit
+  - covarSearchAuto
+  - preconditionFit
+  - setOfv
+  - traceplot
+  - vpcPlot
+  - vpcSim
+navbar:
+  left:
+  - text: Articles
+    icon: fas fa-book
+    menu:
+        - text: "--------------------------"
+        - text: "Getting started"
+        - text: "Introduction to Running Nlmixr"
+          href: articles/running_nlmixr.html
+        - text: "Using Multiple Endpoints in Nlmixr"
+          href: articles/multiple-endpoints.html
+        - text: "--------------------------"
+        - text: "Going further"
+        - text: "Model Piping"
+          href: articles/modelPiping.html
+        - text: "Sweeping models to tidy datasets (broom)"
+          href: articles/broom.html
+        - text: "--------------------------"
+        - text: "Integrated development with xgxr/nlmixr/ggPMX"
+          href: articles/xgxr-nlmixr-ggpmx.html
+  - text: Example models
+    icon: fas fa-chalkboard-teacher
+    menu:
+        - text: "Phenobarbatol with correlations"
+          href: articles/addingCovariances.html
+        - text: "--------------------------"
+        - text: "Nonlinear PK/PD -- Nimotuzumab"
+          href: articles/nimo.html
+        - text: "PBPK -- Mavoglurant"
+          href: articles/mavoglurant.html
+        - text: "PKPD -- Myelosuppression model"
+          href: articles/wbc.html
+  - text: "Cheat Sheet"
+    icon: fa-scroll fa-lg
+    href: https://github.com/nlmixrdevelopment/nlmixr/raw/master/CheatSheet_nlmixr.pdf
+  - text: "Tutorial"
+    icon: fas fa-life-ring
+    href: https://doi.org/10.1002/psp4.12445
+  - text: "Functions"
+    icon: fa-file-code-o fa-lg
+    href: reference/index.html
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/nlmixrdevelopment/nlmixr
+  - icon: fa-download
+    href: https://github.com/nlmixrdevelopment/nlmixr/releases

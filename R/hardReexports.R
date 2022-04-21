@@ -221,3 +221,33 @@ addTable <- function(object, updateObject = FALSE, data = object$dataSav,
 setOfv <- function(x, type) {
     nlmixr2est::setOfv(x = x, type = type)
 }
+
+#' @inherit nlmixr2extra::preconditionFit
+#' @export
+preconditionFit <- function(fit, estType = c("full", "posthoc", 
+    "none"), ntry = 10L) {
+    nlmixr2extra::preconditionFit(fit = fit, estType = estType, 
+        ntry = ntry)
+}
+
+#' @inherit nlmixr2extra::bootstrapFit
+#' @export
+bootstrapFit <- function(fit, nboot = 200, nSampIndiv, stratVar, 
+    stdErrType = c("perc", "se"), ci = 0.95, pvalues = NULL, 
+    restart = FALSE, plotHist = FALSE, fitName = as.character(substitute(fit))) {
+    nlmixr2extra::bootstrapFit(fit = fit, nboot = nboot, nSampIndiv = nSampIndiv, 
+        stratVar = stratVar, stdErrType = stdErrType, ci = ci, 
+        pvalues = pvalues, restart = restart, plotHist = plotHist, 
+        fitName = fitName)
+}
+
+#' @inherit nlmixr2extra::covarSearchAuto
+#' @export
+covarSearchAuto <- function(fit, varsVec, covarsVec, pVal = list(fwd = 0.05, 
+    bck = 0.01), covInformation = NULL, catCovariates = NULL, 
+    searchType = c("scm", "forward", "backward"), restart = FALSE) {
+    nlmixr2extra::covarSearchAuto(fit = fit, varsVec = varsVec, 
+        covarsVec = covarsVec, pVal = pVal, covInformation = covInformation, 
+        catCovariates = catCovariates, searchType = searchType, 
+        restart = restart)
+}
