@@ -251,3 +251,10 @@ covarSearchAuto <- function(fit, varsVec, covarsVec, pVal = list(fwd = 0.05,
         catCovariates = catCovariates, searchType = searchType, 
         restart = restart)
 }
+
+#' @inherit nlmixr2extra::bootplot
+#' @param ... Additional arguments passed to [nlmixr2extra::bootplot()].
+#' @export
+bootplot <- function(x, ...) {
+    nlmixr2extra::bootplot(x = x, ...)
+}

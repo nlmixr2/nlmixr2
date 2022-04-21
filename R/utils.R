@@ -122,7 +122,8 @@
                                  "nlmixr2est::setOfv",
                                  "nlmixr2extra::preconditionFit",
                                  "nlmixr2extra::bootstrapFit",
-                                 "nlmixr2extra::covarSearchAuto")
+                                 "nlmixr2extra::covarSearchAuto",
+                                 "nlmixr2extra::bootplot")
                           ) {
   writeLines(c("# Generated from .genReexports()\n",
                paste(vapply(soft, .genSoftReExport, character(1), USE.NAMES=FALSE),
