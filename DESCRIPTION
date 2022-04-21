@@ -31,6 +31,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Imports: 
     nlmixr2est,
+    nlmixr2extra,
     rxode2,
     nlmixr2plot,
     magrittr
@@ -39,7 +40,8 @@ Depends:
 Suggests: 
     rmarkdown,
     knitr,
-    devtools
+    devtools,
+    withr
 VignetteBuilder: knitr
 BugReports: https://github.com/nlmixr2/nlmixr2/issues/
 URL: https://nlmixr2.github.io/nlmixr2/, https://github.com/nlmixr2/nlmixr2/
