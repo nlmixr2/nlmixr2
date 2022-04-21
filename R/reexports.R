@@ -224,9 +224,9 @@ nlmixr2est::random.effects
 #' @export
 nlmixr2est::.nlmixrNlmeFun
 
-#' @importFrom nlmixr2est nlmeControl
+#' @importFrom nlmixr2est nlmixr2NlmeControl
 #' @export
-nlmixr2est::nlmeControl
+nlmixr2est::nlmixr2NlmeControl
 
 #' @importFrom nlmixr2est nlmixr
 #' @export

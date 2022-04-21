@@ -147,20 +147,20 @@ foceiControl <- function(sigdig = 3, ..., epsilon = NULL, maxInnerIterations = 1
         rxControl = rxControl, sigdigTable = sigdigTable, fallbackFD = fallbackFD)
 }
 
-#' @inherit nlmixr2est::nlmixr2NlmeControl
-#' @param ... Additional arguments passed to [nlmixr2est::nlmixr2NlmeControl()].
+#' @inherit nlmixr2est::nlmeControl
+#' @param ... Additional arguments passed to [nlmixr2est::nlmeControl()].
 #' @export
-nlmixr2NlmeControl <- function(maxIter = 100, pnlsMaxIter = 100, 
-    msMaxIter = 100, minScale = 0.001, tolerance = 1e-05, niterEM = 25, 
-    pnlsTol = 0.001, msTol = 1e-06, returnObject = FALSE, msVerbose = FALSE, 
-    msWarnNoConv = TRUE, gradHess = TRUE, apVar = TRUE, .relStep = .Machine$double.eps^(1/3), 
+nlmeControl <- function(maxIter = 100, pnlsMaxIter = 100, msMaxIter = 100, 
+    minScale = 0.001, tolerance = 1e-05, niterEM = 25, pnlsTol = 0.001, 
+    msTol = 1e-06, returnObject = FALSE, msVerbose = FALSE, msWarnNoConv = TRUE, 
+    gradHess = TRUE, apVar = TRUE, .relStep = .Machine$double.eps^(1/3), 
     minAbsParApVar = 0.05, opt = c("nlminb", "nlm"), natural = TRUE, 
     sigma = NULL, optExpression = TRUE, sumProd = FALSE, rxControl = NULL, 
     method = c("ML", "REML"), random = NULL, fixed = NULL, weights = NULL, 
     verbose = TRUE, returnNlme = FALSE, addProp = c("combined2", 
         "combined1"), calcTables = TRUE, compress = TRUE, adjObf = TRUE, 
     ci = 0.95, sigdig = 4, sigdigTable = NULL, ...) {
-    nlmixr2est::nlmixr2NlmeControl(maxIter = maxIter, pnlsMaxIter = pnlsMaxIter, 
+    nlmixr2est::nlmeControl(maxIter = maxIter, pnlsMaxIter = pnlsMaxIter, 
         msMaxIter = msMaxIter, minScale = minScale, tolerance = tolerance, 
         niterEM = niterEM, pnlsTol = pnlsTol, msTol = msTol, 
         returnObject = returnObject, msVerbose = msVerbose, msWarnNoConv = msWarnNoConv, 

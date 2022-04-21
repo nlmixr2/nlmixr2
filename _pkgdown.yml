@@ -11,7 +11,7 @@ reference:
   contents:
   - foceiControl
   - saemControl
-  - nlmixrNlmeControl
+  - nlmeControl
 - title: Post-fit table functions
   contents:
   - addNpde
