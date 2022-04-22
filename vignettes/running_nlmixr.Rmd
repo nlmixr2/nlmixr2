@@ -75,7 +75,8 @@ f <- nlmixr(one.cmt)
 We can now run the model...
 
 ```{r}
-fit <- nlmixr(one.cmt, theo_sd, est="saem")
+fit <- nlmixr(one.cmt, theo_sd, est="focei",
+              control=list(print=0))
 
 print(fit)
 ```
@@ -109,7 +110,8 @@ one.compartment <- function() {
 We can try the Stochastic Approximation EM (SAEM) method to this model:
 
 ```{r}
-fit2 <- nlmixr(one.compartment, theo_sd,  est="saem")
+fit2 <- nlmixr(one.compartment, theo_sd,  est="saem",
+               control=list(print=0))
 print(fit2)
 ```
 
