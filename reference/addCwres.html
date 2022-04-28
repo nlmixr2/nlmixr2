@@ -18,29 +18,75 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
+      <ul class="navbar-nav me-auto"><li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown--articles">
+    <span class="fas fa fas fa-book"></span>
+     
+    Articles
+  </a>
+  <div class="dropdown-menu" aria-labelledby="dropdown--articles">
+    <h6 class="dropdown-header" data-toc-skip>Getting started</h6>
+    <a class="dropdown-item" href="../articles/running_nlmixr.html">Introduction to Running Nlmixr</a>
+    <a class="dropdown-item" href="../articles/multiple-endpoints.html">Using Multiple Endpoints in Nlmixr</a>
+    <div class="dropdown-divider"></div>
+    <h6 class="dropdown-header" data-toc-skip>Going further</h6>
+    <a class="dropdown-item" href="../articles/modelPiping.html">Model Piping</a>
+    <a class="dropdown-item" href="../articles/broom.html">Sweeping models to tidy datasets (broom)</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="../articles/xgxr-nlmixr-ggpmx.html">Integrated development with xgxr/nlmixr/ggPMX</a>
+  </div>
 </li>
 <li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/addingCovariances.html">Random Effect Covariances</a>
-    <a class="dropdown-item" href="../articles/broom.html">Using broom with nlmixr2</a>
-    <a class="dropdown-item" href="../articles/censoring.html">Censoring in nlmixr</a>
-    <a class="dropdown-item" href="../articles/mavoglurant.html">mavoglurant -- physiologically-based PK</a>
-    <a class="dropdown-item" href="../articles/modelPiping.html">Modifying nlmixr2 models by piping</a>
-    <a class="dropdown-item" href="../articles/multiple-endpoints.html">Working with multiple endpoints</a>
-    <a class="dropdown-item" href="../articles/nimo.html">Nimotuzumab</a>
-    <a class="dropdown-item" href="../articles/residualErrors.html">Residual variabilities in nlmixr</a>
-    <a class="dropdown-item" href="../articles/running_nlmixr.html">Running PK models with nlmixr</a>
-    <a class="dropdown-item" href="../articles/wbc.html">Friberg myelosuppression model</a>
-    <a class="dropdown-item" href="../articles/xgxr-nlmixr-ggpmx.html">xgxr and ggPMX integration with nlmixr2</a>
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown--example-models">
+    <span class="fas fa fas fa-chalkboard-teacher"></span>
+     
+    Example models
+  </a>
+  <div class="dropdown-menu" aria-labelledby="dropdown--example-models">
+    <a class="dropdown-item" href="../articles/addingCovariances.html">Phenobarbatol with correlations</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="../articles/nimo.html">Nonlinear PK/PD -- Nimotuzumab</a>
+    <a class="dropdown-item" href="../articles/mavoglurant.html">PBPK -- Mavoglurant</a>
+    <a class="dropdown-item" href="../articles/wbc.html">PKPD -- Myelosuppression model</a>
   </div>
+</li>
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/nlmixrdevelopment/nlmixr/raw/master/CheatSheet_nlmixr.pdf">
+    <span class="fa fa-scroll fa-lg"></span>
+     
+    Cheat Sheet
+  </a>
+</li>
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://doi.org/10.1002/psp4.12445">
+    <span class="fas fa fas fa-life-ring"></span>
+     
+    Tutorial
+  </a>
+</li>
+<li class="active nav-item">
+  <a class="nav-link" href="../reference/index.html">
+    <span class="fa fa-file-code-o fa-lg"></span>
+     
+    Functions
+  </a>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/nlmixrdevelopment/nlmixr">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/nlmixrdevelopment/nlmixr/releases">
+    <span class="fa fa-download"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -48,7 +94,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Add CWRES</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/HEAD/R/hardReexports.R" class="external-link"><code>R/hardReexports.R</code></a></small>
       <div class="d-none name"><code>addCwres.Rd</code></div>
     </div>
 
@@ -138,20 +184,20 @@ update.  By default this is the global environment.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> → compress origData in nlmixr2 object, save 5952</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> → compress phiM in nlmixr2 object, save 63664</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> → compress parHist in nlmixr2 object, save 9392</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> → compress saem0 in nlmixr2 object, save 22888</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> → compress saem0 in nlmixr2 object, save 22896</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ── <span style="color: #0000BB; font-weight: bold;">nlmix</span><span style="color: #BB0000; font-weight: bold;">r</span> <span style="color: #BBBB00; font-weight: bold;">SAEM </span><span style="font-weight: 100; font-style: italic;">OBJF by FOCEi approximation</span> ─────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">── </span><span style="color: #0000BB; font-weight: bold;">nlmix</span><span style="color: #BB0000; font-weight: bold;">r</span><span style="font-weight: bold;"> </span><span style="color: #BBBB00; font-weight: bold;">SAEM </span><span style="font-weight: bold; font-weight: 100; font-style: italic;">OBJF by FOCEi approximation</span><span style="font-weight: bold; font-weight: 100;"> ──</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Gaussian/Laplacian Likelihoods: AIC() or <span style="color: #0000BB; font-weight: bold;">$objf</span> etc. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  FOCEi CWRES &amp; Likelihoods: addCwres() </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Time</span> (sec <span style="color: #0000BB; font-weight: bold;">$time</span>): ───────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            setup covariance  saem table compress    other</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> elapsed 0.002473   0.070006 1.612 0.037    0.023 2.875521</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> elapsed 0.002192   0.037007 1.695 0.028    0.025 3.244801</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Population Parameters</span> (<span style="color: #0000BB; font-weight: bold;">$parFixed</span> or <span style="color: #0000BB; font-weight: bold;">$parFixedDf</span>): ───────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        <span style="font-weight: bold;">Parameter</span>  <span style="font-weight: bold;">Est.</span>     <span style="font-weight: bold;">SE</span> <span style="font-weight: bold;">%RSE</span> <span style="font-weight: bold;">Back-transformed(95%CI)</span> <span style="font-weight: bold;">BSV(CV%)</span> <span style="font-weight: bold;">Shrink(SD)%</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">tka</span>       Log Ka 0.453  0.195 43.1       1.57 (1.07, 2.31)     71.4    <span style="color: #BB0000; font-weight: bold;">-0.445%</span> </span>
@@ -164,7 +210,7 @@ update.  By default this is the global environment.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Full BSV covariance (<span style="color: #0000BB; font-weight: bold;">$omega</span>) or correlation (<span style="color: #0000BB; font-weight: bold;">$omegaR</span>; diagonals=SDs) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Distribution stats (mean/skewness/kurtosis/p-value) available in <span style="color: #0000BB; font-weight: bold;">$shrink</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Fit Data</span> (object is a modified <span style="color: #0000BB;">tibble</span>): ─────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">── Fit Data (object is a modified </span><span style="color: #0000BB; font-weight: bold;">tibble</span><span style="font-weight: bold;">): ──</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 132 × 16</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ID     TIME    DV  PRED    RES IPRED   IRES  IWRES eta.ka eta.cl   eta.v    ka</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -204,17 +250,17 @@ update.  By default this is the global environment.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> done</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> → Calculating residuals/tables</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> done</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ── <span style="color: #0000BB; font-weight: bold;">nlmix</span><span style="color: #BB0000; font-weight: bold;">r</span> <span style="color: #BBBB00; font-weight: bold;">SAEM </span><span style="font-weight: 100; font-style: italic;">OBJF by FOCEi approximation</span> ─────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">── </span><span style="color: #0000BB; font-weight: bold;">nlmix</span><span style="color: #BB0000; font-weight: bold;">r</span><span style="font-weight: bold;"> </span><span style="color: #BBBB00; font-weight: bold;">SAEM </span><span style="font-weight: bold; font-weight: 100; font-style: italic;">OBJF by FOCEi approximation</span><span style="font-weight: bold; font-weight: 100;"> ──</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           OBJF      AIC      BIC Log-likelihood Condition Number</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> FOCEi 116.9949 373.5947 393.7743      -179.7973         18.15903</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Time</span> (sec <span style="color: #0000BB; font-weight: bold;">$time</span>): ───────────────────────────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            setup covariance  saem table compress    other</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> elapsed 0.002473   0.070006 1.612 0.037    0.023 2.875521</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> elapsed 0.002192   0.037007 1.695 0.028    0.025 3.244801</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Population Parameters</span> (<span style="color: #0000BB; font-weight: bold;">$parFixed</span> or <span style="color: #0000BB; font-weight: bold;">$parFixedDf</span>): ───────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        <span style="font-weight: bold;">Parameter</span>  <span style="font-weight: bold;">Est.</span>     <span style="font-weight: bold;">SE</span> <span style="font-weight: bold;">%RSE</span> <span style="font-weight: bold;">Back-transformed(95%CI)</span> <span style="font-weight: bold;">BSV(CV%)</span> <span style="font-weight: bold;">Shrink(SD)%</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">tka</span>       Log Ka 0.453  0.195 43.1       1.57 (1.07, 2.31)     71.4    <span style="color: #BB0000; font-weight: bold;">-0.445%</span> </span>
@@ -227,7 +273,7 @@ update.  By default this is the global environment.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Full BSV covariance (<span style="color: #0000BB; font-weight: bold;">$omega</span>) or correlation (<span style="color: #0000BB; font-weight: bold;">$omegaR</span>; diagonals=SDs) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Distribution stats (mean/skewness/kurtosis/p-value) available in <span style="color: #0000BB; font-weight: bold;">$shrink</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ── <span style="font-weight: bold;">Fit Data</span> (object is a modified <span style="color: #0000BB;">tibble</span>): ─────────────────────────────────────</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">── Fit Data (object is a modified </span><span style="color: #0000BB; font-weight: bold;">tibble</span><span style="font-weight: bold;">): ──</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 132 × 20</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ID     TIME    DV  PRED    RES IPRED   IRES  IWRES eta.ka eta.cl   eta.v    ka</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
@@ -250,7 +296,7 @@ update.  By default this is the global environment.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
 </div>
 
     </footer></div>

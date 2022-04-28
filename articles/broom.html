@@ -35,31 +35,78 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
 <li class="active nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/addingCovariances.html">Random Effect Covariances</a>
-    <a class="dropdown-item" href="../articles/broom.html">Using broom with nlmixr2</a>
-    <a class="dropdown-item" href="../articles/censoring.html">Censoring in nlmixr</a>
-    <a class="dropdown-item" href="../articles/mavoglurant.html">mavoglurant -- physiologically-based PK</a>
-    <a class="dropdown-item" href="../articles/modelPiping.html">Modifying nlmixr2 models by piping</a>
-    <a class="dropdown-item" href="../articles/multiple-endpoints.html">Working with multiple endpoints</a>
-    <a class="dropdown-item" href="../articles/nimo.html">Nimotuzumab</a>
-    <a class="dropdown-item" href="../articles/residualErrors.html">Residual variabilities in nlmixr</a>
-    <a class="dropdown-item" href="../articles/running_nlmixr.html">Running PK models with nlmixr</a>
-    <a class="dropdown-item" href="../articles/wbc.html">Friberg myelosuppression model</a>
-    <a class="dropdown-item" href="../articles/xgxr-nlmixr-ggpmx.html">xgxr and ggPMX integration with nlmixr2</a>
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown--articles">
+    <span class="fas fa fas fa-book"></span>
+     
+    Articles
+  </a>
+  <div class="dropdown-menu" aria-labelledby="dropdown--articles">
+    <h6 class="dropdown-header" data-toc-skip>Getting started</h6>
+    <a class="dropdown-item" href="../articles/running_nlmixr.html">Introduction to Running Nlmixr</a>
+    <a class="dropdown-item" href="../articles/multiple-endpoints.html">Using Multiple Endpoints in Nlmixr</a>
+    <div class="dropdown-divider"></div>
+    <h6 class="dropdown-header" data-toc-skip>Going further</h6>
+    <a class="dropdown-item" href="../articles/modelPiping.html">Model Piping</a>
+    <a class="dropdown-item" href="../articles/broom.html">Sweeping models to tidy datasets (broom)</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="../articles/xgxr-nlmixr-ggpmx.html">Integrated development with xgxr/nlmixr/ggPMX</a>
   </div>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown--example-models">
+    <span class="fas fa fas fa-chalkboard-teacher"></span>
+     
+    Example models
+  </a>
+  <div class="dropdown-menu" aria-labelledby="dropdown--example-models">
+    <a class="dropdown-item" href="../articles/addingCovariances.html">Phenobarbatol with correlations</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="../articles/nimo.html">Nonlinear PK/PD -- Nimotuzumab</a>
+    <a class="dropdown-item" href="../articles/mavoglurant.html">PBPK -- Mavoglurant</a>
+    <a class="dropdown-item" href="../articles/wbc.html">PKPD -- Myelosuppression model</a>
+  </div>
+</li>
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/nlmixrdevelopment/nlmixr/raw/master/CheatSheet_nlmixr.pdf">
+    <span class="fa fa-scroll fa-lg"></span>
+     
+    Cheat Sheet
+  </a>
+</li>
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://doi.org/10.1002/psp4.12445">
+    <span class="fas fa fas fa-life-ring"></span>
+     
+    Tutorial
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="../reference/index.html">
+    <span class="fa fa-file-code-o fa-lg"></span>
+     
+    Functions
+  </a>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
 </form>
 
-      <ul class="navbar-nav"></ul>
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/nlmixrdevelopment/nlmixr">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/nlmixrdevelopment/nlmixr/releases">
+    <span class="fa fa-download"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 
     
@@ -72,9 +119,9 @@
   <main id="main"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Using broom with nlmixr2</h1>
             
-            <h4 data-toc-skip class="date">2022-04-20</h4>
+            <h4 data-toc-skip class="date">2022-04-28</h4>
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/HEAD/vignettes/broom.Rmd" class="external-link"><code>vignettes/broom.Rmd</code></a></small>
       <div class="d-none name"><code>broom.Rmd</code></div>
     </div>
 
@@ -90,7 +137,7 @@
 <p>Using a model with a covariance term, the <a href="addingCovariances.html">Phenobarbital model</a>, we can explore the different types of output that is used in the tidy functions.</p>
 <p>To explore this, first we run the model:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">nlmixr2</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://nlmixr2.github.io/nlmixr2/">nlmixr2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/bbolker/broom.mixed" class="external-link">broom.mixed</a></span><span class="op">)</span>
 
 <span class="va">pheno</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
@@ -1447,7 +1494,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
 </div>
 
     </footer>

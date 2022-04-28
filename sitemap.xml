@@ -58,16 +58,28 @@
     <loc>https://nlmixr2.github.io/nlmixr2/reference/addTable.html</loc>
   </url>
   <url>
+    <loc>https://nlmixr2.github.io/nlmixr2/reference/bootplot.html</loc>
+  </url>
+  <url>
+    <loc>https://nlmixr2.github.io/nlmixr2/reference/bootstrapFit.html</loc>
+  </url>
+  <url>
+    <loc>https://nlmixr2.github.io/nlmixr2/reference/covarSearchAuto.html</loc>
+  </url>
+  <url>
     <loc>https://nlmixr2.github.io/nlmixr2/reference/foceiControl.html</loc>
   </url>
   <url>
     <loc>https://nlmixr2.github.io/nlmixr2/reference/index.html</loc>
   </url>
   <url>
+    <loc>https://nlmixr2.github.io/nlmixr2/reference/nlmeControl.html</loc>
+  </url>
+  <url>
     <loc>https://nlmixr2.github.io/nlmixr2/reference/nlmixr2.html</loc>
   </url>
   <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/nlmixr2NlmeControl.html</loc>
+    <loc>https://nlmixr2.github.io/nlmixr2/reference/preconditionFit.html</loc>
   </url>
   <url>
     <loc>https://nlmixr2.github.io/nlmixr2/reference/reexports.html</loc>
