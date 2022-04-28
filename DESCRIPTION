@@ -7,7 +7,7 @@ Authors@R: c(person("Matthew","Fidler", role = c("aut", "cre"), email = "matthew
    person("Justin", "Wilkins", role = "ctb", email = "justin.wilkins@occams.com", comment=c(ORCID="0000-0002-7099-9396")),
    person("Wenping", "Wang", role = "aut", email = "wwang8198@gmail.com"),
    person("Mirjam","Trame", role = "ctb", email="mirjam.trame@gmail.com"),
-   person("Huijan", "Xu", role="ctb", email="huijuan.xu.pmx@gmail.com"),
+   person("Huijuan", "Xu", role="ctb", email="huijuan.xu.pmx@gmail.com"),
    person("John", "Harrold", role="ctb", email="john.m.harrold@gmail.com"),
    person("Bill", "Denney", email="wdenney@humanpredictions.com", role="ctb", comment=c(ORCID="0000-0002-5759-428X")),
    person("Theodoros", "Papathanasiou",  role="ctb"),
