@@ -37,15 +37,6 @@ vpcPlot <- function(fit, data = NULL, n = 300, bins = "jenks",
         verbose = verbose, ..., seed = seed)
 }
 
-#' @inherit nlmixr2est::nlmixr2
-#' @param ... Additional arguments passed to [nlmixr2est::nlmixr2()].
-#' @export
-nlmixr2 <- function(object, data, est = NULL, control = list(), 
-    table = tableControl(), ..., save = NULL, envir = parent.frame()) {
-    nlmixr2est::nlmixr2(object = object, data = data, est = est, 
-        control = control, table = table, ..., save = save, envir = envir)
-}
-
 #' @inherit nlmixr2est::saemControl
 #' @param ... Additional arguments passed to [nlmixr2est::saemControl()].
 #' @export

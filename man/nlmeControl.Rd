@@ -245,6 +245,9 @@ If not specified, then it matches the significant digits in the
 
 \item{...}{Additional arguments passed to \code{\link[nlmixr2est:nlmixr2NlmeControl]{nlmixr2est::nlmeControl()}}.}
 }
+\value{
+a nlmixr-nlme list
+}
 \description{
 The values supplied in the function call replace the defaults and
 a list with all possible arguments is returned.  The returned list

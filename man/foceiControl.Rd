@@ -279,7 +279,7 @@ Otherwise the parameter is scaled multiplicatively.
    \item For additive, proportional, lognormal error structures,
    these are given by 0.5*abs(initial_estimate)
 
-   \item Factorials are scaled by abs(1/digamma(inital_estimate+1))
+   \item Factorials are scaled by abs(1/digamma(initial_estimate+1))
 
    \item parameters in a log scale (ie log(theta)) are transformed
    by log(abs(initial_estimate))*abs(initial_estimate)

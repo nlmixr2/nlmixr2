@@ -231,3 +231,7 @@ nlmixr2est::nlmixr2NlmeControl
 #' @importFrom nlmixr2est nlmixr
 #' @export
 nlmixr2est::nlmixr
+
+#' @importFrom nlmixr2est nlmixr2
+#' @export
+nlmixr2est::nlmixr2
