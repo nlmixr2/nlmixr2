@@ -1,24 +1,18 @@
 Package: nlmixr2
 Title: Nonlinear Mixed Effects Models in Population PK/PD
 Version: 2.0.6
-Authors@R: c(person("Matthew","Fidler",
-      role = c("aut", "cre"), email = "matthew.fidler@gmail.com",
-      comment=c(ORCID="0000-0001-8538-6691")),
-   person("Yuan", "Xiong", 
-      role = "ctb", email = "yuan.xiong@gmail.com"),
-   person("Rik", "Schoemaker", 
-      role = "ctb", email = "rik.schoemaker@occams.com",
-      comment=c(ORCID="0000-0002-7538-3005")),
-   person("Justin", "Wilkins", 
-      role = "ctb", email = "justin.wilkins@occams.com",
-      comment=c(ORCID="0000-0002-7099-9396")),
-   person("Wenping", "Wang", 
-      role = "aut", email = "wwang8198@gmail.com"),
-   person("Mirjam","Trame", role = "ctb"),
-   person("Teun","Post",
-      role = "ctb", email = "t.post@lapp.nl"),   
-   person("Richard", "Hooijmaijers", email = "richardhooijmaijers@gmail.com",
-      role = "ctb"))
+Authors@R: c(person("Matthew","Fidler", role = c("aut", "cre"), email = "matthew.fidler@gmail.com", comment=c(ORCID="0000-0001-8538-6691")),
+   person("Yuan", "Xiong", role = "ctb", email = "yuan.xiong@gmail.com"),
+   person("Rik", "Schoemaker", role = "ctb", email = "rik.schoemaker@occams.com", comment=c(ORCID="0000-0002-7538-3005")),
+   person("Justin", "Wilkins", role = "ctb", email = "justin.wilkins@occams.com", comment=c(ORCID="0000-0002-7099-9396")),
+   person("Wenping", "Wang", role = "aut", email = "wwang8198@gmail.com"),
+   person("Mirjam","Trame", role = "ctb", email="mirjam.trame@gmail.com"),
+   person("Huijuan", "Xu", role="ctb", email="huijuan.xu.pmx@gmail.com"),
+   person("John", "Harrold", role="ctb", email="john.m.harrold@gmail.com"),
+   person("Bill", "Denney", email="wdenney@humanpredictions.com", role="ctb", comment=c(ORCID="0000-0002-5759-428X")),
+   person("Theodoros", "Papathanasiou",  role="ctb"),
+   person("Teun","Post", role = "ctb", email = "t.post@lapp.nl"),  
+   person("Richard", "Hooijmaijers", email = "richardhooijmaijers@gmail.com", role = "ctb"))
 Description: Fit and compare nonlinear mixed-effects models in differential
     equations with flexible dosing information commonly seen in pharmacokinetics
     and pharmacodynamics (Almquist, Leander, and Jirstrand 2015 
