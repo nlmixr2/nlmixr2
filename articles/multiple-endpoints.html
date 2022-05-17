@@ -119,7 +119,7 @@
   <main id="main"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Working with multiple endpoints</h1>
             
-            <h4 data-toc-skip class="date">2022-05-11</h4>
+            <h4 data-toc-skip class="date">2022-05-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/HEAD/vignettes/multiple-endpoints.Rmd" class="external-link"><code>vignettes/multiple-endpoints.Rmd</code></a></small>
       <div class="d-none name"><code>multiple-endpoints.Rmd</code></div>
@@ -481,7 +481,7 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span>
+<span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:01 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span>
 <span class="co">#&gt; </span>
@@ -501,7 +501,7 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span>
+<span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:01 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span>
 <span class="co">#&gt; </span>
@@ -527,8 +527,8 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;            setup optimize covariance   saem  table compress</span>
-<span class="co">#&gt; elapsed 0.003135    4e-06   0.078006 186.31 17.753    0.034</span>
+<span class="co">#&gt;            setup optimize covariance    saem  table compress</span>
+<span class="co">#&gt; elapsed 0.003591    5e-06   0.093007 232.501 22.153    0.041</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
@@ -595,7 +595,7 @@
 <span class="va">fit.TOF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/nlmixr2est/man/nlmixr2.html" class="external-link">nlmixr</a></span><span class="op">(</span><span class="va">pk.turnover.emax3</span>, <span class="va">warfarin</span>, <span class="st">"focei"</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,
                   table<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cwres<span class="op">=</span><span class="cn">TRUE</span>, npde<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; calculating covariance matrix</span>
-<span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:01:18 </span>
+<span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:01:36 </span>
 <span class="co">#&gt; done</span></code></pre></div>
 <div class="section level4">
 <h4 id="focei-diagnostic-plots">FOCEi Diagnostic Plots<a class="anchor" aria-label="anchor" href="#focei-diagnostic-plots"></a>
@@ -610,7 +610,7 @@
 <span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;            setup optimize covariance table compress    other</span>
-<span class="co">#&gt; elapsed 0.003572 78.42648   78.42648 4.695     0.01 145.7375</span>
+<span class="co">#&gt; elapsed 0.003578 96.85503   96.85503 6.261    0.012 179.3904</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
