@@ -119,7 +119,7 @@
   <main id="main"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Running PK models with nlmixr</h1>
             
-            <h4 data-toc-skip class="date">2022-05-17</h4>
+            <h4 data-toc-skip class="date">2022-05-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/HEAD/vignettes/running_nlmixr.Rmd" class="external-link"><code>vignettes/running_nlmixr.Rmd</code></a></small>
       <div class="d-none name"><code>running_nlmixr.Rmd</code></div>
@@ -194,7 +194,7 @@
 <span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;            setup optimize covariance table compress    other</span>
-<span class="co">#&gt; elapsed 0.022611 0.287391   0.287393 0.057    0.013 1.852605</span>
+<span class="co">#&gt; elapsed 0.022304 0.230391   0.230393 0.044    0.013 1.726912</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
@@ -268,8 +268,8 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;            setup covariance   saem table compress    other</span>
-<span class="co">#&gt; elapsed 0.002893   0.015008 10.542 0.038    0.033 2.125099</span>
+<span class="co">#&gt;            setup covariance  saem table compress    other</span>
+<span class="co">#&gt; elapsed 0.002326   0.015008 9.691 0.039    0.028 1.481666</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
@@ -338,7 +338,7 @@
 <span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;            setup table compress    other</span>
-<span class="co">#&gt; elapsed 0.002995 0.054    0.009 3.891005</span>
+<span class="co">#&gt; elapsed 0.002609 0.034    0.009 3.083391</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
@@ -382,7 +382,7 @@
 <span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;            setup optimize covariance table compress    other</span>
-<span class="co">#&gt; elapsed 0.022611 0.287391   0.287393 0.057    0.013 1.852605</span>
+<span class="co">#&gt; elapsed 0.022304 0.230391   0.230393 0.044    0.013 1.726912</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
@@ -428,127 +428,6 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/traceplot.html">traceplot</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
 <p><img src="running_nlmixr_files/figure-html/unnamed-chunk-11-1.png" width="100%"></p>
-<p>but with a little more work, we can get a nicer set of iteration trace plots (“wriggly worms”)…</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="va">iter</span> <span class="op">&lt;-</span> <span class="va">fit2</span><span class="op">$</span><span class="va">par.hist.stacked</span>
-<span class="va">iter</span><span class="op">$</span><span class="va">Parameter</span><span class="op">[</span><span class="va">iter</span><span class="op">$</span><span class="va">par</span><span class="op">==</span><span class="st">"add.sd"</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"Additive error"</span>
-<span class="va">iter</span><span class="op">$</span><span class="va">Parameter</span><span class="op">[</span><span class="va">iter</span><span class="op">$</span><span class="va">par</span><span class="op">==</span><span class="st">"eta.cl"</span><span class="op">]</span>  <span class="op">&lt;-</span> <span class="st">"IIV CL/F"</span>
-<span class="va">iter</span><span class="op">$</span><span class="va">Parameter</span><span class="op">[</span><span class="va">iter</span><span class="op">$</span><span class="va">par</span><span class="op">==</span><span class="st">"eta.v"</span><span class="op">]</span>   <span class="op">&lt;-</span> <span class="st">"IIV V/F"</span>
-<span class="va">iter</span><span class="op">$</span><span class="va">Parameter</span><span class="op">[</span><span class="va">iter</span><span class="op">$</span><span class="va">par</span><span class="op">==</span><span class="st">"eta.ka"</span><span class="op">]</span>  <span class="op">&lt;-</span> <span class="st">"IIV ka"</span>
-<span class="va">iter</span><span class="op">$</span><span class="va">Parameter</span><span class="op">[</span><span class="va">iter</span><span class="op">$</span><span class="va">par</span><span class="op">==</span><span class="st">"tcl"</span><span class="op">]</span>     <span class="op">&lt;-</span> <span class="st">"log(CL/F)"</span>
-<span class="va">iter</span><span class="op">$</span><span class="va">Parameter</span><span class="op">[</span><span class="va">iter</span><span class="op">$</span><span class="va">par</span><span class="op">==</span><span class="st">"tv"</span><span class="op">]</span>      <span class="op">&lt;-</span> <span class="st">"log(V/F)"</span>
-<span class="va">iter</span><span class="op">$</span><span class="va">Parameter</span><span class="op">[</span><span class="va">iter</span><span class="op">$</span><span class="va">par</span><span class="op">==</span><span class="st">"tka"</span><span class="op">]</span>     <span class="op">&lt;-</span> <span class="st">"log(ka)"</span>
-<span class="va">iter</span><span class="op">$</span><span class="va">Parameter</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">ordered</a></span><span class="op">(</span><span class="va">iter</span><span class="op">$</span><span class="va">Parameter</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"log(CL/F)"</span>, <span class="st">"log(V/F)"</span>, <span class="st">"log(ka)"</span>,
-                                            <span class="st">"IIV CL/F"</span>, <span class="st">"IIV V/F"</span>, <span class="st">"IIV ka"</span>,
-                                            <span class="st">"Additive error"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">iter</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">iter</span>, <span class="va">val</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>col<span class="op">=</span><span class="st">"red"</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span><span class="st">"Iteration"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span><span class="st">"Value"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">Parameter</span>, scales<span class="op">=</span><span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title<span class="op">=</span><span class="st">"Theophylline single-dose"</span>, subtitle<span class="op">=</span><span class="st">"Parameter estimation iterations"</span><span class="op">)</span></code></pre></div>
-<p><img src="running_nlmixr_files/figure-html/unnamed-chunk-12-1.png" width="100%"></p>
-<p>… and some random-effects histograms…</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="va">etas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>eta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">fit2</span><span class="op">$</span><span class="va">eta</span><span class="op">$</span><span class="va">eta.ka</span>, <span class="va">fit2</span><span class="op">$</span><span class="va">eta</span><span class="op">$</span><span class="va">eta.cl</span>, <span class="va">fit2</span><span class="op">$</span><span class="va">eta</span><span class="op">$</span><span class="va">eta.v</span><span class="op">)</span>,
-                   lab <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"eta(ka)"</span>, <span class="st">"eta(CL/F)"</span>, <span class="st">"eta(V/F)"</span><span class="op">)</span>, each<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">fit2</span><span class="op">$</span><span class="va">eta</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="va">etas</span><span class="op">$</span><span class="va">lab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">ordered</a></span><span class="op">(</span><span class="va">etas</span><span class="op">$</span><span class="va">lab</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"eta(CL/F)"</span>,<span class="st">"eta(V/F)"</span>,<span class="st">"eta(ka)"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">etas</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">eta</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>fill<span class="op">=</span><span class="st">"red"</span>, col<span class="op">=</span><span class="st">"white"</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>xintercept<span class="op">=</span><span class="fl">0</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">eta</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span><span class="st">"Count"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" class="external-link">facet_grid</a></span><span class="op">(</span><span class="op">~</span> <span class="va">lab</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_cartesian.html" class="external-link">coord_cartesian</a></span><span class="op">(</span>xlim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.75</span>,<span class="fl">1.75</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title<span class="op">=</span><span class="st">"Theophylline single-dose"</span>, subtitle<span class="op">=</span><span class="st">"IIV distributions"</span><span class="op">)</span></code></pre></div>
-<p><img src="running_nlmixr_files/figure-html/unnamed-chunk-13-1.png" width="100%"></p>
-<div class="section level3">
-<h3 id="xpose">xpose<a class="anchor" aria-label="anchor" href="#xpose"></a>
-</h3>
-<p>This is all very nice. But what we really want is a complete suite of model diagnostic tools, like those available in <a href="https://github.com/UUPharmacometrics/xpose" class="external-link">xpose</a>, right?</p>
-<p>Restart R, and install xpose from CRAN, if you haven’t already…</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## install.packages("xpose")</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/UUPharmacometrics/xpose" class="external-link">xpose</a></span><span class="op">)</span></code></pre></div>
-<p>Now install the extension for nlmixr:</p>
-<pre><code><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"nlmixr2/xpose.nlmixr"</span><span class="op">)</span></code></pre>
-<p>… and convert your nlmixr fit object into an xpose fit object.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">xpose.nlmixr</span><span class="op">)</span>
-<span class="va">xp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/xpose.nlmixr/man/xpose_data_nlmixr2.html" class="external-link">xpose_data_nlmixr</a></span><span class="op">(</span><span class="va">fit2</span><span class="op">)</span>
-<span class="co">#&gt;        ID          TIME              DV              AMT         EVID  </span>
-<span class="co">#&gt;  1      :11   Min.   : 0.000   Min.   : 0.000   Min.   :0   Min.   :0  </span>
-<span class="co">#&gt;  2      :11   1st Qu.: 0.595   1st Qu.: 2.877   1st Qu.:0   1st Qu.:0  </span>
-<span class="co">#&gt;  3      :11   Median : 3.530   Median : 5.275   Median :0   Median :0  </span>
-<span class="co">#&gt;  4      :11   Mean   : 5.895   Mean   : 4.960   Mean   :0   Mean   :0  </span>
-<span class="co">#&gt;  5      :11   3rd Qu.: 9.000   3rd Qu.: 7.140   3rd Qu.:0   3rd Qu.:0  </span>
-<span class="co">#&gt;  6      :11   Max.   :24.650   Max.   :11.400   Max.   :0   Max.   :0  </span>
-<span class="co">#&gt;  (Other):66                                                            </span>
-<span class="co">#&gt;       CMT          WT             PRED            RES              IPRED      </span>
-<span class="co">#&gt;  Min.   :2   Min.   :54.60   Min.   :0.000   Min.   :-3.0456   Min.   :0.000  </span>
-<span class="co">#&gt;  1st Qu.:2   1st Qu.:63.58   1st Qu.:3.471   1st Qu.:-0.9546   1st Qu.:3.128  </span>
-<span class="co">#&gt;  Median :2   Median :70.50   Median :5.515   Median :-0.1108   Median :5.428  </span>
-<span class="co">#&gt;  Mean   :2   Mean   :69.58   Mean   :5.025   Mean   :-0.0642   Mean   :4.999  </span>
-<span class="co">#&gt;  3rd Qu.:2   3rd Qu.:74.42   3rd Qu.:7.265   3rd Qu.: 0.7469   3rd Qu.:7.075  </span>
-<span class="co">#&gt;  Max.   :2   Max.   :86.40   Max.   :8.583   Max.   : 4.2147   Max.   :9.804  </span>
-<span class="co">#&gt;                                                                               </span>
-<span class="co">#&gt;       IRES              IWRES              ETA.KA              ETA.CL         </span>
-<span class="co">#&gt;  Min.   :-2.30170   Min.   :-3.32225   Min.   :-0.798170   Min.   :-0.490712  </span>
-<span class="co">#&gt;  1st Qu.:-0.29296   1st Qu.:-0.42285   1st Qu.:-0.436312   1st Qu.:-0.134923  </span>
-<span class="co">#&gt;  Median : 0.00000   Median : 0.00000   Median :-0.109144   Median : 0.035380  </span>
-<span class="co">#&gt;  Mean   :-0.03871   Mean   :-0.05587   Mean   :-0.004456   Mean   : 0.002638  </span>
-<span class="co">#&gt;  3rd Qu.: 0.20151   3rd Qu.: 0.29085   3rd Qu.: 0.255856   3rd Qu.: 0.168102  </span>
-<span class="co">#&gt;  Max.   : 2.77714   Max.   : 4.00849   Max.   : 1.429816   Max.   : 0.388593  </span>
-<span class="co">#&gt;                                                                               </span>
-<span class="co">#&gt;      ETA.V                 CP            DEPOT              CENTER     </span>
-<span class="co">#&gt;  Min.   :-0.195522   Min.   :0.000   Min.   :  0.0000   Min.   :  0.0  </span>
-<span class="co">#&gt;  1st Qu.:-0.095508   1st Qu.:3.128   1st Qu.:  0.0004   1st Qu.:101.0  </span>
-<span class="co">#&gt;  Median : 0.016087   Median :5.428   Median :  2.5415   Median :166.9  </span>
-<span class="co">#&gt;  Mean   :-0.002467   Mean   :4.999   Mean   : 69.0922   Mean   :155.9  </span>
-<span class="co">#&gt;  3rd Qu.: 0.065787   3rd Qu.:7.075   3rd Qu.:120.2246   3rd Qu.:226.4  </span>
-<span class="co">#&gt;  Max.   : 0.184904   Max.   :9.804   Max.   :320.6500   Max.   :286.8  </span>
-<span class="co">#&gt;                                                                        </span>
-<span class="co">#&gt;        KA               CL              V              TAD            DOSENUM </span>
-<span class="co">#&gt;  Min.   :0.7087   Min.   :1.691   Min.   :25.91   Min.   : 0.000   Min.   :1  </span>
-<span class="co">#&gt;  1st Qu.:1.0188   1st Qu.:2.413   1st Qu.:28.64   1st Qu.: 0.595   1st Qu.:1  </span>
-<span class="co">#&gt;  Median :1.4154   Median :2.861   Median :32.01   Median : 3.530   Median :1  </span>
-<span class="co">#&gt;  Mean   :1.9538   Mean   :2.853   Mean   :31.63   Mean   : 5.895   Mean   :1  </span>
-<span class="co">#&gt;  3rd Qu.:2.0372   3rd Qu.:3.267   3rd Qu.:33.65   3rd Qu.: 9.000   3rd Qu.:1  </span>
-<span class="co">#&gt;  Max.   :6.5772   Max.   :4.073   Max.   :37.90   Max.   :24.650   Max.   :1  </span>
-<span class="co">#&gt;                                                                               </span>
-<span class="co">#&gt;       WRES              CPRED            CRES              CWRES         </span>
-<span class="co">#&gt;  Min.   :-1.94205   Min.   :0.000   Min.   :-2.58246   Min.   :-2.14627  </span>
-<span class="co">#&gt;  1st Qu.:-0.66636   1st Qu.:3.434   1st Qu.:-0.96926   1st Qu.:-0.68995  </span>
-<span class="co">#&gt;  Median :-0.09749   Median :5.523   Median :-0.09416   Median :-0.07605  </span>
-<span class="co">#&gt;  Mean   :-0.02151   Mean   :5.049   Mean   :-0.08828   Mean   :-0.07784  </span>
-<span class="co">#&gt;  3rd Qu.: 0.47996   3rd Qu.:7.497   3rd Qu.: 0.74108   3rd Qu.: 0.39650  </span>
-<span class="co">#&gt;  Max.   : 2.37019   Max.   :9.561   Max.   : 3.83596   Max.   : 2.00705  </span>
-<span class="co">#&gt;                                                                          </span>
-<span class="co">#&gt;      eta.ka              eta.cl              eta.v          </span>
-<span class="co">#&gt;  Min.   :-0.798170   Min.   :-0.490712   Min.   :-0.195522  </span>
-<span class="co">#&gt;  1st Qu.:-0.436312   1st Qu.:-0.134923   1st Qu.:-0.095508  </span>
-<span class="co">#&gt;  Median :-0.109144   Median : 0.035380   Median : 0.016087  </span>
-<span class="co">#&gt;  Mean   :-0.004456   Mean   : 0.002638   Mean   :-0.002467  </span>
-<span class="co">#&gt;  3rd Qu.: 0.255856   3rd Qu.: 0.168102   3rd Qu.: 0.065787  </span>
-<span class="co">#&gt;  Max.   : 1.429816   Max.   : 0.388593   Max.   : 0.184904  </span>
-<span class="co">#&gt; </span></code></pre></div>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/xpose/man/dv_vs_pred.html" class="external-link">dv_vs_pred</a></span><span class="op">(</span><span class="va">xp</span><span class="op">)</span></code></pre></div>
-<p><img src="running_nlmixr_files/figure-html/unnamed-chunk-16-1.png" width="100%"></p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/xpose/man/dv_vs_pred.html" class="external-link">dv_vs_ipred</a></span><span class="op">(</span><span class="va">xp</span><span class="op">)</span></code></pre></div>
-<p><img src="running_nlmixr_files/figure-html/unnamed-chunk-17-1.png" width="100%"></p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/xpose/man/dv_vs_pred.html" class="external-link">dv_vs_pred</a></span><span class="op">(</span><span class="va">xp</span><span class="op">)</span></code></pre></div>
-<p><img src="running_nlmixr_files/figure-html/unnamed-chunk-18-1.png" width="100%"></p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/xpose/man/res_vs_pred.html" class="external-link">absval_res_vs_pred</a></span><span class="op">(</span><span class="va">xp</span>, res<span class="op">=</span><span class="st">"IWRES"</span><span class="op">)</span></code></pre></div>
-<p><img src="running_nlmixr_files/figure-html/unnamed-chunk-19-1.png" width="100%"> For more information about using xpose, see the Uppsala pharmacometrics group’s comprehensive site <a href="https://uupharmacometrics.github.io/xpose/" class="external-link">here</a>.</p>
-</div>
 </div>
 <div class="section level2">
 <h2 id="the-ui">The UI<a class="anchor" aria-label="anchor" href="#the-ui"></a>
@@ -558,7 +437,7 @@
 <h3 id="overall-model-structure">Overall model structure<a class="anchor" aria-label="anchor" href="#overall-model-structure"></a>
 </h3>
 <p>Model specifications for nlmixr are written using functions containing <code>ini</code> and <code>model</code> blocks. These functions can be called anything, but must contain these two components. Let’s look at a very simple one-compartment model with no covariates.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span><span class="op">{</span>   <span class="co"># Initial conditions/variables</span>
     <span class="co"># are specified here</span>
@@ -571,7 +450,7 @@
 <h4 id="the-ini-block">The ini block<a class="anchor" aria-label="anchor" href="#the-ini-block"></a>
 </h4>
 <p>The <code>ini</code> block specifies initial conditions, including initial estimates and boundaries for those algorithms which support them (currently, the built-in <code>nlme</code> and <code>saem</code> methods do not). Nomenclature is similar to that used in NONMEM, Monolix and other similar packages. In the NONMEM world, the <code>ini</code> block is analogous to <code>$THETA</code>, <code>$OMEGA</code> and <code>$SIGMA</code> blocks.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span> <span class="co"># Note that arguments to the function are currently</span>
   <span class="co"># ignored by nlmixr</span>
   <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span><span class="op">{</span>
@@ -613,7 +492,7 @@
 </ul>
 <p>In mixture models, multivariate normal individual deviations from the normal population and parameters are estimated (in NONMEM these are called “ETA” parameters). Additionally, the variance/covariance matrix of these deviations are is also estimated (in NONMEM this is the “OMEGA” matrix). These also take initial estimates. In nlmixr, these are specified by the <code>~</code> operator. This that is typically used in statistics R for “modeled by”, and was chosen to distinguish these estimates from the population and residual error parameters.</p>
 <p>Continuing from the prior example, we can annotate the estimates for the between-subject error distribution…</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span><span class="op">{</span>
     <span class="va">lCl</span> <span class="op">&lt;-</span> <span class="fl">1.6</span>      <span class="co"># log Cl (L/hr)</span>
@@ -654,7 +533,7 @@
 <p>The <code>model</code> block specifies the model, and is analogous to the <code>$PK</code>, <code>$PRED</code> and <code>$ERROR</code> blocks in NONMEM.</p>
 <p>Once the initialization block has been defined, you can define a model in terms of the variables defined in the <code>ini</code> block. You can also mix <code><a href="https://nlmixr2.github.io/rxode2/reference/rxode2.html" class="external-link">rxode2()</a></code> blocks into the model if needed.</p>
 <p>The current method of defining a nlmixr model is to specify the parameters, and then any required <code><a href="https://nlmixr2.github.io/rxode2/reference/rxode2.html" class="external-link">rxode2()</a></code> lines. Continuing the annotated example:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span><span class="op">{</span>
     <span class="va">lCl</span> <span class="op">&lt;-</span> <span class="fl">1.6</span>       <span class="co"># log Cl (L/hr)</span>
@@ -716,7 +595,7 @@
 <h3 id="model-syntax-for-solved-pk-systems">Model Syntax for solved PK systems<a class="anchor" aria-label="anchor" href="#model-syntax-for-solved-pk-systems"></a>
 </h3>
 <p>Solved PK systems are also currently supported by nlmixr with the ‘linCmt()’ pseudo-function. An annotated example of a solved system is below:</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span><span class="op">{</span>
   <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span><span class="op">{</span>
     <span class="va">lCl</span> <span class="op">&lt;-</span> <span class="fl">1.6</span>      <span class="co">#log Cl (L/hr)</span>
@@ -747,7 +626,7 @@
 <h3 id="checking-model-syntax">Checking model syntax<a class="anchor" aria-label="anchor" href="#checking-model-syntax"></a>
 </h3>
 <p>After specifying the model syntax you can check that nlmixr is interpreting it correctly by using the nlmixr function on it. Using the above function we can get:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/nlmixr2est/man/nlmixr2.html" class="external-link">nlmixr</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span>
 <span class="co">#&gt;  <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">rxode2-based solved PK 1-compartment model with first-order absorption</span> <span style="color: #00BBBB;">──────</span> </span>
 <span class="co">#&gt;  ── <span style="font-weight: bold;">Initalization:</span> ──  </span>
