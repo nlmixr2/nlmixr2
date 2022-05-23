@@ -1,6 +1,7 @@
 #' @import nlmixr2data
 #' @import nlmixr2plot
 #' @importFrom stats predict logLik na.fail pchisq approxfun cov cov2cor dlnorm median na.omit qchisq qnorm
+#' @noRd
 .genHardReExport <- function(fun) {
   .args <- deparse(eval(str2lang(paste0("args(", fun, ")"))))
   .args <- .args[-length(.args)]
