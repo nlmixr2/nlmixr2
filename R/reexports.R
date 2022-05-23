@@ -40,6 +40,10 @@ rxode2::probit
 #' @export
 rxode2::probitInv
 
+#' @importFrom rxode2 logit
+#' @export
+rxode2::logit
+
 #' @importFrom rxode2 rxSolve
 #' @export
 rxode2::rxSolve

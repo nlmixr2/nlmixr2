@@ -61,6 +61,7 @@
                                  "rxode2::expit",
                                  "rxode2::probit",
                                  "rxode2::probitInv",
+                                 "rxode2::logit",
                                  "rxode2::rxSolve",
                                  "rxode2::rxClean",
                                  "rxode2::rxCat",

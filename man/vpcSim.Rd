@@ -4,7 +4,15 @@
 \alias{vpcSim}
 \title{VPC simulation}
 \usage{
-vpcSim(object, ..., keep = NULL, n = 300, pred = FALSE, seed = 1009)
+vpcSim(
+  object,
+  ...,
+  keep = NULL,
+  n = 300,
+  pred = FALSE,
+  seed = 1009,
+  nretry = 50
+)
 }
 \arguments{
 \item{object}{This is the nlmixr2 fit object}
@@ -18,6 +26,9 @@ vpcSim(object, ..., keep = NULL, n = 300, pred = FALSE, seed = 1009)
 \item{pred}{Should predictions be added to the simulation}
 
 \item{seed}{Seed to set for the VPC simulation}
+
+\item{nretry}{Number of times to retry the simulation if there is
+NA values in the simulation}
 }
 \value{
 data frame of the VPC simulation

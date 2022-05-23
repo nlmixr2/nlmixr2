@@ -11,9 +11,9 @@ traceplot <- function(x, ...) {
 #' @param ... Additional arguments passed to [nlmixr2est::vpcSim()].
 #' @export
 vpcSim <- function(object, ..., keep = NULL, n = 300, pred = FALSE, 
-    seed = 1009) {
+    seed = 1009, nretry = 50) {
     nlmixr2est::vpcSim(object = object, ..., keep = keep, n = n, 
-        pred = pred, seed = seed)
+        pred = pred, seed = seed, nretry = nretry)
 }
 
 #' @inherit nlmixr2plot::vpcPlot
