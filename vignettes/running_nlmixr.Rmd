@@ -147,96 +147,6 @@ Default trace plots can be generated using:
 traceplot(fit)
 ```
 
-but with a little more work, we can get a nicer set of iteration trace
-plots ("wriggly worms")...
-
-
-```{r}
-
-iter <- fit2$par.hist.stacked
-iter$Parameter[iter$par=="add.sd"] <- "Additive error"
-iter$Parameter[iter$par=="eta.cl"]  <- "IIV CL/F"
-iter$Parameter[iter$par=="eta.v"]   <- "IIV V/F"
-iter$Parameter[iter$par=="eta.ka"]  <- "IIV ka"
-iter$Parameter[iter$par=="tcl"]     <- "log(CL/F)"
-iter$Parameter[iter$par=="tv"]      <- "log(V/F)"
-iter$Parameter[iter$par=="tka"]     <- "log(ka)"
-iter$Parameter <- ordered(iter$Parameter, c("log(CL/F)", "log(V/F)", "log(ka)",
-                                            "IIV CL/F", "IIV V/F", "IIV ka",
-                                            "Additive error"))
-
-ggplot(iter, aes(iter, val)) +
-  geom_line(col="red") + 
-  scale_x_continuous("Iteration") +
-  scale_y_continuous("Value") +
-  facet_wrap(~ Parameter, scales="free_y") +
-  labs(title="Theophylline single-dose", subtitle="Parameter estimation iterations")
-
-```
-
-... and some random-effects histograms...
-
-```{r}
-
-etas <- data.frame(eta = c(fit2$eta$eta.ka, fit2$eta$eta.cl, fit2$eta$eta.v),
-                   lab = rep(c("eta(ka)", "eta(CL/F)", "eta(V/F)"), each=nrow(fit2$eta)))
-etas$lab <- ordered(etas$lab, c("eta(CL/F)","eta(V/F)","eta(ka)"))
-
-ggplot(etas, aes(eta)) +
-  geom_histogram(fill="red", col="white") + 
-  geom_vline(xintercept=0) +
-  scale_x_continuous(expression(paste(eta))) +
-  scale_y_continuous("Count") +
-  facet_grid(~ lab) +
-  coord_cartesian(xlim=c(-1.75,1.75)) +
-  labs(title="Theophylline single-dose", subtitle="IIV distributions")
-
-```
-
-
-## xpose
-
-This is all very nice. But what we really want is a complete suite of model diagnostic
-tools, like those available in [xpose](https://github.com/UUPharmacometrics/xpose), right?
-
-Restart R, and install xpose from CRAN, if you haven't already...
-
-```{r}
-## install.packages("xpose")
-library(xpose)
-```
-
-Now install the extension for nlmixr:
-
-```
- devtools::install_github("nlmixr2/xpose.nlmixr")
-```
-
- ... and convert your nlmixr fit object into an xpose fit object.
- 
-```{r}
-library(xpose.nlmixr)
-xp <- xpose_data_nlmixr(fit2)
-```
-
-```{r}
-dv_vs_pred(xp)
-```
-
-```{r}
-dv_vs_ipred(xp)
-```
-
-```{r}
-dv_vs_pred(xp)
-```
-
-```{r}
-absval_res_vs_pred(xp, res="IWRES")
-```
-For more information about using xpose, see the Uppsala pharmacometrics group's 
-comprehensive site [here](https://uupharmacometrics.github.io/xpose/).
-
 # The UI
 
 The nlmixr modeling dialect, inspired by R and NONMEM, can be used to
@@ -552,4 +462,3 @@ nlmixr(f)
 In general this gives you information about the model (what type of
 solved system/`rxode2()`), initial estimates as well as the code for the
 model block.
-

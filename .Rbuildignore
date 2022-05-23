@@ -3,7 +3,6 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
-^vignettes$
 ^vignettes/figure/.*$
 ^vignettes/examples/ACoP7poster/.*$
 ^vignettes/examples/LiveDemo/.*$
@@ -15,7 +14,6 @@
 ^vignettes/residualErrors.csv$
 ^vignettes/residualErrors.html$
 ^vignettes/residualErrors_files$
-^vignettes/running_nlmixr.Rmd$
 ^vignettes/running_nlmixr.html$
 ^vignettes/running_nlmixr_files$
 ^vignettes/xgxr-nlmixr-ggpmx.Rmd$
@@ -57,3 +55,5 @@
 ^.github/*.*
 ^CheatSheet_nlmixr_191114.pdf$
 ^CheatSheet_nlmixr_191114.pptx$
+^doc$
+^Meta$
