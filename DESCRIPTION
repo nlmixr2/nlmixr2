@@ -35,7 +35,9 @@ Suggests:
     rmarkdown,
     knitr,
     devtools,
-    withr
+    withr,
+    ggplot2,
+    testthat
 VignetteBuilder: knitr
 BugReports: https://github.com/nlmixr2/nlmixr2/issues/
 URL: https://nlmixr2.github.io/nlmixr2/, https://github.com/nlmixr2/nlmixr2/
