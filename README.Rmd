@@ -22,6 +22,12 @@ The goal of nlmixr2 is to support easy and robust nonlinear mixed effects models
 
 ## Installation
 
+The easiest way to install nlmixr2 is to use:
+
+``` r
+install.pakcages("nlmixr2")
+```
+
 You can install the development version of nlmixr2 and its nlmixr2-family dependencies like so:
 
 ``` r
