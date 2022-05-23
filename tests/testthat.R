@@ -1,4 +1,4 @@
 library(testthat)
-library(vignettes)
+library(nlmixr2)
 
-test_check("vignettes")
+test_check("nlmixr2")
