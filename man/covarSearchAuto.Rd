@@ -18,19 +18,27 @@ covarSearchAuto(
 \arguments{
 \item{fit}{an nlmixr2 'fit' object}
 
-\item{varsVec}{a list of candidate variables to which the covariates could be added}
+\item{varsVec}{a list of candidate variables to which the
+covariates could be added}
 
-\item{covarsVec}{a list of candidate covariates that need to be tested}
+\item{covarsVec}{a list of candidate covariates that need to be
+tested}
 
-\item{pVal}{a named list with names 'fwd' and 'bck' for specifying the p-values for the forward and backward searches, respectively}
+\item{pVal}{a named list with names 'fwd' and 'bck' for specifying
+the p-values for the forward and backward searches, respectively}
 
-\item{covInformation}{a list containing additionl information on the variables-covariates pairs that should be passed on to addCovMultiple function}
+\item{covInformation}{a list containing additional information on
+the variables-covariates pairs that should be passed on to
+addCovMultiple function}
 
-\item{catCovariates}{a list of covariates that should be treated as categorical}
+\item{catCovariates}{a list of covariates that should be treated as
+categorical}
 
-\item{searchType}{one of 'scm', 'forward' and 'backward' to specify the covariate search method; default is 'scm'}
+\item{searchType}{one of 'scm', 'forward' and 'backward' to specify
+the covariate search method; default is 'scm'}
 
-\item{restart}{a boolean that controls if the search should be restarted; default is FALSE}
+\item{restart}{a boolean that controls if the search should be
+restarted; default is FALSE}
 }
 \value{
 A list summarizing the covariate selection steps and
