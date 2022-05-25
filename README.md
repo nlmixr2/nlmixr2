@@ -40,6 +40,15 @@ remotes::install_github("RichardHooijmaijers/shinyMixR") # Shiny run manager (li
 remotes::install_github("nlmixr2/nlmixr2targets") # Simplify work with the `targets` package
 ```
 
+If you have difficulties due to errors while compiling models, it may be useful to reinstall
+all of nlmixr2 and its dependencies.  For development versions, please use the
+`remotes::install_github()` commands above.  For the stable version, please use the following
+command:
+
+``` r
+install.packages(c("nlmixr2", "nlmixr2est", "rxode2", "nlmixr2plot", "nlmixr2data", "lotri", "nlmixr2extra"))
+```
+
 ## Example
 
 This is a basic example which shows you how to solve a common problem:
