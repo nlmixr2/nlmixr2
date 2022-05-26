@@ -25,7 +25,7 @@ The goal of nlmixr2 is to support easy and robust nonlinear mixed effects models
 The easiest way to install nlmixr2 is to use:
 
 ``` r
-install.pakcages("nlmixr2")
+install.packages("nlmixr2")
 ```
 
 You can install the development version of nlmixr2 and its nlmixr2-family dependencies like so:
@@ -48,6 +48,17 @@ remotes::install_github("nlmixr2/xpose.nlmixr") # Additional goodness of fit plo
 remotes::install_github("RichardHooijmaijers/shinyMixR") # Shiny run manager (like Piranha)
 remotes::install_github("nlmixr2/nlmixr2targets") # Simplify work with the `targets` package
 ```
+
+If you have difficulties due to errors while compiling models, it may
+be useful to reinstall all of nlmixr2 and its dependencies.  For
+development versions, please use the `remotes::install_github()`
+commands above.  For the stable version, please use the following
+command:
+
+``` r
+install.packages(c("nlmixr2", "nlmixr2est", "rxode2", "nlmixr2plot", "nlmixr2data", "lotri", "nlmixr2extra"))
+```
+
 
 ## Example
 
