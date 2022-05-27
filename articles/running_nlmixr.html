@@ -126,7 +126,7 @@
   <main id="main"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Running PK models with nlmixr</h1>
             
-            <h4 data-toc-skip class="date">2022-05-25</h4>
+            <h4 data-toc-skip class="date">2022-05-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/HEAD/vignettes/running_nlmixr.Rmd" class="external-link"><code>vignettes/running_nlmixr.Rmd</code></a></small>
       <div class="d-none name"><code>running_nlmixr.Rmd</code></div>
@@ -200,8 +200,8 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;            setup optimize covariance table compress    other</span>
-<span class="co">#&gt; elapsed 0.022647 0.220394   0.220395  0.05    0.012 1.698564</span>
+<span class="co">#&gt;           setup optimize covariance table compress    other</span>
+<span class="co">#&gt; elapsed 0.02425 0.235071   0.235073  0.05    0.013 1.740606</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
@@ -276,7 +276,7 @@
 <span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;            setup covariance  saem table compress    other</span>
-<span class="co">#&gt; elapsed 0.002055    0.01401 9.121 0.036    0.026 1.348935</span>
+<span class="co">#&gt; elapsed 0.002225   0.015009 9.897 0.039    0.028 1.472766</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
@@ -345,7 +345,7 @@
 <span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;            setup table compress    other</span>
-<span class="co">#&gt; elapsed 0.002525 0.031    0.008 2.869475</span>
+<span class="co">#&gt; elapsed 0.002654 0.034    0.008 3.153346</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
@@ -388,8 +388,8 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;            setup optimize covariance table compress    other</span>
-<span class="co">#&gt; elapsed 0.022647 0.220394   0.220395  0.05    0.012 1.698564</span>
+<span class="co">#&gt;           setup optimize covariance table compress    other</span>
+<span class="co">#&gt; elapsed 0.02425 0.235071   0.235073  0.05    0.013 1.740606</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
@@ -662,7 +662,6 @@
 <span class="co">#&gt;         lKA &lt;- 0.1</span>
 <span class="co">#&gt;         label("log Ka (1/hr)")</span>
 <span class="co">#&gt;         prop.err &lt;- c(0, 0.2, 1)</span>
-<span class="co">#&gt;         label("BSV Ka")</span>
 <span class="co">#&gt;         eta.Cl ~ 0.1</span>
 <span class="co">#&gt;         eta.Vc ~ 0.1</span>
 <span class="co">#&gt;         eta.KA ~ 0.1</span>
@@ -685,7 +684,7 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Matthew Fidler, Wenping Wang.</p>
+<p>Developed by Matthew Fidler.</p>
 </div>
 
 <div class="pkgdown-footer-right">
