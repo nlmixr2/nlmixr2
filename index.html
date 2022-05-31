@@ -167,7 +167,9 @@
 <p>This is a basic example which shows you how to solve a common problem:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://nlmixr2.github.io/nlmixr2/">nlmixr2</a></span><span class="op">)</span>
+<span class="co">#&gt; Warning: package 'nlmixr2' was built under R version 4.1.3</span>
 <span class="co">#&gt; Loading required package: nlmixr2data</span>
+<span class="co">#&gt; Warning: package 'nlmixr2data' was built under R version 4.1.3</span>
 
 <span class="co">## The basic model consiss of an ini block that has initial estimates</span>
 <span class="va">one.compartment</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
@@ -194,34 +196,101 @@
 
 <span class="co">## The fit is performed by the function nlmixr/nlmix2 specifying the model, data and estimate</span>
 <span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/nlmixr2est/man/nlmixr2.html" class="external-link">nlmixr2</a></span><span class="op">(</span><span class="va">one.compartment</span>, <span class="va">theo_sd</span>,  est<span class="op">=</span><span class="st">"saem"</span>, <span class="fu"><a href="reference/saemControl.html">saemControl</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; ℹ parameter labels from comments will be replaced by 'label()'</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; → loading into symengine environment...</span>
-<span class="co">#&gt; → pruning branches (`if`/`else`) of saem model...</span>
-<span class="co">#&gt; ✔ done</span>
-<span class="co">#&gt; → finding duplicate expressions in saem model...</span>
-<span class="co">#&gt; → optimizing duplicate expressions in saem model...</span>
-<span class="co">#&gt; ✔ done</span>
-<span class="co">#&gt; → creating rxode2 include directory</span>
-<span class="co">#&gt; → getting R compile options</span>
-<span class="co">#&gt; → precompiling headers</span>
-<span class="co">#&gt; ✔ done</span>
+<span class="co">#&gt; i parameter labels from comments will be replaced by 'label()'</span>
+<span class="co">#&gt; &gt; loading into symengine environment...</span>
+<span class="co">#&gt; &gt; pruning branches (`if`/`else`) of saem model...</span>
+<span class="co">#&gt; v done</span>
+<span class="co">#&gt; &gt; finding duplicate expressions in saem model...</span>
+<span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span>
+<span class="co">#&gt; &gt; optimizing duplicate expressions in saem model...</span>
+<span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span>
+<span class="co">#&gt; v done</span>
 <span class="co">#&gt; rxode2 2.0.7 using 4 threads (see ?getRxThreads)</span>
-<span class="co">#&gt; Error in .model$saem_mod(.cfg) : Mat::operator(): index out of bounds</span>
-<span class="co">#&gt; Error: Mat::operator(): index out of bounds</span>
+<span class="co">#&gt;   no cache: create with `rxCreateCache()`</span>
+<span class="co">#&gt; Calculating covariance matrix</span>
+<span class="co">#&gt; &gt; loading into symengine environment...</span>
+<span class="co">#&gt; &gt; pruning branches (`if`/`else`) of saem model...</span>
+<span class="co">#&gt; v done</span>
+<span class="co">#&gt; &gt; finding duplicate expressions in saem predOnly model 0...</span>
+<span class="co">#&gt; &gt; finding duplicate expressions in saem predOnly model 1...</span>
+<span class="co">#&gt; &gt; optimizing duplicate expressions in saem predOnly model 1...</span>
+<span class="co">#&gt; &gt; finding duplicate expressions in saem predOnly model 2...</span>
+<span class="co">#&gt; v done</span>
+<span class="co">#&gt; &gt; Calculating residuals/tables</span>
+<span class="co">#&gt; v done</span>
+<span class="co">#&gt; &gt; compress origData in nlmixr2 object, save 5952</span>
+<span class="co">#&gt; &gt; compress phiM in nlmixr2 object, save 62360</span>
+<span class="co">#&gt; &gt; compress parHist in nlmixr2 object, save 9592</span>
+<span class="co">#&gt; &gt; compress saem0 in nlmixr2 object, save 23304</span>
+<span class="co">#&gt; Warning: package 'rxode2' was built under R version 4.1.3</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
-<span class="co">#&gt; Error in print(fit): object 'fit' not found</span></code></pre></div>
+<span class="co">#&gt; -- nlmixr SAEM OBJF by FOCEi approximation --</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  Gaussian/Laplacian Likelihoods: AIC() or $objf etc. </span>
+<span class="co">#&gt;  FOCEi CWRES &amp; Likelihoods: addCwres() </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; -- Time (sec $time): --</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;         setup covariance  saem table compress other</span>
+<span class="co">#&gt; elapsed 0.003       0.02 15.98  0.05     0.06 6.857</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; -- Population Parameters ($parFixed or $parFixedDf): --</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;        Parameter  Est.     SE %RSE Back-transformed(95%CI) BSV(CV%) Shrink(SD)%</span>
+<span class="co">#&gt; tka       Log Ka 0.454  0.196 43.1       1.57 (1.07, 2.31)     71.5   -0.0203% </span>
+<span class="co">#&gt; tcl       Log Cl  1.02 0.0853  8.4       2.76 (2.34, 3.26)     27.6      3.46% </span>
+<span class="co">#&gt; tv         Log V  3.45 0.0454 1.32       31.5 (28.8, 34.4)     13.4      9.89% </span>
+<span class="co">#&gt; add.sd           0.693                               0.693                     </span>
+<span class="co">#&gt;  </span>
+<span class="co">#&gt;   Covariance Type ($covMethod): linFim</span>
+<span class="co">#&gt;   No correlations in between subject variability (BSV) matrix</span>
+<span class="co">#&gt;   Full BSV covariance ($omega) or correlation ($omegaR; diagonals=SDs) </span>
+<span class="co">#&gt;   Distribution stats (mean/skewness/kurtosis/p-value) available in $shrink </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; -- Fit Data (object is a modified tibble): --</span>
+<span class="co">#&gt; # A tibble: 132 x 19</span>
+<span class="co">#&gt;   ID     TIME    DV  PRED    RES IPRED   IRES  IWRES eta.ka eta.cl   eta.v    cp</span>
+<span class="co">#&gt;   &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 1      0     0.74  0     0.74   0     0.74   1.07   0.103 -0.491 -0.0820  0   </span>
+<span class="co">#&gt; 2 1      0.25  2.84  3.27 -0.426  3.87 -1.03  -1.48   0.103 -0.491 -0.0820  3.87</span>
+<span class="co">#&gt; 3 1      0.57  6.57  5.85  0.723  6.82 -0.246 -0.356  0.103 -0.491 -0.0820  6.82</span>
+<span class="co">#&gt; # ... with 129 more rows, and 7 more variables: depot &lt;dbl&gt;, center &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;, tad &lt;dbl&gt;, dosenum &lt;dbl&gt;</span></code></pre></div>
 </div>
 </div>
 <div class="section level1">
 <h1 id="default-plots">Default plots<a class="anchor" aria-label="anchor" href="#default-plots"></a>
 </h1>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
-<span class="co">#&gt; Error in plot(fit): object 'fit' not found</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"><img src="reference/figures/README-unnamed-chunk-2-2.png" width="100%"></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous y-axis</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-2-3.png" width="100%"><img src="reference/figures/README-unnamed-chunk-2-4.png" width="100%"></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-2-5.png" width="100%"><img src="reference/figures/README-unnamed-chunk-2-6.png" width="100%"></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-2-7.png" width="100%"><img src="reference/figures/README-unnamed-chunk-2-8.png" width="100%"></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-2-9.png" width="100%"><img src="reference/figures/README-unnamed-chunk-2-10.png" width="100%"></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-2-11.png" width="100%"><img src="reference/figures/README-unnamed-chunk-2-12.png" width="100%"></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-2-13.png" width="100%"><img src="reference/figures/README-unnamed-chunk-2-14.png" width="100%"></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-2-15.png" width="100%"><img src="reference/figures/README-unnamed-chunk-2-16.png" width="100%"></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-2-17.png" width="100%"><img src="reference/figures/README-unnamed-chunk-2-18.png" width="100%"></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-2-19.png" width="100%"><img src="reference/figures/README-unnamed-chunk-2-20.png" width="100%"></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-2-21.png" width="100%"><img src="reference/figures/README-unnamed-chunk-2-22.png" width="100%"></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-2-23.png" width="100%"><img src="reference/figures/README-unnamed-chunk-2-24.png" width="100%"></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-2-25.png" width="100%"><img src="reference/figures/README-unnamed-chunk-2-26.png" width="100%"></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-2-27.png" width="100%"><img src="reference/figures/README-unnamed-chunk-2-28.png" width="100%"></p>
 </div>
 
   </main><aside class="col-md-3"><div class="links">
