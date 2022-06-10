@@ -34,14 +34,8 @@ A. Upton of the University of California, San Francisco:
 
 ```{r}
 ## Load libraries
-library(ggplot2)
 library(nlmixr2)
 str(theo_sd)
-
-ggplot(theo_sd, aes(TIME, DV)) + geom_line(aes(group=ID), col="red") +
-  scale_x_continuous("Time (h)") + scale_y_continuous("Concentration") +
-  labs(title="Theophylline single-dose", subtitle="Concentration vs. time by individual")
-
 ```
 
 We can try fitting a simple one-compartment PK model to this small
@@ -127,25 +121,6 @@ This example delivers a complete model fit as the `fit`
 object, including parameter history, a set of fixed effect estimates,
 and random effects for all included subjects.
 
-Now back to the `saem` fit; Let's look at the fit using nlmixr's
-built-in diagnostics...
-
-```{r}
-plot(fit)
-```
-
-```{r}
-print(fit)
-```
-
-```{r}
-fit$eta
-```
-
-Default trace plots can be generated using:
-```{r}
-traceplot(fit)
-```
 
 # The UI
 
