@@ -54,10 +54,9 @@ jobs:
           # To get links for homepage
           remotes::install_cran("devtools")
           remotes::install_deps(dependencies = TRUE)
-          remotes::install_cran("nlmixr2")
           remotes::install_cran("xpose")
-          remotes::install_github("nlmixr2/xpose.nlmixr")
-          remotes::install_github("ggPMXdevelopment/ggPMX")
+          remotes::install_cran("xpose.nlmixr2")
+          remotes::install_cran("ggPMX")
           remotes::install_github("jeroen/curl")
           remotes::install_cran("broom.mixed")
           remotes::install_cran("dotwhisker")

@@ -22,11 +22,30 @@ The goal of nlmixr2 is to support easy and robust nonlinear mixed effects models
 
 ## Installation
 
-The easiest way to install nlmixr2 is to use:
+The easiest way to install nlmixr2 is use `R` 4.2 or later and the use:
 
 ``` r
 install.packages("nlmixr2")
 ```
+
+If you have at least `R` 4.0, you can install a version of `symengine`
+that works for `nlmixr`.
+
+For `R` 4.1 you can use:
+
+``` r
+install.packages("symengine", repos="https://cran.microsoft.com/snapshot/2022-04-27/")
+install.packages("nlmixr2")
+```
+
+For `R` 4.0 you can use:
+
+``` r
+install.packages("symengine", repos="https://cran.microsoft.com/snapshot/2022-01-01/")
+install.packages("nlmixr2")
+```
+
+
 
 You can install the development version of nlmixr2 and its nlmixr2-family dependencies like so:
 

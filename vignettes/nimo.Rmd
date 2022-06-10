@@ -36,7 +36,7 @@ nimotuzumab is illustrated (Rodríguez-Vera et al. 2015).
 
 library(nlmixr2)
 library(xpose)
-library(xpose.nlmixr)
+library(xpose.nlmixr2)
 library(ggplot2)
 
 nimo <- function() {
