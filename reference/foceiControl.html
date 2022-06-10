@@ -216,33 +216,53 @@
  (sensitivity changes only applicable for liblsoda)</p></li>
 <li><p>The tolerance of the boundary check is <code>5 * 10 ^ (-sigdig + 1)</code></p></li>
 </ul></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments passed to <code><a href="https://rdrr.io/pkg/nlmixr2est/man/foceiControl.html" class="external-link">nlmixr2est::foceiControl()</a></code>.</p></dd>
+
+
 <dt>epsilon</dt>
 <dd><p>Precision of estimate for n1qn1 optimization.</p></dd>
+
+
 <dt>maxInnerIterations</dt>
 <dd><p>Number of iterations for n1qn1
 optimization.</p></dd>
+
+
 <dt>maxOuterIterations</dt>
 <dd><p>Maximum number of L-BFGS-B optimization
 for outer problem.</p></dd>
+
+
 <dt>n1qn1nsim</dt>
 <dd><p>Number of function evaluations for n1qn1
 optimization.</p></dd>
+
+
 <dt>print</dt>
 <dd><p>Integer representing when the outer step is
 printed. When this is 0 or do not print the iterations.  1 is
 print every function evaluation (default), 5 is print every 5
 evaluations.</p></dd>
+
+
 <dt>printNcol</dt>
 <dd><p>Number of columns to printout before wrapping
 parameter estimates/gradient</p></dd>
+
+
 <dt>scaleTo</dt>
 <dd><p>Scale the initial parameter estimate to this value.
 By default this is 1.  When zero or below, no scaling is performed.</p></dd>
+
+
 <dt>scaleObjective</dt>
 <dd><p>Scale the initial objective function to this
 value.  By default this is 0 (meaning do not scale)</p></dd>
+
+
 <dt>normType</dt>
 <dd><p>This is the type of parameter
     normalization/scaling used to get the scaled initial values
@@ -288,6 +308,8 @@ value.  By default this is 0 (meaning do not scale)</p></dd>
 <p>C_1 = 0</p>
 <p>C_2 = 1</p></li>
 </ul></dd>
+
+
 <dt>scaleType</dt>
 <dd><p>The scaling scheme for nlmixr2.  The supported types are:</p>
 <ul><li><p><code>nlmixr2</code>  In this approach the scaling is performed by the following equation:</p>
@@ -310,10 +332,16 @@ linearly, that is:</p>
 <p>Otherwise the parameter is scaled multiplicatively.</p>
 <p>v_scaled = v_current/v_init*scaleTo</p></li>
 </ul></dd>
+
+
 <dt>scaleCmax</dt>
 <dd><p>Maximum value of the scaleC to prevent overflow.</p></dd>
+
+
 <dt>scaleCmin</dt>
 <dd><p>Minimum value of the scaleC to prevent underflow.</p></dd>
+
+
 <dt>scaleC</dt>
 <dd><p>The scaling constant used with
     <code>scaleType=nlmixr2</code>.  When not specified, it is based on
@@ -337,14 +365,20 @@ linearly, that is:</p>
 <p>While these are chosen in a logical manner, they may not always
    apply.  You can specify each parameters scaling factor by this
    parameter if you wish.</p></dd>
+
+
 <dt>scaleC0</dt>
 <dd><p>Number to adjust the scaling factor by if the initial
 gradient is zero.</p></dd>
+
+
 <dt>derivEps</dt>
 <dd><p>Forward difference tolerances, which is a
     vector of relative difference and absolute difference.  The
     central/forward difference step size h is calculated as:</p>
 <p><code>h = abs(x)*derivEps[1] + derivEps[2]</code></p></dd>
+
+
 <dt>derivMethod</dt>
 <dd><p>indicates the method for calculating
 derivatives of the outer problem.  Currently supports
@@ -353,13 +387,19 @@ starts with forward differences.  This will switch to central
 differences when abs(delta(OFV)) &lt;= derivSwitchTol and switch
 back to forward differences when abs(delta(OFV)) &gt;
 derivSwitchTol.</p></dd>
+
+
 <dt>derivSwitchTol</dt>
 <dd><p>The tolerance to switch forward to central
 differences.</p></dd>
+
+
 <dt>covDerivMethod</dt>
 <dd><p>indicates the method for calculating the
 derivatives while calculating the covariance components
 (Hessian and S).</p></dd>
+
+
 <dt>covMethod</dt>
 <dd><p>Method for calculating covariance.  In this
     discussion, R is the Hessian matrix of the objective
@@ -374,22 +414,34 @@ derivatives while calculating the covariance components
  covariance as <code>4 %*% solve(S)</code></p></li>
 <li><p>"" Does not calculate the covariance step.</p></li>
 </ul></dd>
+
+
 <dt>hessEps</dt>
 <dd><p>is a double value representing the epsilon for the Hessian calculation.</p></dd>
+
+
 <dt>eventFD</dt>
 <dd><p>Finite difference step for forward or central
 difference estimation of event-based gradients</p></dd>
+
+
 <dt>eventType</dt>
 <dd><p>Event gradient type for dosing events; Can be
 "gill", "central" or "forward"</p></dd>
+
+
 <dt>centralDerivEps</dt>
 <dd><p>Central difference tolerances.  This is a
     numeric vector of relative difference and absolute difference.
     The central/forward difference step size h is calculated as:</p>
 <p><code>h = abs(x)*derivEps[1] + derivEps[2]</code></p></dd>
+
+
 <dt>lbfgsLmm</dt>
 <dd><p>An integer giving the number of BFGS updates
 retained in the "L-BFGS-B" method, It defaults to 7.</p></dd>
+
+
 <dt>lbfgsPgtol</dt>
 <dd><p>is a double precision variable.</p>
 <p>On entry pgtol &gt;= 0 is specified by the user.  The iteration
@@ -398,6 +450,8 @@ retained in the "L-BFGS-B" method, It defaults to 7.</p></dd>
 <p>where pg_i is the ith component of the projected gradient.</p>
 <p>On exit pgtol is unchanged.  This defaults to zero, when the
     check is suppressed.</p></dd>
+
+
 <dt>lbfgsFactr</dt>
 <dd><p>Controls the convergence of the "L-BFGS-B"
 method.  Convergence occurs when the reduction in the
@@ -406,12 +460,18 @@ tolerance. Default is 1e10, which gives a tolerance of about
 <code>2e-6</code>, approximately 4 sigdigs.  You can check your
 exact tolerance by multiplying this value by
 <code>.Machine$double.eps</code></p></dd>
+
+
 <dt>eigen</dt>
 <dd><p>A boolean indicating if eigenvectors are calculated
 to include a condition number calculation.</p></dd>
+
+
 <dt>addPosthoc</dt>
 <dd><p>Boolean indicating if posthoc parameters are
 added to the table output.</p></dd>
+
+
 <dt>diagXform</dt>
 <dd><p>This is the transformation used on the diagonal
     of the <code>chol(solve(omega))</code>. This matrix and values are the
@@ -420,36 +480,58 @@ added to the table output.</p></dd>
 <li><p><code>log</code> Estimates the log of the diagonal elements of <code>chol(solve(omega))</code></p></li>
 <li><p><code>identity</code> Estimates the diagonal elements without any transformations</p></li>
 </ul></dd>
+
+
 <dt>sumProd</dt>
 <dd><p>Is a boolean indicating if the model should change
 multiplication to high precision multiplication and sums to
 high precision sums using the PreciseSums package.  By default
 this is <code>FALSE</code>.</p></dd>
+
+
 <dt>optExpression</dt>
 <dd><p>Optimize the rxode2 expression to speed up
 calculation. By default this is turned on.</p></dd>
+
+
 <dt>ci</dt>
 <dd><p>Confidence level for some tables.  By default this is
 0.95 or 95% confidence.</p></dd>
+
+
 <dt>useColor</dt>
 <dd><p>Boolean indicating if focei can use ASCII color codes</p></dd>
+
+
 <dt>boundTol</dt>
 <dd><p>Tolerance for boundary issues.</p></dd>
+
+
 <dt>calcTables</dt>
 <dd><p>This boolean is to determine if the foceiFit
 will calculate tables. By default this is <code>TRUE</code></p></dd>
+
+
 <dt>noAbort</dt>
 <dd><p>Boolean to indicate if you should abort the FOCEi
 evaluation if it runs into troubles.  (default TRUE)</p></dd>
+
+
 <dt>interaction</dt>
 <dd><p>Boolean indicate FOCEi should be used (TRUE)
 instead of FOCE (FALSE)</p></dd>
+
+
 <dt>cholSEtol</dt>
 <dd><p>tolerance for Generalized Cholesky
 Decomposition.  Defaults to suggested (.Machine$double.eps)^(1/3)</p></dd>
+
+
 <dt>cholAccept</dt>
 <dd><p>Tolerance to accept a Generalized Cholesky
 Decomposition for a R or S matrix.</p></dd>
+
+
 <dt>resetEtaP</dt>
 <dd><p>represents the p-value for reseting the
 individual ETA to 0 during optimization (instead of the saved
@@ -457,6 +539,8 @@ value).  The two test statistics used in the z-test are either
 chol(omega^-1) %*% eta or eta/sd(allEtas).  A p-value of 0
 indicates the ETAs never reset.  A p-value of 1 indicates the
 ETAs always reset.</p></dd>
+
+
 <dt>resetThetaP</dt>
 <dd><p>represents the p-value for reseting the
 population mu-referenced THETA parameters based on ETA drift
@@ -467,39 +551,59 @@ theta reset is checked at the beginning and when nearing a
 local minima.  The percent change in objective function where
 a theta reset check is initiated is controlled in
 <code>resetThetaCheckPer</code>.</p></dd>
+
+
 <dt>resetThetaFinalP</dt>
 <dd><p>represents the p-value for reseting the
 population mu-referenced THETA parameters based on ETA drift
 during optimization, and resetting the optimization one final time.</p></dd>
+
+
 <dt>diagOmegaBoundUpper</dt>
 <dd><p>This represents the upper bound of the
 diagonal omega matrix.  The upper bound is given by
 diag(omega)*diagOmegaBoundUpper.  If
 <code>diagOmegaBoundUpper</code> is 1, there is no upper bound on
 Omega.</p></dd>
+
+
 <dt>diagOmegaBoundLower</dt>
 <dd><p>This represents the lower bound of the
 diagonal omega matrix.  The lower bound is given by
 diag(omega)/diagOmegaBoundUpper.  If
 <code>diagOmegaBoundLower</code> is 1, there is no lower bound on
 Omega.</p></dd>
+
+
 <dt>cholSEOpt</dt>
 <dd><p>Boolean indicating if the generalized Cholesky
 should be used while optimizing.</p></dd>
+
+
 <dt>cholSECov</dt>
 <dd><p>Boolean indicating if the generalized Cholesky
 should be used while calculating the Covariance Matrix.</p></dd>
+
+
 <dt>fo</dt>
 <dd><p>is a boolean indicating if this is a FO approximation routine.</p></dd>
+
+
 <dt>covTryHarder</dt>
 <dd><p>If the R matrix is non-positive definite and
 cannot be corrected to be non-positive definite try estimating
 the Hessian on the unscaled parameter space.</p></dd>
+
+
 <dt>outerOpt</dt>
 <dd><p>optimization method for the outer problem</p></dd>
+
+
 <dt>innerOpt</dt>
 <dd><p>optimization method for the inner problem (not
 implemented yet.)</p></dd>
+
+
 <dt>rhobeg</dt>
 <dd><p>Beginning change in parameters for bobyqa algorithm
 (trust region).  By default this is 0.2 or 20<!-- % of the initial -->
@@ -511,79 +615,123 @@ greatest expected change to a variable.  Note also that
 smallest difference abs(upper-lower) should be greater than or
 equal to rhobeg*2. If this is not the case then rhobeg will be
 adjusted. (bobyqa)</p></dd>
+
+
 <dt>rhoend</dt>
 <dd><p>The smallest value of the trust region radius that
 is allowed. If not defined, then 10^(-sigdig-1) will be used. (bobyqa)</p></dd>
+
+
 <dt>npt</dt>
 <dd><p>The number of points used to approximate the objective
 function via a quadratic approximation for bobyqa. The value
 of npt must be in the interval [n+2,(n+1)(n+2)/2] where n is
 the number of parameters in par. Choices that exceed 2*n+1 are
 not recommended. If not defined, it will be set to 2*n + 1. (bobyqa)</p></dd>
+
+
 <dt>rel.tol</dt>
 <dd><p>Relative tolerance before nlminb stops (nlmimb).</p></dd>
+
+
 <dt>x.tol</dt>
 <dd><p>X tolerance for nlmixr2 optimizer</p></dd>
+
+
 <dt>eval.max</dt>
 <dd><p>Number of maximum evaluations of the objective function (nlmimb)</p></dd>
+
+
 <dt>iter.max</dt>
 <dd><p>Maximum number of iterations allowed (nlmimb)</p></dd>
+
+
 <dt>abstol</dt>
 <dd><p>Absolute tolerance for nlmixr2 optimizer (BFGS)</p></dd>
+
+
 <dt>reltol</dt>
 <dd><p>tolerance for nlmixr2 (BFGS)</p></dd>
+
+
 <dt>resetHessianAndEta</dt>
 <dd><p>is a boolean representing if the
 individual Hessian is reset when ETAs are reset using the
 option <code>resetEtaP</code>.</p></dd>
+
+
 <dt>stateTrim</dt>
 <dd><p>Trim state amounts/concentrations to this value.</p></dd>
+
+
 <dt>gillK</dt>
 <dd><p>The total number of possible steps to determine the
 optimal forward/central difference step size per parameter (by
 the Gill 1983 method).  If 0, no optimal step size is
 determined.  Otherwise this is the optimal step size
 determined.</p></dd>
+
+
 <dt>gillStep</dt>
 <dd><p>When looking for the optimal forward difference
 step size, this is This is the step size to increase the
 initial estimate by.  So each iteration the new step size =
 (prior step size)*gillStep</p></dd>
+
+
 <dt>gillFtol</dt>
 <dd><p>The gillFtol is the gradient error tolerance that
 is acceptable before issuing a warning/error about the gradient estimates.</p></dd>
+
+
 <dt>gillRtol</dt>
 <dd><p>The relative tolerance used for Gill 1983
 determination of optimal step size.</p></dd>
+
+
 <dt>gillKcov</dt>
 <dd><p>The total number of possible steps to determine
 the optimal forward/central difference step size per parameter
 (by the Gill 1983 method) during the covariance step.  If 0,
 no optimal step size is determined.  Otherwise this is the
 optimal step size determined.</p></dd>
+
+
 <dt>gillStepCov</dt>
 <dd><p>When looking for the optimal forward difference
 step size, this is This is the step size to increase the
 initial estimate by.  So each iteration during the covariance
 step is equal to the new step size = (prior step size)*gillStepCov</p></dd>
+
+
 <dt>gillFtolCov</dt>
 <dd><p>The gillFtol is the gradient error tolerance
 that is acceptable before issuing a warning/error about the
 gradient estimates during the covariance step.</p></dd>
+
+
 <dt>rmatNorm</dt>
 <dd><p>A parameter to normalize gradient step size by the
 parameter value during the calculation of the R matrix</p></dd>
+
+
 <dt>smatNorm</dt>
 <dd><p>A parameter to normalize gradient step size by the
 parameter value during the calculation of the S matrix</p></dd>
+
+
 <dt>covGillF</dt>
 <dd><p>Use the Gill calculated optimal Forward difference
 step size for the instead of the central difference step size
 during the central difference gradient calculation.</p></dd>
+
+
 <dt>optGillF</dt>
 <dd><p>Use the Gill calculated optimal Forward difference
 step size for the instead of the central difference step size
 during the central differences for optimization.</p></dd>
+
+
 <dt>covSmall</dt>
 <dd><p>The covSmall is the small number to compare
 covariance numbers before rejecting an estimate of the
@@ -591,6 +739,8 @@ covariance as the final estimate (when comparing sandwich vs
 R/S matrix estimates of the covariance).  This number controls
 how small the variance is before the covariance matrix is
 rejected.</p></dd>
+
+
 <dt>adjLik</dt>
 <dd><p>In nlmixr2, the objective function matches NONMEM's
 objective function, which removes a 2*pi constant from the
@@ -600,24 +750,36 @@ number more closely matches the likelihood approximations of
 nlme, and SAS approximations.  Regardless of if this is turned
 on or off the objective function matches NONMEM's objective
 function.</p></dd>
+
+
 <dt>gradTrim</dt>
 <dd><p>The parameter to adjust the gradient to if the
 |gradient| is very large.</p></dd>
+
+
 <dt>maxOdeRecalc</dt>
 <dd><p>Maximum number of times to reduce the ODE
 tolerances and try to resolve the system if there was a bad
 ODE solve.</p></dd>
+
+
 <dt>odeRecalcFactor</dt>
 <dd><p>The ODE recalculation factor when ODE
 solving goes bad, this is the factor the rtol/atol is reduced</p></dd>
+
+
 <dt>gradCalcCentralSmall</dt>
 <dd><p>A small number that represents the value
 where |grad| &lt; gradCalcCentralSmall where forward differences
 switch to central differences.</p></dd>
+
+
 <dt>gradCalcCentralLarge</dt>
 <dd><p>A large number that represents the value
 where |grad| &gt; gradCalcCentralLarge where forward differences
 switch to central differences.</p></dd>
+
+
 <dt>etaNudge</dt>
 <dd><p>By default initial ETA estimates start at zero;
 Sometimes this doesn't optimize appropriately.  If this value is
@@ -629,34 +791,52 @@ first of the Gauss Quadrature numbers times by the 0.95% normal
 region. If this is not successful try the second eta nudge
 number (below).  If +-etaNudge2 is not successful, then assign
 to zero and do not optimize any longer</p></dd>
+
+
 <dt>etaNudge2</dt>
 <dd><p>This is the second eta nudge.  By default it is
 qnorm(1-0.05/2)*sqrt(3/5), which is the n=3 quadrature point
 (excluding zero) times by the 0.95% normal region</p></dd>
+
+
 <dt>nRetries</dt>
 <dd><p>If FOCEi doesn't fit with the current parameter
 estimates, randomly sample new parameter estimates and restart
 the problem.  This is similar to 'PsN' resampling.</p></dd>
+
+
 <dt>seed</dt>
 <dd><p>an object specifying if and how the random number
 generator should be initialized</p></dd>
+
+
 <dt>resetThetaCheckPer</dt>
 <dd><p>represents objective function
 % percentage below which resetThetaP is checked.</p></dd>
+
+
 <dt>etaMat</dt>
 <dd><p>Eta matrix for initial estimates or final estimates
 of the ETAs.</p></dd>
+
+
 <dt>repeatGillMax</dt>
 <dd><p>If the tolerances were reduced when
 calculating the initial Gill differences, the Gill difference
 is repeated up to a maximum number of times defined by this
 parameter.</p></dd>
+
+
 <dt>stickyRecalcN</dt>
 <dd><p>The number of bad ODE solves before reducing
 the atol/rtol for the rest of the problem.</p></dd>
+
+
 <dt>gradProgressOfvTime</dt>
 <dd><p>This is the time for a single objective
 function evaluation (in seconds) to start progress bars on gradient evaluations</p></dd>
+
+
 <dt>addProp</dt>
 <dd><p>specifies the type of additive plus proportional
   errors, the one where standard deviations add (combined1) or the
@@ -671,25 +851,38 @@ function evaluation (in seconds) to start progress bars on gradient evaluations<
 <p>- a  is the additive standard deviation</p>
 <p>- b is the proportional/power standard deviation</p>
 <p>- c is the power exponent (in the proportional case c=1)</p></dd>
+
+
 <dt>badSolveObjfAdj</dt>
 <dd><p>The objective function adjustment when the
 ODE system cannot be solved.  It is based on each individual bad
 solve.</p></dd>
+
+
 <dt>compress</dt>
 <dd><p>Should the object have compressed items</p></dd>
+
+
 <dt>rxControl</dt>
 <dd><p>`rxode2` ODE solving options during fitting, created with `rxControl()`</p></dd>
+
+
 <dt>sigdigTable</dt>
 <dd><p>Significant digits in the final output table.
 If not specified, then it matches the significant digits in the
 `sigdig` optimization algorithm.  If `sigdig` is NULL, use 3.</p></dd>
+
+
 <dt>fallbackFD</dt>
 <dd><p>Fallback to the finite differences if the
 sensitivity equations do not solve.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>The control object that changes the options for the FOCEi
+    
+
+<p>The control object that changes the options for the FOCEi
   family of estimation methods</p>
     </div>
     <div class="section level2">
@@ -725,7 +918,7 @@ be reflective of the scaled problem's condition-number.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
 </div>
 
     </footer></div>

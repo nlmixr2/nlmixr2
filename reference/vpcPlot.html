@@ -140,68 +140,125 @@
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>fit</dt>
 <dd><p>nlmixr2 fit object</p></dd>
+
+
 <dt>data</dt>
 <dd><p>this is the data to use to augment the VPC fit.  By
 default is the fitted data, (can be retrieved by
 <code><a href="https://rdrr.io/pkg/nlme/man/getData.html" class="external-link">getData</a></code>), but it can be changed by specifying
 this argument.</p></dd>
+
+
 <dt>n</dt>
 <dd><p>Number of VPC simulations.  By default 100</p></dd>
+
+
 <dt>bins</dt>
 <dd><p>either "density", "time", or "data", "none", or one of the approaches available in classInterval() such as "jenks" (default) or "pretty", or a numeric vector specifying the bin separators.</p></dd>
+
+
 <dt>n_bins</dt>
 <dd><p>when using the "auto" binning method, what number of bins to aim for</p></dd>
+
+
 <dt>bin_mid</dt>
 <dd><p>either "mean" for the mean of all timepoints (default) or "middle" to use the average of the bin boundaries.</p></dd>
+
+
 <dt>show</dt>
 <dd><p>what to show in VPC (obs_dv, obs_ci, pi, pi_as_area, pi_ci, obs_median, sim_median, sim_median_ci)</p></dd>
+
+
 <dt>stratify</dt>
 <dd><p>character vector of stratification variables. Only 1 or 2 stratification variables can be supplied.</p></dd>
+
+
 <dt>pred_corr</dt>
 <dd><p>perform prediction-correction?</p></dd>
+
+
 <dt>pred_corr_lower_bnd</dt>
 <dd><p>lower bound for the prediction-correction</p></dd>
+
+
 <dt>pi</dt>
 <dd><p>simulated prediction interval to plot. Default is c(0.05, 0.95),</p></dd>
+
+
 <dt>ci</dt>
 <dd><p>confidence interval to plot. Default is (0.05, 0.95)</p></dd>
+
+
 <dt>uloq</dt>
 <dd><p>Number or NULL indicating upper limit of quantification. Default is NULL.</p></dd>
+
+
 <dt>lloq</dt>
 <dd><p>Number or NULL indicating lower limit of quantification. Default is NULL.</p></dd>
+
+
 <dt>log_y</dt>
 <dd><p>Boolean indicting whether y-axis should be shown as logarithmic. Default is FALSE.</p></dd>
+
+
 <dt>log_y_min</dt>
 <dd><p>minimal value when using log_y argument. Default is 1e-3.</p></dd>
+
+
 <dt>xlab</dt>
 <dd><p>label for x axis</p></dd>
+
+
 <dt>ylab</dt>
 <dd><p>label for y axis</p></dd>
+
+
 <dt>title</dt>
 <dd><p>title</p></dd>
+
+
 <dt>smooth</dt>
 <dd><p>"smooth" the VPC (connect bin midpoints) or show bins as rectangular boxes. Default is TRUE.</p></dd>
+
+
 <dt>vpc_theme</dt>
 <dd><p>theme to be used in VPC. Expects list of class vpc_theme created with function vpc_theme()</p></dd>
+
+
 <dt>facet</dt>
 <dd><p>either "wrap", "columns", or "rows"</p></dd>
+
+
 <dt>scales</dt>
 <dd><p>either "fixed" (default), "free_y", "free_x" or "free"</p></dd>
+
+
 <dt>labeller</dt>
 <dd><p>ggplot2 labeller function to be passed to underlying ggplot object</p></dd>
+
+
 <dt>vpcdb</dt>
 <dd><p>Boolean whether to return the underlying vpcdb rather than the plot</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>show debugging information (TRUE or FALSE)</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments passed to <code><a href="https://rdrr.io/pkg/nlmixr2plot/man/vpcPlot.html" class="external-link">nlmixr2plot::vpcPlot()</a></code>.</p></dd>
+
+
 <dt>seed</dt>
 <dd><p>an object specifying if and how the random number
 generator should be initialized</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>Simulated dataset (invisibly)</p>
+    
+
+<p>Simulated dataset (invisibly)</p>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -263,7 +320,7 @@ generator should be initialized</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
 </div>
 
     </footer></div>

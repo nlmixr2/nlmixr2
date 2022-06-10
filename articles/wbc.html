@@ -123,7 +123,7 @@
 
 
 <script src="wbc_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
-  <main id="main"><div class="page-header">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Friberg myelosuppression model</h1>
                         <h4 data-toc-skip class="author">Yuan Xiong</h4>
             
@@ -257,105 +257,9 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span>
 
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">xpose.nlmixr</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">xpose.nlmixr2</span><span class="op">)</span>
 
-<span class="va">xpdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/xpose.nlmixr/man/xpose_data_nlmixr2.html" class="external-link">xpose_data_nlmixr</a></span><span class="op">(</span><span class="va">fit.S</span><span class="op">)</span>
-<span class="co">#&gt;        ID           TIME             RATE        AMT          DV        </span>
-<span class="co">#&gt;  33     : 18   Min.   :   0.0   Min.   :0   Min.   :0   Min.   : 0.700  </span>
-<span class="co">#&gt;  12     :  6   1st Qu.:   0.0   1st Qu.:0   1st Qu.:0   1st Qu.: 3.675  </span>
-<span class="co">#&gt;  44     :  5   Median : 276.0   Median :0   Median :0   Median : 5.800  </span>
-<span class="co">#&gt;  1      :  4   Mean   : 451.7   Mean   :0   Mean   :0   Mean   : 6.428  </span>
-<span class="co">#&gt;  4      :  4   3rd Qu.: 480.0   3rd Qu.:0   3rd Qu.:0   3rd Qu.: 8.375  </span>
-<span class="co">#&gt;  5      :  4   Max.   :4580.0   Max.   :0   Max.   :0   Max.   :20.400  </span>
-<span class="co">#&gt;  (Other):135                                                            </span>
-<span class="co">#&gt;       CMT         V2I              V1I             CLI           PARFLAG </span>
-<span class="co">#&gt;  Min.   :3   Min.   : 663.0   Min.   :179.0   Min.   :151.0   Min.   :0  </span>
-<span class="co">#&gt;  1st Qu.:3   1st Qu.: 917.2   1st Qu.:358.0   1st Qu.:262.5   1st Qu.:0  </span>
-<span class="co">#&gt;  Median :3   Median :1010.0   Median :410.0   Median :323.0   Median :0  </span>
-<span class="co">#&gt;  Mean   :3   Mean   : 999.8   Mean   :421.5   Mean   :328.9   Mean   :0  </span>
-<span class="co">#&gt;  3rd Qu.:3   3rd Qu.:1060.0   3rd Qu.:485.0   3rd Qu.:377.2   3rd Qu.:0  </span>
-<span class="co">#&gt;  Max.   :3   Max.   :1390.0   Max.   :679.0   Max.   :619.0   Max.   :0  </span>
-<span class="co">#&gt;                                                                          </span>
-<span class="co">#&gt;       EVID       EPRED             ERES              NPDE           </span>
-<span class="co">#&gt;  Min.   :0   Min.   : 2.113   Min.   :-7.7217   Min.   :-2.7130519  </span>
-<span class="co">#&gt;  1st Qu.:0   1st Qu.: 4.457   1st Qu.:-2.2585   1st Qu.:-0.6536562  </span>
-<span class="co">#&gt;  Median :0   Median : 7.730   Median :-0.7159   Median :-0.0334291  </span>
-<span class="co">#&gt;  Mean   :0   Mean   : 6.696   Mean   :-0.2672   Mean   : 0.0000195  </span>
-<span class="co">#&gt;  3rd Qu.:0   3rd Qu.: 8.423   3rd Qu.: 1.5209   3rd Qu.: 0.7279133  </span>
-<span class="co">#&gt;  Max.   :0   Max.   :11.073   Max.   :14.6532   Max.   : 2.7130519  </span>
-<span class="co">#&gt;                                                                     </span>
-<span class="co">#&gt;       NPD                  PRED             RES               WRES        </span>
-<span class="co">#&gt;  Min.   :-2.7130519   Min.   : 1.506   Min.   :-8.1628   Min.   :-1.6762  </span>
-<span class="co">#&gt;  1st Qu.:-0.6536562   1st Qu.: 3.861   1st Qu.:-1.9112   1st Qu.:-0.7231  </span>
-<span class="co">#&gt;  Median :-0.0334291   Median : 7.522   Median :-0.2987   Median :-0.1000  </span>
-<span class="co">#&gt;  Mean   : 0.0000195   Mean   : 6.320   Mean   : 0.1084   Mean   : 0.0835  </span>
-<span class="co">#&gt;  3rd Qu.: 0.7279133   3rd Qu.: 7.699   3rd Qu.: 1.9165   3rd Qu.: 0.7245  </span>
-<span class="co">#&gt;  Max.   : 2.7130519   Max.   :11.570   Max.   :15.5450   Max.   : 5.9017  </span>
-<span class="co">#&gt;                                                                           </span>
-<span class="co">#&gt;      IPRED              IRES               IWRES                CPRED       </span>
-<span class="co">#&gt;  Min.   : 0.6196   Min.   :-6.536908   Min.   :-2.3109441   Min.   :-4.196  </span>
-<span class="co">#&gt;  1st Qu.: 3.9270   1st Qu.:-0.536075   1st Qu.:-0.5471058   1st Qu.: 3.634  </span>
-<span class="co">#&gt;  Median : 6.1222   Median : 0.000618   Median : 0.0006606   Median : 6.111  </span>
-<span class="co">#&gt;  Mean   : 6.3883   Mean   : 0.040116   Mean   :-0.0869993   Mean   : 5.859  </span>
-<span class="co">#&gt;  3rd Qu.: 8.6636   3rd Qu.: 0.576408   3rd Qu.: 0.3617582   3rd Qu.: 7.677  </span>
-<span class="co">#&gt;  Max.   :15.8990   Max.   : 5.427836   Max.   : 2.0875911   Max.   :14.989  </span>
-<span class="co">#&gt;                                                                             </span>
-<span class="co">#&gt;       CRES             CWRES            ETA.CIRC0           ETA.MTT          </span>
-<span class="co">#&gt;  Min.   :-5.5566   Min.   :-2.70241   Min.   :-0.82137   Min.   :-0.3565698  </span>
-<span class="co">#&gt;  1st Qu.:-1.5183   1st Qu.:-0.86270   1st Qu.:-0.22980   1st Qu.:-0.0857153  </span>
-<span class="co">#&gt;  Median :-0.1647   Median :-0.06106   Median :-0.00503   Median : 0.0506072  </span>
-<span class="co">#&gt;  Mean   : 0.5697   Mean   :-0.14162   Mean   :-0.06248   Mean   : 0.0009022  </span>
-<span class="co">#&gt;  3rd Qu.: 2.0185   3rd Qu.: 0.65107   3rd Qu.: 0.22797   3rd Qu.: 0.1034825  </span>
-<span class="co">#&gt;  Max.   :18.6962   Max.   : 2.47053   Max.   : 0.51756   Max.   : 0.3746142  </span>
-<span class="co">#&gt;                                                                              </span>
-<span class="co">#&gt;    ETA.SLOPU           A_CENTR              A_PERIPH             A_PROL       </span>
-<span class="co">#&gt;  Min.   :-0.51756   Min.   :-2.000e-08   Min.   :0.0000000   Min.   : 0.7901  </span>
-<span class="co">#&gt;  1st Qu.:-0.22665   1st Qu.: 0.000e+00   1st Qu.:0.0000000   1st Qu.: 4.6138  </span>
-<span class="co">#&gt;  Median :-0.11168   Median : 0.000e+00   Median :0.0000000   Median : 7.2413  </span>
-<span class="co">#&gt;  Mean   :-0.04416   Mean   : 2.817e-04   Mean   :0.0008848   Mean   : 7.2321  </span>
-<span class="co">#&gt;  3rd Qu.: 0.09229   3rd Qu.: 0.000e+00   3rd Qu.:0.0000000   3rd Qu.: 9.6738  </span>
-<span class="co">#&gt;  Max.   : 0.79047   Max.   : 4.933e-02   Max.   :0.1543434   Max.   :19.1385  </span>
-<span class="co">#&gt;                                                                               </span>
-<span class="co">#&gt;      A_TR1            A_TR2             A_TR3             A_CIRC       </span>
-<span class="co">#&gt;  Min.   : 0.700   Min.   : 0.6446   Min.   : 0.7466   Min.   : 0.6196  </span>
-<span class="co">#&gt;  1st Qu.: 4.358   1st Qu.: 4.0886   1st Qu.: 3.8571   1st Qu.: 3.9270  </span>
-<span class="co">#&gt;  Median : 6.975   Median : 6.5607   Median : 6.2229   Median : 6.1222  </span>
-<span class="co">#&gt;  Mean   : 6.964   Mean   : 6.7218   Mean   : 6.5254   Mean   : 6.3883  </span>
-<span class="co">#&gt;  3rd Qu.: 9.381   3rd Qu.: 9.1819   3rd Qu.: 8.9956   3rd Qu.: 8.6636  </span>
-<span class="co">#&gt;  Max.   :18.062   Max.   :16.3480   Max.   :15.9568   Max.   :15.8990  </span>
-<span class="co">#&gt;                                                                        </span>
-<span class="co">#&gt;      CIRC0             MTT            SLOPU           GAMMA       </span>
-<span class="co">#&gt;  Min.   : 3.386   Min.   : 81.4   Min.   :18.21   Min.   :0.2094  </span>
-<span class="co">#&gt;  1st Qu.: 6.119   1st Qu.:106.7   1st Qu.:24.35   1st Qu.:0.2094  </span>
-<span class="co">#&gt;  Median : 7.660   Median :122.3   Median :27.32   Median :0.2094  </span>
-<span class="co">#&gt;  Mean   : 7.671   Mean   :118.0   Mean   :30.66   Mean   :0.2094  </span>
-<span class="co">#&gt;  3rd Qu.: 9.670   3rd Qu.:128.9   3rd Qu.:33.51   3rd Qu.:0.2094  </span>
-<span class="co">#&gt;  Max.   :12.918   Max.   :169.1   Max.   :67.34   Max.   :0.2094  </span>
-<span class="co">#&gt;                                                                   </span>
-<span class="co">#&gt;        CL              V1              V2              CONC           </span>
-<span class="co">#&gt;  Min.   :151.0   Min.   :179.0   Min.   : 663.0   Min.   :-1.000e-11  </span>
-<span class="co">#&gt;  1st Qu.:262.5   1st Qu.:358.0   1st Qu.: 917.2   1st Qu.: 0.000e+00  </span>
-<span class="co">#&gt;  Median :323.0   Median :410.0   Median :1010.0   Median : 0.000e+00  </span>
-<span class="co">#&gt;  Mean   :328.9   Mean   :421.5   Mean   : 999.8   Mean   : 4.569e-07  </span>
-<span class="co">#&gt;  3rd Qu.:377.2   3rd Qu.:485.0   3rd Qu.:1060.0   3rd Qu.: 1.000e-11  </span>
-<span class="co">#&gt;  Max.   :619.0   Max.   :679.0   Max.   :1390.0   Max.   : 7.969e-05  </span>
-<span class="co">#&gt;                                                                       </span>
-<span class="co">#&gt;       KTR              EDRUG             FDBK             TAD       </span>
-<span class="co">#&gt;  Min.   :0.02365   Min.   :0.9958   Min.   :0.8684   Min.   :  0.0  </span>
-<span class="co">#&gt;  1st Qu.:0.03102   1st Qu.:1.0000   1st Qu.:1.0000   1st Qu.:  0.0  </span>
-<span class="co">#&gt;  Median :0.03270   Median :1.0000   Median :1.0080   Median :216.0  </span>
-<span class="co">#&gt;  Mean   :0.03487   Mean   :1.0000   Mean   :1.0670   Mean   :247.1  </span>
-<span class="co">#&gt;  3rd Qu.:0.03748   3rd Qu.:1.0000   3rd Qu.:1.1212   3rd Qu.:360.0  </span>
-<span class="co">#&gt;  Max.   :0.04914   Max.   :1.0000   Max.   :1.6628   Max.   :720.0  </span>
-<span class="co">#&gt;                                                      NA's   :1      </span>
-<span class="co">#&gt;     DOSENUM       eta.CIRC0           eta.MTT             eta.SLOPU       </span>
-<span class="co">#&gt;  Min.   :0.00   Min.   :-0.82137   Min.   :-0.3565698   Min.   :-0.51756  </span>
-<span class="co">#&gt;  1st Qu.:1.00   1st Qu.:-0.22980   1st Qu.:-0.0857153   1st Qu.:-0.22665  </span>
-<span class="co">#&gt;  Median :1.00   Median :-0.00503   Median : 0.0506072   Median :-0.11168  </span>
-<span class="co">#&gt;  Mean   :1.25   Mean   :-0.06248   Mean   : 0.0009022   Mean   :-0.04416  </span>
-<span class="co">#&gt;  3rd Qu.:1.00   3rd Qu.: 0.22797   3rd Qu.: 0.1034825   3rd Qu.: 0.09229  </span>
-<span class="co">#&gt;  Max.   :6.00   Max.   : 0.51756   Max.   : 0.3746142   Max.   : 0.79047  </span>
-<span class="co">#&gt; </span>
+<span class="va">xpdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/xpose.nlmixr2/man/xpose_data_nlmixr2.html" class="external-link">xpose_data_nlmixr</a></span><span class="op">(</span><span class="va">fit.S</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fit.S</span><span class="op">)</span></code></pre></div>
 <p><img src="wbc_files/figure-html/saem-1.png" width="100%"><img src="wbc_files/figure-html/saem-2.png" width="100%"><img src="wbc_files/figure-html/saem-3.png" width="100%"><img src="wbc_files/figure-html/saem-4.png" width="100%"><img src="wbc_files/figure-html/saem-5.png" width="100%"><img src="wbc_files/figure-html/saem-6.png" width="100%"><img src="wbc_files/figure-html/saem-7.png" width="100%"><img src="wbc_files/figure-html/saem-8.png" width="100%"><img src="wbc_files/figure-html/saem-9.png" width="100%"><img src="wbc_files/figure-html/saem-10.png" width="100%"><img src="wbc_files/figure-html/saem-11.png" width="100%"><img src="wbc_files/figure-html/saem-12.png" width="100%"><img src="wbc_files/figure-html/saem-13.png" width="100%"><img src="wbc_files/figure-html/saem-14.png" width="100%"><img src="wbc_files/figure-html/saem-15.png" width="100%"><img src="wbc_files/figure-html/saem-16.png" width="100%"><img src="wbc_files/figure-html/saem-17.png" width="100%"><img src="wbc_files/figure-html/saem-18.png" width="100%"><img src="wbc_files/figure-html/saem-19.png" width="100%"><img src="wbc_files/figure-html/saem-20.png" width="100%"><img src="wbc_files/figure-html/saem-21.png" width="100%"><img src="wbc_files/figure-html/saem-22.png" width="100%"><img src="wbc_files/figure-html/saem-23.png" width="100%"><img src="wbc_files/figure-html/saem-24.png" width="100%"><img src="wbc_files/figure-html/saem-25.png" width="100%"><img src="wbc_files/figure-html/saem-26.png" width="100%"><img src="wbc_files/figure-html/saem-27.png" width="100%"><img src="wbc_files/figure-html/saem-28.png" width="100%"><img src="wbc_files/figure-html/saem-29.png" width="100%"><img src="wbc_files/figure-html/saem-30.png" width="100%"><img src="wbc_files/figure-html/saem-31.png" width="100%"><img src="wbc_files/figure-html/saem-32.png" width="100%"><img src="wbc_files/figure-html/saem-33.png" width="100%"><img src="wbc_files/figure-html/saem-34.png" width="100%"><img src="wbc_files/figure-html/saem-35.png" width="100%"><img src="wbc_files/figure-html/saem-36.png" width="100%"><img src="wbc_files/figure-html/saem-37.png" width="100%"><img src="wbc_files/figure-html/saem-38.png" width="100%"><img src="wbc_files/figure-html/saem-39.png" width="100%"><img src="wbc_files/figure-html/saem-40.png" width="100%"><img src="wbc_files/figure-html/saem-41.png" width="100%"><img src="wbc_files/figure-html/saem-42.png" width="100%"><img src="wbc_files/figure-html/saem-43.png" width="100%"><img src="wbc_files/figure-html/saem-44.png" width="100%"><img src="wbc_files/figure-html/saem-45.png" width="100%"><img src="wbc_files/figure-html/saem-46.png" width="100%"><img src="wbc_files/figure-html/saem-47.png" width="100%"><img src="wbc_files/figure-html/saem-48.png" width="100%"><img src="wbc_files/figure-html/saem-49.png" width="100%"><img src="wbc_files/figure-html/saem-50.png" width="100%"><img src="wbc_files/figure-html/saem-51.png" width="100%"><img src="wbc_files/figure-html/saem-52.png" width="100%"><img src="wbc_files/figure-html/saem-53.png" width="100%"><img src="wbc_files/figure-html/saem-54.png" width="100%"><img src="wbc_files/figure-html/saem-55.png" width="100%"><img src="wbc_files/figure-html/saem-56.png" width="100%"><img src="wbc_files/figure-html/saem-57.png" width="100%"><img src="wbc_files/figure-html/saem-58.png" width="100%"><img src="wbc_files/figure-html/saem-59.png" width="100%"><img src="wbc_files/figure-html/saem-60.png" width="100%"><img src="wbc_files/figure-html/saem-61.png" width="100%"><img src="wbc_files/figure-html/saem-62.png" width="100%"><img src="wbc_files/figure-html/saem-63.png" width="100%"><img src="wbc_files/figure-html/saem-64.png" width="100%"><img src="wbc_files/figure-html/saem-65.png" width="100%"><img src="wbc_files/figure-html/saem-66.png" width="100%"><img src="wbc_files/figure-html/saem-67.png" width="100%"><img src="wbc_files/figure-html/saem-68.png" width="100%"><img src="wbc_files/figure-html/saem-69.png" width="100%"><img src="wbc_files/figure-html/saem-70.png" width="100%"></p>
@@ -429,110 +333,14 @@
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fit.F</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/nlmixr2est/man/nlmixr2.html" class="external-link">nlmixr</a></span><span class="op">(</span><span class="va">wbc</span>, <span class="va">d3</span>, est<span class="op">=</span><span class="st">"focei"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>, table<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cwres<span class="op">=</span><span class="cn">TRUE</span>, npde<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; calculating covariance matrix</span>
-<span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:35 </span>
+<span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:36 </span>
 <span class="co">#&gt; done</span>
 <span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:04</span></code></pre></div>
 <div class="section level3">
 <h3 id="focei-goodness-of-fit-plots">FOCEi Goodness of fit plots<a class="anchor" aria-label="anchor" href="#focei-goodness-of-fit-plots"></a>
 </h3>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">xpdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/xpose.nlmixr/man/xpose_data_nlmixr2.html" class="external-link">xpose_data_nlmixr</a></span><span class="op">(</span><span class="va">fit.F</span><span class="op">)</span>
-<span class="co">#&gt;        ID           TIME             RATE        AMT          DV        </span>
-<span class="co">#&gt;  33     : 18   Min.   :   0.0   Min.   :0   Min.   :0   Min.   : 0.700  </span>
-<span class="co">#&gt;  12     :  6   1st Qu.:   0.0   1st Qu.:0   1st Qu.:0   1st Qu.: 3.675  </span>
-<span class="co">#&gt;  44     :  5   Median : 276.0   Median :0   Median :0   Median : 5.800  </span>
-<span class="co">#&gt;  1      :  4   Mean   : 451.7   Mean   :0   Mean   :0   Mean   : 6.428  </span>
-<span class="co">#&gt;  4      :  4   3rd Qu.: 480.0   3rd Qu.:0   3rd Qu.:0   3rd Qu.: 8.375  </span>
-<span class="co">#&gt;  5      :  4   Max.   :4580.0   Max.   :0   Max.   :0   Max.   :20.400  </span>
-<span class="co">#&gt;  (Other):135                                                            </span>
-<span class="co">#&gt;       CMT         V2I              V1I             CLI           PARFLAG </span>
-<span class="co">#&gt;  Min.   :3   Min.   : 663.0   Min.   :179.0   Min.   :151.0   Min.   :0  </span>
-<span class="co">#&gt;  1st Qu.:3   1st Qu.: 917.2   1st Qu.:358.0   1st Qu.:262.5   1st Qu.:0  </span>
-<span class="co">#&gt;  Median :3   Median :1010.0   Median :410.0   Median :323.0   Median :0  </span>
-<span class="co">#&gt;  Mean   :3   Mean   : 999.8   Mean   :421.5   Mean   :328.9   Mean   :0  </span>
-<span class="co">#&gt;  3rd Qu.:3   3rd Qu.:1060.0   3rd Qu.:485.0   3rd Qu.:377.2   3rd Qu.:0  </span>
-<span class="co">#&gt;  Max.   :3   Max.   :1390.0   Max.   :679.0   Max.   :619.0   Max.   :0  </span>
-<span class="co">#&gt;                                                                          </span>
-<span class="co">#&gt;       EVID       EPRED             ERES               NPDE         </span>
-<span class="co">#&gt;  Min.   :0   Min.   :-5.933   Min.   :-13.9504   Min.   :-0.22754  </span>
-<span class="co">#&gt;  1st Qu.:0   1st Qu.: 3.278   1st Qu.: -3.3752   1st Qu.:-0.04179  </span>
-<span class="co">#&gt;  Median :0   Median : 5.841   Median : -0.3651   Median : 0.01671  </span>
-<span class="co">#&gt;  Mean   :0   Mean   : 6.264   Mean   :  0.1641   Mean   : 0.02150  </span>
-<span class="co">#&gt;  3rd Qu.:0   3rd Qu.: 8.761   3rd Qu.:  2.8424   3rd Qu.: 0.07527  </span>
-<span class="co">#&gt;  Max.   :0   Max.   :22.419   Max.   : 17.0043   Max.   : 0.37634  </span>
-<span class="co">#&gt;                                                                    </span>
-<span class="co">#&gt;       NPD                PRED             RES                WRES          </span>
-<span class="co">#&gt;  Min.   :-0.22754   Min.   : 1.769   Min.   :-8.31049   Min.   :-0.077650  </span>
-<span class="co">#&gt;  1st Qu.:-0.04179   1st Qu.: 3.997   1st Qu.:-1.84761   1st Qu.:-0.032655  </span>
-<span class="co">#&gt;  Median : 0.01671   Median : 7.211   Median :-0.07836   Median :-0.001942  </span>
-<span class="co">#&gt;  Mean   : 0.02150   Mean   : 6.170   Mean   : 0.25881   Mean   : 0.005816  </span>
-<span class="co">#&gt;  3rd Qu.: 0.07527   3rd Qu.: 7.223   3rd Qu.: 2.13908   3rd Qu.: 0.035374  </span>
-<span class="co">#&gt;  Max.   : 0.37634   Max.   :11.457   Max.   :15.47635   Max.   : 0.331424  </span>
-<span class="co">#&gt;                                                                            </span>
-<span class="co">#&gt;      IPRED             IRES             IWRES               CPRED       </span>
-<span class="co">#&gt;  Min.   :0.5768   Min.   :-3.5124   Min.   :-0.063104   Min.   : 1.150  </span>
-<span class="co">#&gt;  1st Qu.:2.4919   1st Qu.: 0.4658   1st Qu.: 0.009421   1st Qu.: 3.635  </span>
-<span class="co">#&gt;  Median :3.8123   Median : 1.7984   Median : 0.055027   Median : 5.943  </span>
-<span class="co">#&gt;  Mean   :3.9290   Mean   : 2.4994   Mean   : 0.073607   Mean   : 5.644  </span>
-<span class="co">#&gt;  3rd Qu.:5.3495   3rd Qu.: 4.1565   3rd Qu.: 0.106029   3rd Qu.: 6.952  </span>
-<span class="co">#&gt;  Max.   :7.7763   Max.   :17.3333   Max.   : 0.565211   Max.   :10.659  </span>
-<span class="co">#&gt;                                                                         </span>
-<span class="co">#&gt;       CRES             CWRES            ETA.CIRC0           ETA.MTT         </span>
-<span class="co">#&gt;  Min.   :-5.7439   Min.   :-0.16495   Min.   :-1.00000   Min.   :-0.070770  </span>
-<span class="co">#&gt;  1st Qu.:-1.2207   1st Qu.:-0.03677   1st Qu.:-0.39799   1st Qu.:-0.003319  </span>
-<span class="co">#&gt;  Median : 0.2667   Median : 0.01087   Median :-0.39175   Median : 0.030900  </span>
-<span class="co">#&gt;  Mean   : 0.7847   Mean   : 0.02183   Mean   :-0.43184   Mean   : 0.037894  </span>
-<span class="co">#&gt;  3rd Qu.: 2.6182   3rd Qu.: 0.06451   3rd Qu.:-0.30044   3rd Qu.: 0.050633  </span>
-<span class="co">#&gt;  Max.   :15.8496   Max.   : 0.51613   Max.   :-0.09985   Max.   : 0.220879  </span>
-<span class="co">#&gt;                                                                             </span>
-<span class="co">#&gt;    ETA.SLOPU           A_CENTR              A_PERIPH              A_PROL      </span>
-<span class="co">#&gt;  Min.   :-0.04189   Min.   :-5.390e-06   Min.   :-2.500e-06   Min.   :0.3636  </span>
-<span class="co">#&gt;  1st Qu.: 0.11260   1st Qu.: 0.000e+00   1st Qu.: 0.000e+00   1st Qu.:2.7752  </span>
-<span class="co">#&gt;  Median : 0.16447   Median : 0.000e+00   Median : 0.000e+00   Median :4.9537  </span>
-<span class="co">#&gt;  Mean   : 0.18661   Mean   : 2.818e-04   Mean   : 8.848e-04   Mean   :4.5987  </span>
-<span class="co">#&gt;  3rd Qu.: 0.23089   3rd Qu.: 3.000e-08   3rd Qu.: 7.000e-08   3rd Qu.:6.0565  </span>
-<span class="co">#&gt;  Max.   : 0.53749   Max.   : 4.933e-02   Max.   : 1.543e-01   Max.   :9.0836  </span>
-<span class="co">#&gt;                                                                               </span>
-<span class="co">#&gt;      A_TR1           A_TR2           A_TR3            A_CIRC      </span>
-<span class="co">#&gt;  Min.   :0.334   Min.   :0.386   Min.   :0.4407   Min.   :0.5768  </span>
-<span class="co">#&gt;  1st Qu.:2.385   1st Qu.:2.291   1st Qu.:2.3185   1st Qu.:2.4919  </span>
-<span class="co">#&gt;  Median :4.890   Median :4.800   Median :4.2522   Median :3.8123  </span>
-<span class="co">#&gt;  Mean   :4.380   Mean   :4.183   Mean   :4.0284   Mean   :3.9290  </span>
-<span class="co">#&gt;  3rd Qu.:5.768   3rd Qu.:5.352   3rd Qu.:5.3476   3rd Qu.:5.3495  </span>
-<span class="co">#&gt;  Max.   :9.563   Max.   :9.484   Max.   :8.8454   Max.   :7.7763  </span>
-<span class="co">#&gt;                                                                   </span>
-<span class="co">#&gt;      CIRC0            MTT            SLOPU           GAMMA       </span>
-<span class="co">#&gt;  Min.   :2.653   Min.   :112.9   Min.   :27.13   Min.   :0.2391  </span>
-<span class="co">#&gt;  1st Qu.:4.843   1st Qu.:120.8   1st Qu.:31.67   1st Qu.:0.2391  </span>
-<span class="co">#&gt;  Median :4.873   Median :125.0   Median :33.35   Median :0.2391  </span>
-<span class="co">#&gt;  Mean   :4.766   Mean   :126.2   Mean   :34.35   Mean   :0.2391  </span>
-<span class="co">#&gt;  3rd Qu.:5.339   3rd Qu.:127.5   3rd Qu.:35.64   3rd Qu.:0.2391  </span>
-<span class="co">#&gt;  Max.   :6.525   Max.   :151.1   Max.   :48.43   Max.   :0.2391  </span>
-<span class="co">#&gt;                                                                  </span>
-<span class="co">#&gt;        CL              V1              V2              CONC           </span>
-<span class="co">#&gt;  Min.   :151.0   Min.   :179.0   Min.   : 663.0   Min.   :-2.340e-09  </span>
-<span class="co">#&gt;  1st Qu.:262.5   1st Qu.:358.0   1st Qu.: 917.2   1st Qu.: 0.000e+00  </span>
-<span class="co">#&gt;  Median :323.0   Median :410.0   Median :1010.0   Median : 0.000e+00  </span>
-<span class="co">#&gt;  Mean   :328.9   Mean   :421.5   Mean   : 999.8   Mean   : 4.571e-07  </span>
-<span class="co">#&gt;  3rd Qu.:377.2   3rd Qu.:485.0   3rd Qu.:1060.0   3rd Qu.: 1.000e-11  </span>
-<span class="co">#&gt;  Max.   :619.0   Max.   :679.0   Max.   :1390.0   Max.   : 7.969e-05  </span>
-<span class="co">#&gt;                                                                       </span>
-<span class="co">#&gt;       KTR              EDRUG             FDBK            TAD       </span>
-<span class="co">#&gt;  Min.   :0.02647   Min.   :0.9973   Min.   :0.885   Min.   :  0.0  </span>
-<span class="co">#&gt;  1st Qu.:0.03138   1st Qu.:1.0000   1st Qu.:1.000   1st Qu.:  0.0  </span>
-<span class="co">#&gt;  Median :0.03200   Median :1.0000   Median :1.038   Median :216.0  </span>
-<span class="co">#&gt;  Mean   :0.03185   Mean   :1.0000   Mean   :1.081   Mean   :247.1  </span>
-<span class="co">#&gt;  3rd Qu.:0.03312   3rd Qu.:1.0000   3rd Qu.:1.169   3rd Qu.:360.0  </span>
-<span class="co">#&gt;  Max.   :0.03543   Max.   :1.0000   Max.   :1.440   Max.   :720.0  </span>
-<span class="co">#&gt;                                                     NA's   :1      </span>
-<span class="co">#&gt;     DOSENUM       eta.CIRC0           eta.MTT            eta.SLOPU       </span>
-<span class="co">#&gt;  Min.   :0.00   Min.   :-1.00000   Min.   :-0.070770   Min.   :-0.04189  </span>
-<span class="co">#&gt;  1st Qu.:1.00   1st Qu.:-0.39799   1st Qu.:-0.003319   1st Qu.: 0.11260  </span>
-<span class="co">#&gt;  Median :1.00   Median :-0.39175   Median : 0.030900   Median : 0.16447  </span>
-<span class="co">#&gt;  Mean   :1.25   Mean   :-0.43184   Mean   : 0.037894   Mean   : 0.18661  </span>
-<span class="co">#&gt;  3rd Qu.:1.00   3rd Qu.:-0.30044   3rd Qu.: 0.050633   3rd Qu.: 0.23089  </span>
-<span class="co">#&gt;  Max.   :6.00   Max.   :-0.09985   Max.   : 0.220879   Max.   : 0.53749  </span>
-<span class="co">#&gt; </span>
+<code class="sourceCode R"><span class="va">xpdb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/xpose.nlmixr2/man/xpose_data_nlmixr2.html" class="external-link">xpose_data_nlmixr</a></span><span class="op">(</span><span class="va">fit.F</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fit.F</span><span class="op">)</span></code></pre></div>
 <p><img src="wbc_files/figure-html/foceiGof-1.png" width="100%"><img src="wbc_files/figure-html/foceiGof-2.png" width="100%"><img src="wbc_files/figure-html/foceiGof-3.png" width="100%"><img src="wbc_files/figure-html/foceiGof-4.png" width="100%"><img src="wbc_files/figure-html/foceiGof-5.png" width="100%"><img src="wbc_files/figure-html/foceiGof-6.png" width="100%"><img src="wbc_files/figure-html/foceiGof-7.png" width="100%"><img src="wbc_files/figure-html/foceiGof-8.png" width="100%"><img src="wbc_files/figure-html/foceiGof-9.png" width="100%"><img src="wbc_files/figure-html/foceiGof-10.png" width="100%"><img src="wbc_files/figure-html/foceiGof-11.png" width="100%"><img src="wbc_files/figure-html/foceiGof-12.png" width="100%"><img src="wbc_files/figure-html/foceiGof-13.png" width="100%"><img src="wbc_files/figure-html/foceiGof-14.png" width="100%"><img src="wbc_files/figure-html/foceiGof-15.png" width="100%"><img src="wbc_files/figure-html/foceiGof-16.png" width="100%"><img src="wbc_files/figure-html/foceiGof-17.png" width="100%"><img src="wbc_files/figure-html/foceiGof-18.png" width="100%"><img src="wbc_files/figure-html/foceiGof-19.png" width="100%"><img src="wbc_files/figure-html/foceiGof-20.png" width="100%"><img src="wbc_files/figure-html/foceiGof-21.png" width="100%"><img src="wbc_files/figure-html/foceiGof-22.png" width="100%"><img src="wbc_files/figure-html/foceiGof-23.png" width="100%"><img src="wbc_files/figure-html/foceiGof-24.png" width="100%"><img src="wbc_files/figure-html/foceiGof-25.png" width="100%"><img src="wbc_files/figure-html/foceiGof-26.png" width="100%"><img src="wbc_files/figure-html/foceiGof-27.png" width="100%"><img src="wbc_files/figure-html/foceiGof-28.png" width="100%"><img src="wbc_files/figure-html/foceiGof-29.png" width="100%"><img src="wbc_files/figure-html/foceiGof-30.png" width="100%"><img src="wbc_files/figure-html/foceiGof-31.png" width="100%"><img src="wbc_files/figure-html/foceiGof-32.png" width="100%"><img src="wbc_files/figure-html/foceiGof-33.png" width="100%"><img src="wbc_files/figure-html/foceiGof-34.png" width="100%"><img src="wbc_files/figure-html/foceiGof-35.png" width="100%"><img src="wbc_files/figure-html/foceiGof-36.png" width="100%"><img src="wbc_files/figure-html/foceiGof-37.png" width="100%"><img src="wbc_files/figure-html/foceiGof-38.png" width="100%"><img src="wbc_files/figure-html/foceiGof-39.png" width="100%"><img src="wbc_files/figure-html/foceiGof-40.png" width="100%"><img src="wbc_files/figure-html/foceiGof-41.png" width="100%"><img src="wbc_files/figure-html/foceiGof-42.png" width="100%"><img src="wbc_files/figure-html/foceiGof-43.png" width="100%"><img src="wbc_files/figure-html/foceiGof-44.png" width="100%"><img src="wbc_files/figure-html/foceiGof-45.png" width="100%"><img src="wbc_files/figure-html/foceiGof-46.png" width="100%"><img src="wbc_files/figure-html/foceiGof-47.png" width="100%"><img src="wbc_files/figure-html/foceiGof-48.png" width="100%"><img src="wbc_files/figure-html/foceiGof-49.png" width="100%"><img src="wbc_files/figure-html/foceiGof-50.png" width="100%"><img src="wbc_files/figure-html/foceiGof-51.png" width="100%"><img src="wbc_files/figure-html/foceiGof-52.png" width="100%"><img src="wbc_files/figure-html/foceiGof-53.png" width="100%"><img src="wbc_files/figure-html/foceiGof-54.png" width="100%"><img src="wbc_files/figure-html/foceiGof-55.png" width="100%"><img src="wbc_files/figure-html/foceiGof-56.png" width="100%"><img src="wbc_files/figure-html/foceiGof-57.png" width="100%"><img src="wbc_files/figure-html/foceiGof-58.png" width="100%"><img src="wbc_files/figure-html/foceiGof-59.png" width="100%"><img src="wbc_files/figure-html/foceiGof-60.png" width="100%"><img src="wbc_files/figure-html/foceiGof-61.png" width="100%"><img src="wbc_files/figure-html/foceiGof-62.png" width="100%"><img src="wbc_files/figure-html/foceiGof-63.png" width="100%"><img src="wbc_files/figure-html/foceiGof-64.png" width="100%"><img src="wbc_files/figure-html/foceiGof-65.png" width="100%"><img src="wbc_files/figure-html/foceiGof-66.png" width="100%"><img src="wbc_files/figure-html/foceiGof-67.png" width="100%"><img src="wbc_files/figure-html/foceiGof-68.png" width="100%"><img src="wbc_files/figure-html/foceiGof-69.png" width="100%"><img src="wbc_files/figure-html/foceiGof-70.png" width="100%"></p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
@@ -613,7 +421,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
 </div>
 
     </footer>
