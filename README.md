@@ -4,6 +4,7 @@
 # nlmixr2
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
 The goal of nlmixr2 is to support easy and robust nonlinear mixed
@@ -11,9 +12,26 @@ effects models in R
 
 ## Installation
 
-The easiest way to install nlmixr2 is to use:
+The easiest way to install nlmixr2 is use `R` 4.2 or later and the use:
 
 ``` r
+install.packages("nlmixr2")
+```
+
+If you have at least `R` 4.0, you can install a version of `symengine`
+that works for `nlmixr`.
+
+For `R` 4.1 you can use:
+
+``` r
+install.packages("symengine", repos="https://cran.microsoft.com/snapshot/2022-04-27/")
+install.packages("nlmixr2")
+```
+
+For `R` 4.0 you can use:
+
+``` r
+install.packages("symengine", repos="https://cran.microsoft.com/snapshot/2022-01-01/")
 install.packages("nlmixr2")
 ```
 
@@ -54,9 +72,8 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(nlmixr2)
-#> Warning: package 'nlmixr2' was built under R version 4.1.3
 #> Loading required package: nlmixr2data
-#> Warning: package 'nlmixr2data' was built under R version 4.1.3
+#> detected new version of nlmixr2est, cleaning rxode2 cache
 
 ## The basic model consiss of an ini block that has initial estimates
 one.compartment <- function() {
@@ -83,45 +100,52 @@ one.compartment <- function() {
 
 ## The fit is performed by the function nlmixr/nlmix2 specifying the model, data and estimate
 fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
-#> i parameter labels from comments will be replaced by 'label()'
-#> > loading into symengine environment...
-#> > pruning branches (`if`/`else`) of saem model...
-#> v done
-#> > finding duplicate expressions in saem model...
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> > optimizing duplicate expressions in saem model...
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> v done
+#> ℹ parameter labels from comments will be replaced by 'label()'
+#> → loading into symengine environment...
+#> → pruning branches (`if`/`else`) of saem model...
+#> ✔ done
+#> → finding duplicate expressions in saem model...
+#> [====|====|====|>---------------------------------]  33%; 0:00:00 [====|====|====|====|====|====|====|====|====|====] 100%; 0:00:00                                                                                  
+#> → optimizing duplicate expressions in saem model...
+#> [====|====|====|====|====|====|====|====|====|====] 100%; 0:00:00                                                                                  
+#> ✔ done
+#> → creating rxode2 include directory
+#> → getting R compile options
+#> → precompiling headers
+#> ✔ done
 #> rxode2 2.0.7 using 4 threads (see ?getRxThreads)
-#>   no cache: create with `rxCreateCache()`
 #> Calculating covariance matrix
-#> > loading into symengine environment...
-#> > pruning branches (`if`/`else`) of saem model...
-#> v done
-#> > finding duplicate expressions in saem predOnly model 0...
-#> > finding duplicate expressions in saem predOnly model 1...
-#> > optimizing duplicate expressions in saem predOnly model 1...
-#> > finding duplicate expressions in saem predOnly model 2...
-#> v done
-#> > Calculating residuals/tables
-#> v done
-#> > compress origData in nlmixr2 object, save 5952
-#> > compress phiM in nlmixr2 object, save 62360
-#> > compress parHist in nlmixr2 object, save 9592
-#> > compress saem0 in nlmixr2 object, save 23304
-#> Warning: package 'rxode2' was built under R version 4.1.3
+#> >-------------------------------------------------]  01%; 0:00:00 [====|====|====|====|====|====|====|====|====|====] 100%; 0:00:00                                                                                  
+#> → loading into symengine environment...
+#> → pruning branches (`if`/`else`) of saem model...
+#> ✔ done
+#> → finding duplicate expressions in saem predOnly model 0...
+#> [====|====|====|====|====|====|====|====|====|====] 100%; 0:00:00                                                                                  
+#> → finding duplicate expressions in saem predOnly model 1...
+#> [====|====|====|====|====|====|====|====|====|====] 100%; 0:00:00                                                                                  
+#> → optimizing duplicate expressions in saem predOnly model 1...
+#> [====|====|====|====|====|====|====|====|====|====] 100%; 0:00:00                                                                                  
+#> → finding duplicate expressions in saem predOnly model 2...
+#> [====|====|====|====|====|====|====|====|====|====] 100%; 0:00:00                                                                                  
+#> ✔ done
+#> → Calculating residuals/tables
+#> ✔ done
+#> → compress origData in nlmixr2 object, save 5952
+#> → compress phiM in nlmixr2 object, save 62360
+#> → compress parHist in nlmixr2 object, save 9560
+#> → compress saem0 in nlmixr2 object, save 23264
 print(fit)
-#> -- nlmixr SAEM OBJF by FOCEi approximation --
+#> ── nlmixr SAEM OBJF by FOCEi approximation ──
 #> 
 #>  Gaussian/Laplacian Likelihoods: AIC() or $objf etc. 
 #>  FOCEi CWRES & Likelihoods: addCwres() 
 #> 
-#> -- Time (sec $time): --
+#> ── Time (sec $time): ──
 #> 
-#>         setup covariance  saem table compress other
-#> elapsed 0.003       0.02 15.98  0.05     0.06 6.857
+#>           setup covariance  saem table compress    other
+#> elapsed 0.00115   0.008003 2.751  0.02    0.017 1.756847
 #> 
-#> -- Population Parameters ($parFixed or $parFixedDf): --
+#> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
 #>        Parameter  Est.     SE %RSE Back-transformed(95%CI) BSV(CV%) Shrink(SD)%
 #> tka       Log Ka 0.454  0.196 43.1       1.57 (1.07, 2.31)     71.5   -0.0203% 
@@ -134,14 +158,14 @@ print(fit)
 #>   Full BSV covariance ($omega) or correlation ($omegaR; diagonals=SDs) 
 #>   Distribution stats (mean/skewness/kurtosis/p-value) available in $shrink 
 #> 
-#> -- Fit Data (object is a modified tibble): --
-#> # A tibble: 132 x 19
+#> ── Fit Data (object is a modified tibble): ──
+#> # A tibble: 132 × 19
 #>   ID     TIME    DV  PRED    RES IPRED   IRES  IWRES eta.ka eta.cl   eta.v    cp
 #>   <fct> <dbl> <dbl> <dbl>  <dbl> <dbl>  <dbl>  <dbl>  <dbl>  <dbl>   <dbl> <dbl>
 #> 1 1      0     0.74  0     0.74   0     0.74   1.07   0.103 -0.491 -0.0820  0   
 #> 2 1      0.25  2.84  3.27 -0.426  3.87 -1.03  -1.48   0.103 -0.491 -0.0820  3.87
 #> 3 1      0.57  6.57  5.85  0.723  6.82 -0.246 -0.356  0.103 -0.491 -0.0820  6.82
-#> # ... with 129 more rows, and 7 more variables: depot <dbl>, center <dbl>,
+#> # … with 129 more rows, and 7 more variables: depot <dbl>, center <dbl>,
 #> #   ka <dbl>, cl <dbl>, v <dbl>, tad <dbl>, dosenum <dbl>
 ```
 
