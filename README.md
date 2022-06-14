@@ -12,30 +12,50 @@ effects models in R
 
 ## Installation
 
-The easiest way to install nlmixr2 is use `R` 4.2 or later and the use:
+For all versions of R, we need to have a compiler setup to run `nlmixr2`
+and `rxode2`
+
+### Windows compilation tools setup
+
+For Windows the compilers come from Rtools. For R version 4.2 and above
+you need to have Rtools42, for R-4.0.x, and R-4.1.x you need Rtools40.
+Download and the install from
+<https://cran.r-project.org/bin/windows/Rtools/>
+
+### Mac compilation tools setup
+
+To setup the mac compilers, simply 1. Install Xcode from app store 2.
+Install gfortran: a. Download and install from
+<https://mac.r-project.org/tools/> b. Add gfortran directory to the path
+with: export PATH=$PATH:/usr/local/gfortran/bin
+
+# R package installation
+
+Installation nlmixr2 itself is easiest in R-4.2.x because no further
+compilation is required and all supporting packages are available. From
+R, run:
 
 ``` r
-install.packages("nlmixr2")
+install.packages("nlmixr2",dependencies = TRUE)
 ```
 
-If you have at least `R` 4.0, you can install a version of `symengine`
-that works for `nlmixr`.
-
-For `R` 4.1 you can use:
-
-``` r
-install.packages("symengine", repos="https://cran.microsoft.com/snapshot/2022-04-27/")
-install.packages("nlmixr2")
-```
-
-For `R` 4.0 you can use:
+For R-4.0.x and R-4.1.x, the crucial package symengine is currently not
+on CRAN and will have to be installed from MRAN first by running:
 
 ``` r
 install.packages("symengine", repos="https://cran.microsoft.com/snapshot/2022-01-01/")
-install.packages("nlmixr2")
 ```
 
-You can install the development version of nlmixr2 and its
+followed by:
+
+``` r
+install.packages("nlmixr2",dependencies = TRUE)
+```
+
+## Development version installation
+
+Once the compilers are setup and a compatible version of `symengine` is
+installed, you can install the development version of nlmixr2 and its
 nlmixr2-family dependencies like so:
 
 ``` r
@@ -73,7 +93,6 @@ This is a basic example which shows you how to solve a common problem:
 ``` r
 library(nlmixr2)
 #> Loading required package: nlmixr2data
-#> detected new version of nlmixr2est, cleaning rxode2 cache
 
 ## The basic model consiss of an ini block that has initial estimates
 one.compartment <- function() {
@@ -109,10 +128,6 @@ fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
 #> → optimizing duplicate expressions in saem model...
 #> [====|====|====|====|====|====|====|====|====|====] 100%; 0:00:00                                                                                  
 #> ✔ done
-#> → creating rxode2 include directory
-#> → getting R compile options
-#> → precompiling headers
-#> ✔ done
 #> rxode2 2.0.7 using 4 threads (see ?getRxThreads)
 #> Calculating covariance matrix
 #> >-------------------------------------------------]  01%; 0:00:00 [====|====|====|====|====|====|====|====|====|====] 100%; 0:00:00                                                                                  
@@ -133,7 +148,7 @@ fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
 #> → compress origData in nlmixr2 object, save 5952
 #> → compress phiM in nlmixr2 object, save 62360
 #> → compress parHist in nlmixr2 object, save 9560
-#> → compress saem0 in nlmixr2 object, save 23264
+#> → compress saem0 in nlmixr2 object, save 23232
 print(fit)
 #> ── nlmixr SAEM OBJF by FOCEi approximation ──
 #> 
@@ -142,8 +157,8 @@ print(fit)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>           setup covariance  saem table compress    other
-#> elapsed 0.00115   0.008003 2.751  0.02    0.017 1.756847
+#>            setup covariance  saem table compress    other
+#> elapsed 0.001298   0.017036 3.362 0.024    0.018 1.797666
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 

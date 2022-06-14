@@ -22,32 +22,48 @@ The goal of nlmixr2 is to support easy and robust nonlinear mixed effects models
 
 ## Installation
 
-The easiest way to install nlmixr2 is use `R` 4.2 or later and the use:
+For all versions of R, we need to have a compiler setup to run `nlmixr2` and `rxode2`
+
+### Windows compilation tools setup 
+
+For Windows the compilers come from Rtools. For R version 4.2 and
+above you need to have Rtools42, for R-4.0.x, and R-4.1.x you need
+Rtools40. Download and the install from
+https://cran.r-project.org/bin/windows/Rtools/
+
+### Mac compilation tools setup
+
+To setup the mac compilers, simply
+1.  Install Xcode from app store
+2. Install gfortran:
+   a. Download and install from https://mac.r-project.org/tools/
+   b. Add gfortran directory to the path with: export PATH=$PATH:/usr/local/gfortran/bin
+
+# R package installation 
+
+Installation nlmixr2 itself is easiest in R-4.2.x because no further compilation is required and all supporting packages are available. From R, run:
 
 ``` r
-install.packages("nlmixr2")
+install.packages("nlmixr2",dependencies = TRUE)
 ```
 
-If you have at least `R` 4.0, you can install a version of `symengine`
-that works for `nlmixr`.
-
-For `R` 4.1 you can use:
-
-``` r
-install.packages("symengine", repos="https://cran.microsoft.com/snapshot/2022-04-27/")
-install.packages("nlmixr2")
-```
-
-For `R` 4.0 you can use:
+For R-4.0.x and R-4.1.x, the crucial package symengine is currently not on CRAN and will have to be installed from MRAN first by running:
 
 ``` r
 install.packages("symengine", repos="https://cran.microsoft.com/snapshot/2022-01-01/")
-install.packages("nlmixr2")
 ```
 
+followed by:
 
+``` r
+install.packages("nlmixr2",dependencies = TRUE)
+```
 
-You can install the development version of nlmixr2 and its nlmixr2-family dependencies like so:
+## Development version installation
+
+Once the compilers are setup and a compatible version of `symengine`
+is installed, you can install the development version of nlmixr2 and
+its nlmixr2-family dependencies like so:
 
 ``` r
 remotes::install_github("nlmixr2/nlmixr2data")
