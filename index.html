@@ -139,19 +139,45 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>The easiest way to install nlmixr2 is use <code>R</code> 4.2 or later and the use:</p>
+<p>For all versions of R, we need to have a compiler setup to run <code>nlmixr2</code> and <code>rxode2</code></p>
+<div class="section level3">
+<h3 id="windows-compilation-tools-setup">Windows compilation tools setup<a class="anchor" aria-label="anchor" href="#windows-compilation-tools-setup"></a>
+</h3>
+<p>For Windows the compilers come from Rtools. For R version 4.2 and above you need to have Rtools42, for R-4.0.x, and R-4.1.x you need Rtools40. Download and the install from <a href="https://cran.r-project.org/bin/windows/Rtools/" class="external-link uri">https://cran.r-project.org/bin/windows/Rtools/</a></p>
+</div>
+<div class="section level3">
+<h3 id="mac-compilation-tools-setup">Mac compilation tools setup<a class="anchor" aria-label="anchor" href="#mac-compilation-tools-setup"></a>
+</h3>
+<p>To setup the mac compilers, simply</p>
+<ol style="list-style-type: decimal">
+<li><p>Install Xcode from app store</p></li>
+<li>
+<p>Install gfortran:</p>
+<ol style="list-style-type: decimal">
+<li><p>Download and install from <a href="https://mac.r-project.org/tools/" class="external-link uri">https://mac.r-project.org/tools/</a></p></li>
+<li><p>Add gfortran directory to the path with: <code>export PATH=$PATH:/usr/local/gfortran/bin</code></p></li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="section level1">
+<h1 id="r-package-installation">R package installation<a class="anchor" aria-label="anchor" href="#r-package-installation"></a>
+</h1>
+<p>Installation nlmixr2 itself is easiest in R-4.2.x because no further compilation is required and all supporting packages are available. From R, run:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"nlmixr2"</span><span class="op">)</span></code></pre></div>
-<p>If you have at least <code>R</code> 4.0, you can install a version of <code>symengine</code> that works for <code>nlmixr</code>.</p>
-<p>For <code>R</code> 4.1 you can use:</p>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"nlmixr2"</span>,dependencies <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<p>For R-4.0.x and R-4.1.x, the crucial package symengine is currently not on CRAN and will have to be installed from MRAN first by running:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"symengine"</span>, repos<span class="op">=</span><span class="st">"https://cran.microsoft.com/snapshot/2022-04-27/"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"nlmixr2"</span><span class="op">)</span></code></pre></div>
-<p>For <code>R</code> 4.0 you can use:</p>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"symengine"</span>, repos<span class="op">=</span><span class="st">"https://cran.microsoft.com/snapshot/2022-01-01/"</span><span class="op">)</span></code></pre></div>
+<p>followed by:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"symengine"</span>, repos<span class="op">=</span><span class="st">"https://cran.microsoft.com/snapshot/2022-01-01/"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"nlmixr2"</span><span class="op">)</span></code></pre></div>
-<p>You can install the development version of nlmixr2 and its nlmixr2-family dependencies like so:</p>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"nlmixr2"</span>,dependencies <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<div class="section level2">
+<h2 id="development-version-installation">Development version installation<a class="anchor" aria-label="anchor" href="#development-version-installation"></a>
+</h2>
+<p>Once the compilers are setup and a compatible version of <code>symengine</code> is installed, you can install the development version of nlmixr2 and its nlmixr2-family dependencies like so:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"nlmixr2/nlmixr2data"</span><span class="op">)</span>
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"nlmixr2/lotri"</span><span class="op">)</span>
@@ -177,7 +203,6 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://nlmixr2.github.io/nlmixr2/">nlmixr2</a></span><span class="op">)</span>
 <span class="co">#&gt; Loading required package: nlmixr2data</span>
-<span class="co">#&gt; detected new version of nlmixr2est, cleaning rxode2 cache</span>
 
 <span class="co">## The basic model consiss of an ini block that has initial estimates</span>
 <span class="va">one.compartment</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
@@ -213,10 +238,6 @@
 <span class="co">#&gt; → optimizing duplicate expressions in saem model...</span>
 <span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 100%; 0:00:00                                                                                  </span>
 <span class="co">#&gt; ✔ done</span>
-<span class="co">#&gt; → creating rxode2 include directory</span>
-<span class="co">#&gt; → getting R compile options</span>
-<span class="co">#&gt; → precompiling headers</span>
-<span class="co">#&gt; ✔ done</span>
 <span class="co">#&gt; rxode2 2.0.7 using 4 threads (see ?getRxThreads)</span>
 <span class="co">#&gt; Calculating covariance matrix</span>
 <span class="co">#&gt; &gt;-------------------------------------------------]  01%; 0:00:00 [====|====|====|====|====|====|====|====|====|====] 100%; 0:00:00                                                                                  </span>
@@ -237,7 +258,7 @@
 <span class="co">#&gt; → compress origData in nlmixr2 object, save 5952</span>
 <span class="co">#&gt; → compress phiM in nlmixr2 object, save 62360</span>
 <span class="co">#&gt; → compress parHist in nlmixr2 object, save 9560</span>
-<span class="co">#&gt; → compress saem0 in nlmixr2 object, save 23264</span>
+<span class="co">#&gt; → compress saem0 in nlmixr2 object, save 24896</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span>
 <span class="co">#&gt; ── nlmixr SAEM OBJF by FOCEi approximation ──</span>
 <span class="co">#&gt; </span>
@@ -246,8 +267,8 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ── Time (sec $time): ──</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;           setup covariance  saem table compress    other</span>
-<span class="co">#&gt; elapsed 0.00115   0.008003 2.751  0.02    0.017 1.756847</span>
+<span class="co">#&gt;            setup covariance  saem table compress    other</span>
+<span class="co">#&gt; elapsed 0.001232   0.007002 2.637 0.019    0.017 1.361766</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ── Population Parameters ($parFixed or $parFixedDf): ──</span>
 <span class="co">#&gt; </span>
