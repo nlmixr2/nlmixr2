@@ -24,10 +24,16 @@ Download and the install from
 
 ### Mac compilation tools setup
 
-To setup the mac compilers, simply 1. Install Xcode from app store 2.
-Install gfortran: a. Download and install from
-<https://mac.r-project.org/tools/> b. Add gfortran directory to the path
-with: export PATH=$PATH:/usr/local/gfortran/bin
+To setup the mac compilers, simply
+
+1.  Install Xcode from app store
+
+2.  Install gfortran:
+    
+    1.  Download and install from <https://mac.r-project.org/tools/>
+    
+    2.  Add gfortran directory to the path with: `export
+        PATH=$PATH:/usr/local/gfortran/bin`
 
 # R package installation
 
@@ -148,7 +154,7 @@ fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
 #> → compress origData in nlmixr2 object, save 5952
 #> → compress phiM in nlmixr2 object, save 62360
 #> → compress parHist in nlmixr2 object, save 9560
-#> → compress saem0 in nlmixr2 object, save 23232
+#> → compress saem0 in nlmixr2 object, save 24896
 print(fit)
 #> ── nlmixr SAEM OBJF by FOCEi approximation ──
 #> 
@@ -158,7 +164,7 @@ print(fit)
 #> ── Time (sec $time): ──
 #> 
 #>            setup covariance  saem table compress    other
-#> elapsed 0.001298   0.017036 3.362 0.024    0.018 1.797666
+#> elapsed 0.001232   0.007002 2.637 0.019    0.017 1.361766
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 

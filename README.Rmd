@@ -34,10 +34,14 @@ https://cran.r-project.org/bin/windows/Rtools/
 ### Mac compilation tools setup
 
 To setup the mac compilers, simply
-1.  Install Xcode from app store
+
+1. Install Xcode from app store
+
 2. Install gfortran:
+
    a. Download and install from https://mac.r-project.org/tools/
-   b. Add gfortran directory to the path with: export PATH=$PATH:/usr/local/gfortran/bin
+   
+   b. Add gfortran directory to the path with: `export PATH=$PATH:/usr/local/gfortran/bin`
 
 # R package installation 
 
