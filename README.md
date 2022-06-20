@@ -1,52 +1,50 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+
 
 # nlmixr2
 
 <!-- badges: start -->
-
 <!-- badges: end -->
 
-The goal of nlmixr2 is to support easy and robust nonlinear mixed
-effects models in R
+The goal of nlmixr2 is to support easy and robust nonlinear mixed effects models in R
 
 ## Installation
 
-For all versions of R, we need to have a compiler setup to run `nlmixr2`
-and `rxode2`
+For all versions of R, we need to have a compiler setup to run `nlmixr2` and `rxode2`
 
-### Windows compilation tools setup
+### Windows compilation tools setup 
 
-For Windows the compilers come from Rtools. For R version 4.2 and above
-you need to have Rtools42, for R-4.0.x, and R-4.1.x you need Rtools40.
-Download and the install from
-<https://cran.r-project.org/bin/windows/Rtools/>
+For Windows the compilers come from Rtools. For R version 4.2 and
+above you need to have Rtools42, for R-4.0.x, and R-4.1.x you need
+Rtools40. Download and the install from
+https://cran.r-project.org/bin/windows/Rtools/
 
 ### Mac compilation tools setup
 
 To setup the mac compilers, simply
 
-1.  Install Xcode from app store
+1. Install Xcode from app store
 
-2.  Install gfortran:
-    
-    1.  Download and install from <https://mac.r-project.org/tools/>
-    
-    2.  Add gfortran directory to the path with: `export
-        PATH=$PATH:/usr/local/gfortran/bin`
+2. Install gfortran:
 
-# R package installation
+   a. Download and install from https://mac.r-project.org/tools/
+   
+   b. Add gfortran directory to the path with: `export PATH=$PATH:/usr/local/gfortran/bin`
 
-Installation nlmixr2 itself is easiest in R-4.2.x because no further
-compilation is required and all supporting packages are available. From
-R, run:
+# R package installation 
+
+Installation nlmixr2 itself is easiest in R-4.2.x because no further compilation is required and all supporting packages are available. From R, run:
 
 ``` r
 install.packages("nlmixr2",dependencies = TRUE)
 ```
 
-For R-4.0.x and R-4.1.x, the crucial package symengine is currently not
-on CRAN and will have to be installed from MRAN first by running:
+For R-4.0.x and R-4.1.x, the crucial package symengine is currently not on CRAN and will have to be installed from MRAN first by running:
 
 ``` r
 install.packages("symengine", repos="https://cran.microsoft.com/snapshot/2022-01-01/")
@@ -60,9 +58,9 @@ install.packages("nlmixr2",dependencies = TRUE)
 
 ## Development version installation
 
-Once the compilers are setup and a compatible version of `symengine` is
-installed, you can install the development version of nlmixr2 and its
-nlmixr2-family dependencies like so:
+Once the compilers are setup and a compatible version of `symengine`
+is installed, you can install the development version of nlmixr2 and
+its nlmixr2-family dependencies like so:
 
 ``` r
 remotes::install_github("nlmixr2/nlmixr2data")
@@ -78,25 +76,28 @@ Optional supporting packages can be installed like so:
 
 ``` r
 remotes::install_github("ggPMXdevelopment/ggPMX") # Goodness of fit plots
-remotes::install_github("nlmixr2/xpose.nlmixr") # Additional goodness of fit plots
+remotes::install_github("nlmixr2/xpose.nlmixr2") # Additional goodness of fit plots
 remotes::install_github("RichardHooijmaijers/shinyMixR") # Shiny run manager (like Piranha)
 remotes::install_github("nlmixr2/nlmixr2targets") # Simplify work with the `targets` package
 ```
 
-If you have difficulties due to errors while compiling models, it may be
-useful to reinstall all of nlmixr2 and its dependencies. For development
-versions, please use the `remotes::install_github()` commands above. For
-the stable version, please use the following command:
+If you have difficulties due to errors while compiling models, it may
+be useful to reinstall all of nlmixr2 and its dependencies.  For
+development versions, please use the `remotes::install_github()`
+commands above.  For the stable version, please use the following
+command:
 
 ``` r
 install.packages(c("nlmixr2", "nlmixr2est", "rxode2", "nlmixr2plot", "nlmixr2data", "lotri", "nlmixr2extra"))
 ```
 
+
 ## Example
 
 This is a basic example which shows you how to solve a common problem:
 
-``` r
+
+```r
 library(nlmixr2)
 #> Loading required package: nlmixr2data
 
@@ -125,36 +126,34 @@ one.compartment <- function() {
 
 ## The fit is performed by the function nlmixr/nlmix2 specifying the model, data and estimate
 fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
+#> 
+#>  
+#> 
 #> ℹ parameter labels from comments will be replaced by 'label()'
+#> 
 #> → loading into symengine environment...
 #> → pruning branches (`if`/`else`) of saem model...
 #> ✔ done
 #> → finding duplicate expressions in saem model...
-#> [====|====|====|>---------------------------------]  33%; 0:00:00 [====|====|====|====|====|====|====|====|====|====] 100%; 0:00:00                                                                                  
 #> → optimizing duplicate expressions in saem model...
-#> [====|====|====|====|====|====|====|====|====|====] 100%; 0:00:00                                                                                  
 #> ✔ done
 #> rxode2 2.0.7 using 4 threads (see ?getRxThreads)
 #> Calculating covariance matrix
-#> >-------------------------------------------------]  01%; 0:00:00 [====|====|====|====|====|====|====|====|====|====] 100%; 0:00:00                                                                                  
 #> → loading into symengine environment...
 #> → pruning branches (`if`/`else`) of saem model...
 #> ✔ done
 #> → finding duplicate expressions in saem predOnly model 0...
-#> [====|====|====|====|====|====|====|====|====|====] 100%; 0:00:00                                                                                  
 #> → finding duplicate expressions in saem predOnly model 1...
-#> [====|====|====|====|====|====|====|====|====|====] 100%; 0:00:00                                                                                  
 #> → optimizing duplicate expressions in saem predOnly model 1...
-#> [====|====|====|====|====|====|====|====|====|====] 100%; 0:00:00                                                                                  
 #> → finding duplicate expressions in saem predOnly model 2...
-#> [====|====|====|====|====|====|====|====|====|====] 100%; 0:00:00                                                                                  
 #> ✔ done
+#> 
 #> → Calculating residuals/tables
 #> ✔ done
 #> → compress origData in nlmixr2 object, save 5952
 #> → compress phiM in nlmixr2 object, save 62360
 #> → compress parHist in nlmixr2 object, save 9560
-#> → compress saem0 in nlmixr2 object, save 24896
+#> → compress saem0 in nlmixr2 object, save 23232
 print(fit)
 #> ── nlmixr SAEM OBJF by FOCEi approximation ──
 #> 
@@ -163,8 +162,8 @@ print(fit)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>            setup covariance  saem table compress    other
-#> elapsed 0.001232   0.007002 2.637 0.019    0.017 1.361766
+#>           setup covariance  saem table compress    other
+#> elapsed 0.00133   0.007003 2.541 0.019    0.021 1.391667
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -192,61 +191,88 @@ print(fit)
 
 # Default plots
 
-``` r
+
+```r
 plot(fit)
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" /><img src="man/figures/README-unnamed-chunk-2-2.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-1.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-2.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
 
-    #> Warning: Transformation introduced infinite values in continuous x-axis
-    #> Warning: Transformation introduced infinite values in continuous y-axis
+```
+#> Warning: Transformation introduced infinite values in continuous x-axis
+#> Warning: Transformation introduced infinite values in continuous y-axis
+```
 
-<img src="man/figures/README-unnamed-chunk-2-3.png" width="100%" /><img src="man/figures/README-unnamed-chunk-2-4.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-3.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-4.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
 
-    #> Warning: Transformation introduced infinite values in continuous x-axis
+```
+#> Warning: Transformation introduced infinite values in continuous x-axis
+```
 
-<img src="man/figures/README-unnamed-chunk-2-5.png" width="100%" /><img src="man/figures/README-unnamed-chunk-2-6.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-5.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-6.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
 
-    #> Warning: Transformation introduced infinite values in continuous x-axis
+```
+#> Warning: Transformation introduced infinite values in continuous x-axis
+```
 
-<img src="man/figures/README-unnamed-chunk-2-7.png" width="100%" /><img src="man/figures/README-unnamed-chunk-2-8.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-7.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-8.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
 
-    #> Warning: Transformation introduced infinite values in continuous x-axis
+```
+#> Warning: Transformation introduced infinite values in continuous x-axis
+```
 
-<img src="man/figures/README-unnamed-chunk-2-9.png" width="100%" /><img src="man/figures/README-unnamed-chunk-2-10.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-9.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-10.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
 
-    #> Warning: Transformation introduced infinite values in continuous x-axis
+```
+#> Warning: Transformation introduced infinite values in continuous x-axis
+```
 
-<img src="man/figures/README-unnamed-chunk-2-11.png" width="100%" /><img src="man/figures/README-unnamed-chunk-2-12.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-11.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-12.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
 
-    #> Warning: Transformation introduced infinite values in continuous x-axis
+```
+#> Warning: Transformation introduced infinite values in continuous x-axis
+```
 
-<img src="man/figures/README-unnamed-chunk-2-13.png" width="100%" /><img src="man/figures/README-unnamed-chunk-2-14.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-13.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-14.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
 
-    #> Warning: Transformation introduced infinite values in continuous x-axis
+```
+#> Warning: Transformation introduced infinite values in continuous x-axis
+```
 
-<img src="man/figures/README-unnamed-chunk-2-15.png" width="100%" /><img src="man/figures/README-unnamed-chunk-2-16.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-15.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-16.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
 
-    #> Warning: Transformation introduced infinite values in continuous x-axis
+```
+#> Warning: Transformation introduced infinite values in continuous x-axis
+```
 
-<img src="man/figures/README-unnamed-chunk-2-17.png" width="100%" /><img src="man/figures/README-unnamed-chunk-2-18.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-17.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-18.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
 
-    #> Warning: Transformation introduced infinite values in continuous x-axis
+```
+#> Warning: Transformation introduced infinite values in continuous x-axis
+```
 
-<img src="man/figures/README-unnamed-chunk-2-19.png" width="100%" /><img src="man/figures/README-unnamed-chunk-2-20.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-19.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-20.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
 
-    #> Warning: Transformation introduced infinite values in continuous x-axis
+```
+#> Warning: Transformation introduced infinite values in continuous x-axis
+```
 
-<img src="man/figures/README-unnamed-chunk-2-21.png" width="100%" /><img src="man/figures/README-unnamed-chunk-2-22.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-21.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-22.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
 
-    #> Warning: Transformation introduced infinite values in continuous x-axis
+```
+#> Warning: Transformation introduced infinite values in continuous x-axis
+```
 
-<img src="man/figures/README-unnamed-chunk-2-23.png" width="100%" /><img src="man/figures/README-unnamed-chunk-2-24.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-23.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-24.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
 
-    #> Warning: Transformation introduced infinite values in continuous x-axis
+```
+#> Warning: Transformation introduced infinite values in continuous x-axis
+```
 
-<img src="man/figures/README-unnamed-chunk-2-25.png" width="100%" /><img src="man/figures/README-unnamed-chunk-2-26.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-25.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-26.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
 
-    #> Warning: Transformation introduced infinite values in continuous x-axis
+```
+#> Warning: Transformation introduced infinite values in continuous x-axis
+```
 
-<img src="man/figures/README-unnamed-chunk-2-27.png" width="100%" /><img src="man/figures/README-unnamed-chunk-2-28.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-27.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-28.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
