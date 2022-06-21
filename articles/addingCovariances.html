@@ -75,7 +75,7 @@
   </div>
 </li>
 <li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/nlmixr2/nlmixr2/raw/master/CheatSheet_nlmixr_191114.pdf">
+  <a class="external-link nav-link" href="https://github.com/nlmixr2/nlmixr2/raw/main/CheatSheet_nlmixr_220621.pdf">
     <span class="fa fa-scroll fa-lg"></span>
      
     Cheat Sheet
@@ -237,7 +237,7 @@
 <span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;            setup optimize covariance   saem table compress</span>
-<span class="co">#&gt; elapsed 0.003788    5e-06   0.021006 15.195  4.32    0.027</span>
+<span class="co">#&gt; elapsed 0.004305    7e-06   0.022009 17.193 4.828    0.028</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
@@ -260,15 +260,16 @@
 <span class="co">#&gt;   Distribution stats (mean/skewness/kurtosis/p-value) available in <span style="color: #0000BB; font-weight: bold;">$shrink</span> </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Fit Data (object is a modified </span><span style="color: #0000BB; font-weight: bold;">tibble</span><span style="font-weight: bold;">): ──</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 155 × 24</span></span>
-<span class="co">#&gt;   ID     TIME    DV EPRED  ERES   NPDE    NPD  PRED    RES    WRES IPRED  IRES</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1        2   17.3  18.9 -<span style="color: #BB0000;">1.56</span> -<span style="color: #BB0000;">0.422</span> -<span style="color: #BB0000;">0.422</span>  17.5 -<span style="color: #BB0000;">0.222</span> -<span style="color: #BB0000;">0.029</span><span style="color: #BB0000; text-decoration: underline;">7</span>  18.5 -<span style="color: #BB0000;">1.18</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      112.  31    29.9  1.13  0.394  0.394  27.9  3.11   0.254   29.6  1.37</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2        2    9.7  10.9 -<span style="color: #BB0000;">1.19</span> -<span style="color: #BB0000;">1.01</span>  -<span style="color: #BB0000;">1.01</span>   10.5 -<span style="color: #BB0000;">0.813</span> -<span style="color: #BB0000;">0.162</span>   12.5 -<span style="color: #BB0000;">2.77</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 152 more rows, and 12 more variables: IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;, A1 &lt;dbl&gt;, cl &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   v &lt;dbl&gt;, ke &lt;dbl&gt;, tad &lt;dbl&gt;, dosenum &lt;dbl&gt;</span></span></code></pre></div>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 155 × 26</span></span>
+<span class="co">#&gt;   ID     TIME    DV EPRED  ERES   NPDE      NPD   PDE    PD  PRED    RES    WRES</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1        2   17.3  18.9 -<span style="color: #BB0000;">1.56</span> -<span style="color: #BB0000;">0.422</span>  0.008<span style="text-decoration: underline;">36</span> 0.337 0.503  17.5 -<span style="color: #BB0000;">0.222</span> -<span style="color: #BB0000;">0.029</span><span style="color: #BB0000; text-decoration: underline;">7</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      112.  31    29.9  1.13  0.394  0.394   0.653 0.653  27.9  3.11   0.254 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2        2    9.7  10.9 -<span style="color: #BB0000;">1.19</span> -<span style="color: #BB0000;">1.01</span>  -<span style="color: #BB0000;">0.193</span>   0.157 0.423  10.5 -<span style="color: #BB0000;">0.813</span> -<span style="color: #BB0000;">0.162</span> </span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 152 more rows, and 14 more variables: IPRED &lt;dbl&gt;, IRES &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;, CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.cl &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   eta.v &lt;dbl&gt;, A1 &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;, ke &lt;dbl&gt;, tad &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   dosenum &lt;dbl&gt;</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="basic-goodness-of-fit-plots">Basic Goodness of Fit Plots<a class="anchor" aria-label="anchor" href="#basic-goodness-of-fit-plots"></a>

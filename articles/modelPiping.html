@@ -75,7 +75,7 @@
   </div>
 </li>
 <li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/nlmixr2/nlmixr2/raw/master/CheatSheet_nlmixr_191114.pdf">
+  <a class="external-link nav-link" href="https://github.com/nlmixr2/nlmixr2/raw/main/CheatSheet_nlmixr_220621.pdf">
     <span class="fa fa-scroll fa-lg"></span>
      
     Cheat Sheet
@@ -205,7 +205,7 @@
 <span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;            setup optimize covariance table compress    other</span>
-<span class="co">#&gt; elapsed 0.016581 0.502495   0.502497 1.516    0.012 5.977427</span>
+<span class="co">#&gt; elapsed 0.017315 0.571316   0.571318 1.696    0.012 6.465051</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
@@ -228,16 +228,16 @@
 <span class="co">#&gt;     nlmixr2(...,control=list(outerOpt="bobyqa"))</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Fit Data (object is a modified </span><span style="color: #0000BB; font-weight: bold;">tibble</span><span style="font-weight: bold;">): ──</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 26</span></span>
-<span class="co">#&gt;   ID     TIME    DV  EPRED   ERES   NPDE    NPD  PRED    RES   WRES IPRED   IRES</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.096<span style="text-decoration: underline;">7</span>  0.643  1.24   1.24   0     0.74   1.06   0     0.74 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.83   -<span style="color: #BB0000;">0.986</span> -<span style="color: #BB0000;">0.486</span> -<span style="color: #BB0000;">0.486</span>  3.29 -<span style="color: #BB0000;">0.449</span> -<span style="color: #BB0000;">0.242</span>  3.85 -<span style="color: #BB0000;">1.01</span> </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 6.15    0.422 -<span style="color: #BB0000;">1.71</span>  -<span style="color: #BB0000;">1.71</span>   5.87  0.705  0.287  6.79 -<span style="color: #BB0000;">0.216</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 129 more rows, and 14 more variables: IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.ka &lt;dbl&gt;, eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   depot &lt;dbl&gt;, center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;, tad &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   dosenum &lt;dbl&gt;</span></span></code></pre></div>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 28</span></span>
+<span class="co">#&gt;   ID     TIME    DV  EPRED   ERES   NPDE     NPD    PDE    PD  PRED    RES</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.096<span style="text-decoration: underline;">7</span>  0.643  1.24   0.903  0.893  0.817  0     0.74 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.83   -<span style="color: #BB0000;">0.986</span> -<span style="color: #BB0000;">0.486</span> -<span style="color: #BB0000;">0.385</span>  0.313  0.35   3.29 -<span style="color: #BB0000;">0.449</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 6.15    0.422 -<span style="color: #BB0000;">1.71</span>   0.092<span style="text-decoration: underline;">0</span> 0.043<span style="text-decoration: underline;">3</span> 0.537  5.87  0.705</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 129 more rows, and 17 more variables: WRES &lt;dbl&gt;, IPRED &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   IRES &lt;dbl&gt;, IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;, CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   eta.ka &lt;dbl&gt;, eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;, depot &lt;dbl&gt;, center &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;, tad &lt;dbl&gt;, dosenum &lt;dbl&gt;</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="changing-and-fixing-parameter-values-in-models">Changing and fixing parameter values in models<a class="anchor" aria-label="anchor" href="#changing-and-fixing-parameter-values-in-models"></a>
@@ -275,8 +275,8 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;            setup optimize covariance table compress   other</span>
-<span class="co">#&gt; elapsed 0.002004 0.280302   0.280304 1.008    0.052 0.29839</span>
+<span class="co">#&gt;            setup optimize covariance table compress    other</span>
+<span class="co">#&gt; elapsed 0.002138 0.303538    0.30354 1.109    0.052 0.337784</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
@@ -304,16 +304,16 @@
 <span class="co">#&gt;     nlmixr2(...,control=list(outerOpt="bobyqa"))</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Fit Data (object is a modified </span><span style="color: #0000BB; font-weight: bold;">tibble</span><span style="font-weight: bold;">): ──</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 26</span></span>
-<span class="co">#&gt;   ID     TIME    DV  EPRED   ERES   NPDE    NPD  PRED    RES   WRES IPRED   IRES</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.096<span style="text-decoration: underline;">7</span>  0.643  1.24   1.24   0     0.74   1.06   0     0.74 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.90   -<span style="color: #BB0000;">1.06</span>  -<span style="color: #BB0000;">0.440</span> -<span style="color: #BB0000;">0.440</span>  3.36 -<span style="color: #BB0000;">0.520</span> -<span style="color: #BB0000;">0.276</span>  3.85 -<span style="color: #BB0000;">1.01</span> </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 6.23    0.342 -<span style="color: #BB0000;">1.75</span>  -<span style="color: #BB0000;">1.75</span>   5.96  0.611  0.248  6.79 -<span style="color: #BB0000;">0.219</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 129 more rows, and 14 more variables: IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.ka &lt;dbl&gt;, eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   depot &lt;dbl&gt;, center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;, tad &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   dosenum &lt;dbl&gt;</span></span></code></pre></div>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 28</span></span>
+<span class="co">#&gt;   ID     TIME    DV  EPRED   ERES   NPDE     NPD   PDE    PD  PRED    RES   WRES</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.096<span style="text-decoration: underline;">7</span>  0.643  1.24   0.903  0.893 0.817  0     0.74   1.06 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.90   -<span style="color: #BB0000;">1.06</span>  -<span style="color: #BB0000;">0.440</span> -<span style="color: #BB0000;">0.394</span>  0.33  0.347  3.36 -<span style="color: #BB0000;">0.520</span> -<span style="color: #BB0000;">0.276</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 6.23    0.342 -<span style="color: #BB0000;">1.75</span>   0.083<span style="text-decoration: underline;">7</span> 0.04  0.533  5.96  0.611  0.248</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 129 more rows, and 16 more variables: IPRED &lt;dbl&gt;, IRES &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;, CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.ka &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;, depot &lt;dbl&gt;, center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   v &lt;dbl&gt;, tad &lt;dbl&gt;, dosenum &lt;dbl&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Example 3 -- Fix tka to model estimated value and re-estimate.</span>
 <span class="va">one.ka.0.5</span> <span class="op">&lt;-</span> <span class="va">fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
@@ -332,8 +332,8 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;           setup optimize covariance table compress    other</span>
-<span class="co">#&gt; elapsed 0.00196 0.281993   0.281994 1.018    0.011 0.272053</span>
+<span class="co">#&gt;            setup optimize covariance table compress    other</span>
+<span class="co">#&gt; elapsed 0.002083 0.301638    0.30164 1.104    0.012 0.299639</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
@@ -361,16 +361,16 @@
 <span class="co">#&gt;     nlmixr2(...,control=list(outerOpt="bobyqa"))</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Fit Data (object is a modified </span><span style="color: #0000BB; font-weight: bold;">tibble</span><span style="font-weight: bold;">): ──</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 26</span></span>
-<span class="co">#&gt;   ID     TIME    DV  EPRED   ERES   NPDE    NPD  PRED    RES   WRES IPRED   IRES</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.096<span style="text-decoration: underline;">7</span>  0.643  1.24   1.24   0     0.74   1.06   0     0.74 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.83   -<span style="color: #BB0000;">0.986</span> -<span style="color: #BB0000;">0.486</span> -<span style="color: #BB0000;">0.486</span>  3.29 -<span style="color: #BB0000;">0.449</span> -<span style="color: #BB0000;">0.242</span>  3.85 -<span style="color: #BB0000;">1.01</span> </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 6.15    0.422 -<span style="color: #BB0000;">1.71</span>  -<span style="color: #BB0000;">1.71</span>   5.87  0.705  0.287  6.79 -<span style="color: #BB0000;">0.216</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 129 more rows, and 14 more variables: IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.ka &lt;dbl&gt;, eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   depot &lt;dbl&gt;, center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;, tad &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   dosenum &lt;dbl&gt;</span></span></code></pre></div>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 28</span></span>
+<span class="co">#&gt;   ID     TIME    DV  EPRED   ERES   NPDE     NPD    PDE    PD  PRED    RES</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.096<span style="text-decoration: underline;">7</span>  0.643  1.24   0.903  0.893  0.817  0     0.74 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.83   -<span style="color: #BB0000;">0.986</span> -<span style="color: #BB0000;">0.486</span> -<span style="color: #BB0000;">0.385</span>  0.313  0.35   3.29 -<span style="color: #BB0000;">0.449</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 6.15    0.422 -<span style="color: #BB0000;">1.71</span>   0.092<span style="text-decoration: underline;">0</span> 0.043<span style="text-decoration: underline;">3</span> 0.537  5.87  0.705</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 129 more rows, and 17 more variables: WRES &lt;dbl&gt;, IPRED &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   IRES &lt;dbl&gt;, IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;, CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   eta.ka &lt;dbl&gt;, eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;, depot &lt;dbl&gt;, center &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;, tad &lt;dbl&gt;, dosenum &lt;dbl&gt;</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Example 4 -- Change tka to 0.7 in orginal model function and then estimate</span>
 <span class="va">one.ka.0.7</span> <span class="op">&lt;-</span> <span class="va">one.compartment</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
@@ -389,8 +389,8 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;            setup optimize covariance table compress    other</span>
-<span class="co">#&gt; elapsed 0.001811 0.503513   0.503515 1.034     0.01 1.670161</span>
+<span class="co">#&gt;           setup optimize covariance table compress    other</span>
+<span class="co">#&gt; elapsed 0.00197 0.551609    0.55161 1.095    0.019 1.858811</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
@@ -413,16 +413,16 @@
 <span class="co">#&gt;     nlmixr2(...,control=list(outerOpt="bobyqa"))</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Fit Data (object is a modified </span><span style="color: #0000BB; font-weight: bold;">tibble</span><span style="font-weight: bold;">): ──</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 26</span></span>
-<span class="co">#&gt;   ID     TIME    DV  EPRED   ERES   NPDE    NPD  PRED    RES   WRES IPRED   IRES</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.096<span style="text-decoration: underline;">8</span>  0.643  1.24   1.24   0     0.74   1.06   0     0.74 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.82   -<span style="color: #BB0000;">0.979</span> -<span style="color: #BB0000;">0.468</span> -<span style="color: #BB0000;">0.468</span>  3.28 -<span style="color: #BB0000;">0.438</span> -<span style="color: #BB0000;">0.235</span>  3.85 -<span style="color: #BB0000;">1.01</span> </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 6.13    0.437 -<span style="color: #BB0000;">1.75</span>  -<span style="color: #BB0000;">1.75</span>   5.85  0.722  0.293  6.79 -<span style="color: #BB0000;">0.215</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 129 more rows, and 14 more variables: IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.ka &lt;dbl&gt;, eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   depot &lt;dbl&gt;, center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;, tad &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   dosenum &lt;dbl&gt;</span></span></code></pre></div>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 28</span></span>
+<span class="co">#&gt;   ID     TIME    DV  EPRED   ERES   NPDE    NPD   PDE    PD  PRED    RES   WRES</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.096<span style="text-decoration: underline;">8</span>  0.643  1.24   0.903 0.893 0.817  0     0.74   1.06 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.82   -<span style="color: #BB0000;">0.979</span> -<span style="color: #BB0000;">0.468</span> -<span style="color: #BB0000;">0.376</span> 0.32  0.353  3.28 -<span style="color: #BB0000;">0.438</span> -<span style="color: #BB0000;">0.235</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 6.13    0.437 -<span style="color: #BB0000;">1.75</span>   0.100 0.04  0.54   5.85  0.722  0.293</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 129 more rows, and 16 more variables: IPRED &lt;dbl&gt;, IRES &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;, CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.ka &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;, depot &lt;dbl&gt;, center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   v &lt;dbl&gt;, tad &lt;dbl&gt;, dosenum &lt;dbl&gt;</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="changing-model-features">Changing model features<a class="anchor" aria-label="anchor" href="#changing-model-features"></a>
@@ -471,8 +471,8 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;          setup optimize covariance table compress    other</span>
-<span class="co">#&gt; elapsed 0.0023 0.314831   0.314832 1.727     0.01 3.417037</span>
+<span class="co">#&gt;            setup optimize covariance table compress    other</span>
+<span class="co">#&gt; elapsed 0.003407 0.343389   0.343391 1.778    0.011 3.785813</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
@@ -495,15 +495,16 @@
 <span class="co">#&gt;     nlmixr2(...,control=list(outerOpt="bobyqa"))</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Fit Data (object is a modified </span><span style="color: #0000BB; font-weight: bold;">tibble</span><span style="font-weight: bold;">): ──</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 25</span></span>
-<span class="co">#&gt;   ID     TIME    DV EPRED   ERES   NPDE    NPD  PRED    RES   WRES IPRED   IRES</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.142  0.598  0.915  0.915  0     0.74   0.726  0     0.74 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.24  -<span style="color: #BB0000;">0.397</span> -<span style="color: #BB0000;">0.593</span> -<span style="color: #BB0000;">0.593</span>  3.12 -<span style="color: #BB0000;">0.277</span> -<span style="color: #BB0000;">0.246</span>  3.57 -<span style="color: #BB0000;">0.730</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 5.70   0.872 -<span style="color: #BB0000;">0.449</span> -<span style="color: #BB0000;">0.449</span>  5.61  0.959  0.723  6.45  0.121</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 129 more rows, and 13 more variables: IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;, depot &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;, tad &lt;dbl&gt;, dosenum &lt;dbl&gt;</span></span></code></pre></div>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 27</span></span>
+<span class="co">#&gt;   ID     TIME    DV EPRED   ERES   NPDE    NPD   PDE    PD  PRED    RES   WRES</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.142  0.598  0.915  0.643 0.82  0.74   0     0.74   0.726</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.24  -<span style="color: #BB0000;">0.397</span> -<span style="color: #BB0000;">0.593</span> -<span style="color: #BB0000;">0.288</span> 0.277 0.387  3.12 -<span style="color: #BB0000;">0.277</span> -<span style="color: #BB0000;">0.246</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 5.70   0.872 -<span style="color: #BB0000;">0.449</span>  0.613 0.327 0.73   5.61  0.959  0.723</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 129 more rows, and 15 more variables: IPRED &lt;dbl&gt;, IRES &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;, CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.cl &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   eta.v &lt;dbl&gt;, depot &lt;dbl&gt;, center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   tad &lt;dbl&gt;, dosenum &lt;dbl&gt;</span></span></code></pre></div>
 <p>Of course you could also add an eta on a parameter in the same way;</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">addBackKa</span> <span class="op">&lt;-</span> <span class="va">noEta</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
@@ -544,7 +545,7 @@
 <span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;            setup optimize covariance table compress    other</span>
-<span class="co">#&gt; elapsed 0.002279  0.48245   0.482452 1.474    0.011 4.525819</span>
+<span class="co">#&gt; elapsed 0.002339 0.512262   0.512263 1.543     0.01 4.792136</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
@@ -567,16 +568,16 @@
 <span class="co">#&gt;     nlmixr2(...,control=list(outerOpt="bobyqa"))</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Fit Data (object is a modified </span><span style="color: #0000BB; font-weight: bold;">tibble</span><span style="font-weight: bold;">): ──</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 26</span></span>
-<span class="co">#&gt;   ID     TIME    DV  EPRED   ERES   NPDE    NPD  PRED    RES   WRES IPRED   IRES</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.096<span style="text-decoration: underline;">4</span>  0.644  1.50   1.50   0     0.74   1.07   0     0.74 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.67   -<span style="color: #BB0000;">0.826</span> -<span style="color: #BB0000;">0.706</span> -<span style="color: #BB0000;">0.706</span>  3.32 -<span style="color: #BB0000;">0.480</span> -<span style="color: #BB0000;">0.255</span>  3.85 -<span style="color: #BB0000;">1.01</span> </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 5.95    0.621 -<span style="color: #BB0000;">1.88</span>  -<span style="color: #BB0000;">1.88</span>   5.91  0.663  0.267  6.79 -<span style="color: #BB0000;">0.217</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 129 more rows, and 14 more variables: IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;, bsv.ka &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   depot &lt;dbl&gt;, center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;, tad &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   dosenum &lt;dbl&gt;</span></span></code></pre></div>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 28</span></span>
+<span class="co">#&gt;   ID     TIME    DV  EPRED   ERES   NPDE    NPD   PDE    PD  PRED    RES   WRES</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.096<span style="text-decoration: underline;">4</span>  0.644  1.50   0.928 0.933 0.823  0     0.74   1.07 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.67   -<span style="color: #BB0000;">0.826</span> -<span style="color: #BB0000;">0.706</span> -<span style="color: #BB0000;">0.297</span> 0.24  0.383  3.32 -<span style="color: #BB0000;">0.480</span> -<span style="color: #BB0000;">0.255</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 5.95    0.621 -<span style="color: #BB0000;">1.88</span>   0.314 0.03  0.623  5.91  0.663  0.267</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 129 more rows, and 16 more variables: IPRED &lt;dbl&gt;, IRES &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;, CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.cl &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   eta.v &lt;dbl&gt;, bsv.ka &lt;dbl&gt;, depot &lt;dbl&gt;, center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   v &lt;dbl&gt;, tad &lt;dbl&gt;, dosenum &lt;dbl&gt;</span></span></code></pre></div>
 <p>You can see the name change by examining the <code>omega</code> matrix:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">addBackKa</span><span class="op">$</span><span class="va">omega</span>
@@ -639,7 +640,7 @@
 <span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;            setup optimize covariance table compress    other</span>
-<span class="co">#&gt; elapsed 0.002296 0.294995   0.294997 1.577    0.011 4.109712</span>
+<span class="co">#&gt; elapsed 0.002691 0.322216   0.322218 1.704    0.011 4.493875</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
@@ -669,16 +670,16 @@
 <span class="co">#&gt;     nlmixr2(...,control=list(outerOpt="bobyqa"))</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Fit Data (object is a modified </span><span style="color: #0000BB; font-weight: bold;">tibble</span><span style="font-weight: bold;">): ──</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 27</span></span>
-<span class="co">#&gt;   ID     TIME    DV  EPRED   ERES   NPDE    NPD  PRED    RES   WRES IPRED   IRES</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.096<span style="text-decoration: underline;">7</span>  0.643  1.23   1.23   0     0.74   1.06   0     0.74 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.90   -<span style="color: #BB0000;">1.06</span>  -<span style="color: #BB0000;">0.468</span> -<span style="color: #BB0000;">0.468</span>  3.36 -<span style="color: #BB0000;">0.522</span> -<span style="color: #BB0000;">0.277</span>  3.84 -<span style="color: #BB0000;">1.00</span> </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 6.22    0.351 -<span style="color: #BB0000;">1.64</span>  -<span style="color: #BB0000;">1.64</span>   5.95  0.617  0.251  6.79 -<span style="color: #BB0000;">0.216</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 129 more rows, and 15 more variables: IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.ka &lt;dbl&gt;, eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   depot &lt;dbl&gt;, center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;, tad &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   dosenum &lt;dbl&gt;, WT &lt;dbl&gt;</span></span></code></pre></div>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 29</span></span>
+<span class="co">#&gt;   ID     TIME    DV  EPRED   ERES   NPDE     NPD   PDE    PD  PRED    RES   WRES</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.096<span style="text-decoration: underline;">7</span>  0.643  1.23   0.903   0.89 0.817  0     0.74   1.06 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.90   -<span style="color: #BB0000;">1.06</span>  -<span style="color: #BB0000;">0.468</span> -<span style="color: #BB0000;">0.394</span>   0.32 0.347  3.36 -<span style="color: #BB0000;">0.522</span> -<span style="color: #BB0000;">0.277</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 6.22    0.351 -<span style="color: #BB0000;">1.64</span>   0.083<span style="text-decoration: underline;">7</span>  0.05 0.533  5.95  0.617  0.251</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 129 more rows, and 17 more variables: IPRED &lt;dbl&gt;, IRES &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;, CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.ka &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;, depot &lt;dbl&gt;, center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   v &lt;dbl&gt;, tad &lt;dbl&gt;, dosenum &lt;dbl&gt;, WT &lt;dbl&gt;</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="changing-residual-errors">Changing residual errors<a class="anchor" aria-label="anchor" href="#changing-residual-errors"></a>
@@ -729,7 +730,7 @@
 <span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;            setup optimize covariance table compress    other</span>
-<span class="co">#&gt; elapsed 0.002315 0.501825   0.501826 1.511    0.011 5.205034</span>
+<span class="co">#&gt; elapsed 0.002714 0.564501   0.564504   1.6    0.018 5.679281</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span>
 <span class="co">#&gt; </span>
@@ -759,16 +760,16 @@
 <span class="co">#&gt;     nlmixr2(...,control=list(outerOpt="bobyqa"))</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; <span style="font-weight: bold;">── Fit Data (object is a modified </span><span style="color: #0000BB; font-weight: bold;">tibble</span><span style="font-weight: bold;">): ──</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 26</span></span>
-<span class="co">#&gt;   ID     TIME    DV  EPRED   ERES   NPDE    NPD  PRED    RES   WRES IPRED   IRES</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.038<span style="text-decoration: underline;">0</span>  0.702  2.13   2.13   0     0.74   2.71   0     0.74 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.59   -<span style="color: #BB0000;">0.748</span> -<span style="color: #BB0000;">0.915</span> -<span style="color: #BB0000;">0.915</span>  3.05 -<span style="color: #BB0000;">0.212</span> -<span style="color: #BB0000;">0.126</span>  3.46 -<span style="color: #BB0000;">0.624</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 5.86    0.712 -<span style="color: #BB0000;">0.830</span> -<span style="color: #BB0000;">0.830</span>  5.53  1.04   0.428  6.23  0.338</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 129 more rows, and 14 more variables: IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.ka &lt;dbl&gt;, eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   depot &lt;dbl&gt;, center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;, tad &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   dosenum &lt;dbl&gt;</span></span></code></pre></div>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 28</span></span>
+<span class="co">#&gt;   ID     TIME    DV  EPRED   ERES   NPDE    NPD   PDE    PD  PRED    RES   WRES</span>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.038<span style="text-decoration: underline;">0</span>  0.702  2.13   2.22  0.983 0.987  0     0.74   2.71 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.59   -<span style="color: #BB0000;">0.748</span> -<span style="color: #BB0000;">0.915</span> -<span style="color: #BB0000;">0.271</span> 0.18  0.393  3.05 -<span style="color: #BB0000;">0.212</span> -<span style="color: #BB0000;">0.126</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 5.86    0.712 -<span style="color: #BB0000;">0.830</span>  0.262 0.203 0.603  5.53  1.04   0.428</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 129 more rows, and 16 more variables: IPRED &lt;dbl&gt;, IRES &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;, CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.ka &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;, depot &lt;dbl&gt;, center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   v &lt;dbl&gt;, tad &lt;dbl&gt;, dosenum &lt;dbl&gt;</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
