@@ -9,6 +9,14 @@ output: github_document
 # nlmixr2
 
 <!-- badges: start -->
+[![R build
+status](https://github.com/nlmixr2/nlmixr2/workflows/R-CMD-check/badge.svg)](https://github.com/nlmixr2/nlmixr2/actions)
+[![CodeFactor](https://www.codefactor.io/repository/github/nlmixr2/nlmixr2/badge)](https://www.codefactor.io/repository/github/nlmixr2/nlmixr2)
+[![CRAN version](http://www.r-pkg.org/badges/version/nlmixr2)](https://cran.r-project.org/package=nlmixr2)
+[![CRAN total downloads](https://cranlogs.r-pkg.org/badges/grand-total/nlmixr2)](https://cran.r-project.org/package=nlmixr2)
+[![CRAN total downloads](https://cranlogs.r-pkg.org/badges/nlmixr2)](https://cran.r-project.org/package=nlmixr2)
+
+[![codecov](https://codecov.io/gh/nlmixr2/nlmixr2/branch/main/graph/badge.svg?token=fv3YwWd9Nl)](https://app.codecov.io/gh/nlmixr2/nlmixr2)
 <!-- badges: end -->
 
 The goal of nlmixr2 is to support easy and robust nonlinear mixed effects models in R
@@ -137,8 +145,33 @@ fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
 #> → finding duplicate expressions in saem model...
 #> → optimizing duplicate expressions in saem model...
 #> ✔ done
+#> rxode2 NA model named rx_4c6e43a65914e03c77a3a96a6d246454 model (✔ ready). 
+#> $state: depot, center
+#> $stateExtra: cp
+#> $params: tka, tcl, tv
+#> $lhs: rx_pred_
 #> rxode2 2.0.7 using 4 threads (see ?getRxThreads)
 #> Calculating covariance matrix
+#> rxode2 2.0.7 model named rx_4c6e43a65914e03c77a3a96a6d246454 model (✔ ready). 
+#> $state: depot, center
+#> $stateExtra: cp
+#> $params: tka, tcl, tv
+#> $lhs: rx_pred_
+#> rxode2 2.0.7 model named rx_4c6e43a65914e03c77a3a96a6d246454 model (✔ ready). 
+#> $state: depot, center
+#> $stateExtra: cp
+#> $params: tka, tcl, tv
+#> $lhs: rx_pred_
+#> rxode2 2.0.7 model named rx_4c6e43a65914e03c77a3a96a6d246454 model (✔ ready). 
+#> $state: depot, center
+#> $stateExtra: cp
+#> $params: tka, tcl, tv
+#> $lhs: rx_pred_
+#> rxode2 2.0.7 model named rx_4c6e43a65914e03c77a3a96a6d246454 model (✔ ready). 
+#> $state: depot, center
+#> $stateExtra: cp
+#> $params: tka, tcl, tv
+#> $lhs: rx_pred_
 #> → loading into symengine environment...
 #> → pruning branches (`if`/`else`) of saem model...
 #> ✔ done
@@ -162,8 +195,8 @@ print(fit)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>           setup covariance  saem table compress    other
-#> elapsed 0.00133   0.007003 2.541 0.019    0.021 1.391667
+#>            setup covariance  saem table compress    other
+#> elapsed 0.001155   0.065003 2.566  0.02    0.019 1.795842
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
