@@ -37,6 +37,7 @@ Suggests:
     devtools,
     ggplot2,
     testthat,
+    n1qn1,
     withr
 VignetteBuilder: knitr
 BugReports: https://github.com/nlmixr2/nlmixr2/issues/

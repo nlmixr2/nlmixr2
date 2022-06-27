@@ -10,6 +10,17 @@
 * Update documentation to mention the package names that work with
   nlmixr2, like `xpose.nlmixr2` instead of `xpose.nlmixr`
 
+* Added `n1qn1` as a suggested package to try to fix the following
+  issue on the CRAN:
+
+```
+Version: 2.0.6
+Check: Rd cross-references
+Result: NOTE
+    Undeclared package ‘n1qn1’ in Rd xrefs
+Flavor: r-devel-linux-x86_64-fedora-clang
+```
+
 * Manual hard re-export of `nlmixr2est::nlmixr2` to allow `pkgdown` to
   document this function.
 
