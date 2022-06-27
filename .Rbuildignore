@@ -55,6 +55,8 @@
 ^.github/*.*
 ^CheatSheet_nlmixr_191114.pdf$
 ^CheatSheet_nlmixr_191114.pptx$
+^CheatSheet_nlmixr_220621.pdf$
+^CheatSheet_nlmixr_220621.pptx$
 ^doc$
 ^Meta$
 ^cran-comments\.md$
