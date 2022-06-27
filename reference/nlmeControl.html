@@ -14,7 +14,7 @@ is used as the ‘control’ argument to the ‘nlme’ function."><meta propert
     
     <a class="navbar-brand me-2" href="../index.html">nlmixr2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.7</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -110,43 +110,43 @@ is used as the ‘control’ argument to the ‘nlme’ function.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">nlmeControl</span><span class="op">(</span>
-  maxIter <span class="op">=</span> <span class="fl">100</span>,
-  pnlsMaxIter <span class="op">=</span> <span class="fl">100</span>,
-  msMaxIter <span class="op">=</span> <span class="fl">100</span>,
-  minScale <span class="op">=</span> <span class="fl">0.001</span>,
-  tolerance <span class="op">=</span> <span class="fl">1e-05</span>,
-  niterEM <span class="op">=</span> <span class="fl">25</span>,
-  pnlsTol <span class="op">=</span> <span class="fl">0.001</span>,
-  msTol <span class="op">=</span> <span class="fl">1e-06</span>,
-  returnObject <span class="op">=</span> <span class="cn">FALSE</span>,
-  msVerbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  msWarnNoConv <span class="op">=</span> <span class="cn">TRUE</span>,
-  gradHess <span class="op">=</span> <span class="cn">TRUE</span>,
-  apVar <span class="op">=</span> <span class="cn">TRUE</span>,
-  .relStep <span class="op">=</span> <span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span><span class="op">^</span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span>,
-  minAbsParApVar <span class="op">=</span> <span class="fl">0.05</span>,
-  opt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"nlminb"</span>, <span class="st">"nlm"</span><span class="op">)</span>,
-  natural <span class="op">=</span> <span class="cn">TRUE</span>,
-  sigma <span class="op">=</span> <span class="cn">NULL</span>,
-  optExpression <span class="op">=</span> <span class="cn">TRUE</span>,
-  sumProd <span class="op">=</span> <span class="cn">FALSE</span>,
-  rxControl <span class="op">=</span> <span class="cn">NULL</span>,
-  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ML"</span>, <span class="st">"REML"</span><span class="op">)</span>,
-  random <span class="op">=</span> <span class="cn">NULL</span>,
-  fixed <span class="op">=</span> <span class="cn">NULL</span>,
-  weights <span class="op">=</span> <span class="cn">NULL</span>,
-  verbose <span class="op">=</span> <span class="cn">TRUE</span>,
-  returnNlme <span class="op">=</span> <span class="cn">FALSE</span>,
-  addProp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"combined2"</span>, <span class="st">"combined1"</span><span class="op">)</span>,
-  calcTables <span class="op">=</span> <span class="cn">TRUE</span>,
-  compress <span class="op">=</span> <span class="cn">TRUE</span>,
-  adjObf <span class="op">=</span> <span class="cn">TRUE</span>,
-  ci <span class="op">=</span> <span class="fl">0.95</span>,
-  sigdig <span class="op">=</span> <span class="fl">4</span>,
-  sigdigTable <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">nlmeControl</span><span class="op">(</span></span>
+<span>  maxIter <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  pnlsMaxIter <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  msMaxIter <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  minScale <span class="op">=</span> <span class="fl">0.001</span>,</span>
+<span>  tolerance <span class="op">=</span> <span class="fl">1e-05</span>,</span>
+<span>  niterEM <span class="op">=</span> <span class="fl">25</span>,</span>
+<span>  pnlsTol <span class="op">=</span> <span class="fl">0.001</span>,</span>
+<span>  msTol <span class="op">=</span> <span class="fl">1e-06</span>,</span>
+<span>  returnObject <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  msVerbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  msWarnNoConv <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  gradHess <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  apVar <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  .relStep <span class="op">=</span> <span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span><span class="op">^</span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span>,</span>
+<span>  minAbsParApVar <span class="op">=</span> <span class="fl">0.05</span>,</span>
+<span>  opt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"nlminb"</span>, <span class="st">"nlm"</span><span class="op">)</span>,</span>
+<span>  natural <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  sigma <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  optExpression <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  sumProd <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  rxControl <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ML"</span>, <span class="st">"REML"</span><span class="op">)</span>,</span>
+<span>  random <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  fixed <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  weights <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  returnNlme <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  addProp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"combined2"</span>, <span class="st">"combined1"</span><span class="op">)</span>,</span>
+<span>  calcTables <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  compress <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  adjObf <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  ci <span class="op">=</span> <span class="fl">0.95</span>,</span>
+<span>  sigdig <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  sigdigTable <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -416,7 +416,7 @@ If not specified, then it matches the significant digits in the
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">nlmixr2est</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/nlmixr2est/man/nlmixr2NlmeControl.html" class="external-link">nlmeControl</a></span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">nlmixr2est</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/nlmixr2est/man/nlmixr2NlmeControl.html" class="external-link">nlmeControl</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $maxIter</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 100</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -794,7 +794,7 @@ If not specified, then it matches the significant digits in the
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "nlmeControl"</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/nlmixr2est/man/nlmixr2NlmeControl.html" class="external-link">nlmixr2NlmeControl</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/nlmixr2est/man/nlmixr2NlmeControl.html" class="external-link">nlmixr2NlmeControl</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $maxIter</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 100</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -1183,7 +1183,7 @@ If not specified, then it matches the significant digits in the
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.9000.</p>
 </div>
 
     </footer></div>
