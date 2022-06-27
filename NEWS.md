@@ -10,6 +10,9 @@
 * Update documentation to mention the package names that work with
   nlmixr2, like `xpose.nlmixr2` instead of `xpose.nlmixr`
 
+* Manual hard re-export of `nlmixr2est::nlmixr2` to allow `pkgdown` to
+  document this function.
+
 # nlmixr2 2.0.6
 
 * nlmixr2 is an umbrella package to include the lower level packages
