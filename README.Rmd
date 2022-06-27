@@ -22,8 +22,6 @@ status](https://github.com/nlmixr2/nlmixr2/workflows/R-CMD-check/badge.svg)](htt
 [![CRAN version](http://www.r-pkg.org/badges/version/nlmixr2)](https://cran.r-project.org/package=nlmixr2)
 [![CRAN total downloads](https://cranlogs.r-pkg.org/badges/grand-total/nlmixr2)](https://cran.r-project.org/package=nlmixr2)
 [![CRAN total downloads](https://cranlogs.r-pkg.org/badges/nlmixr2)](https://cran.r-project.org/package=nlmixr2)
-
-[![codecov](https://codecov.io/gh/nlmixr2/nlmixr2/branch/main/graph/badge.svg?token=fv3YwWd9Nl)](https://app.codecov.io/gh/nlmixr2/nlmixr2)
 <!-- badges: end -->
 
 The goal of nlmixr2 is to support easy and robust nonlinear mixed effects models in R

@@ -15,8 +15,6 @@ status](https://github.com/nlmixr2/nlmixr2/workflows/R-CMD-check/badge.svg)](htt
 [![CRAN version](http://www.r-pkg.org/badges/version/nlmixr2)](https://cran.r-project.org/package=nlmixr2)
 [![CRAN total downloads](https://cranlogs.r-pkg.org/badges/grand-total/nlmixr2)](https://cran.r-project.org/package=nlmixr2)
 [![CRAN total downloads](https://cranlogs.r-pkg.org/badges/nlmixr2)](https://cran.r-project.org/package=nlmixr2)
-
-[![codecov](https://codecov.io/gh/nlmixr2/nlmixr2/branch/main/graph/badge.svg?token=fv3YwWd9Nl)](https://app.codecov.io/gh/nlmixr2/nlmixr2)
 <!-- badges: end -->
 
 The goal of nlmixr2 is to support easy and robust nonlinear mixed effects models in R
@@ -107,7 +105,6 @@ This is a basic example which shows you how to solve a common problem:
 
 ```r
 library(nlmixr2)
-#> Loading required package: nlmixr2data
 
 ## The basic model consiss of an ini block that has initial estimates
 one.compartment <- function() {
@@ -134,7 +131,7 @@ one.compartment <- function() {
 
 ## The fit is performed by the function nlmixr/nlmix2 specifying the model, data and estimate
 fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
-#> 
+#>  
 #>  
 #> 
 #> ℹ parameter labels from comments will be replaced by 'label()'
@@ -145,29 +142,28 @@ fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
 #> → finding duplicate expressions in saem model...
 #> → optimizing duplicate expressions in saem model...
 #> ✔ done
-#> rxode2 NA model named rx_4c6e43a65914e03c77a3a96a6d246454 model (✔ ready). 
+#> rxode2 2.0.7 model named rx_7bde54c6c90c8ab16296ac0ee0a3a632 model (✔ ready). 
 #> $state: depot, center
 #> $stateExtra: cp
 #> $params: tka, tcl, tv
 #> $lhs: rx_pred_
-#> rxode2 2.0.7 using 4 threads (see ?getRxThreads)
 #> Calculating covariance matrix
-#> rxode2 2.0.7 model named rx_4c6e43a65914e03c77a3a96a6d246454 model (✔ ready). 
+#> rxode2 2.0.7 model named rx_7bde54c6c90c8ab16296ac0ee0a3a632 model (✔ ready). 
 #> $state: depot, center
 #> $stateExtra: cp
 #> $params: tka, tcl, tv
 #> $lhs: rx_pred_
-#> rxode2 2.0.7 model named rx_4c6e43a65914e03c77a3a96a6d246454 model (✔ ready). 
+#> rxode2 2.0.7 model named rx_7bde54c6c90c8ab16296ac0ee0a3a632 model (✔ ready). 
 #> $state: depot, center
 #> $stateExtra: cp
 #> $params: tka, tcl, tv
 #> $lhs: rx_pred_
-#> rxode2 2.0.7 model named rx_4c6e43a65914e03c77a3a96a6d246454 model (✔ ready). 
+#> rxode2 2.0.7 model named rx_7bde54c6c90c8ab16296ac0ee0a3a632 model (✔ ready). 
 #> $state: depot, center
 #> $stateExtra: cp
 #> $params: tka, tcl, tv
 #> $lhs: rx_pred_
-#> rxode2 2.0.7 model named rx_4c6e43a65914e03c77a3a96a6d246454 model (✔ ready). 
+#> rxode2 2.0.7 model named rx_7bde54c6c90c8ab16296ac0ee0a3a632 model (✔ ready). 
 #> $state: depot, center
 #> $stateExtra: cp
 #> $params: tka, tcl, tv
@@ -186,7 +182,7 @@ fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
 #> → compress origData in nlmixr2 object, save 5952
 #> → compress phiM in nlmixr2 object, save 62360
 #> → compress parHist in nlmixr2 object, save 9560
-#> → compress saem0 in nlmixr2 object, save 23232
+#> → compress saem0 in nlmixr2 object, save 23224
 print(fit)
 #> ── nlmixr SAEM OBJF by FOCEi approximation ──
 #> 
@@ -196,7 +192,7 @@ print(fit)
 #> ── Time (sec $time): ──
 #> 
 #>            setup covariance  saem table compress    other
-#> elapsed 0.001155   0.065003 2.566  0.02    0.019 1.795842
+#> elapsed 0.001214   0.087003 2.579 0.018    0.024 0.830783
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
