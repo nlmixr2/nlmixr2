@@ -21,9 +21,9 @@ test_that("basic nlmixr tests", {
     })
   }
 
-  expect_true(nlmixr(one.compartment), "rxUi")
+  expect_true(inherits(nlmixr(one.compartment), "rxUi"))
 
-  expect_true(nlmixr2(one.compartment), "rxUi")
+  expect_true(inherits(nlmixr2(one.compartment), "rxUi"))
 
   fit <- nlmixr(one.compartment, theo_sd,  est="saem",
                 control=list(print=0))
