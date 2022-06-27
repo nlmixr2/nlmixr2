@@ -84,7 +84,7 @@ first model time, 102 is the second etc.
 default \code{TRUE}.}
 
 \item{cores}{Number of cores used in parallel ODE solving.  This
-is equivalent to calling \code{\link[rxode2:getRxThreads]{setRxThreads()}}}
+is equivalent to calling \code{\link[rxode2:setRxThreads]{setRxThreads()}}}
 
 \item{keep}{is the keep sent to the table}
 
