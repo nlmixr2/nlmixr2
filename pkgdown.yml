@@ -1,6 +1,6 @@
 pandoc: 2.7.3
 pkgdown: 2.0.5.9000
-pkgdown_sha: b4096aa376773d7dee98a267fd0b5a025975a3dc
+pkgdown_sha: 1c29ed55626295ac6aabc615075be4edbedb88c0
 articles:
   addingCovariances: addingCovariances.html
   broom: broom.html
@@ -13,7 +13,7 @@ articles:
   running_nlmixr: running_nlmixr.html
   wbc: wbc.html
   xgxr-nlmixr-ggpmx: xgxr-nlmixr-ggpmx.html
-last_built: 2022-07-12T06:02Z
+last_built: 2022-07-15T20:15Z
 urls:
   reference: https://nlmixr2.github.io/nlmixr2/reference
   article: https://nlmixr2.github.io/nlmixr2/articles
