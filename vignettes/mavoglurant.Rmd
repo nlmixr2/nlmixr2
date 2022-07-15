@@ -34,7 +34,7 @@ try a full PBPK model. This one was published for mavoglurant
 ```{r}
 library(nlmixr2)
 library(xpose)
-library(xpose.nlmixr)
+library(xpose.nlmixr2)
 library(ggplot2)
 
 pbpk <- function(){

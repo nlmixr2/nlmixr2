@@ -62,7 +62,7 @@ navbar:
           href: articles/wbc.html
   - text: "Cheat Sheet"
     icon: fa-scroll fa-lg
-    href: https://github.com/nlmixr2/nlmixr2/raw/master/CheatSheet_nlmixr_191114.pdf
+    href: https://github.com/nlmixr2/nlmixr2/raw/main/CheatSheet_nlmixr_220621.pdf
   - text: "Tutorial"
     icon: fas fa-life-ring
     href: https://doi.org/10.1002/psp4.12445

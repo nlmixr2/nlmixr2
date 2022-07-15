@@ -1,6 +1,6 @@
 Package: nlmixr2
 Title: Nonlinear Mixed Effects Models in Population PK/PD
-Version: 2.0.6
+Version: 2.0.7
 Authors@R: c(person("Matthew","Fidler", role = c("aut", "cre"), email = "matthew.fidler@gmail.com", comment=c(ORCID="0000-0001-8538-6691")),
    person("Yuan", "Xiong", role = "ctb", email = "yuan.xiong@gmail.com"),
    person("Rik", "Schoemaker", role = "ctb", email = "rik.schoemaker@occams.com", comment=c(ORCID="0000-0002-7538-3005")),
@@ -22,7 +22,7 @@ Description: Fit and compare nonlinear mixed-effects models in differential
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 Imports: 
     nlmixr2est,
     nlmixr2extra,
@@ -35,9 +35,10 @@ Suggests:
     rmarkdown,
     knitr,
     devtools,
-    withr,
     ggplot2,
-    testthat
+    testthat,
+    n1qn1,
+    withr
 VignetteBuilder: knitr
 BugReports: https://github.com/nlmixr2/nlmixr2/issues/
-URL: https://nlmixr2.github.io/nlmixr2/, https://github.com/nlmixr2/nlmixr2/
+URL: https://nlmixr2.org/, https://github.com/nlmixr2/nlmixr2/
