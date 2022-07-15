@@ -21,9 +21,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-
 library(nlmixr2)
-
 ```
 
 ```{r model}
@@ -43,48 +41,50 @@ wbc <- function() {
     prop.err <- 10
   })
   model({
-    CIRC0 =  exp(log_CIRC0 + eta.CIRC0)
-    MTT =  exp(log_MTT + eta.MTT)
-    SLOPU =  exp(log_SLOPU + eta.SLOPU)
+    CIRC0 = exp(log_CIRC0 + eta.CIRC0)
+    MTT = exp(log_MTT + eta.MTT)
+    SLOPU = exp(log_SLOPU + eta.SLOPU)
     GAMMA = exp(log_GAMMA)
 
     # PK parameters from input dataset
-    CL = CLI;
-    V1 = V1I;
-    V2 = V2I;
-    Q = 204;
+    CL = CLI
+    V1 = V1I
+    V2 = V2I
+    Q = 204
 
-    CONC = A_centr/V1;
+    CONC = centr/V1
 
     # PD parameters
-    NN = 3;
-    KTR = (NN + 1)/MTT;
-    EDRUG = 1 - SLOPU * CONC;
-    FDBK = (CIRC0 / A_circ)^GAMMA;
+    NN = 3
+    KTR = (NN + 1)/MTT
+    EDRUG = 1 - SLOPU * CONC
+    FDBK = (CIRC0 / circ)^GAMMA
 
-    CIRC = A_circ;
+    CIRC = circ
 
-    A_prol(0) = CIRC0;
-    A_tr1(0) = CIRC0;
-    A_tr2(0) = CIRC0;
-    A_tr3(0) = CIRC0;
-    A_circ(0) = CIRC0;
+    prol(0) = CIRC0
+    tr1(0) = CIRC0
+    tr2(0) = CIRC0
+    tr3(0) = CIRC0
+    circ(0) = CIRC0
 
-    d/dt(A_centr) = A_periph * Q/V2 - A_centr * (CL/V1 + Q/V1);
-    d/dt(A_periph) = A_centr * Q/V1 - A_periph * Q/V2;
-    d/dt(A_prol) = KTR * A_prol * EDRUG * FDBK - KTR * A_prol;
-    d/dt(A_tr1) = KTR * A_prol - KTR * A_tr1;
-    d/dt(A_tr2) = KTR * A_tr1 - KTR * A_tr2;
-    d/dt(A_tr3) = KTR * A_tr2 - KTR * A_tr3;
-    d/dt(A_circ) = KTR * A_tr3 - KTR * A_circ;
+    d/dt(centr) = periph * Q/V2 - centr * (CL/V1 + Q/V1)
+    d/dt(periph) = centr * Q/V1 - periph * Q/V2
+    d/dt(prol) = KTR * prol * EDRUG * FDBK - KTR * prol
+    d/dt(tr1) = KTR * prol - KTR * tr1
+    d/dt(tr2) = KTR * tr1 - KTR * tr2
+    d/dt(tr3) = KTR * tr2 - KTR * tr3
+    d/dt(circ) = KTR * tr3 - KTR * circ
 
     CIRC ~ prop(prop.err)
   })
 }
 ```
+
 # Fit model using saem
+
 ```{r saem}
-d3 = read.csv("Simulated_WBC_pacl_ddmore_samePK_nlmixr.csv", na.string = ".")
+d3 <- read.csv("Simulated_WBC_pacl_ddmore_samePK_nlmixr.csv", na.strings = ".")
 
 fit.S <- nlmixr(wbc, d3, est="saem", list(print=0), table=list(cwres=TRUE, npde=TRUE))
 
@@ -127,11 +127,11 @@ print(res_distrib(xpdb) +
       ylab("Density") +
       xlab("Conditional Weighted Residuals"))
 
-vpcPlot(fit.S, n=500, n_bins = 10, show=list(obs_dv=T),
+vpcPlot(fit.S, n=500, n_bins = 10, show=list(obs_dv=TRUE),
         ylab = "Neutrophil Count (10^9/L)", xlab = "Time (h)")
 
 vpcPlot(fit.S, n=500, bins = c(0,170,300,350,500,600,900,3000,4580),
-        show=list(obs_dv=T), ylab = "Neutrophil Count (10^9/L)", xlab = "Time (h)")
+        show=list(obs_dv=TRUE), ylab = "Neutrophil Count (10^9/L)", xlab = "Time (h)")
 
 ```
 
@@ -141,7 +141,8 @@ vpcPlot(fit.S, n=500, bins = c(0,170,300,350,500,600,900,3000,4580),
 fit.F <- nlmixr(wbc, d3, est="focei", list(print=0), table=list(cwres=TRUE, npde=TRUE))
 ```
 
-## FOCEi Goodness of fit plots
+## FOCEi goodness of fit plots
+
 ```{r foceiGof}
 xpdb <- xpose_data_nlmixr(fit.F)
 plot(fit.F)
@@ -177,13 +178,12 @@ print(res_distrib(xpdb) +
       ylab("Density") +
       xlab("Conditional Weighted Residuals"))
 
-#vpc.ui(fit.S, n=500, show=list(obs_dv=T), ylab = "Neutrophil count (10^9/L)", xlab = "Time (h)")
 # 10 bins is slightly better than auto bin
-vpcPlot(fit.F, n=500, n_bins = 10, show=list(obs_dv=T),
+vpcPlot(fit.F, n=500, n_bins = 10, show=list(obs_dv=TRUE),
         ylab = "Neutrophil Count (10^9/L)", xlab = "Time (h)")
 
 # specify bins
-vpcPlot(fit.F, n=500, bins = c(0,170,300,350,500,600,900,3000,4580),
-        show=list(obs_dv=T),
+vpcPlot(fit.F, n=500, bins = c(0, 170, 300, 350, 500, 600, 900, 3000, 4580),
+        show=list(obs_dv=TRUE),
         ylab = "Neutrophil Count (10^9/L)", xlab = "Time (h)")
 ```
