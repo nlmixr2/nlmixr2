@@ -317,44 +317,44 @@ it is appropriate to compare the AIC/Objective function values)
 
 # Model Diagnostics with ggPMX
 
-```{r, fig.width=4, fig.height=8}
+```{r, fig.width=8, fig.height=8}
 ## The controller then can be piped into a specific plot
 ctr <- pmx_nlmixr(cmt2fit.logn, conts = c("WEIGHTB"), cats="TRTACT", vpc=TRUE)
 ```
 
-```{r, fig.width=4, fig.height=8}
+```{r, fig.width=8, fig.height=8}
 ctr %>% pmx_plot_npde_pred
 ```
 
-```{r, fig.width=4, fig.height=8}
+```{r, fig.width=8, fig.height=8}
 ## Modify graphical options and remove DRAFT label:
 ctr %>% pmx_plot_npde_time(smooth = list(color="blue"), point = list(shape=4), is.draft=FALSE, 
                            labels = list(x = "Time after first dose (days)", y = "Normalized PDE"))
 ```
 
-```{r, fig.width=4, fig.height=8}
+```{r, fig.width=8, fig.height=8}
 ctr %>% pmx_plot_dv_ipred(scale_x_log10=TRUE, scale_y_log10=TRUE,filter=IPRED>0.001)
 ```
 
-```{r, fig.width=4, fig.height=8}
+```{r, fig.width=8, fig.height=8}
 ctr %>% pmx_plot_dv_pred(scale_x_log10=TRUE, scale_y_log10=TRUE,filter=IPRED>0.001)
 ```
 
-```{r, fig.width=4, fig.height=8}
+```{r, fig.width=8, fig.height=8}
 ctr %>% pmx_plot_abs_iwres_ipred
 ```
 
-```{r, fig.width=4, fig.height=8}
+```{r, fig.width=8, fig.height=8}
 ## For this display only show 1x1 individual plot for ID 110 for time < 12
 ctr %>% pmx_plot_individual(1, filter=ID == 31 & TIME > 0 & TIME < 12, 
                             facets = list(nrow = 1, ncol = 1))
 ```
 
-```{r, fig.width=4, fig.height=8}
+```{r, fig.width=8, fig.height=8}
 ctr %>% pmx_plot_iwres_dens
 ```
 
-```{r, fig.width=4, fig.height=8}
+```{r, fig.width=8, fig.height=8}
 ctr %>% pmx_plot_eta_qq
 ```
 
@@ -366,11 +366,11 @@ document. The report can be customized by editing the default template
 to include project specificities (change labels, stratifications,
 filtering, etc.).
 
-```{r, fig.width=4, fig.height=8}
+```{r, fig.width=8, fig.height=8}
 ctr %>% pmx_plot_eta_box
 ```
 
-```{r, fig.width=4, fig.height=8}
+```{r, fig.width=8, fig.height=8}
 ctr %>% pmx_plot_eta_hist
 ```
 
@@ -411,7 +411,7 @@ print(ev)
 
 ```
 
-A nlmixr model already includes information about the parameter
+An nlmixr model already includes information about the parameter
 estimates and can simulate without uncertainty in the population
 parameters or covariances, like what is done for a VPC.
 
