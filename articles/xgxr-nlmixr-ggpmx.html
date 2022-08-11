@@ -779,32 +779,31 @@
 <td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1</td>
 </tr>
 </table>
-
-
-ev$add.sampling(seq(0, 8, length.out=50))
-print(ev)
-#&gt;  [1m── EventTable with 51 records ── [22m
-#&gt; 1 dosing records (see $ [34mget.dosing [39m(); add with  [34madd.dosing [39m or  [34met [39m)
-#&gt; 50 observation times (see $ [34mget.sampling [39m(); add with  [34madd.sampling [39m or  [34met [39m)
-#&gt;  [1m── First part of : ── [22m
-#&gt;  [38;5;246m# A tibble: 51 × 5 [39m
-#&gt;     time   amt    ii evid             ss
-#&gt;     [3m [38;5;246m<dbl> [39m [23m  [3m [38;5;246m<dbl> [39m [23m  [3m [38;5;246m<dbl> [39m [23m  [3m [38;5;246m<evid> [39m [23m         [3m [38;5;246m<int> [39m [23m
-#&gt;  [38;5;250m 1 [39m 0         [31mNA [39m     [31mNA [39m  [34m [1m0 [22m [39m: [37mObservation [39m     [31mNA [39m
-#&gt;  [38;5;250m 2 [39m 0       100     8  [34m [1m1 [22m [39m: [33mDose (Add) [39m      1
-#&gt;  [38;5;250m 3 [39m 0.163     [31mNA [39m     [31mNA [39m  [34m [1m0 [22m [39m: [37mObservation [39m     [31mNA [39m
-#&gt;  [38;5;250m 4 [39m 0.327     [31mNA [39m     [31mNA [39m  [34m [1m0 [22m [39m: [37mObservation [39m     [31mNA [39m
-#&gt;  [38;5;250m 5 [39m 0.490     [31mNA [39m     [31mNA [39m  [34m [1m0 [22m [39m: [37mObservation [39m     [31mNA [39m
-#&gt;  [38;5;250m 6 [39m 0.653     [31mNA [39m     [31mNA [39m  [34m [1m0 [22m [39m: [37mObservation [39m     [31mNA [39m
-#&gt;  [38;5;250m 7 [39m 0.816     [31mNA [39m     [31mNA [39m  [34m [1m0 [22m [39m: [37mObservation [39m     [31mNA [39m
-#&gt;  [38;5;250m 8 [39m 0.980     [31mNA [39m     [31mNA [39m  [34m [1m0 [22m [39m: [37mObservation [39m     [31mNA [39m
-#&gt;  [38;5;250m 9 [39m 1.14      [31mNA [39m     [31mNA [39m  [34m [1m0 [22m [39m: [37mObservation [39m     [31mNA [39m
-#&gt;  [38;5;250m10 [39m 1.31      [31mNA [39m     [31mNA [39m  [34m [1m0 [22m [39m: [37mObservation [39m     [31mNA [39m
-#&gt;  [38;5;246m# … with 41 more rows [39m
-#&gt;  [38;5;246m# ℹ Use `print(n = ...)` to see more rows [39m
-<p>A nlmixr model already includes information about the parameter estimates and can simulate without uncertainty in the population parameters or covariances, like what is done for a VPC.</p>
-<p>If you wish to simulate <code>100</code> patients repeated by <code>100</code> different theoretical studies where you simulate from the uncertainty in the fixed parameter estimates and covariances you can very easily with nlmixr2/rxode2:</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ev</span><span class="op">$</span><span class="fu">add.sampling</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">8</span>, length.out<span class="op">=</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">ev</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">── EventTable with 51 records ──</span></span></span>
+<span><span class="co">#&gt; 1 dosing records (see $<span style="color: #0000BB;">get.dosing</span>(); add with <span style="color: #0000BB;">add.dosing</span> or <span style="color: #0000BB;">et</span>)</span></span>
+<span><span class="co">#&gt; 50 observation times (see $<span style="color: #0000BB;">get.sampling</span>(); add with <span style="color: #0000BB;">add.sampling</span> or <span style="color: #0000BB;">et</span>)</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">── First part of : ──</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 51 × 5</span></span></span>
+<span><span class="co">#&gt;     time   amt    ii evid             ss</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;evid&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 0        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #0000BB; font-weight: bold;">0</span>:<span style="color: #BBBBBB;">Observation</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 0       100     8 <span style="color: #0000BB; font-weight: bold;">1</span>:<span style="color: #BBBB00;">Dose (Add)</span>      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 0.163    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #0000BB; font-weight: bold;">0</span>:<span style="color: #BBBBBB;">Observation</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 0.327    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #0000BB; font-weight: bold;">0</span>:<span style="color: #BBBBBB;">Observation</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 0.490    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #0000BB; font-weight: bold;">0</span>:<span style="color: #BBBBBB;">Observation</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 0.653    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #0000BB; font-weight: bold;">0</span>:<span style="color: #BBBBBB;">Observation</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 0.816    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #0000BB; font-weight: bold;">0</span>:<span style="color: #BBBBBB;">Observation</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 0.980    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #0000BB; font-weight: bold;">0</span>:<span style="color: #BBBBBB;">Observation</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 1.14     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #0000BB; font-weight: bold;">0</span>:<span style="color: #BBBBBB;">Observation</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 1.31     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #0000BB; font-weight: bold;">0</span>:<span style="color: #BBBBBB;">Observation</span>    <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 41 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<p>An nlmixr model already includes information about the parameter estimates and can simulate without uncertainty in the population parameters or covariances, like what is done for a VPC.</p>
+<p>If you wish to simulate <code>100</code> patients repeated by <code>100</code> different theoretical studies where you simulate from the uncertainty in the fixed parameter estimates and covariances you can very easily with nlmixr2/rxode2:</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
 <span><span class="va">sim1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/rxSolve.html" class="external-link">rxSolve</a></span><span class="op">(</span><span class="va">cmt2fit.logn</span>, <span class="va">ev</span>, nSub<span class="op">=</span><span class="fl">100</span>, nStud<span class="op">=</span><span class="fl">100</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">)</span></span>
@@ -846,7 +845,7 @@ print(ev)
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 499,994 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>You may examine the simulated study information easily, as show in the <code><a href="https://nlmixr2.github.io/rxode2/reference/rxode2.html" class="external-link">rxode2()</a></code> printout:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">thetaMat</span><span class="op">)</span></span>
 <span><span class="co">#&gt;             lka         lv          lcl          lq       lvp</span></span>
 <span><span class="co">#&gt; [1,] 0.13241332 -0.1415421  0.126885395 -0.12510487 0.4917958</span></span>
@@ -856,7 +855,7 @@ print(ev)
 <span><span class="co">#&gt; [5,] 0.07175736  0.1339158 -0.009323632  0.58365685 0.2504614</span></span>
 <span><span class="co">#&gt; [6,] 0.03493426 -0.2068834 -0.068256268  0.09971811 0.2068154</span></span></code></pre></div>
 <p>You can also see the covariance matricies that are simulated (note they come from an inverse Wishart distribution):</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">omegaList</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [[1]]</span></span>
 <span><span class="co">#&gt;              eta.ka        eta.v       eta.cl</span></span>
@@ -893,7 +892,7 @@ print(ev)
 <span><span class="co">#&gt; eta.ka  0.008010400 -0.007620999  0.003013012</span></span>
 <span><span class="co">#&gt; eta.v  -0.007620999  0.221165134 -0.063175550</span></span>
 <span><span class="co">#&gt; eta.cl  0.003013012 -0.063175550  0.386781171</span></span></code></pre></div>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">sigmaList</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [[1]]</span></span>
 <span><span class="co">#&gt;              err.rxLinCmt</span></span>
@@ -919,7 +918,7 @@ print(ev)
 <span><span class="co">#&gt;              err.rxLinCmt</span></span>
 <span><span class="co">#&gt; err.rxLinCmt     1.044673</span></span></code></pre></div>
 <p>It is also easy enough to create a plot to see what is going on with the simulation:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">conf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">sim1</span>, <span class="st">"sim"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">conf</span><span class="op">)</span> <span class="co">## This returns a ggplot2 object</span></span>
@@ -927,16 +926,15 @@ print(ev)
 <span><span class="co">## you can tweak the plot by the standard ggplot commands</span></span>
 <span><span class="va">p1</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Time (hr)"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Simulated Concentrations of TID steady state"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="xgxr-nlmixr-ggpmx_files/figure-html/unnamed-chunk-31-1.png" width="100%"></p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<p><img src="xgxr-nlmixr-ggpmx_files/figure-html/unnamed-chunk-32-1.png" width="100%"></p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># And put the same plot on a semi-log plot</span></span>
 <span><span class="va">p1</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Time (hr)"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Simulated Concentrations of TID steady state"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/xgxr/man/xgx_scale_y_log10.html" class="external-link">xgx_scale_y_log10</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="xgxr-nlmixr-ggpmx_files/figure-html/unnamed-chunk-31-2.png" width="100%"></p>
+<p><img src="xgxr-nlmixr-ggpmx_files/figure-html/unnamed-chunk-32-2.png" width="100%"></p>
 <p>For more complex simulations with variability you can also <a href="https://nlmixr2.github.io/rxode2/articles/rxode2-event-table.html#add-doses-and-samples-within-a-sampling-window" class="external-link">simulate dosing windows and sampling windows</a> and use any tool you want to summarize it in the way you wish.</p>
-</int></evid></dbl></dbl></dbl>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
