@@ -405,10 +405,11 @@ happens at steady state:
 ```{r}
 # Start a new simulation
 (ev <- et(amt=100, ii=8, ss=1))
+```
 
+```{r}
 ev$add.sampling(seq(0, 8, length.out=50))
 print(ev)
-
 ```
 
 An nlmixr model already includes information about the parameter
