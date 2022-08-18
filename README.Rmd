@@ -109,7 +109,7 @@ install.packages(c("nlmixr2", "nlmixr2est", "rxode2", "nlmixr2plot", "nlmixr2dat
 
 This is a basic example which shows you how to solve a common problem:
 
-```{r example}
+```{r example, message=FALSE}
 library(nlmixr2)
 
 ## The basic model consiss of an ini block that has initial estimates
@@ -140,8 +140,41 @@ fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
 print(fit)
 ```
 
-# Default plots
+# Plotting outputs
 
-```{r}
+## Base R Graphics
+You can use base plots with the fit and it will produce a standard set of goodness of fit plots:
+
+```{r eval=FALSE}
+pdf(file="myplots.pdf")
 plot(fit)
+dev.off()
+```
+
+
+## xpose.nlmixr2
+
+The {xpose.nlmixr2} package extends xpose support for nlmixr2. You simply need to convert the fit results into an xpose database: 
+
+```{r eval=FALSE}
+library(xpose.nlmixr2)
+xpdb = xpose_data_nlmixr(fit)
+```
+
+Then you can use any of the xpose functions for generating goodness of fit plots:
+
+```{r eval=FALSE}
+library(xpose)
+plt <- dv_vs_ipred(xpdb)
+```
+
+
+## ggPMX
+
+Another option is to use the ggPMX package. You first creat a ggPMX controller object from the nlmixr fit object. Then that controller object can be used to generate figures:
+
+```{r eval=FALSE}
+library(ggPMX)
+ctr = pmx_nlmixr(fit)
+pmx_plot_dv_ipred(ctr)
 ```
