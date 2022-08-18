@@ -1,56 +1,61 @@
----
-output: github_document
----
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-
 
 # nlmixr2
 
 <!-- badges: start -->
+
 [![R build
 status](https://github.com/nlmixr2/nlmixr2/workflows/R-CMD-check/badge.svg)](https://github.com/nlmixr2/nlmixr2/actions)
 [![CodeFactor](https://www.codefactor.io/repository/github/nlmixr2/nlmixr2/badge)](https://www.codefactor.io/repository/github/nlmixr2/nlmixr2)
-[![CRAN version](http://www.r-pkg.org/badges/version/nlmixr2)](https://cran.r-project.org/package=nlmixr2)
-[![CRAN total downloads](https://cranlogs.r-pkg.org/badges/grand-total/nlmixr2)](https://cran.r-project.org/package=nlmixr2)
-[![CRAN total downloads](https://cranlogs.r-pkg.org/badges/nlmixr2)](https://cran.r-project.org/package=nlmixr2)
+[![CRAN
+version](http://www.r-pkg.org/badges/version/nlmixr2)](https://cran.r-project.org/package=nlmixr2)
+[![CRAN total
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/nlmixr2)](https://cran.r-project.org/package=nlmixr2)
+[![CRAN total
+downloads](https://cranlogs.r-pkg.org/badges/nlmixr2)](https://cran.r-project.org/package=nlmixr2)
 <!-- badges: end -->
 
-The goal of nlmixr2 is to support easy and robust nonlinear mixed effects models in R
+The goal of nlmixr2 is to support easy and robust nonlinear mixed
+effects models in R
 
 ## Installation
 
-For all versions of R, we need to have a compiler setup to run `nlmixr2` and `rxode2`
+For all versions of R, we need to have a compiler setup to run `nlmixr2`
+and `rxode2`
 
-### Windows compilation tools setup 
+### Windows compilation tools setup
 
-For Windows the compilers come from Rtools. For R version 4.2 and
-above you need to have Rtools42, for R-4.0.x, and R-4.1.x you need
-Rtools40. Download and the install from
-https://cran.r-project.org/bin/windows/Rtools/
+For Windows the compilers come from Rtools. For R version 4.2 and above
+you need to have Rtools42, for R-4.0.x, and R-4.1.x you need Rtools40.
+Download and the install from
+<https://cran.r-project.org/bin/windows/Rtools/>
 
 ### Mac compilation tools setup
 
 To setup the mac compilers, simply
 
-1. Install Xcode from app store
+1.  Install Xcode from app store
 
-2. Install gfortran:
+2.  Install gfortran:
 
-   a. Download and install from https://mac.r-project.org/tools/
-   
-   b. Add gfortran directory to the path with: `export PATH=$PATH:/usr/local/gfortran/bin`
+    1.  Download and install from <https://mac.r-project.org/tools/>
 
-# R package installation 
+    2.  Add gfortran directory to the path with:
+        `export PATH=$PATH:/usr/local/gfortran/bin`
 
-Installation nlmixr2 itself is easiest in R-4.2.x because no further compilation is required and all supporting packages are available. From R, run:
+# R package installation
+
+Installation nlmixr2 itself is easiest in R-4.2.x because no further
+compilation is required and all supporting packages are available. From
+R, run:
 
 ``` r
 install.packages("nlmixr2",dependencies = TRUE)
 ```
 
-For R-4.0.x and R-4.1.x, the crucial package symengine is currently not on CRAN and will have to be installed from MRAN first by running:
+For R-4.0.x and R-4.1.x, the crucial package symengine is currently not
+on CRAN and will have to be installed from MRAN first by running:
 
 ``` r
 install.packages("symengine", repos="https://cran.microsoft.com/snapshot/2022-01-01/")
@@ -64,9 +69,9 @@ install.packages("nlmixr2",dependencies = TRUE)
 
 ## Development version installation
 
-Once the compilers are setup and a compatible version of `symengine`
-is installed, you can install the development version of nlmixr2 and
-its nlmixr2-family dependencies like so:
+Once the compilers are setup and a compatible version of `symengine` is
+installed, you can install the development version of nlmixr2 and its
+nlmixr2-family dependencies like so:
 
 ``` r
 remotes::install_github("nlmixr2/nlmixr2data")
@@ -87,23 +92,20 @@ remotes::install_github("RichardHooijmaijers/shinyMixR") # Shiny run manager (li
 remotes::install_github("nlmixr2/nlmixr2targets") # Simplify work with the `targets` package
 ```
 
-If you have difficulties due to errors while compiling models, it may
-be useful to reinstall all of nlmixr2 and its dependencies.  For
-development versions, please use the `remotes::install_github()`
-commands above.  For the stable version, please use the following
-command:
+If you have difficulties due to errors while compiling models, it may be
+useful to reinstall all of nlmixr2 and its dependencies. For development
+versions, please use the `remotes::install_github()` commands above. For
+the stable version, please use the following command:
 
 ``` r
 install.packages(c("nlmixr2", "nlmixr2est", "rxode2", "nlmixr2plot", "nlmixr2data", "lotri", "nlmixr2extra"))
 ```
 
-
 ## Example
 
 This is a basic example which shows you how to solve a common problem:
 
-
-```r
+``` r
 library(nlmixr2)
 
 ## The basic model consiss of an ini block that has initial estimates
@@ -131,58 +133,9 @@ one.compartment <- function() {
 
 ## The fit is performed by the function nlmixr/nlmix2 specifying the model, data and estimate
 fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
-#>  
-#>  
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
 #> 
-#> ℹ parameter labels from comments will be replaced by 'label()'
-#> 
-#> → loading into symengine environment...
-#> → pruning branches (`if`/`else`) of saem model...
-#> ✔ done
-#> → finding duplicate expressions in saem model...
-#> → optimizing duplicate expressions in saem model...
-#> ✔ done
-#> rxode2 2.0.7 model named rx_7bde54c6c90c8ab16296ac0ee0a3a632 model (✔ ready). 
-#> $state: depot, center
-#> $stateExtra: cp
-#> $params: tka, tcl, tv
-#> $lhs: rx_pred_
-#> Calculating covariance matrix
-#> rxode2 2.0.7 model named rx_7bde54c6c90c8ab16296ac0ee0a3a632 model (✔ ready). 
-#> $state: depot, center
-#> $stateExtra: cp
-#> $params: tka, tcl, tv
-#> $lhs: rx_pred_
-#> rxode2 2.0.7 model named rx_7bde54c6c90c8ab16296ac0ee0a3a632 model (✔ ready). 
-#> $state: depot, center
-#> $stateExtra: cp
-#> $params: tka, tcl, tv
-#> $lhs: rx_pred_
-#> rxode2 2.0.7 model named rx_7bde54c6c90c8ab16296ac0ee0a3a632 model (✔ ready). 
-#> $state: depot, center
-#> $stateExtra: cp
-#> $params: tka, tcl, tv
-#> $lhs: rx_pred_
-#> rxode2 2.0.7 model named rx_7bde54c6c90c8ab16296ac0ee0a3a632 model (✔ ready). 
-#> $state: depot, center
-#> $stateExtra: cp
-#> $params: tka, tcl, tv
-#> $lhs: rx_pred_
-#> → loading into symengine environment...
-#> → pruning branches (`if`/`else`) of saem model...
-#> ✔ done
-#> → finding duplicate expressions in saem predOnly model 0...
-#> → finding duplicate expressions in saem predOnly model 1...
-#> → optimizing duplicate expressions in saem predOnly model 1...
-#> → finding duplicate expressions in saem predOnly model 2...
-#> ✔ done
-#> 
-#> → Calculating residuals/tables
-#> ✔ done
-#> → compress origData in nlmixr2 object, save 5952
-#> → compress phiM in nlmixr2 object, save 62360
-#> → compress parHist in nlmixr2 object, save 9560
-#> → compress saem0 in nlmixr2 object, save 23224
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 print(fit)
 #> ── nlmixr SAEM OBJF by FOCEi approximation ──
 #> 
@@ -191,8 +144,8 @@ print(fit)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>            setup covariance  saem table compress    other
-#> elapsed 0.001214   0.087003 2.579 0.018    0.024 0.830783
+#>            setup covariance saem table compress    other
+#> elapsed 0.000909   0.006005 2.09 0.015    0.009 1.185086
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -218,90 +171,45 @@ print(fit)
 #> #   ka <dbl>, cl <dbl>, v <dbl>, tad <dbl>, dosenum <dbl>
 ```
 
-# Default plots
+# Plotting outputs
 
+## Base R Graphics
 
-```r
+You can use base plots with the fit and it will produce a standard set
+of goodness of fit plots:
+
+``` r
+pdf(file="myplots.pdf")
 plot(fit)
+dev.off()
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-2.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
+## xpose.nlmixr2
 
-```
-#> Warning: Transformation introduced infinite values in continuous x-axis
-#> Warning: Transformation introduced infinite values in continuous y-axis
-```
+The {xpose.nlmixr2} package extends xpose support for nlmixr2. You
+simply need to convert the fit results into an xpose database:
 
-<img src="man/figures/README-unnamed-chunk-2-3.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-4.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
-
-```
-#> Warning: Transformation introduced infinite values in continuous x-axis
+``` r
+library(xpose.nlmixr2)
+xpdb = xpose_data_nlmixr(fit)
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-5.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-6.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
+Then you can use any of the xpose functions for generating goodness of
+fit plots:
 
-```
-#> Warning: Transformation introduced infinite values in continuous x-axis
-```
-
-<img src="man/figures/README-unnamed-chunk-2-7.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-8.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
-
-```
-#> Warning: Transformation introduced infinite values in continuous x-axis
+``` r
+library(xpose)
+plt <- dv_vs_ipred(xpdb)
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-9.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-10.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
+## ggPMX
 
-```
-#> Warning: Transformation introduced infinite values in continuous x-axis
-```
+Another option is to use the ggPMX package. You first creat a ggPMX
+controller object from the nlmixr fit object. Then that controller
+object can be used to generate figures:
 
-<img src="man/figures/README-unnamed-chunk-2-11.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-12.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
-
+``` r
+library(ggPMX)
+ctr = pmx_nlmixr(fit)
+pmx_plot_dv_ipred(ctr)
 ```
-#> Warning: Transformation introduced infinite values in continuous x-axis
-```
-
-<img src="man/figures/README-unnamed-chunk-2-13.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-14.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
-
-```
-#> Warning: Transformation introduced infinite values in continuous x-axis
-```
-
-<img src="man/figures/README-unnamed-chunk-2-15.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-16.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
-
-```
-#> Warning: Transformation introduced infinite values in continuous x-axis
-```
-
-<img src="man/figures/README-unnamed-chunk-2-17.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-18.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
-
-```
-#> Warning: Transformation introduced infinite values in continuous x-axis
-```
-
-<img src="man/figures/README-unnamed-chunk-2-19.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-20.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
-
-```
-#> Warning: Transformation introduced infinite values in continuous x-axis
-```
-
-<img src="man/figures/README-unnamed-chunk-2-21.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-22.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
-
-```
-#> Warning: Transformation introduced infinite values in continuous x-axis
-```
-
-<img src="man/figures/README-unnamed-chunk-2-23.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-24.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
-
-```
-#> Warning: Transformation introduced infinite values in continuous x-axis
-```
-
-<img src="man/figures/README-unnamed-chunk-2-25.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-26.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
-
-```
-#> Warning: Transformation introduced infinite values in continuous x-axis
-```
-
-<img src="man/figures/README-unnamed-chunk-2-27.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" /><img src="man/figures/README-unnamed-chunk-2-28.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%" />
