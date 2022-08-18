@@ -154,7 +154,7 @@
 <li><p>Install Xcode from app store</p></li>
 <li>
 <p>Install gfortran:</p>
-<ol style="list-style-type: lower-alpha">
+<ol style="list-style-type: decimal">
 <li><p>Download and install from <a href="https://mac.r-project.org/tools/" class="external-link uri">https://mac.r-project.org/tools/</a></p></li>
 <li><p>Add gfortran directory to the path with: <code>export PATH=$PATH:/usr/local/gfortran/bin</code></p></li>
 </ol>
@@ -229,58 +229,9 @@
 <span></span>
 <span><span class="co">## The fit is performed by the function nlmixr/nlmix2 specifying the model, data and estimate</span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/nlmixr2.html">nlmixr2</a></span><span class="op">(</span><span class="va">one.compartment</span>, <span class="va">theo_sd</span>,  est<span class="op">=</span><span class="st">"saem"</span>, <span class="fu"><a href="reference/saemControl.html">saemControl</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  </span></span>
-<span><span class="co">#&gt;  </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ℹ parameter labels from comments will be replaced by 'label()'</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; → loading into symengine environment...</span></span>
-<span><span class="co">#&gt; → pruning branches (`if`/`else`) of saem model...</span></span>
-<span><span class="co">#&gt; ✔ done</span></span>
-<span><span class="co">#&gt; → finding duplicate expressions in saem model...</span></span>
-<span><span class="co">#&gt; → optimizing duplicate expressions in saem model...</span></span>
-<span><span class="co">#&gt; ✔ done</span></span>
-<span><span class="co">#&gt; rxode2 2.0.7 model named rx_7bde54c6c90c8ab16296ac0ee0a3a632 model (✔ ready). </span></span>
-<span><span class="co">#&gt; $state: depot, center</span></span>
-<span><span class="co">#&gt; $stateExtra: cp</span></span>
-<span><span class="co">#&gt; $params: tka, tcl, tv</span></span>
-<span><span class="co">#&gt; $lhs: rx_pred_</span></span>
-<span><span class="co">#&gt; Calculating covariance matrix</span></span>
-<span><span class="co">#&gt; rxode2 2.0.7 model named rx_7bde54c6c90c8ab16296ac0ee0a3a632 model (✔ ready). </span></span>
-<span><span class="co">#&gt; $state: depot, center</span></span>
-<span><span class="co">#&gt; $stateExtra: cp</span></span>
-<span><span class="co">#&gt; $params: tka, tcl, tv</span></span>
-<span><span class="co">#&gt; $lhs: rx_pred_</span></span>
-<span><span class="co">#&gt; rxode2 2.0.7 model named rx_7bde54c6c90c8ab16296ac0ee0a3a632 model (✔ ready). </span></span>
-<span><span class="co">#&gt; $state: depot, center</span></span>
-<span><span class="co">#&gt; $stateExtra: cp</span></span>
-<span><span class="co">#&gt; $params: tka, tcl, tv</span></span>
-<span><span class="co">#&gt; $lhs: rx_pred_</span></span>
-<span><span class="co">#&gt; rxode2 2.0.7 model named rx_7bde54c6c90c8ab16296ac0ee0a3a632 model (✔ ready). </span></span>
-<span><span class="co">#&gt; $state: depot, center</span></span>
-<span><span class="co">#&gt; $stateExtra: cp</span></span>
-<span><span class="co">#&gt; $params: tka, tcl, tv</span></span>
-<span><span class="co">#&gt; $lhs: rx_pred_</span></span>
-<span><span class="co">#&gt; rxode2 2.0.7 model named rx_7bde54c6c90c8ab16296ac0ee0a3a632 model (✔ ready). </span></span>
-<span><span class="co">#&gt; $state: depot, center</span></span>
-<span><span class="co">#&gt; $stateExtra: cp</span></span>
-<span><span class="co">#&gt; $params: tka, tcl, tv</span></span>
-<span><span class="co">#&gt; $lhs: rx_pred_</span></span>
-<span><span class="co">#&gt; → loading into symengine environment...</span></span>
-<span><span class="co">#&gt; → pruning branches (`if`/`else`) of saem model...</span></span>
-<span><span class="co">#&gt; ✔ done</span></span>
-<span><span class="co">#&gt; → finding duplicate expressions in saem predOnly model 0...</span></span>
-<span><span class="co">#&gt; → finding duplicate expressions in saem predOnly model 1...</span></span>
-<span><span class="co">#&gt; → optimizing duplicate expressions in saem predOnly model 1...</span></span>
-<span><span class="co">#&gt; → finding duplicate expressions in saem predOnly model 2...</span></span>
-<span><span class="co">#&gt; ✔ done</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; → Calculating residuals/tables</span></span>
-<span><span class="co">#&gt; ✔ done</span></span>
-<span><span class="co">#&gt; → compress origData in nlmixr2 object, save 5952</span></span>
-<span><span class="co">#&gt; → compress phiM in nlmixr2 object, save 62360</span></span>
-<span><span class="co">#&gt; → compress parHist in nlmixr2 object, save 9560</span></span>
-<span><span class="co">#&gt; → compress saem0 in nlmixr2 object, save 23224</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ── nlmixr SAEM OBJF by FOCEi approximation ──</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -289,8 +240,8 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Time (sec $time): ──</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;            setup covariance  saem table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.001214   0.087003 2.579 0.018    0.024 0.830783</span></span>
+<span><span class="co">#&gt;            setup covariance saem table compress    other</span></span>
+<span><span class="co">#&gt; elapsed 0.000909   0.006005 2.09 0.015    0.009 1.185086</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Population Parameters ($parFixed or $parFixedDf): ──</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -317,38 +268,38 @@
 </div>
 </div>
 <div class="section level1">
-<h1 id="default-plots">Default plots<a class="anchor" aria-label="anchor" href="#default-plots"></a>
+<h1 id="plotting-outputs">Plotting outputs<a class="anchor" aria-label="anchor" href="#plotting-outputs"></a>
 </h1>
+<div class="section level2">
+<h2 id="base-r-graphics">Base R Graphics<a class="anchor" aria-label="anchor" href="#base-r-graphics"></a>
+</h2>
+<p>You can use base plots with the fit and it will produce a standard set of goodness of fit plots:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-2-1.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"><img src="reference/figures/README-unnamed-chunk-2-2.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"></p>
-<pre><code><span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span>
-<span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous y-axis</span></span></code></pre>
-<p><img src="reference/figures/README-unnamed-chunk-2-3.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"><img src="reference/figures/README-unnamed-chunk-2-4.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"></p>
-<pre><code><span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre>
-<p><img src="reference/figures/README-unnamed-chunk-2-5.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"><img src="reference/figures/README-unnamed-chunk-2-6.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"></p>
-<pre><code><span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre>
-<p><img src="reference/figures/README-unnamed-chunk-2-7.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"><img src="reference/figures/README-unnamed-chunk-2-8.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"></p>
-<pre><code><span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre>
-<p><img src="reference/figures/README-unnamed-chunk-2-9.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"><img src="reference/figures/README-unnamed-chunk-2-10.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"></p>
-<pre><code><span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre>
-<p><img src="reference/figures/README-unnamed-chunk-2-11.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"><img src="reference/figures/README-unnamed-chunk-2-12.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"></p>
-<pre><code><span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre>
-<p><img src="reference/figures/README-unnamed-chunk-2-13.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"><img src="reference/figures/README-unnamed-chunk-2-14.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"></p>
-<pre><code><span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre>
-<p><img src="reference/figures/README-unnamed-chunk-2-15.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"><img src="reference/figures/README-unnamed-chunk-2-16.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"></p>
-<pre><code><span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre>
-<p><img src="reference/figures/README-unnamed-chunk-2-17.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"><img src="reference/figures/README-unnamed-chunk-2-18.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"></p>
-<pre><code><span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre>
-<p><img src="reference/figures/README-unnamed-chunk-2-19.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"><img src="reference/figures/README-unnamed-chunk-2-20.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"></p>
-<pre><code><span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre>
-<p><img src="reference/figures/README-unnamed-chunk-2-21.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"><img src="reference/figures/README-unnamed-chunk-2-22.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"></p>
-<pre><code><span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre>
-<p><img src="reference/figures/README-unnamed-chunk-2-23.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"><img src="reference/figures/README-unnamed-chunk-2-24.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"></p>
-<pre><code><span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre>
-<p><img src="reference/figures/README-unnamed-chunk-2-25.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"><img src="reference/figures/README-unnamed-chunk-2-26.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"></p>
-<pre><code><span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous x-axis</span></span></code></pre>
-<p><img src="reference/figures/README-unnamed-chunk-2-27.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"><img src="reference/figures/README-unnamed-chunk-2-28.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="100%"></p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/grDevices/pdf.html" class="external-link">pdf</a></span><span class="op">(</span>file<span class="op">=</span><span class="st">"myplots.pdf"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.off</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="xposenlmixr2">xpose.nlmixr2<a class="anchor" aria-label="anchor" href="#xposenlmixr2"></a>
+</h2>
+<p>The {xpose.nlmixr2} package extends xpose support for nlmixr2. You simply need to convert the fit results into an xpose database:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">xpose.nlmixr2</span><span class="op">)</span></span>
+<span><span class="va">xpdb</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/xpose.nlmixr2/man/xpose_data_nlmixr2.html" class="external-link">xpose_data_nlmixr</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span></code></pre></div>
+<p>Then you can use any of the xpose functions for generating goodness of fit plots:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/UUPharmacometrics/xpose" class="external-link">xpose</a></span><span class="op">)</span></span>
+<span><span class="va">plt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/xpose/man/dv_vs_pred.html" class="external-link">dv_vs_ipred</a></span><span class="op">(</span><span class="va">xpdb</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="ggpmx">ggPMX<a class="anchor" aria-label="anchor" href="#ggpmx"></a>
+</h2>
+<p>Another option is to use the ggPMX package. You first creat a ggPMX controller object from the nlmixr fit object. Then that controller object can be used to generate figures:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ggPMXdevelopment/ggPMX" class="external-link">ggPMX</a></span><span class="op">)</span></span>
+<span><span class="va">ctr</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/pmx_nlmixr.html" class="external-link">pmx_nlmixr</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/residual_scatter.html" class="external-link">pmx_plot_dv_ipred</a></span><span class="op">(</span><span class="va">ctr</span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 
   </main><aside class="col-md-3"><div class="links">
