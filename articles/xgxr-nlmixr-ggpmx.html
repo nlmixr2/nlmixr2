@@ -799,8 +799,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 0.980    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #0000BB; font-weight: bold;">0</span>:<span style="color: #BBBBBB;">Observation</span>    <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 1.14     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #0000BB; font-weight: bold;">0</span>:<span style="color: #BBBBBB;">Observation</span>    <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 1.31     <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #0000BB; font-weight: bold;">0</span>:<span style="color: #BBBBBB;">Observation</span>    <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 41 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 41 more rows</span></span></span></code></pre></div>
 <p>An nlmixr model already includes information about the parameter estimates and can simulate without uncertainty in the population parameters or covariances, like what is done for a VPC.</p>
 <p>If you wish to simulate <code>100</code> patients repeated by <code>100</code> different theoretical studies where you simulate from the uncertainty in the fixed parameter estimates and covariances you can very easily with nlmixr2/rxode2:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
@@ -823,7 +822,6 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>      9 -<span style="color: #BB0000;">2.18</span>  1.90  2.01  1.82  3.49   0.962  0.170  -<span style="color: #BB0000;">0.039</span><span style="color: #BB0000; text-decoration: underline;">9</span>    0.221 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     10 -<span style="color: #BB0000;">2.18</span>  1.90  2.01  1.82  3.49   0.962 -<span style="color: #BB0000;">0.071</span><span style="color: #BB0000; text-decoration: underline;">1</span> -<span style="color: #BB0000;">0.174</span>    -<span style="color: #BB0000;">0.353</span> </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 9,990 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Initial Conditions (</span><span style="color: #0000BB; font-weight: bold;">$inits</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; named numeric(0)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -842,8 +840,7 @@
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>      1 0.490 0.119  10.7  6.86  6.14  32.7    1.32  1.10 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>      1 0.653 0.119  10.7  6.86  6.14  32.7    1.37  2.26 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>      1 0.816 0.119  10.7  6.86  6.14  32.7    1.40  0.211</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 499,994 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 499,994 more rows</span></span></span></code></pre></div>
 <p>You may examine the simulated study information easily, as show in the <code><a href="https://nlmixr2.github.io/rxode2/reference/rxode2.html" class="external-link">rxode2()</a></code> printout:</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">thetaMat</span><span class="op">)</span></span>
