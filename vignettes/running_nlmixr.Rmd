@@ -185,8 +185,8 @@ f <- function() { # Note that arguments to the function are currently
   # The model block will be discussed later
   model({})
 }
-
 ```
+
 As shown in the above example: 
 
 * Simple parameter values are specified using an R-compatible
@@ -256,13 +256,13 @@ As shown in the above example:
 * Simple variances are specified by the variable name and the estimate
   separated by `~`.
 *	Correlated parameters are specified by the sum of the variable
-     labels and then the lower triangular matrix of the covariance is
-     specified on the left handed side of the equation. This is also
-     separated by `~`.
+  labels and then the lower triangular matrix of the covariance is
+  specified on the left handed side of the equation. This is also
+  separated by `~`.
 *	The initial estimates are specified on the variance scale, and in
-     analogy with NONMEM, the square roots of the diagonal elements
-     correspond to coefficients of variation when used in the
-     exponential IIV implementation.
+  analogy with NONMEM, the square roots of the diagonal elements
+  correspond to coefficients of variation when used in the
+  exponential IIV implementation.
 
 Currently, comments inside the lower triangular matrix are not allowed. 
 
@@ -313,9 +313,7 @@ f <- function() {
     # prop.err)
     cp ~ prop(prop.err)
   })
-
 }
-
 ```
 
 A few points to note: 
@@ -347,9 +345,7 @@ A few points to note:
 
 ## Running models
 
-Models can be fitted several ways, including via
-the
-[magrittr] forward-pipe
+Models can be fitted several ways, including via the [magrittr] forward-pipe
 operator.
 
 ```
@@ -410,20 +406,22 @@ f <- function(){
   })
 }
 ```
-A few things to keep in mind: 
+
+A few things to keep in mind:
+
 *	Currently the solved systems support either oral dosing, IV dosing
-     or IV infusion dosing and does not allow mixing the dosing types.
+  or IV infusion dosing and does not allow mixing the dosing types.
 *	While `rxode2()` allows mixing of solved systems and ODEs, this has not
-     been implemented in nlmixr yet.
+  been implemented in nlmixr yet.
 *	The solved systems implemented are the one, two and three
-     compartment models with or without first-order absorption. Each
-     of the models support a lag time with a tlag parameter.
+  compartment models with or without first-order absorption. Each
+  of the models support a lag time with a tlag parameter.
 *	In general the linear compartment model figures out the model by
-     the parameter names. nlmixr currently knows about numbered
-     volumes, `Vc`/`Vp`, Clearances in terms of both `Cl` and
-     `Q`/`CLD`. Additionally nlmixr knows about elimination
-     micro-constants (ie `K12`). Mixing of these parameters for these
-     models is currently not supported.
+  the parameter names. nlmixr currently knows about numbered
+  volumes, `Vc`/`Vp`, Clearances in terms of both `Cl` and
+  `Q`/`CLD`. Additionally nlmixr knows about elimination
+  micro-constants (ie `K12`). Mixing of these parameters for these
+  models is currently not supported.
 
 ## Checking model syntax 
 
