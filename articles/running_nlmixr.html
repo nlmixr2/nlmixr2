@@ -126,7 +126,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Running PK models with nlmixr</h1>
             
-            <h4 data-toc-skip class="date">2022-08-23</h4>
+            <h4 data-toc-skip class="date">2022-08-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/HEAD/vignettes/running_nlmixr.Rmd" class="external-link"><code>vignettes/running_nlmixr.Rmd</code></a></small>
       <div class="d-none name"><code>running_nlmixr.Rmd</code></div>
@@ -195,7 +195,7 @@
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;            setup optimize covariance table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.022462 0.206707   0.206709 0.046    0.012 1.552122</span></span>
+<span><span class="co">#&gt; elapsed 0.021144 0.204473   0.204474 0.044    0.012 1.527909</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -270,7 +270,7 @@
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;            setup covariance  saem table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.002152   0.013007 8.336 0.029    0.028 1.274841</span></span>
+<span><span class="co">#&gt; elapsed 0.001995   0.014008 8.359 0.028    0.026 1.244997</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -339,7 +339,7 @@
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;            setup table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.013812 0.036    0.009 2.797188</span></span>
+<span><span class="co">#&gt; elapsed 0.002398 0.034    0.008 2.706602</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -506,7 +506,6 @@
 <span>    <span class="co"># prop.err)</span></span>
 <span>    <span class="va">cp</span> <span class="op">~</span> <span class="fu">prop</span><span class="op">(</span><span class="va">prop.err</span><span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
-<span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>A few points to note:</p>
 <ul>
@@ -561,7 +560,13 @@
 <span>    <span class="fu">linCmt</span><span class="op">(</span><span class="op">)</span> <span class="op">~</span> <span class="fu">prop</span><span class="op">(</span><span class="va">prop.err</span><span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>A few things to keep in mind: * Currently the solved systems support either oral dosing, IV dosing or IV infusion dosing and does not allow mixing the dosing types. * While <code><a href="https://nlmixr2.github.io/rxode2/reference/rxode2.html" class="external-link">rxode2()</a></code> allows mixing of solved systems and ODEs, this has not been implemented in nlmixr yet. * The solved systems implemented are the one, two and three compartment models with or without first-order absorption. Each of the models support a lag time with a tlag parameter. * In general the linear compartment model figures out the model by the parameter names. nlmixr currently knows about numbered volumes, <code>Vc</code>/<code>Vp</code>, Clearances in terms of both <code>Cl</code> and <code>Q</code>/<code>CLD</code>. Additionally nlmixr knows about elimination micro-constants (ie <code>K12</code>). Mixing of these parameters for these models is currently not supported.</p>
+<p>A few things to keep in mind:</p>
+<ul>
+<li>Currently the solved systems support either oral dosing, IV dosing or IV infusion dosing and does not allow mixing the dosing types.</li>
+<li>While <code><a href="https://nlmixr2.github.io/rxode2/reference/rxode2.html" class="external-link">rxode2()</a></code> allows mixing of solved systems and ODEs, this has not been implemented in nlmixr yet.</li>
+<li>The solved systems implemented are the one, two and three compartment models with or without first-order absorption. Each of the models support a lag time with a tlag parameter.</li>
+<li>In general the linear compartment model figures out the model by the parameter names. nlmixr currently knows about numbered volumes, <code>Vc</code>/<code>Vp</code>, Clearances in terms of both <code>Cl</code> and <code>Q</code>/<code>CLD</code>. Additionally nlmixr knows about elimination micro-constants (ie <code>K12</code>). Mixing of these parameters for these models is currently not supported.</li>
+</ul>
 </div>
 <div class="section level3">
 <h3 id="checking-model-syntax">Checking model syntax<a class="anchor" aria-label="anchor" href="#checking-model-syntax"></a>
