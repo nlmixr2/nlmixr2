@@ -144,6 +144,9 @@
 #' @export
 nlmixr2 <- function(object, data, est = NULL, control = list(),
                     table = tableControl(), ..., save = NULL, envir = parent.frame()) {
+  .objectName <- try(as.character(substitute(object)), silent=TRUE)
+  if (inherits(.objectName, "try-error")) .objectName <- "x"
+  nlmixr2est::.nlmixr2objectNameAssign(.objectName)
   if (missing(data)) {
     nlmixr2est::nlmixr2(object = object)
   } else {
