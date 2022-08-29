@@ -249,5 +249,3 @@ covarSearchAuto <- function(fit, varsVec, covarsVec, pVal = list(fwd = 0.05,
 bootplot <- function(x, ...) {
     nlmixr2extra::bootplot(x = x, ...)
 }
-
-
