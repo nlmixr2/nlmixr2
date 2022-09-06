@@ -18,22 +18,27 @@
   }
   .formalArgs <- paste(.formalArgs, collapse=", ")
   .newFun <- strsplit(fun, "::")[[1]][2]
+  .has3text <- NULL
   if (.has3) {
-    return(paste(c(paste0("#' @inherit ", fun),
-                   paste0("#' @param ... Additional arguments passed to [", fun, "()]."),
-                   "#' @export",
-                   deparse(str2lang(paste(c(paste0(.newFun, " <- ", paste(.args, collapse="\n"), " {"),
-                                            paste0(fun, "(", .formalArgs, ")"),
-                                            "}"), collapse="\n")))
-                   ),
-                   collapse="\n"))
+    .has3text <- paste0("#' @param ... Additional arguments passed to [", fun, "()].")
   }
-  paste(c(paste0("#' @inherit ", fun),
-          "#' @export",
-          deparse(str2lang(paste(c(paste0(.newFun, " <- ", paste(.args, collapse="\n"), " {"),
-                  paste0(fun, "(", .formalArgs, ")"),
-                  "}"), collapse="\n")))
-          ), collapse="\n")
+  paste(
+    c(paste("#' @inherit", fun),
+      .has3text,
+      "#' @export",
+      trimws(
+        deparse(str2lang(paste0(
+          c(paste0(.newFun, " <- ", paste0(.args, collapse="\n"), " {"),
+            paste0(fun, "(", .formalArgs, ")"),
+            "}"
+          ),
+          collapse="\n"
+        ))),
+        which = "right"
+      )
+    ),
+    collapse="\n"
+  )
 }
 
 .genSoftReExport <- function(fun, alias=NULL) {
@@ -41,17 +46,18 @@
   .pkg <- .newFun[1]
   .fun <- .newFun[2]
   if (is.na(.fun)) return("")
+  .aliasText <- NULL
   if (!is.null(alias)) {
-    .fun2 <- strsplit(alias, "::")[[1]][2]
-    paste(c(paste0("#' @importFrom ", .pkg, " ", .fun),
-            paste0("#' @rdname ", .fun2),
-            "#' @export",
-            fun), collapse="\n")
-  } else {
-    paste(c(paste0("#' @importFrom ", .pkg, " ", .fun),
-            "#' @export",
-            fun), collapse="\n")
+    .aliasText <- paste0("#' @rdname ", .fun2)
   }
+  paste(
+    c(paste("#' @importFrom", .pkg, .fun),
+      .aliasText,
+      "#' @export",
+      fun
+    ),
+    collapse="\n"
+  )
 }
 
 .genReexports <- function(soft=c("rxode2::rxode2",
