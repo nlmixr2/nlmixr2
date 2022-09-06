@@ -11,7 +11,8 @@ vpcSim(
   n = 300,
   pred = FALSE,
   seed = 1009,
-  nretry = 50
+  nretry = 50,
+  normRelated = TRUE
 )
 }
 \arguments{
@@ -29,6 +30,9 @@ vpcSim(
 
 \item{nretry}{Number of times to retry the simulation if there is
 NA values in the simulation}
+
+\item{normRelated}{should the VPC style simulation be for normal
+related variables only}
 }
 \value{
 data frame of the VPC simulation

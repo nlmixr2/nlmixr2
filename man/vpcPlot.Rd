@@ -17,8 +17,8 @@ vpcPlot(
   pred_corr_lower_bnd = 0,
   pi = c(0.05, 0.95),
   ci = c(0.05, 0.95),
-  uloq = NULL,
-  lloq = NULL,
+  uloq = fit$dataUloq,
+  lloq = fit$dataLloq,
   log_y = FALSE,
   log_y_min = 0.001,
   xlab = NULL,
@@ -32,7 +32,9 @@ vpcPlot(
   vpcdb = FALSE,
   verbose = FALSE,
   ...,
-  seed = 1009
+  seed = 1009,
+  idv = "time",
+  cens = FALSE
 )
 }
 \arguments{

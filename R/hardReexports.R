@@ -11,9 +11,9 @@ traceplot <- function(x, ...) {
 #' @param ... Additional arguments passed to [nlmixr2est::vpcSim()].
 #' @export
 vpcSim <- function(object, ..., keep = NULL, n = 300, pred = FALSE,
-    seed = 1009, nretry = 50) {
+    seed = 1009, nretry = 50, normRelated = TRUE) {
     nlmixr2est::vpcSim(object = object, ..., keep = keep, n = n,
-        pred = pred, seed = seed, nretry = nretry)
+        pred = pred, seed = seed, nretry = nretry, normRelated = normRelated)
 }
 
 #' @inherit nlmixr2plot::vpcPlot
@@ -22,11 +22,11 @@ vpcSim <- function(object, ..., keep = NULL, n = 300, pred = FALSE,
 vpcPlot <- function(fit, data = NULL, n = 300, bins = "jenks",
     n_bins = "auto", bin_mid = "mean", show = NULL, stratify = NULL,
     pred_corr = FALSE, pred_corr_lower_bnd = 0, pi = c(0.05,
-        0.95), ci = c(0.05, 0.95), uloq = NULL, lloq = NULL,
+        0.95), ci = c(0.05, 0.95), uloq = fit$dataUloq, lloq = fit$dataLloq,
     log_y = FALSE, log_y_min = 0.001, xlab = NULL, ylab = NULL,
     title = NULL, smooth = TRUE, vpc_theme = NULL, facet = "wrap",
     scales = "fixed", labeller = NULL, vpcdb = FALSE, verbose = FALSE,
-    ..., seed = 1009) {
+    ..., seed = 1009, idv = "time", cens = FALSE) {
     nlmixr2plot::vpcPlot(fit = fit, data = data, n = n, bins = bins,
         n_bins = n_bins, bin_mid = bin_mid, show = show, stratify = stratify,
         pred_corr = pred_corr, pred_corr_lower_bnd = pred_corr_lower_bnd,
@@ -34,7 +34,28 @@ vpcPlot <- function(fit, data = NULL, n = 300, bins = "jenks",
         log_y_min = log_y_min, xlab = xlab, ylab = ylab, title = title,
         smooth = smooth, vpc_theme = vpc_theme, facet = facet,
         scales = scales, labeller = labeller, vpcdb = vpcdb,
-        verbose = verbose, ..., seed = seed)
+        verbose = verbose, ..., seed = seed, idv = idv, cens = cens)
+}
+
+#' @inherit nlmixr2plot::vpcPlotTad
+#' @param ... Additional arguments passed to [nlmixr2plot::vpcPlotTad()].
+#' @export
+vpcPlotTad <- function(..., idv = "tad") {
+    nlmixr2plot::vpcPlotTad(..., idv = idv)
+}
+
+#' @inherit nlmixr2plot::vpcCens
+#' @param ... Additional arguments passed to [nlmixr2plot::vpcCens()].
+#' @export
+vpcCens <- function(..., cens = TRUE, idv = "time") {
+    nlmixr2plot::vpcCens(..., cens = cens, idv = idv)
+}
+
+#' @inherit nlmixr2plot::vpcCensTad
+#' @param ... Additional arguments passed to [nlmixr2plot::vpcCensTad()].
+#' @export
+vpcCensTad <- function(..., cens = TRUE, idv = "tad") {
+    nlmixr2plot::vpcCensTad(..., cens = cens, idv = idv)
 }
 
 #' @inherit nlmixr2est::saemControl
@@ -76,13 +97,14 @@ foceiControl <- function(sigdig = 3, ..., epsilon = NULL, maxInnerIterations = 1
         2), derivMethod = c("switch", "forward", "central"),
     derivSwitchTol = NULL, covDerivMethod = c("central", "forward"),
     covMethod = c("r,s", "r", "s", ""), hessEps = (.Machine$double.eps)^(1/3),
-    eventFD = sqrt(.Machine$double.eps), eventType = c("gill",
-        "central", "forward"), centralDerivEps = rep(20 * sqrt(.Machine$double.eps),
-        2), lbfgsLmm = 7L, lbfgsPgtol = 0, lbfgsFactr = NULL,
-    eigen = TRUE, addPosthoc = TRUE, diagXform = c("sqrt", "log",
-        "identity"), sumProd = FALSE, optExpression = TRUE, ci = 0.95,
-    useColor = crayon::has_color(), boundTol = NULL, calcTables = TRUE,
-    noAbort = TRUE, interaction = TRUE, cholSEtol = (.Machine$double.eps)^(1/3),
+    hessEpsLlik = (.Machine$double.eps)^(1/2.5), optimHessType = c("central",
+        "forward"), optimHessCovType = c("central", "forward"),
+    eventType = c("central", "forward"), centralDerivEps = rep(20 *
+        sqrt(.Machine$double.eps), 2), lbfgsLmm = 7L, lbfgsPgtol = 0,
+    lbfgsFactr = NULL, eigen = TRUE, addPosthoc = TRUE, diagXform = c("sqrt",
+        "log", "identity"), sumProd = FALSE, optExpression = TRUE,
+    ci = 0.95, useColor = crayon::has_color(), boundTol = NULL,
+    calcTables = TRUE, noAbort = TRUE, interaction = TRUE, cholSEtol = (.Machine$double.eps)^(1/3),
     cholAccept = 0.001, resetEtaP = 0.15, resetThetaP = 0.05,
     resetThetaFinalP = 0.15, diagOmegaBoundUpper = 5, diagOmegaBoundLower = 100,
     cholSEOpt = FALSE, cholSECov = FALSE, fo = FALSE, covTryHarder = FALSE,
@@ -91,16 +113,20 @@ foceiControl <- function(sigdig = 3, ..., epsilon = NULL, maxInnerIterations = 1
         "BFGS"), rhobeg = 0.2, rhoend = NULL, npt = NULL, rel.tol = NULL,
     x.tol = NULL, eval.max = 4000, iter.max = 2000, abstol = NULL,
     reltol = NULL, resetHessianAndEta = FALSE, stateTrim = Inf,
-    gillK = 10L, gillStep = 4, gillFtol = 0, gillRtol = sqrt(.Machine$double.eps),
-    gillKcov = 10L, gillStepCov = 2, gillFtolCov = 0, rmatNorm = TRUE,
-    smatNorm = TRUE, covGillF = TRUE, optGillF = TRUE, covSmall = 1e-05,
-    adjLik = TRUE, gradTrim = Inf, maxOdeRecalc = 5, odeRecalcFactor = 10^(0.5),
-    gradCalcCentralSmall = 1e-04, gradCalcCentralLarge = 10000,
-    etaNudge = qnorm(1 - 0.05/2)/sqrt(3), etaNudge2 = qnorm(1 -
-        0.05/2) * sqrt(3/5), nRetries = 3, seed = 42, resetThetaCheckPer = 0.1,
-    etaMat = NULL, repeatGillMax = 3, stickyRecalcN = 5, gradProgressOfvTime = 10,
-    addProp = c("combined2", "combined1"), badSolveObjfAdj = 100,
-    compress = TRUE, rxControl = NULL, sigdigTable = NULL, fallbackFD = FALSE) {
+    shi21maxOuter = 0L, shi21maxInner = 20L, shi21maxInnerCov = 20L,
+    shi21maxFD = 20L, gillK = 10L, gillStep = 4, gillFtol = 0,
+    gillRtol = sqrt(.Machine$double.eps), gillKcov = 10L, gillKcovLlik = 20L,
+    gillStepCovLlik = 4.5, gillStepCov = 2, gillFtolCov = 0,
+    gillFtolCovLlik = 0, rmatNorm = TRUE, rmatNormLlik = FALSE,
+    smatNorm = TRUE, smatNormLlik = FALSE, covGillF = TRUE, optGillF = TRUE,
+    covSmall = 1e-05, adjLik = TRUE, gradTrim = Inf, maxOdeRecalc = 5,
+    odeRecalcFactor = 10^(0.5), gradCalcCentralSmall = 1e-04,
+    gradCalcCentralLarge = 10000, etaNudge = qnorm(1 - 0.05/2)/sqrt(3),
+    etaNudge2 = qnorm(1 - 0.05/2) * sqrt(3/5), nRetries = 3,
+    seed = 42, resetThetaCheckPer = 0.1, etaMat = NULL, repeatGillMax = 1,
+    stickyRecalcN = 4, gradProgressOfvTime = 10, addProp = c("combined2",
+        "combined1"), badSolveObjfAdj = 100, compress = TRUE,
+    rxControl = NULL, sigdigTable = NULL, fallbackFD = FALSE) {
     nlmixr2est::foceiControl(sigdig = sigdig, ..., epsilon = epsilon,
         maxInnerIterations = maxInnerIterations, maxOuterIterations = maxOuterIterations,
         n1qn1nsim = n1qn1nsim, print = print, printNcol = printNcol,
@@ -109,7 +135,8 @@ foceiControl <- function(sigdig = 3, ..., epsilon = NULL, maxInnerIterations = 1
         scaleC = scaleC, scaleC0 = scaleC0, derivEps = derivEps,
         derivMethod = derivMethod, derivSwitchTol = derivSwitchTol,
         covDerivMethod = covDerivMethod, covMethod = covMethod,
-        hessEps = hessEps, eventFD = eventFD, eventType = eventType,
+        hessEps = hessEps, hessEpsLlik = hessEpsLlik, optimHessType = optimHessType,
+        optimHessCovType = optimHessCovType, eventType = eventType,
         centralDerivEps = centralDerivEps, lbfgsLmm = lbfgsLmm,
         lbfgsPgtol = lbfgsPgtol, lbfgsFactr = lbfgsFactr, eigen = eigen,
         addPosthoc = addPosthoc, diagXform = diagXform, sumProd = sumProd,
@@ -123,16 +150,21 @@ foceiControl <- function(sigdig = 3, ..., epsilon = NULL, maxInnerIterations = 1
         rhobeg = rhobeg, rhoend = rhoend, npt = npt, rel.tol = rel.tol,
         x.tol = x.tol, eval.max = eval.max, iter.max = iter.max,
         abstol = abstol, reltol = reltol, resetHessianAndEta = resetHessianAndEta,
-        stateTrim = stateTrim, gillK = gillK, gillStep = gillStep,
+        stateTrim = stateTrim, shi21maxOuter = shi21maxOuter,
+        shi21maxInner = shi21maxInner, shi21maxInnerCov = shi21maxInnerCov,
+        shi21maxFD = shi21maxFD, gillK = gillK, gillStep = gillStep,
         gillFtol = gillFtol, gillRtol = gillRtol, gillKcov = gillKcov,
+        gillKcovLlik = gillKcovLlik, gillStepCovLlik = gillStepCovLlik,
         gillStepCov = gillStepCov, gillFtolCov = gillFtolCov,
-        rmatNorm = rmatNorm, smatNorm = smatNorm, covGillF = covGillF,
-        optGillF = optGillF, covSmall = covSmall, adjLik = adjLik,
-        gradTrim = gradTrim, maxOdeRecalc = maxOdeRecalc, odeRecalcFactor = odeRecalcFactor,
-        gradCalcCentralSmall = gradCalcCentralSmall, gradCalcCentralLarge = gradCalcCentralLarge,
-        etaNudge = etaNudge, etaNudge2 = etaNudge2, nRetries = nRetries,
-        seed = seed, resetThetaCheckPer = resetThetaCheckPer,
-        etaMat = etaMat, repeatGillMax = repeatGillMax, stickyRecalcN = stickyRecalcN,
+        gillFtolCovLlik = gillFtolCovLlik, rmatNorm = rmatNorm,
+        rmatNormLlik = rmatNormLlik, smatNorm = smatNorm, smatNormLlik = smatNormLlik,
+        covGillF = covGillF, optGillF = optGillF, covSmall = covSmall,
+        adjLik = adjLik, gradTrim = gradTrim, maxOdeRecalc = maxOdeRecalc,
+        odeRecalcFactor = odeRecalcFactor, gradCalcCentralSmall = gradCalcCentralSmall,
+        gradCalcCentralLarge = gradCalcCentralLarge, etaNudge = etaNudge,
+        etaNudge2 = etaNudge2, nRetries = nRetries, seed = seed,
+        resetThetaCheckPer = resetThetaCheckPer, etaMat = etaMat,
+        repeatGillMax = repeatGillMax, stickyRecalcN = stickyRecalcN,
         gradProgressOfvTime = gradProgressOfvTime, addProp = addProp,
         badSolveObjfAdj = badSolveObjfAdj, compress = compress,
         rxControl = rxControl, sigdigTable = sigdigTable, fallbackFD = fallbackFD)
@@ -235,12 +267,11 @@ bootstrapFit <- function(fit, nboot = 200, nSampIndiv, stratVar,
 #' @inherit nlmixr2extra::covarSearchAuto
 #' @export
 covarSearchAuto <- function(fit, varsVec, covarsVec, pVal = list(fwd = 0.05,
-    bck = 0.01), covInformation = NULL, catCovariates = NULL,
-    searchType = c("scm", "forward", "backward"), restart = FALSE) {
+    bck = 0.01), catvarsVec = NULL, searchType = c("scm", "forward",
+    "backward"), restart = FALSE) {
     nlmixr2extra::covarSearchAuto(fit = fit, varsVec = varsVec,
-        covarsVec = covarsVec, pVal = pVal, covInformation = covInformation,
-        catCovariates = catCovariates, searchType = searchType,
-        restart = restart)
+        covarsVec = covarsVec, pVal = pVal, catvarsVec = catvarsVec,
+        searchType = searchType, restart = restart)
 }
 
 #' @inherit nlmixr2extra::bootplot

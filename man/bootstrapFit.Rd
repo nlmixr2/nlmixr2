@@ -58,11 +58,71 @@ could be something else.}
 \value{
 Nothing, called for the side effects; The original fit is
 updated with the bootstrap confidence bands
+
+Nothing, called for the side effects; The original fit is
+updated with the bootstrap confidence bands
 }
 \description{
 Bootstrap input dataset and rerun the model to get confidence bounds and aggregated parameters
+
+Bootstrap input dataset and rerun the model to get confidence bounds and aggregated parameters
 }
 \examples{
+\donttest{
+
+one.cmt <- function() {
+  ini({
+    ## You may label each parameter with a comment
+    tka <- 0.45 # Log Ka
+    tcl <- 1 # Log Cl
+    ## This works with interactive models
+    ## You may also label the preceding line with label("label text")
+    tv <- 3.45
+    label("log V")
+    ## the label("Label name") works with all models
+    eta.ka ~ 0.6
+    eta.cl ~ 0.3
+    eta.v ~ 0.1
+    add.sd <- 0.7
+  })
+  model({
+    ka <- exp(tka + eta.ka)
+    cl <- exp(tcl + eta.cl)
+    v <- exp(tv + eta.v)
+    linCmt() ~ add(add.sd)
+  })
+}
+
+fit <- nlmixr2(one.cmt, nlmixr2data::theo_sd, "focei")
+
+withr::with_tempdir({ # Run example in temp dir
+
+bootstrapFit(fit, nboot = 5, restart = TRUE) # overwrites any of the existing data or model files
+bootstrapFit(fit, nboot = 7) # resumes fitting using the stored data and model files
+
+# Note this resumes because the total number of bootstrap samples is not 50
+
+bootstrapFit(fit, nboot=50)
+
+# Note the boostrap standard error and variance/covariance matrix is retained.
+# If you wish to switch back you can change the covariance matrix by
+
+nlmixr2est::setCov(fit,"r,s")
+
+# And change it back again
+
+nlmixr2est::setCov(fit,"boot50")
+
+# This change will affect any simulations with uncertainty in their parameters
+
+# You may also do a chi-square diagnostic plot check for the bootstrap with
+
+bootplot(fit)
+
+})
+
+}
+
 \donttest{
 
 one.cmt <- function() {

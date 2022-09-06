@@ -27,8 +27,10 @@ foceiControl(
   covDerivMethod = c("central", "forward"),
   covMethod = c("r,s", "r", "s", ""),
   hessEps = (.Machine$double.eps)^(1/3),
-  eventFD = sqrt(.Machine$double.eps),
-  eventType = c("gill", "central", "forward"),
+  hessEpsLlik = (.Machine$double.eps)^(1/2.5),
+  optimHessType = c("central", "forward"),
+  optimHessCovType = c("central", "forward"),
+  eventType = c("central", "forward"),
   centralDerivEps = rep(20 * sqrt(.Machine$double.eps), 2),
   lbfgsLmm = 7L,
   lbfgsPgtol = 0,
@@ -69,15 +71,24 @@ foceiControl(
   reltol = NULL,
   resetHessianAndEta = FALSE,
   stateTrim = Inf,
+  shi21maxOuter = 0L,
+  shi21maxInner = 20L,
+  shi21maxInnerCov = 20L,
+  shi21maxFD = 20L,
   gillK = 10L,
   gillStep = 4,
   gillFtol = 0,
   gillRtol = sqrt(.Machine$double.eps),
   gillKcov = 10L,
+  gillKcovLlik = 20L,
+  gillStepCovLlik = 4.5,
   gillStepCov = 2,
   gillFtolCov = 0,
+  gillFtolCovLlik = 0,
   rmatNorm = TRUE,
+  rmatNormLlik = FALSE,
   smatNorm = TRUE,
+  smatNormLlik = FALSE,
   covGillF = TRUE,
   optGillF = TRUE,
   covSmall = 1e-05,
@@ -93,8 +104,8 @@ foceiControl(
   seed = 42,
   resetThetaCheckPer = 0.1,
   etaMat = NULL,
-  repeatGillMax = 3,
-  stickyRecalcN = 5,
+  repeatGillMax = 1,
+  stickyRecalcN = 4,
   gradProgressOfvTime = 10,
   addProp = c("combined2", "combined1"),
   badSolveObjfAdj = 100,
@@ -341,6 +352,29 @@ derivatives while calculating the covariance components
 \item{hessEps}{is a double value representing the epsilon for the
 Hessian calculation. This is used for the R matrix calculation.}
 
+\item{hessEpsLlik}{is a double value representing the epsilon for
+the Hessian calculation when doing focei generalized
+log-likelihood estimation.  This is used for the R matrix
+calculation.}
+
+\item{optimHessType}{The hessian type for when calculating the
+individual hessian by numeric differences (in generalized
+log-likelihood estimation).  The options are "central", and
+"forward".  The central differences is what R's `optimHess()`
+uses and is the default for this method. (Though the "forward" is
+faster and still reasonable for most cases).  The Shi21 cannot be
+changed for the Gill83 algorithm with the optimHess in a
+generalized likelihood problem.}
+
+\item{optimHessCovType}{The hessian type for when calculating the
+individual hessian by numeric differences (in generalized
+log-likelihood estimation).  The options are "central", and
+"forward".  The central differences is what R's `optimHess()`
+uses.  While this takes longer in optimization, it is more
+accurate, so for calculating the covariance and final likelihood,
+the central differences are used. This also uses the modified
+Shi21 method}
+
 \item{eventType}{Event gradient type for dosing events; Can be
 "central" or "forward"}
 
@@ -509,6 +543,24 @@ option \code{resetEtaP}.}
 
 \item{stateTrim}{Trim state amounts/concentrations to this value.}
 
+\item{shi21maxOuter}{The maximum number of steps for the
+optimization of the forward-difference step size.  When not zero,
+use this instead of Gill differences.}
+
+\item{shi21maxInner}{The maximum number of steps for the
+optimization of the individual Hessian matrices in the
+generalized likelihood problem. When 0, un-optimized finite differences
+are used.}
+
+\item{shi21maxInnerCov}{The maximum number of steps for the
+optimization of the individual Hessian matrices in the
+generalized likelihood problem for the covariance step. When 0,
+un-optimized finite differences are used.}
+
+\item{shi21maxFD}{The maximum number of steps for the optimization
+of the forward difference step size when using dosing events (lag
+time, modeled duration/rate and bioavailability)}
+
 \item{gillK}{The total number of possible steps to determine the
 optimal forward/central difference step size per parameter (by
 the Gill 1983 method).  If 0, no optimal step size is
@@ -532,6 +584,15 @@ the optimal forward/central difference step size per parameter
 no optimal step size is determined.  Otherwise this is the
 optimal step size determined.}
 
+\item{gillKcovLlik}{The total number of possible steps to determine
+the optimal forwad/central difference step per parameter when
+using the generalized focei log-likelihood method (by the Gill
+1986 method).  If 0, no optimal step size is
+determined. Otherwise this is the optimal step size is determined}
+
+\item{gillStepCovLlik}{Same as above but during generalized focei
+log-likelihood}
+
 \item{gillStepCov}{When looking for the optimal forward difference
 step size, this is This is the step size to increase the
 initial estimate by.  So each iteration during the covariance
@@ -541,11 +602,22 @@ step is equal to the new step size = (prior step size)*gillStepCov}
 that is acceptable before issuing a warning/error about the
 gradient estimates during the covariance step.}
 
+\item{gillFtolCovLlik}{Same as above but applied during generalized
+log-likelihood estimation.}
+
 \item{rmatNorm}{A parameter to normalize gradient step size by the
 parameter value during the calculation of the R matrix}
 
+\item{rmatNormLlik}{A parameter to normalize gradient step size by
+the parameter value during the calculation of the R matrix if you
+are using generalized log-likelihood Hessian matrix.}
+
 \item{smatNorm}{A parameter to normalize gradient step size by the
 parameter value during the calculation of the S matrix}
+
+\item{smatNormLlik}{A parameter to normalize gradient step size by
+the parameter value during the calculation of the S matrix if you
+are using the generalized log-likelihood.}
 
 \item{covGillF}{Use the Gill calculated optimal Forward difference
 step size for the instead of the central difference step size

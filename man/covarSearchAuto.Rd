@@ -9,8 +9,7 @@ covarSearchAuto(
   varsVec,
   covarsVec,
   pVal = list(fwd = 0.05, bck = 0.01),
-  covInformation = NULL,
-  catCovariates = NULL,
+  catvarsVec = NULL,
   searchType = c("scm", "forward", "backward"),
   restart = FALSE
 )
@@ -27,12 +26,7 @@ tested}
 \item{pVal}{a named list with names 'fwd' and 'bck' for specifying
 the p-values for the forward and backward searches, respectively}
 
-\item{covInformation}{a list containing additional information on
-the variables-covariates pairs that should be passed on to
-addCovMultiple function}
-
-\item{catCovariates}{a list of covariates that should be treated as
-categorical}
+\item{catvarsVec}{character vector of categorical covariates that need to be added}
 
 \item{searchType}{one of 'scm', 'forward' and 'backward' to specify
 the covariate search method; default is 'scm'}
@@ -78,7 +72,7 @@ fit <- nlmixr2(one.cmt, nlmixr2data::theo_sd,"focei")
 rxode2::.rxWithWd(tempdir(), {# with temporary directory
 
 auto1 <- covarSearchAuto(fit, varsVec = c("ka", "cl"),
-    covarsVec = c("WT", "SEX"), catCovariates = c("SEX"))
+    covarsVec = c("WT"))
 
 })
 
@@ -95,16 +89,16 @@ fit <- nlmixr2(one.cmt, d, "focei")
 
 rxode2::.rxWithWd(tempdir(), {# with temporary directory
 
-auto2 <- covarSearchAuto(fit, varsVec = c("ka", "cl"), covarsVec = c("WT", "SEX"),
-                catCovariates = c("SEX"), restart = TRUE)
+auto2 <- covarSearchAuto(fit, varsVec = c("ka", "cl"), covarsVec = c("WT"),
+                catvarsVec= c("SEX"), restart = TRUE)
 
-auto3 <- covarSearchAuto(fit, varsVec = c("ka", "cl"), covarsVec = c("WT", "SEX"),
-                catCovariates = c("SEX"), restart = TRUE,
+auto3 <- covarSearchAuto(fit, varsVec = c("ka", "cl"), covarsVec = c("WT"),
+                catvarsVec=  c("SEX"), restart = TRUE,
                 searchType = "forward")
 })
 
 }
 }
 \author{
-Vipul Mann, Matthew Fidler
+Vipul Mann, Matthew Fidler, Vishal Sarsani
 }
