@@ -417,23 +417,19 @@ derivatives while calculating the covariance components
 
 
 <dt>hessEps</dt>
-<dd><p>is a double value representing the epsilon for the Hessian calculation.</p></dd>
-
-
-<dt>eventFD</dt>
-<dd><p>Finite difference step for forward or central
-difference estimation of event-based gradients</p></dd>
+<dd><p>is a double value representing the epsilon for the
+Hessian calculation. This is used for the R matrix calculation.</p></dd>
 
 
 <dt>eventType</dt>
 <dd><p>Event gradient type for dosing events; Can be
-"gill", "central" or "forward"</p></dd>
+"central" or "forward"</p></dd>
 
 
 <dt>centralDerivEps</dt>
 <dd><p>Central difference tolerances.  This is a
-    numeric vector of relative difference and absolute difference.
-    The central/forward difference step size h is calculated as:</p>
+  numeric vector of relative difference and absolute difference.
+  The central/forward difference step size h is calculated as:</p>
 <p><code>h = abs(x)*derivEps[1] + derivEps[2]</code></p></dd>
 
 
@@ -897,6 +893,16 @@ start near zero, scaling for these parameters do not make sense.</p>
 unscaled problem.  The covariance step is performed on the
 unscaled problem, so the condition number of that matrix may not
 be reflective of the scaled problem's condition-number.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    <p>Gill, P.E., Murray, W., Saunders, M.A., &amp; Wright,
+M.H. (1983). Computing Forward-Difference Intervals for Numerical
+Optimization. Siam Journal on Scientific and Statistical Computing,
+4, 310-321.</p>
+<p>Shi, H.M., Xie, Y., Xuan, M.Q., &amp; Nocedal, J. (2021). Adaptive
+Finite-Difference Interval Estimation for Noisy Derivative-Free
+Optimization.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
