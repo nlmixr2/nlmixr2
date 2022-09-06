@@ -85,7 +85,7 @@ nlmeControl(
    \code{FALSE}.}
 
 \item{msWarnNoConv}{logical indicating if a \code{\link{warning}}
-   should be signalled whenever the minimization by (\code{opt}) in the
+   should be signalled whenever the minimization (by \code{opt}) in the
    LME step does not converge; defaults to \code{TRUE}.}
 
 \item{gradHess}{a logical value indicating whether numerical gradient
