@@ -48,7 +48,7 @@
   if (is.na(.fun)) return("")
   .aliasText <- NULL
   if (!is.null(alias)) {
-    .aliasText <- paste0("#' @rdname ", .fun2)
+    .aliasText <- paste0("#' @rdname ", .fun)
   }
   paste(
     c(paste("#' @importFrom", .pkg, .fun),
