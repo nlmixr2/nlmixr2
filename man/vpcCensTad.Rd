@@ -8,6 +8,15 @@ vpcCensTad(..., cens = TRUE, idv = "tad")
 }
 \arguments{
 \item{...}{Additional arguments passed to \code{\link[nlmixr2plot:vpcPlot]{nlmixr2plot::vpcCensTad()}}.}
+
+\item{cens}{is a boolean to show if this is a censoring plot or
+not.  When \code{cens=TRUE} this is actually a censoring vpc plot
+(with \code{vpcCens()} and \code{vpcCensTad()}).  When \code{cens=FALSE} this is
+traditional VPC plot (\code{vpcPlot()} and \code{vpcPlotTad()}).}
+
+\item{idv}{Name of independent variable. For \code{vpcPlot()} and
+\code{vpcCens()} the default is \code{"time"} for \code{vpcPlotTad()} and
+\code{vpcCensTad()} this is \code{"tad"}}
 }
 \value{
 Simulated dataset (invisibly)

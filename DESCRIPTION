@@ -27,6 +27,7 @@ Imports:
     nlmixr2est,
     nlmixr2extra,
     rxode2,
+    lotri,
     nlmixr2plot,
     magrittr
 Depends: 

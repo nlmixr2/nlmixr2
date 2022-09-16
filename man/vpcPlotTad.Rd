@@ -8,6 +8,10 @@ vpcPlotTad(..., idv = "tad")
 }
 \arguments{
 \item{...}{Additional arguments passed to \code{\link[nlmixr2plot:vpcPlot]{nlmixr2plot::vpcPlotTad()}}.}
+
+\item{idv}{Name of independent variable. For \code{vpcPlot()} and
+\code{vpcCens()} the default is \code{"time"} for \code{vpcPlotTad()} and
+\code{vpcCensTad()} this is \code{"tad"}}
 }
 \value{
 Simulated dataset (invisibly)
