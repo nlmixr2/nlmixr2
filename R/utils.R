@@ -48,7 +48,7 @@
   if (is.na(.fun)) return("")
   .aliasText <- NULL
   if (!is.null(alias)) {
-    .aliasText <- paste0("#' @rdname ", .fun2)
+    .aliasText <- paste0("#' @rdname ", .fun)
   }
   paste(
     c(paste("#' @importFrom", .pkg, .fun),
@@ -118,7 +118,8 @@
                                  "nlmixr2est::random.effects",
                                  "nlmixr2est::.nlmixrNlmeFun",
                                  "nlmixr2est::nlmixr2NlmeControl",
-                                 "nlmixr2est::nlmixr"),
+                                 "nlmixr2est::nlmixr",
+                                 "lotri::lotri"),
                           hard=c("nlmixr2plot::traceplot",
                                  "nlmixr2est::vpcSim",
                                  "nlmixr2plot::vpcPlot",

@@ -27,7 +27,7 @@ foceiControl(
   covDerivMethod = c("central", "forward"),
   covMethod = c("r,s", "r", "s", ""),
   hessEps = (.Machine$double.eps)^(1/3),
-  hessEpsLlik = (.Machine$double.eps)^(1/2.5),
+  hessEpsLlik = (.Machine$double.eps)^(1/3),
   optimHessType = c("central", "forward"),
   optimHessCovType = c("central", "forward"),
   eventType = c("central", "forward"),
@@ -80,15 +80,15 @@ foceiControl(
   gillFtol = 0,
   gillRtol = sqrt(.Machine$double.eps),
   gillKcov = 10L,
-  gillKcovLlik = 20L,
+  gillKcovLlik = 10L,
   gillStepCovLlik = 4.5,
   gillStepCov = 2,
   gillFtolCov = 0,
   gillFtolCovLlik = 0,
   rmatNorm = TRUE,
-  rmatNormLlik = FALSE,
+  rmatNormLlik = TRUE,
   smatNorm = TRUE,
-  smatNormLlik = FALSE,
+  smatNormLlik = TRUE,
   covGillF = TRUE,
   optGillF = TRUE,
   covSmall = 1e-05,
@@ -112,7 +112,8 @@ foceiControl(
   compress = TRUE,
   rxControl = NULL,
   sigdigTable = NULL,
-  fallbackFD = FALSE
+  fallbackFD = FALSE,
+  smatPer = 0.6
 )
 }
 \arguments{
@@ -738,6 +739,12 @@ If not specified, then it matches the significant digits in the
 
 \item{fallbackFD}{Fallback to the finite differences if the
 sensitivity equations do not solve.}
+
+\item{smatPer}{A percentage representing the number of failed
+parameter gradients for each individual (which are replaced with
+the overall gradient for the parameter) out of the total number
+of gradients parameters (ie `ntheta*nsub`) before the S matrix is
+considered to be a bad matrix.}
 }
 \value{
 The control object that changes the options for the FOCEi

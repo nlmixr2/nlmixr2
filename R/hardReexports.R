@@ -97,7 +97,7 @@ foceiControl <- function(sigdig = 3, ..., epsilon = NULL, maxInnerIterations = 1
         2), derivMethod = c("switch", "forward", "central"),
     derivSwitchTol = NULL, covDerivMethod = c("central", "forward"),
     covMethod = c("r,s", "r", "s", ""), hessEps = (.Machine$double.eps)^(1/3),
-    hessEpsLlik = (.Machine$double.eps)^(1/2.5), optimHessType = c("central",
+    hessEpsLlik = (.Machine$double.eps)^(1/3), optimHessType = c("central",
         "forward"), optimHessCovType = c("central", "forward"),
     eventType = c("central", "forward"), centralDerivEps = rep(20 *
         sqrt(.Machine$double.eps), 2), lbfgsLmm = 7L, lbfgsPgtol = 0,
@@ -115,10 +115,10 @@ foceiControl <- function(sigdig = 3, ..., epsilon = NULL, maxInnerIterations = 1
     reltol = NULL, resetHessianAndEta = FALSE, stateTrim = Inf,
     shi21maxOuter = 0L, shi21maxInner = 20L, shi21maxInnerCov = 20L,
     shi21maxFD = 20L, gillK = 10L, gillStep = 4, gillFtol = 0,
-    gillRtol = sqrt(.Machine$double.eps), gillKcov = 10L, gillKcovLlik = 20L,
+    gillRtol = sqrt(.Machine$double.eps), gillKcov = 10L, gillKcovLlik = 10L,
     gillStepCovLlik = 4.5, gillStepCov = 2, gillFtolCov = 0,
-    gillFtolCovLlik = 0, rmatNorm = TRUE, rmatNormLlik = FALSE,
-    smatNorm = TRUE, smatNormLlik = FALSE, covGillF = TRUE, optGillF = TRUE,
+    gillFtolCovLlik = 0, rmatNorm = TRUE, rmatNormLlik = TRUE,
+    smatNorm = TRUE, smatNormLlik = TRUE, covGillF = TRUE, optGillF = TRUE,
     covSmall = 1e-05, adjLik = TRUE, gradTrim = Inf, maxOdeRecalc = 5,
     odeRecalcFactor = 10^(0.5), gradCalcCentralSmall = 1e-04,
     gradCalcCentralLarge = 10000, etaNudge = qnorm(1 - 0.05/2)/sqrt(3),
@@ -126,7 +126,8 @@ foceiControl <- function(sigdig = 3, ..., epsilon = NULL, maxInnerIterations = 1
     seed = 42, resetThetaCheckPer = 0.1, etaMat = NULL, repeatGillMax = 1,
     stickyRecalcN = 4, gradProgressOfvTime = 10, addProp = c("combined2",
         "combined1"), badSolveObjfAdj = 100, compress = TRUE,
-    rxControl = NULL, sigdigTable = NULL, fallbackFD = FALSE) {
+    rxControl = NULL, sigdigTable = NULL, fallbackFD = FALSE,
+    smatPer = 0.6) {
     nlmixr2est::foceiControl(sigdig = sigdig, ..., epsilon = epsilon,
         maxInnerIterations = maxInnerIterations, maxOuterIterations = maxOuterIterations,
         n1qn1nsim = n1qn1nsim, print = print, printNcol = printNcol,
@@ -167,7 +168,8 @@ foceiControl <- function(sigdig = 3, ..., epsilon = NULL, maxInnerIterations = 1
         repeatGillMax = repeatGillMax, stickyRecalcN = stickyRecalcN,
         gradProgressOfvTime = gradProgressOfvTime, addProp = addProp,
         badSolveObjfAdj = badSolveObjfAdj, compress = compress,
-        rxControl = rxControl, sigdigTable = sigdigTable, fallbackFD = fallbackFD)
+        rxControl = rxControl, sigdigTable = sigdigTable, fallbackFD = fallbackFD,
+        smatPer = smatPer)
 }
 
 #' @inherit nlmixr2est::nlmeControl

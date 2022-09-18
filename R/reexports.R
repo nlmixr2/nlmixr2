@@ -235,3 +235,7 @@ nlmixr2est::nlmixr2NlmeControl
 #' @importFrom nlmixr2est nlmixr
 #' @export
 nlmixr2est::nlmixr
+
+#' @importFrom lotri lotri
+#' @export
+lotri::lotri
