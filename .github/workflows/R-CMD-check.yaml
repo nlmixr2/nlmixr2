@@ -129,6 +129,10 @@ jobs:
       - name: Install development nlmixr2plot
         run: remotes::install_github("nlmixr2/nlmixr2plot")
         shell: Rscript {0}
+        
+      - name: Install development nlmixr2lib
+        run: remotes::install_github("nlmixr2/nlmixr2lib")
+        shell: Rscript {0}
 
       - name: Install devtools
         run: install.packages("devtools")
