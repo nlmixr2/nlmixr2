@@ -77,6 +77,7 @@ nlmixr2-family dependencies like so:
 remotes::install_github("nlmixr2/nlmixr2data")
 remotes::install_github("nlmixr2/lotri")
 remotes::install_github("nlmixr2/rxode2ll")
+remotes::install_github("nlmixr2/rxode2parse")
 remotes::install_github("nlmixr2/rxode2")
 remotes::install_github("nlmixr2/nlmixr2est")
 remotes::install_github("nlmixr2/nlmixr2extra")

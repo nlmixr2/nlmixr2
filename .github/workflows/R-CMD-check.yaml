@@ -113,8 +113,13 @@ jobs:
       - name: Install development lotri
         run: remotes::install_github("nlmixr2/lotri")
         shell: Rscript {0}
-
       - name: Install development rxode2
+        run: remotes::install_github("nlmixr2/rxode2ll")
+        shell: Rscript {0}
+      - name: Install development rxode2
+        run: remotes::install_github("nlmixr2/rxode2parse")
+        shell: Rscript {0}
+        - name: Install development rxode2
         run: remotes::install_github("nlmixr2/rxode2")
         shell: Rscript {0}
 
