@@ -136,7 +136,7 @@ pbpk <- function(){
   })
 }
 
-dat <- read.csv("Mavoglurant_A2121_nmpk.csv")
+dat <- nlmixr2data::mavoglurant
 dat$occ = unlist(with(dat, tapply(EVID, ID, function(x) cumsum(x>0))))
 dat = subset(dat, occ==1)
 dat = subset(dat, ID<812) ## First 20
