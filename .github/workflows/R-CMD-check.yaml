@@ -109,7 +109,6 @@ jobs:
       - name: Install development nlmixr2data
         run: remotes::install_github("nlmixr2/nlmixr2data")
         shell: Rscript {0}
-          
       - name: Install development lotri
         run: remotes::install_github("nlmixr2/lotri")
         shell: Rscript {0}
@@ -119,30 +118,24 @@ jobs:
       - name: Install development rxode2
         run: remotes::install_github("nlmixr2/rxode2parse")
         shell: Rscript {0}
-        - name: Install development rxode2
+      - name: Install development rxode2
         run: remotes::install_github("nlmixr2/rxode2")
         shell: Rscript {0}
-
       - name: Install development nlmixr2est
         run: remotes::install_github("nlmixr2/nlmixr2est")
         shell: Rscript {0}
-
       - name: Install development nlmixr2extra
         run: remotes::install_github("nlmixr2/nlmixr2extra")
         shell: Rscript {0}
-        
       - name: Install development nlmixr2plot
         run: remotes::install_github("nlmixr2/nlmixr2plot")
         shell: Rscript {0}
-        
       - name: Install development nlmixr2lib
         run: remotes::install_github("nlmixr2/nlmixr2lib")
         shell: Rscript {0}
-
       - name: Install devtools
         run: install.packages("devtools")
         shell: Rscript {0}
-
       - name: Install dependencies
         run: remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}

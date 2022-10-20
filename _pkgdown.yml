@@ -27,6 +27,9 @@ reference:
   - setOfv
   - traceplot
   - vpcPlot
+  - vpcPlotTad
+  - vpcCens
+  - vpcCensTad
   - vpcSim
 navbar:
   left:
