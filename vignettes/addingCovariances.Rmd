@@ -91,6 +91,7 @@ p1 <- p1 + ylab("Concentrations")
 p2 <- vpcPlot(fit, pred_corr = TRUE, show=list(obs_dv=TRUE))
 p2 <- p2 + ylab("Prediction-Corrected Concentrations")
 
-p1
-p2
+library(patchwork)
+p1 / p2
+
 ```
