@@ -1,3 +1,11 @@
+# nlmixr2 2.0.8
+
+* This release has a bug fix that captures the model name correctly
+  when called directly from `nlmixr::nlmixr2` instead
+  `nlmixr2est::nlmixr2`
+  
+* This also exports the new vpc functions, ie `vpcTad()` etc
+
 # nlmixr2 2.0.7
 
 * nlmixr2 now re-exports `logit` so that certain models will work with

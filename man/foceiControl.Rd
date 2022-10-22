@@ -586,7 +586,7 @@ no optimal step size is determined.  Otherwise this is the
 optimal step size determined.}
 
 \item{gillKcovLlik}{The total number of possible steps to determine
-the optimal forwad/central difference step per parameter when
+the optimal forward/central difference step per parameter when
 using the generalized focei log-likelihood method (by the Gill
 1986 method).  If 0, no optimal step size is
 determined. Otherwise this is the optimal step size is determined}
