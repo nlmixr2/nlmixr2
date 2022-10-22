@@ -3,7 +3,9 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
-^vignettes$
+^vignettes/nlmixr_report.pdf$
+^vignettes/nlmixr_report.html$
+^vignettes/running_nlmixr.Rmd$
 ^vignettes/figure/.*$
 ^vignettes/examples/ACoP7poster/.*$
 ^vignettes/examples/LiveDemo/.*$
