@@ -40,6 +40,5 @@ Suggests:
     testthat,
     n1qn1,
     withr
-VignetteBuilder: knitr
 BugReports: https://github.com/nlmixr2/nlmixr2/issues/
 URL: https://nlmixr2.org/, https://github.com/nlmixr2/nlmixr2/
