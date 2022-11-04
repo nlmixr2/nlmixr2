@@ -5,8 +5,9 @@
 
 <!-- badges: start -->
 
-[![R build
-status](https://github.com/nlmixr2/nlmixr2/workflows/R-CMD-check/badge.svg)](https://github.com/nlmixr2/nlmixr2/actions)
+[![R-CMD-check](https://github.com/nlmixr2/nlmixr2/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/nlmixr2/nlmixr2/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/nlmixr2/nlmixr2/branch/main/graph/badge.svg)](https://app.codecov.io/gh/nlmixr2/nlmixr2?branch=main)
 [![CodeFactor](https://www.codefactor.io/repository/github/nlmixr2/nlmixr2/badge)](https://www.codefactor.io/repository/github/nlmixr2/nlmixr2)
 [![CRAN
 version](http://www.r-pkg.org/badges/version/nlmixr2)](https://cran.r-project.org/package=nlmixr2)
@@ -139,15 +140,15 @@ fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
 #> 
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 print(fit)
-#> ── nlmixr SAEM OBJF by FOCEi approximation ──
+#> ── nlmixr² SAEM OBJF by FOCEi approximation ──
 #> 
 #>  Gaussian/Laplacian Likelihoods: AIC() or $objf etc. 
 #>  FOCEi CWRES & Likelihoods: addCwres() 
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>            setup covariance saem table compress    other
-#> elapsed 0.000909   0.006005 2.09 0.015    0.009 1.185086
+#>         setup saem table compress other
+#> elapsed 0.002 9.47   0.1     0.07 3.888
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -161,6 +162,7 @@ print(fit)
 #>   No correlations in between subject variability (BSV) matrix
 #>   Full BSV covariance ($omega) or correlation ($omegaR; diagonals=SDs) 
 #>   Distribution stats (mean/skewness/kurtosis/p-value) available in $shrink 
+#>   Censoring ($censInformation): No censoring
 #> 
 #> ── Fit Data (object is a modified tibble): ──
 #> # A tibble: 132 × 19
