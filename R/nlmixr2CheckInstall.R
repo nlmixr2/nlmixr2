@@ -4,15 +4,10 @@
 #' nlmixr2CheckInstall()
 #' @export
 nlmixr2CheckInstall <- function() {
-  # Show warnings immediately (and reset that when exiting the function
-  currentWarn <- options("warn")$warn
-  on.exit(options(warn = currentWarn))
-  options(warn = 1)
-
   # Setup functions for reporting back to the user
-  infoFun <- message
-  successFun <- message
-  warningFun <- warning
+  infoFun <- function(x) cat(x, "\n", sep = "")
+  successFun <- function(x) cat("√ ", x, "\n", sep = "")
+  warningFun <- function(x) cat("! ", x, "\n", sep = "")
   hasCli <- requireNamespace("cli")
   if (hasCli) {
     infoFun <- cli::cli_alert_info
