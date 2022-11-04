@@ -43,8 +43,6 @@ jobs:
             nlmixr2/nlmixr2est
             nlmixr2/nlmixr2extra
             nlmixr2/nlmixr2plot
-            local::.
-            devtools
             xpose
             xpose.nlmixr2
             ggPMX
@@ -53,13 +51,13 @@ jobs:
             dotwhisker
             dplyr
             flextable
-            ggplot2
             huxtable
             officer
             patchwork
             readr
             tidyr
             xgxr
+            local::.
           needs: website
 
       - name: Build site
