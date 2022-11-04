@@ -49,7 +49,7 @@ To setup the mac compilers, simply
    
    b. Add gfortran directory to the path with: `export PATH=$PATH:/usr/local/gfortran/bin`
 
-# R package installation 
+## R package installation 
 
 Installation nlmixr2 itself is easiest in R-4.2.x because no further compilation is required and all supporting packages are available. From R, run:
 
@@ -67,6 +67,14 @@ followed by:
 
 ``` r
 install.packages("nlmixr2",dependencies = TRUE)
+```
+
+## Checking installation
+
+You can check that your installation is likely setup correctly with the following command after installing the `nlmixr2` package:
+
+```{r check-install, eval=FALSE}
+nlmixr2::nlmixr2CheckInstall()
 ```
 
 ## Development version installation
@@ -105,7 +113,6 @@ command:
 ``` r
 install.packages(c("nlmixr2", "nlmixr2est", "rxode2", "nlmixr2plot", "nlmixr2data", "lotri", "nlmixr2extra"))
 ```
-
 
 ## Example
 
@@ -147,7 +154,7 @@ print(fit)
 ## Base R Graphics
 You can use base plots with the fit and it will produce a standard set of goodness of fit plots:
 
-```{r eval=FALSE}
+```{r base-r-plot, eval=FALSE}
 pdf(file="myplots.pdf")
 plot(fit)
 dev.off()
@@ -158,14 +165,14 @@ dev.off()
 
 The {xpose.nlmixr2} package extends xpose support for nlmixr2. You simply need to convert the fit results into an xpose database: 
 
-```{r eval=FALSE}
+```{r xpose-plot-1, eval=FALSE}
 library(xpose.nlmixr2)
 xpdb = xpose_data_nlmixr(fit)
 ```
 
 Then you can use any of the xpose functions for generating goodness of fit plots:
 
-```{r eval=FALSE}
+```{r xpose-plot-2, eval=FALSE}
 library(xpose)
 plt <- dv_vs_ipred(xpdb)
 ```
@@ -175,7 +182,7 @@ plt <- dv_vs_ipred(xpdb)
 
 Another option is to use the ggPMX package. You first creat a ggPMX controller object from the nlmixr fit object. Then that controller object can be used to generate figures:
 
-```{r eval=FALSE}
+```{r ggpmx-plot, eval=FALSE}
 library(ggPMX)
 ctr = pmx_nlmixr(fit)
 pmx_plot_dv_ipred(ctr)
