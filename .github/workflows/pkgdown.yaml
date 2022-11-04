@@ -44,6 +44,24 @@ jobs:
             nlmixr2/nlmixr2extra
             nlmixr2/nlmixr2plot
             local::.
+            # Extra packages for vignettes
+            devtools
+            xpose
+            xpose.nlmixr2
+            ggPMX
+            jeroen/curl
+            broom.mixed
+            dotwhisker
+            dplyr
+            flextable
+            ggplot2
+            huxtable
+            officer
+            patchwork
+            readr
+            tidyr
+            xgxr
+            pkgdown
           needs: website
 
       - name: Build site
