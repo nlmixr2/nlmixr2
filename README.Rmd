@@ -22,6 +22,8 @@ status](https://github.com/nlmixr2/nlmixr2/workflows/R-CMD-check/badge.svg)](htt
 [![CRAN version](http://www.r-pkg.org/badges/version/nlmixr2)](https://cran.r-project.org/package=nlmixr2)
 [![CRAN total downloads](https://cranlogs.r-pkg.org/badges/grand-total/nlmixr2)](https://cran.r-project.org/package=nlmixr2)
 [![CRAN total downloads](https://cranlogs.r-pkg.org/badges/nlmixr2)](https://cran.r-project.org/package=nlmixr2)
+[![R-CMD-check](https://github.com/nlmixr2/nlmixr2/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/nlmixr2/nlmixr2/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/nlmixr2/nlmixr2/branch/main/graph/badge.svg)](https://app.codecov.io/gh/nlmixr2/nlmixr2?branch=main)
 <!-- badges: end -->
 
 The goal of nlmixr2 is to support easy and robust nonlinear mixed effects models in R
@@ -169,7 +171,6 @@ Then you can use any of the xpose functions for generating goodness of fit plots
 library(xpose)
 plt <- dv_vs_ipred(xpdb)
 ```
-
 
 ## ggPMX
 

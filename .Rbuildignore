@@ -65,3 +65,5 @@
 ^cran-comments\.md$
 ^logo\.png$
 ^CRAN-SUBMISSION$
+^\.github$
+^codecov\.yml$
