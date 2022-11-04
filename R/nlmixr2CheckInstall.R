@@ -6,7 +6,7 @@
 nlmixr2CheckInstall <- function() {
   # Setup functions for reporting back to the user
   infoFun <- function(x) cat(x, "\n", sep = "")
-  successFun <- function(x) cat("√ ", x, "\n", sep = "")
+  successFun <- function(x) cat(cli::symbol[["tick"]], x, "\n", sep = "")
   warningFun <- function(x) cat("! ", x, "\n", sep = "")
   hasCli <- requireNamespace("cli")
   if (hasCli) {

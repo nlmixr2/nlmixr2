@@ -29,7 +29,8 @@ Imports:
     rxode2 (>= 2.0.10),
     lotri,
     nlmixr2plot,
-    magrittr
+    magrittr,
+    cli
 Depends:
     nlmixr2data
 Suggests:
