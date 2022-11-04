@@ -1,10 +1,8 @@
-# nocov start
-
 #' @import nlmixr2data
 #' @import nlmixr2plot
 #' @importFrom stats predict logLik na.fail pchisq approxfun cov cov2cor dlnorm median na.omit qchisq qnorm
 #' @noRd
-.genHardReExport <- function(fun) {
+.genHardReExport <- function(fun) { # nocov start
   message("Writing hard reexport: ", fun)
   .args <- deparse(eval(str2lang(paste0("args(", fun, ")"))))
   if (fun == "nlmixr2est::nlmixr2") {
@@ -46,9 +44,9 @@
   ret <- gsub(x = ret, pattern = "{", replacement = "{ # nocov start", fixed = TRUE)
   ret <- gsub(x = ret, pattern = "}", replacement = "} # nocov end", fixed = TRUE)
   ret
-}
+} # nocov end
 
-.genSoftReExport <- function(fun, alias=NULL) {
+.genSoftReExport <- function(fun, alias=NULL) { # nocov start
   message("Writing soft reexport: ", fun)
   .newFun <- strsplit(fun, "::")[[1]]
   .pkg <- .newFun[1]
@@ -66,7 +64,7 @@
     ),
     collapse="\n"
   )
-}
+} # nocov end
 
 .genReexports <- function(soft=c("rxode2::rxode2",
                                  "rxode2::rxode",
@@ -146,7 +144,7 @@
                                  "nlmixr2extra::bootstrapFit",
                                  "nlmixr2extra::covarSearchAuto",
                                  "nlmixr2extra::bootplot")
-                          ) {
+                          ) { # nocov start
   writeLines(c("# Generated from .genReexports()\n",
                paste(vapply(soft, .genSoftReExport, character(1), USE.NAMES=FALSE),
                      collapse="\n\n")),
@@ -155,9 +153,7 @@
                paste(vapply(hard, .genHardReExport, character(1), USE.NAMES=FALSE),
                      collapse="\n\n")),
              devtools::package_file("R/hardReexports.R"))
-}
-
-# nocov end
+} # nocov end
 
 #' @inherit nlmixr2est::nlmixr2
 #' @param ... Additional arguments passed to [nlmixr2est::nlmixr2()].
