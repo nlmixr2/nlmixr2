@@ -44,7 +44,6 @@ jobs:
             nlmixr2/nlmixr2extra
             nlmixr2/nlmixr2plot
             local::.
-            # Extra packages for vignettes
             devtools
             xpose
             xpose.nlmixr2
