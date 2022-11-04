@@ -60,7 +60,6 @@ jobs:
             readr
             tidyr
             xgxr
-            pkgdown
           needs: website
 
       - name: Build site
