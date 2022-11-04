@@ -1,3 +1,5 @@
+# nlmixr2 2.0.9
+
 # nlmixr2 2.0.8
 
 * This release has a bug fix that captures the model name correctly
