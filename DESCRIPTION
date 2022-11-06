@@ -23,16 +23,17 @@ License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
-Imports: 
+Imports:
     nlmixr2est (>= 2.1.1),
     nlmixr2extra,
     rxode2 (>= 2.0.10),
     lotri,
     nlmixr2plot,
-    magrittr
-Depends: 
+    magrittr,
+    cli
+Depends:
     nlmixr2data
-Suggests: 
+Suggests:
     rmarkdown,
     knitr,
     devtools,

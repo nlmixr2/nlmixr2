@@ -45,7 +45,7 @@ To setup the mac compilers, simply
     2.  Add gfortran directory to the path with:
         `export PATH=$PATH:/usr/local/gfortran/bin`
 
-# R package installation
+## R package installation
 
 Installation nlmixr2 itself is easiest in R-4.2.x because no further
 compilation is required and all supporting packages are available. From
@@ -66,6 +66,15 @@ followed by:
 
 ``` r
 install.packages("nlmixr2",dependencies = TRUE)
+```
+
+## Checking installation
+
+You can check that your installation is likely setup correctly with the
+following command after installing the `nlmixr2` package:
+
+``` r
+nlmixr2::nlmixr2CheckInstall()
 ```
 
 ## Development version installation
@@ -147,8 +156,8 @@ print(fit)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>         setup saem table compress other
-#> elapsed 0.002 9.47   0.1     0.07 3.888
+#>         setup covariance saem table compress other
+#> elapsed 0.002       0.02 8.11  0.08     0.09 3.788
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
