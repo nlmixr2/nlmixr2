@@ -44,7 +44,7 @@ To setup the mac compilers, simply
     2.  Add gfortran directory to the path with:
         `export PATH=$PATH:/usr/local/gfortran/bin`
 
-# R package installation
+## R package installation
 
 Installation nlmixr2 itself is easiest in R-4.2.x because no further
 compilation is required and all supporting packages are available. From
@@ -65,6 +65,15 @@ followed by:
 
 ``` r
 install.packages("nlmixr2",dependencies = TRUE)
+```
+
+## Checking installation
+
+You can check that your installation is likely setup correctly with the
+following command after installing the `nlmixr2` package:
+
+``` r
+nlmixr2::nlmixr2CheckInstall()
 ```
 
 ## Development version installation
@@ -139,15 +148,15 @@ fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
 #> 
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 print(fit)
-#> ── nlmixr SAEM OBJF by FOCEi approximation ──
+#> ── nlmixr² SAEM OBJF by FOCEi approximation ──
 #> 
 #>  Gaussian/Laplacian Likelihoods: AIC() or $objf etc. 
 #>  FOCEi CWRES & Likelihoods: addCwres() 
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>            setup covariance saem table compress    other
-#> elapsed 0.000909   0.006005 2.09 0.015    0.009 1.185086
+#>         setup covariance saem table compress other
+#> elapsed 0.002       0.02 8.11  0.08     0.09 3.788
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -161,6 +170,7 @@ print(fit)
 #>   No correlations in between subject variability (BSV) matrix
 #>   Full BSV covariance ($omega) or correlation ($omegaR; diagonals=SDs) 
 #>   Distribution stats (mean/skewness/kurtosis/p-value) available in $shrink 
+#>   Censoring ($censInformation): No censoring
 #> 
 #> ── Fit Data (object is a modified tibble): ──
 #> # A tibble: 132 × 19
