@@ -3,18 +3,18 @@
 #' @inherit nlmixr2plot::traceplot
 #' @param ... Additional arguments passed to [nlmixr2plot::traceplot()].
 #' @export
-traceplot <- function(x, ...) {
+traceplot <- function(x, ...) { # nocov start
     nlmixr2plot::traceplot(x = x, ...)
-}
+} # nocov end
 
 #' @inherit nlmixr2est::vpcSim
 #' @param ... Additional arguments passed to [nlmixr2est::vpcSim()].
 #' @export
 vpcSim <- function(object, ..., keep = NULL, n = 300, pred = FALSE,
-    seed = 1009, nretry = 50, normRelated = TRUE) {
+    seed = 1009, nretry = 50, normRelated = TRUE) { # nocov start
     nlmixr2est::vpcSim(object = object, ..., keep = keep, n = n,
         pred = pred, seed = seed, nretry = nretry, normRelated = normRelated)
-}
+} # nocov end
 
 #' @inherit nlmixr2plot::vpcPlot
 #' @param ... Additional arguments passed to [nlmixr2plot::vpcPlot()].
@@ -26,7 +26,7 @@ vpcPlot <- function(fit, data = NULL, n = 300, bins = "jenks",
     log_y = FALSE, log_y_min = 0.001, xlab = NULL, ylab = NULL,
     title = NULL, smooth = TRUE, vpc_theme = NULL, facet = "wrap",
     scales = "fixed", labeller = NULL, vpcdb = FALSE, verbose = FALSE,
-    ..., seed = 1009, idv = "time", cens = FALSE) {
+    ..., seed = 1009, idv = "time", cens = FALSE) { # nocov start
     nlmixr2plot::vpcPlot(fit = fit, data = data, n = n, bins = bins,
         n_bins = n_bins, bin_mid = bin_mid, show = show, stratify = stratify,
         pred_corr = pred_corr, pred_corr_lower_bnd = pred_corr_lower_bnd,
@@ -35,28 +35,28 @@ vpcPlot <- function(fit, data = NULL, n = 300, bins = "jenks",
         smooth = smooth, vpc_theme = vpc_theme, facet = facet,
         scales = scales, labeller = labeller, vpcdb = vpcdb,
         verbose = verbose, ..., seed = seed, idv = idv, cens = cens)
-}
+} # nocov end
 
 #' @inherit nlmixr2plot::vpcPlotTad
 #' @param ... Additional arguments passed to [nlmixr2plot::vpcPlotTad()].
 #' @export
-vpcPlotTad <- function(..., idv = "tad") {
+vpcPlotTad <- function(..., idv = "tad") { # nocov start
     nlmixr2plot::vpcPlotTad(..., idv = idv)
-}
+} # nocov end
 
 #' @inherit nlmixr2plot::vpcCens
 #' @param ... Additional arguments passed to [nlmixr2plot::vpcCens()].
 #' @export
-vpcCens <- function(..., cens = TRUE, idv = "time") {
+vpcCens <- function(..., cens = TRUE, idv = "time") { # nocov start
     nlmixr2plot::vpcCens(..., cens = cens, idv = idv)
-}
+} # nocov end
 
 #' @inherit nlmixr2plot::vpcCensTad
 #' @param ... Additional arguments passed to [nlmixr2plot::vpcCensTad()].
 #' @export
-vpcCensTad <- function(..., cens = TRUE, idv = "tad") {
+vpcCensTad <- function(..., cens = TRUE, idv = "tad") { # nocov start
     nlmixr2plot::vpcCensTad(..., cens = cens, idv = idv)
-}
+} # nocov end
 
 #' @inherit nlmixr2est::saemControl
 #' @param ... Additional arguments passed to [nlmixr2est::saemControl()].
@@ -70,7 +70,7 @@ saemControl <- function(seed = 99, nBurn = 200, nEm = 300, nmc = 3,
     lambdaRange = 3, odeRecalcFactor = 10^(0.5), maxOdeRecalc = 5L,
     perSa = 0.75, perNoCor = 0.75, perFixOmega = 0.1, perFixResid = 0.1,
     compress = TRUE, rxControl = NULL, sigdig = NULL, sigdigTable = NULL,
-    ci = 0.95, muRefCov = TRUE, ...) {
+    ci = 0.95, muRefCov = TRUE, ...) { # nocov start
     nlmixr2est::saemControl(seed = seed, nBurn = nBurn, nEm = nEm,
         nmc = nmc, nu = nu, print = print, trace = trace, covMethod = covMethod,
         calcTables = calcTables, logLik = logLik, nnodesGq = nnodesGq,
@@ -82,7 +82,7 @@ saemControl <- function(seed = 99, nBurn = 200, nEm = 300, nmc = 3,
         perFixResid = perFixResid, compress = compress, rxControl = rxControl,
         sigdig = sigdig, sigdigTable = sigdigTable, ci = ci,
         muRefCov = muRefCov, ...)
-}
+} # nocov end
 
 #' @inherit nlmixr2est::foceiControl
 #' @param ... Additional arguments passed to [nlmixr2est::foceiControl()].
@@ -127,7 +127,7 @@ foceiControl <- function(sigdig = 3, ..., epsilon = NULL, maxInnerIterations = 1
     stickyRecalcN = 4, gradProgressOfvTime = 10, addProp = c("combined2",
         "combined1"), badSolveObjfAdj = 100, compress = TRUE,
     rxControl = NULL, sigdigTable = NULL, fallbackFD = FALSE,
-    smatPer = 0.6) {
+    smatPer = 0.6) { # nocov start
     nlmixr2est::foceiControl(sigdig = sigdig, ..., epsilon = epsilon,
         maxInnerIterations = maxInnerIterations, maxOuterIterations = maxOuterIterations,
         n1qn1nsim = n1qn1nsim, print = print, printNcol = printNcol,
@@ -170,7 +170,7 @@ foceiControl <- function(sigdig = 3, ..., epsilon = NULL, maxInnerIterations = 1
         badSolveObjfAdj = badSolveObjfAdj, compress = compress,
         rxControl = rxControl, sigdigTable = sigdigTable, fallbackFD = fallbackFD,
         smatPer = smatPer)
-}
+} # nocov end
 
 #' @inherit nlmixr2est::nlmeControl
 #' @param ... Additional arguments passed to [nlmixr2est::nlmeControl()].
@@ -184,7 +184,7 @@ nlmeControl <- function(maxIter = 100, pnlsMaxIter = 100, msMaxIter = 100,
     method = c("ML", "REML"), random = NULL, fixed = NULL, weights = NULL,
     verbose = TRUE, returnNlme = FALSE, addProp = c("combined2",
         "combined1"), calcTables = TRUE, compress = TRUE, adjObf = TRUE,
-    ci = 0.95, sigdig = 4, sigdigTable = NULL, ...) {
+    ci = 0.95, sigdig = 4, sigdigTable = NULL, ...) { # nocov start
     nlmixr2est::nlmeControl(maxIter = maxIter, pnlsMaxIter = pnlsMaxIter,
         msMaxIter = msMaxIter, minScale = minScale, tolerance = tolerance,
         niterEM = niterEM, pnlsTol = pnlsTol, msTol = msTol,
@@ -197,7 +197,7 @@ nlmeControl <- function(maxIter = 100, pnlsMaxIter = 100, msMaxIter = 100,
         returnNlme = returnNlme, addProp = addProp, calcTables = calcTables,
         compress = compress, adjObf = adjObf, ci = ci, sigdig = sigdig,
         sigdigTable = sigdigTable, ...)
-}
+} # nocov end
 
 #' @inherit nlmixr2est::tableControl
 #' @export
@@ -206,79 +206,79 @@ tableControl <- function(npde = NULL, cwres = NULL, nsim = 300,
         "pred", "epred", "omit"), seed = 1009, cholSEtol = (.Machine$double.eps)^(1/3),
     state = TRUE, lhs = TRUE, eta = TRUE, covariates = TRUE,
     addDosing = FALSE, subsetNonmem = TRUE, cores = NULL, keep = NULL,
-    drop = NULL) {
+    drop = NULL) { # nocov start
     nlmixr2est::tableControl(npde = npde, cwres = cwres, nsim = nsim,
         ties = ties, censMethod = censMethod, seed = seed, cholSEtol = cholSEtol,
         state = state, lhs = lhs, eta = eta, covariates = covariates,
         addDosing = addDosing, subsetNonmem = subsetNonmem, cores = cores,
         keep = keep, drop = drop)
-}
+} # nocov end
 
 #' @inherit nlmixr2est::addCwres
 #' @export
 addCwres <- function(fit, focei = TRUE, updateObject = TRUE,
-    envir = parent.frame(1)) {
+    envir = parent.frame(1)) { # nocov start
     nlmixr2est::addCwres(fit = fit, focei = focei, updateObject = updateObject,
         envir = envir)
-}
+} # nocov end
 
 #' @inherit nlmixr2est::addNpde
 #' @param ... Additional arguments passed to [nlmixr2est::addNpde()].
 #' @export
 addNpde <- function(object, updateObject = TRUE, table = tableControl(),
-    ..., envir = parent.frame(1)) {
+    ..., envir = parent.frame(1)) { # nocov start
     nlmixr2est::addNpde(object = object, updateObject = updateObject,
         table = table, ..., envir = envir)
-}
+} # nocov end
 
 #' @inherit nlmixr2est::addTable
 #' @export
 addTable <- function(object, updateObject = FALSE, data = object$dataSav,
     thetaEtaParameters = object$foceiThetaEtaParameters, table = tableControl(),
-    keep = NULL, drop = NULL, envir = parent.frame(1)) {
+    keep = NULL, drop = NULL, envir = parent.frame(1)) { # nocov start
     nlmixr2est::addTable(object = object, updateObject = updateObject,
         data = data, thetaEtaParameters = thetaEtaParameters,
         table = table, keep = keep, drop = drop, envir = envir)
-}
+} # nocov end
 
 #' @inherit nlmixr2est::setOfv
 #' @export
-setOfv <- function(x, type) {
+setOfv <- function(x, type) { # nocov start
     nlmixr2est::setOfv(x = x, type = type)
-}
+} # nocov end
 
 #' @inherit nlmixr2extra::preconditionFit
 #' @export
 preconditionFit <- function(fit, estType = c("full", "posthoc",
-    "none"), ntry = 10L) {
+    "none"), ntry = 10L) { # nocov start
     nlmixr2extra::preconditionFit(fit = fit, estType = estType,
         ntry = ntry)
-}
+} # nocov end
 
 #' @inherit nlmixr2extra::bootstrapFit
 #' @export
 bootstrapFit <- function(fit, nboot = 200, nSampIndiv, stratVar,
     stdErrType = c("perc", "se"), ci = 0.95, pvalues = NULL,
-    restart = FALSE, plotHist = FALSE, fitName = as.character(substitute(fit))) {
+    restart = FALSE, plotHist = FALSE, fitName = as.character(substitute(fit))) { # nocov start
     nlmixr2extra::bootstrapFit(fit = fit, nboot = nboot, nSampIndiv = nSampIndiv,
         stratVar = stratVar, stdErrType = stdErrType, ci = ci,
         pvalues = pvalues, restart = restart, plotHist = plotHist,
         fitName = fitName)
-}
+} # nocov end
 
 #' @inherit nlmixr2extra::covarSearchAuto
 #' @export
 covarSearchAuto <- function(fit, varsVec, covarsVec, pVal = list(fwd = 0.05,
     bck = 0.01), catvarsVec = NULL, searchType = c("scm", "forward",
-    "backward"), restart = FALSE) {
+    "backward"), restart = FALSE) { # nocov start
     nlmixr2extra::covarSearchAuto(fit = fit, varsVec = varsVec,
         covarsVec = covarsVec, pVal = pVal, catvarsVec = catvarsVec,
         searchType = searchType, restart = restart)
-}
+} # nocov end
 
 #' @inherit nlmixr2extra::bootplot
 #' @param ... Additional arguments passed to [nlmixr2extra::bootplot()].
 #' @export
-bootplot <- function(x, ...) {
+bootplot <- function(x, ...) { # nocov start
     nlmixr2extra::bootplot(x = x, ...)
-}
+} # nocov end
