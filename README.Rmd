@@ -111,7 +111,10 @@ commands above.  For the stable version, please use the following
 command:
 
 ``` r
-install.packages(c("nlmixr2", "nlmixr2est", "rxode2", "nlmixr2plot", "nlmixr2data", "lotri", "nlmixr2extra"))
+install.packages(c("dparser", "lotri", "rxode2ll", "rxode2parse",
+                   "rxode2random", "rxode2et", "rxode2",
+                   "nlmixr2data", "nlmixr2est", "nlmixr2extra",
+                   "nlmixr2plot", "nlmixr2", "dparser"))
 ```
 
 ## Example

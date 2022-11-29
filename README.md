@@ -38,11 +38,11 @@ To setup the mac compilers, simply
 1.  Install Xcode from app store
 
 2.  Install gfortran:
-
+    
     1.  Download and install from <https://mac.r-project.org/tools/>
-
-    2.  Add gfortran directory to the path with:
-        `export PATH=$PATH:/usr/local/gfortran/bin`
+    
+    2.  Add gfortran directory to the path with: `export
+        PATH=$PATH:/usr/local/gfortran/bin`
 
 ## R package installation
 
@@ -109,7 +109,10 @@ versions, please use the `remotes::install_github()` commands above. For
 the stable version, please use the following command:
 
 ``` r
-install.packages(c("nlmixr2", "nlmixr2est", "rxode2", "nlmixr2plot", "nlmixr2data", "lotri", "nlmixr2extra"))
+install.packages(c("dparser", "lotri", "rxode2ll", "rxode2parse",
+                   "rxode2random", "rxode2et", "rxode2",
+                   "nlmixr2data", "nlmixr2est", "nlmixr2extra",
+                   "nlmixr2plot", "nlmixr2", "dparser"))
 ```
 
 ## Example
@@ -146,6 +149,16 @@ one.compartment <- function() {
 fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
 #> 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
+#> 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
+#> 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
+#> 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
+#> 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
+#> 
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 print(fit)
 #> ── nlmixr² SAEM OBJF by FOCEi approximation ──
@@ -155,8 +168,8 @@ print(fit)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>         setup covariance saem table compress other
-#> elapsed 0.002       0.02 8.11  0.08     0.09 3.788
+#>            setup covariance  saem table compress    other
+#> elapsed 0.003055   0.025008 6.848 0.114    0.063 3.867937
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
