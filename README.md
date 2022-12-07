@@ -110,7 +110,10 @@ versions, please use the `remotes::install_github()` commands above. For
 the stable version, please use the following command:
 
 ``` r
-install.packages(c("nlmixr2", "nlmixr2est", "rxode2", "nlmixr2plot", "nlmixr2data", "lotri", "nlmixr2extra"))
+install.packages(c("dparser", "lotri", "rxode2ll", "rxode2parse",
+                   "rxode2random", "rxode2et", "rxode2",
+                   "nlmixr2data", "nlmixr2est", "nlmixr2extra",
+                   "nlmixr2plot", "nlmixr2", "dparser"))
 ```
 
 ## Example
@@ -119,6 +122,7 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(nlmixr2)
+#> Warning: package 'nlmixr2' was built under R version 4.2.2
 
 ## The basic model consiss of an ini block that has initial estimates
 one.compartment <- function() {
@@ -156,8 +160,8 @@ print(fit)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>         setup covariance saem table compress other
-#> elapsed 0.001       0.02 6.41  0.06     0.06 3.579
+#>         setup saem table compress other
+#> elapsed 0.002 7.27  0.13     0.09 2.888
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
