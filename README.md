@@ -19,6 +19,11 @@ downloads](https://cranlogs.r-pkg.org/badges/nlmixr2)](https://cran.r-project.or
 The goal of nlmixr2 is to support easy and robust nonlinear mixed
 effects models in R
 
+## Blog for more information
+
+For more information about ongoing development, best practices, and news
+about nlmixr2, please see the [nlmixr2 blog](https://blog.nlmixr2.org/).
+
 ## Installation
 
 For all versions of R, we need to have a compiler setup to run `nlmixr2`
@@ -38,11 +43,11 @@ To setup the mac compilers, simply
 1.  Install Xcode from app store
 
 2.  Install gfortran:
-    
+
     1.  Download and install from <https://mac.r-project.org/tools/>
-    
-    2.  Add gfortran directory to the path with: `export
-        PATH=$PATH:/usr/local/gfortran/bin`
+
+    2.  Add gfortran directory to the path with:
+        `export PATH=$PATH:/usr/local/gfortran/bin`
 
 ## R package installation
 
@@ -149,16 +154,6 @@ one.compartment <- function() {
 fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
 #> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 print(fit)
 #> ── nlmixr² SAEM OBJF by FOCEi approximation ──
@@ -168,8 +163,8 @@ print(fit)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>            setup covariance  saem table compress    other
-#> elapsed 0.003055   0.025008 6.848 0.114    0.063 3.867937
+#>         setup covariance saem table compress other
+#> elapsed 0.001       0.01 5.17  0.08     0.09 2.609
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
