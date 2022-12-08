@@ -114,7 +114,7 @@ In the middle of the printout, it shows how the data must be formatted
 (using the `cmt` and `dvid` data items) to allow nlmixr to model the
 multiple endpoint appropriately.
 
-Of course if you are interested you can directly access the
+Of course, if you are interested you can directly access the
 information in `ui$multipleEndpoint`.
 
 ```{r}
@@ -135,8 +135,8 @@ The last thing to notice that the `cmt` items are numbered `cmt=5` for
 `cp` or `cmt=4` for `effect` even though they were specified in the
 model first by `cp` and `cmt`.  This ordering is because `effect` is a
 compartment in the `rxode2` system. Of course `cp` is related to the
-compartment `central`, and it may make more sense to pair `cp` with
-the `central` compartment.
+compartment `center`, and it may make more sense to pair `cp` with
+the `center` compartment.
 
 If this is something you want to have you can specify the compartment
 to relate the effect to by the `|` operator.  In this case you would
@@ -148,7 +148,7 @@ cp ~ prop(prop.err) + add(pkadd.err)
 to 
 
 ```
-cp ~ prop(prop.err) + add(pkadd.err) | central
+cp ~ prop(prop.err) + add(pkadd.err) | center
 ```
 
 With this change, the model could be updated to:
