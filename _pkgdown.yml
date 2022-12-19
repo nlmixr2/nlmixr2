@@ -32,6 +32,7 @@ reference:
   - vpcCensTad
   - vpcSim
 - title: Installation support
+  contents:
   - nlmixr2CheckInstall
 navbar:
   left:
