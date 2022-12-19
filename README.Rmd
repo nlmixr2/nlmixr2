@@ -26,6 +26,11 @@ knitr::opts_chunk$set(
 
 The goal of nlmixr2 is to support easy and robust nonlinear mixed effects models in R
 
+## Blog for more information
+
+For more information about ongoing development, best practices, and news about
+nlmixr2, please see the [nlmixr2 blog](https://blog.nlmixr2.org/).
+
 ## Installation
 
 For all versions of R, we need to have a compiler setup to run `nlmixr2` and `rxode2`

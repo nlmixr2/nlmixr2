@@ -5,9 +5,8 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/nlmixr2/nlmixr2/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/nlmixr2/nlmixr2/actions/workflows/R-CMD-check.yaml)
-[![Codecov test
-coverage](https://codecov.io/gh/nlmixr2/nlmixr2/branch/main/graph/badge.svg)](https://app.codecov.io/gh/nlmixr2/nlmixr2?branch=main)
+[![R build
+status](https://github.com/nlmixr2/nlmixr2/workflows/R-CMD-check/badge.svg)](https://github.com/nlmixr2/nlmixr2/actions)
 [![CodeFactor](https://www.codefactor.io/repository/github/nlmixr2/nlmixr2/badge)](https://www.codefactor.io/repository/github/nlmixr2/nlmixr2)
 [![CRAN
 version](http://www.r-pkg.org/badges/version/nlmixr2)](https://cran.r-project.org/package=nlmixr2)
@@ -19,6 +18,11 @@ downloads](https://cranlogs.r-pkg.org/badges/nlmixr2)](https://cran.r-project.or
 
 The goal of nlmixr2 is to support easy and robust nonlinear mixed
 effects models in R
+
+## Blog for more information
+
+For more information about ongoing development, best practices, and news
+about nlmixr2, please see the [nlmixr2 blog](https://blog.nlmixr2.org/).
 
 ## Installation
 
@@ -122,7 +126,6 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(nlmixr2)
-#> Warning: package 'nlmixr2' was built under R version 4.2.2
 
 ## The basic model consiss of an ini block that has initial estimates
 one.compartment <- function() {
@@ -160,8 +163,8 @@ print(fit)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>         setup saem table compress other
-#> elapsed 0.002 7.27  0.13     0.09 2.888
+#>         setup covariance saem table compress other
+#> elapsed 0.001       0.01 5.17  0.08     0.09 2.609
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 

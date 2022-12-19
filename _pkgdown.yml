@@ -48,6 +48,8 @@ navbar:
           href: articles/modelPiping.html
         - text: "Sweeping models to tidy datasets (broom)"
           href: articles/broom.html
+        - text: "Censoring in nlmixr2 (M3 and others)"
+          href: articles/censoring.html
         - text: "--------------------------"
         - text: "Integrated development with xgxr/nlmixr/ggPMX"
           href: articles/xgxr-nlmixr-ggpmx.html
