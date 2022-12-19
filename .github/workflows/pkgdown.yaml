@@ -44,20 +44,20 @@ jobs:
             nlmixr2/nlmixr2est
             nlmixr2/nlmixr2extra
             nlmixr2/nlmixr2plot
-            xpose
-            xpose.nlmixr2
-            ggPMX
+            any::xpose
+            any::xpose.nlmixr2
+            any::ggPMX
             jeroen/curl
-            broom.mixed
-            dotwhisker
-            dplyr
-            flextable
-            huxtable
-            officer
-            patchwork
-            readr
-            tidyr
-            xgxr
+            any::broom.mixed
+            any::dotwhisker
+            any::dplyr
+            any::flextable
+            any::huxtable
+            any::officer
+            any::patchwork
+            any::readr
+            any::tidyr
+            any::xgxr
             local::.
           needs: website
 
