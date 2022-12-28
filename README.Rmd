@@ -93,6 +93,7 @@ remotes::install_github("nlmixr2/nlmixr2data")
 remotes::install_github("nlmixr2/lotri")
 remotes::install_github("nlmixr2/rxode2ll")
 remotes::install_github("nlmixr2/rxode2parse")
+remotes::install_github("nlmixr2/rxode2et")
 remotes::install_github("nlmixr2/rxode2")
 remotes::install_github("nlmixr2/nlmixr2est")
 remotes::install_github("nlmixr2/nlmixr2extra")
@@ -132,9 +133,9 @@ library(nlmixr2)
 ## The basic model consiss of an ini block that has initial estimates
 one.compartment <- function() {
   ini({
-    tka <- 0.45 # Log Ka
-    tcl <- 1 # Log Cl
-    tv <- 3.45    # Log V
+    tka <- log(1.57); label("Ka")
+    tcl <- log(2.72); label("Cl")
+    tv <- log(31.5); label("V")
     eta.ka ~ 0.6
     eta.cl ~ 0.3
     eta.v ~ 0.1
