@@ -54,7 +54,6 @@ pk_data <- pkpd_data %>%
 
 pk_data_cycle1 <- pk_data %>%
   filter(CYCLE == 1)
-
 ```
 
 # Exploratory analysis using ggplot and xgx helper functions
@@ -129,7 +128,7 @@ helper functions used above, we can easily create these plots as well:
 
 ```{r}
 ggplot(data = pk_data_cycle1, aes(x = TIME, y = LIDV)) +
-  geom_line(aes(group = ID), color = "grey50", size = 1, alpha = 0.3) +
+  geom_line(aes(group = ID), color = "grey50", linewidth = 1, alpha = 0.3) +
   geom_cens(aes(cens=CENS)) + 
   xgx_geom_ci(aes(x = NOMTIME, color = NULL, group = NULL, shape = NULL), conf_level = 0.95) +
   xgx_scale_y_log10() +
