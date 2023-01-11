@@ -12,6 +12,10 @@ rxode2::rxode
 #' @export
 rxode2::RxODE
 
+#' @importFrom rxode2 rxDerived
+#' @export
+rxode2::rxDerived
+
 #' @importFrom magrittr `%>%`
 #' @export
 magrittr::`%>%`
