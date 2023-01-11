@@ -43,11 +43,11 @@ To setup the mac compilers, simply
 1.  Install Xcode from app store
 
 2.  Install gfortran:
-
+    
     1.  Download and install from <https://mac.r-project.org/tools/>
-
-    2.  Add gfortran directory to the path with:
-        `export PATH=$PATH:/usr/local/gfortran/bin`
+    
+    2.  Add gfortran directory to the path with: `export
+        PATH=$PATH:/usr/local/gfortran/bin`
 
 ## R package installation
 
@@ -59,11 +59,12 @@ R, run:
 install.packages("nlmixr2",dependencies = TRUE)
 ```
 
-For R-4.0.x and R-4.1.x, the crucial package symengine is currently not
-on CRAN and will have to be installed from MRAN first by running:
+For R-4.0.x and R-4.1.x, the `symengine` package will need to be
+downgraded to run in those earlier `R` versions. This can be done by:
 
 ``` r
-install.packages("symengine", repos="https://cran.microsoft.com/snapshot/2022-01-01/")
+# install.packages("remotes")
+remotes::install_version("symengine", version = "0.1.6")
 ```
 
 followed by:
@@ -155,6 +156,16 @@ one.compartment <- function() {
 fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
 #> 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
+#> 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
+#> 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
+#> 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
+#> 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
+#> 
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 print(fit)
 #> ── nlmixr² SAEM OBJF by FOCEi approximation ──
@@ -164,8 +175,8 @@ print(fit)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>         setup saem table compress other
-#> elapsed 0.002 5.63  0.08     0.08 2.218
+#>            setup covariance  saem table compress    other
+#> elapsed 0.003622   0.098007 6.973   0.1    0.065 3.849371
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
