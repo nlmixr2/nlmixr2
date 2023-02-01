@@ -36,17 +36,14 @@ example, using the single-dose theophylline dataset generously
 provided by Dr. Robert A. Upton of the University of California, San
 Francisco:
 
-```{r}
+```{r model-setup}
 library(nlmixr2)
 
 one.compartment <- function() {
   ini({
-    tka <- 0.45 # Log Ka
-    tcl <- 1 # Log Cl
-    ## This works with interactive models
-    ## You may also label the preceding line with label("label text")
-    tv <- 3.45; # log V
-    ## the label("Label name") works with all models
+    tka <- 0.45; label("Ka")
+    tcl <- 1; label("Cl")
+    tv <- 3.45; label("V")
     eta.ka ~ 0.6
     eta.cl ~ 0.3
     eta.v ~ 0.1
@@ -67,7 +64,7 @@ one.compartment <- function() {
 We can try the First-Order Conditional Estimation with Interaction
 (FOCEi) method to find a good solution:
 
-```{r}
+```{r model-fit}
 fit <- nlmixr(one.compartment, theo_sd, est="focei",
               control=list(print=0), 
               table=list(npde=TRUE, cwres=TRUE))
@@ -104,7 +101,7 @@ one.ka.0.5 <- fit %>%
 print(one.ka.0.5)
 ```
 
-```{r}
+```{r fix-tka-specific-0.5}
 ## Example 2 -- Fix tka to 0.5 and re-estimate.
 one.ka.0.5 <- fit %>%
     ini(tka=fix(0.5)) %>%
@@ -114,7 +111,7 @@ one.ka.0.5 <- fit %>%
 print(one.ka.0.5)
 ```
 
-```{r}
+```{r fix-tka-estimate}
 ## Example 3 -- Fix tka to model estimated value and re-estimate.
 one.ka.0.5 <- fit %>%
     ini(tka=fix) %>%
@@ -124,7 +121,7 @@ one.ka.0.5 <- fit %>%
 print(one.ka.0.5)
 ```
 
-```{r}
+```{r fix-tka-specific-0.7}
 ## Example 4 -- Change tka to 0.7 in orginal model function and then estimate
 one.ka.0.7 <- one.compartment %>%
     ini(tka=0.7) %>% 
@@ -133,6 +130,40 @@ one.ka.0.7 <- one.compartment %>%
 
 print(one.ka.0.7)
 ```
+
+# Changing parameter labels and order
+
+For aesthetic reasons, sometimes it is preferred to update parameter labels and
+the order of parameters.  These changes do not affect the estimation of the
+parameters.  They only affect the output tables and order of parameters.
+
+By using these, you can modify a model with model piping and still have the
+desired output table format ready to use in a report.
+
+For example, you can change the label from `"Ka"` to `"Absorption rate"` as
+follows:
+
+```{r ini-label}
+fit %>%
+  ini(
+    tka <- label("Absorption rate")
+  )
+```
+
+And, if you'd prefer for volume to come before clearance in the parameter table
+(`fit$parFixed`), you can change that, too.
+
+```{r ini-append}
+fit %>%
+  ini(
+    tv <- label("Central volume"),
+    append = "tcl"
+  )
+```
+
+See the documentation for
+[`ini`](https://nlmixr2.github.io/rxode2/reference/ini.html) for more about how
+you can modify parameters with model piping.
 
 # Changing model features
 
@@ -151,7 +182,7 @@ For example to remove a eta from a prior fit or prior model
 specification function, simply pipe it to the model function.  You can
 then re-estimate by piping it to the `nlmixr` function again.
 
-```{r}
+```{r remove-eta.ka}
 ## Remove eta.ka on ka
 noEta <- fit %>%
     model(ka <- exp(tka)) %>%
@@ -163,7 +194,7 @@ print(noEta)
 
 Of course you could also add an eta on a parameter in the same way;
 
-```{r}
+```{r add-bsv.ka}
 addBackKa <- noEta %>%
     model({ka <- exp(tka + bsv.ka)}) %>%
     ini(bsv.ka=0.1) %>%
@@ -195,7 +226,7 @@ parameters:
 
 ## Adding Covariate effects
 
-```{r}
+```{r add-cov-wt70}
 ## Note currently cov is needed as a prefix so nlmixr knows this is an
 ## estimated parameter not a parameter
 wt70 <- fit %>% 
@@ -213,7 +244,7 @@ print(wt70)
 Changing the residual errors is also just as easy, by simply
 specifying the error you wish to change:
 
-```{r}
+```{r modify-residual}
 ## Since there are 0 predictions in the data, these are changed to
 ## 0.0150 to show proportional error change.
 d <- theo_sd
