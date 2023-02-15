@@ -140,7 +140,7 @@ this is \code{FALSE}.}
    random-effects model for
    these parameters and \code{g1/.../gQ} the grouping structure
    (\code{Q} may be equal to 1, in which case no \code{/} is
-   required). The random effects formula will be repeated 
+   required). The random effects formula will be repeated
    for all levels of grouping, in the case of multiple levels of
    grouping; (ii) a two-sided formula of the form
    \code{r1+...+rn~x1+..+xm}, a list of two-sided formulas of the form
@@ -157,7 +157,7 @@ this is \code{FALSE}.}
    assumed the same as the order of the order of the elements in the
    list; (iv) an \code{reStruct} object. See the documentation on
    \code{pdClasses} for a description of the available \code{pdMat}
-   classes. Defaults to \code{fixed}, 
+   classes. Defaults to \code{fixed},
    resulting in all fixed effects having also random effects.}
 
 \item{fixed}{a two-sided linear formula of the form
