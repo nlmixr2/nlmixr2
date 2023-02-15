@@ -42,7 +42,7 @@ nlmixr2CheckInstall <- function() {
     list(
       rxode2 = c("rxode2", "rxode2et", "rxode2parse", "rxode2ll", "rxode2random"),
       nlmixr2 = c("nlmixr2", "nlmixr2est", "nlmixr2data"),
-      optional = c("nlmixr2lib", "nlmixr2extra", "nlmixr2lib", "babelmixr2")
+      optional = c("nlmixr2lib", "nlmixr2extra", "babelmixr2")
     )
   allPkgs <- utils::installed.packages()
   missingPkgs <- character()
