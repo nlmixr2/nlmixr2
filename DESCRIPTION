@@ -30,7 +30,6 @@ Imports:
     lotri,
     nlmixr2plot,
     magrittr,
-    crayon,
     cli
 Depends:
     nlmixr2data
