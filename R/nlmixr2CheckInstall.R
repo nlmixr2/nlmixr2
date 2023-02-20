@@ -5,9 +5,10 @@
 #' @export
 nlmixr2CheckInstall <- function() {
   # Setup functions for reporting back to the user
-  infoFun <- function(x) cat(x, "\n", sep = "")
-  successFun <- function(x) cat(cli::symbol[["tick"]], x, "\n", sep = "")
-  warningFun <- function(x) cat("! ", x, "\n", sep = "")
+
+  infoFun <- function(x) message(x, sep = "")
+  successFun <- function(x) message("\u2714", x,  sep = "")
+  warningFun <- function(x) message("! ", x, sep = "")
   hasCli <- requireNamespace("cli")
   if (hasCli) {
     infoFun <- cli::cli_alert_info
@@ -44,6 +45,11 @@ nlmixr2CheckInstall <- function() {
       nlmixr2 = c("nlmixr2", "nlmixr2est", "nlmixr2data"),
       optional = c("nlmixr2lib", "nlmixr2extra", "babelmixr2")
     )
+  repos <- getOption("repos")
+  if ("@CRAN@" %in% repos)  {
+    warningFun("The CRAN repo needs to be selected to determine package information")
+    return(invisible())
+  }
   allPkgs <- utils::installed.packages()
   oldPkgs <- utils::old.packages()
   missingPkgs <- character()
