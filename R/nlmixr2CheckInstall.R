@@ -45,12 +45,22 @@ nlmixr2CheckInstall <- function() {
       optional = c("nlmixr2lib", "nlmixr2extra", "babelmixr2")
     )
   allPkgs <- utils::installed.packages()
+  oldPkgs <- utils::old.packages()
   missingPkgs <- character()
   for (pkgType in names(pkgNames)) {
     for (currentPkg in pkgNames[[pkgType]]) {
       notInstalledMsg <- sprintf("The package '%s' is not installed", currentPkg)
-      if (currentPkg %in% rownames(allPkgs)) {
-        installedMsg <- sprintf("The package '%s' is installed, version %s", currentPkg, allPkgs[currentPkg, "Version"])
+      if (currentPkg %in% rownames(oldPkgs)) {
+        oldMsg <-
+          sprintf(
+            "The package '%s' is installed but is not the current version, installed version: %s, current version: %s",
+            currentPkg,
+            allPkgs[currentPkg, "Version"],
+            oldPkgs[currentPkg, "ReposVer"]
+          )
+        warningFun(oldMsg)
+      } else if (currentPkg %in% rownames(allPkgs)) {
+        installedMsg <- sprintf("The package '%s' is installed and seems to be up to date, version %s", currentPkg, allPkgs[currentPkg, "Version"])
         successFun(installedMsg)
       } else if (pkgType == "optional") {
         missingPkgs <- c(missingPkgs, currentPkg)
