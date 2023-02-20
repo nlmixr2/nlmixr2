@@ -163,6 +163,7 @@
 #' @export
 nlmixr2 <- function(object, data, est = NULL, control = list(),
                     table = tableControl(), ..., save = NULL, envir = parent.frame()) {
+  .hasColor <- crayon::has_color()
   .objectName <- try(as.character(substitute(object)), silent=TRUE)
   if (inherits(.objectName, "try-error")) .objectName <- "x"
   nlmixr2est::.nlmixr2objectNameAssign(.objectName)
