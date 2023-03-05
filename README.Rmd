@@ -91,10 +91,13 @@ is installed, you can install the development version of nlmixr2 and
 its nlmixr2-family dependencies like so:
 
 ``` r
+# install.packages("remotes")
+remotes::install_github("nlmixr2/dparser-R")
 remotes::install_github("nlmixr2/nlmixr2data")
 remotes::install_github("nlmixr2/lotri")
 remotes::install_github("nlmixr2/rxode2ll")
 remotes::install_github("nlmixr2/rxode2parse")
+remotes::install_github("nlmixr2/rxode2random")
 remotes::install_github("nlmixr2/rxode2et")
 remotes::install_github("nlmixr2/rxode2")
 remotes::install_github("nlmixr2/nlmixr2est")
@@ -110,6 +113,10 @@ remotes::install_github("ggPMXdevelopment/ggPMX") # Goodness of fit plots
 remotes::install_github("nlmixr2/xpose.nlmixr2") # Additional goodness of fit plots
 remotes::install_github("RichardHooijmaijers/shinyMixR") # Shiny run manager (like Piranha)
 remotes::install_github("nlmixr2/nlmixr2targets") # Simplify work with the `targets` package
+remotes::install_github("nlmixr2/babelmixr2") # Convert from nlmixr2-based models to NONMEM, Monolix, and initialize models with PKNCA
+remotes::install_github("nlmixr2/nonmem2rx") # Convert from NONMEM to nlmixr2-based models
+remotes::install_github("nlmixr2/nlmixr2lib") # A library of models and model modification functions
+remotes::install_github("nlmixr2/nlmixr2rpt") # Automated Microsoft Word and PowerPoint reporting for nlmixr2
 ```
 
 If you have difficulties due to errors while compiling models, it may
