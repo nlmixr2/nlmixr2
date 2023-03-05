@@ -43,11 +43,11 @@ To setup the mac compilers, simply
 1.  Install Xcode from app store
 
 2.  Install gfortran:
-
+    
     1.  Download and install from <https://mac.r-project.org/tools/>
-
-    2.  Add gfortran directory to the path with:
-        `export PATH=$PATH:/usr/local/gfortran/bin`
+    
+    2.  Add gfortran directory to the path with: `export
+        PATH=$PATH:/usr/local/gfortran/bin`
 
 ## R package installation
 
@@ -86,7 +86,55 @@ nlmixr2::nlmixr2CheckInstall()
 
 Once the compilers are setup and a compatible version of `symengine` is
 installed, you can install the development version of nlmixr2 and its
-nlmixr2-family dependencies like so:
+nlmixr2-family dependencies either by using the r-universe or by
+installing manually.
+
+### Install using the R universe
+
+For many people this is the fastest way to install the development
+version of `nlmixr2` since it provides binaries for mac, windows for the
+latest and last version of R (no need to wait for a compile).
+
+``` r
+install.packages(c("dparser-R", "nlmixr2data", "lotri", "rxode2ll",
+                   "rxode2parse", "rxode2random", "rxode2et",
+                   "rxode2", "nlmixr2est", "nlmixr2extra", "nlmixr2plot",
+                   "nlmixr2"),
+                 repos = c('https://nlmixr2.r-universe.dev',
+                           'https://cloud.r-project.org'))
+```
+
+Support packages from the R universe can also be installed for the
+packages in the `nlmixr2` domain:
+
+``` r
+install.packages(c("xpose.nlmixr2", # Additional goodness of fit plots
+                                    # baesd on xpose
+                   "nlmixr2targets", # Simplify work with the
+                                     # `targets` package
+                   "babelmixr2", # Convert/run from nlmixr2-based
+                                 # models to NONMEM, Monolix, and
+                                 # initialize models with PKNCA
+                   "nonmem2rx", # Convert from NONMEM to
+                                # rxode2/nlmixr2-based models
+                   "nlmixr2lib", # a model library and model
+                                 # modification functions that
+                                 # complement model piping
+                   "nlmixr2rpt" # Automated Microsoft Word and
+                                # PowerPoint reporting for nlmixr2
+                   ),
+                 repos = c('https://nlmixr2.r-universe.dev',
+                           'https://cloud.r-project.org'))
+
+# Some additional packages outside of the `nlmixr2.r-univers.dev`
+# install.packages("remotes")
+remotes::install_github("ggPMXdevelopment/ggPMX") # Goodness of fit plots
+remotes::install_github("RichardHooijmaijers/shinyMixR") # Shiny run manager (like Piranha)
+```
+
+### Install using `remotes`
+
+This is sure to give the latest development version
 
 ``` r
 # install.packages("remotes")
@@ -107,26 +155,47 @@ remotes::install_github("nlmixr2/nlmixr2")
 Optional supporting packages can be installed like so:
 
 ``` r
-remotes::install_github("ggPMXdevelopment/ggPMX") # Goodness of fit plots
-remotes::install_github("nlmixr2/xpose.nlmixr2") # Additional goodness of fit plots
-remotes::install_github("RichardHooijmaijers/shinyMixR") # Shiny run manager (like Piranha)
-remotes::install_github("nlmixr2/nlmixr2targets") # Simplify work with the `targets` package
-remotes::install_github("nlmixr2/babelmixr2") # Convert from nlmixr2-based models to NONMEM, Monolix, and initialize models with PKNCA
-remotes::install_github("nlmixr2/nonmem2rx") # Convert from NONMEM to nlmixr2-based models
-remotes::install_github("nlmixr2/nlmixr2lib") # A library of models and model modification functions
-remotes::install_github("nlmixr2/nlmixr2rpt") # Automated Microsoft Word and PowerPoint reporting for nlmixr2
+# install.packages("remotes")
+remotes::install_github("ggPMXdevelopment/ggPMX") # Goodness of fit
+                                                  # plots
+remotes::install_github("nlmixr2/xpose.nlmixr2") # Additional goodness
+                                                 # of fit plots
+remotes::install_github("RichardHooijmaijers/shinyMixR") # Shiny run
+                                                         # manager
+                                                         # (like
+                                                         # Piranha)
+remotes::install_github("nlmixr2/nlmixr2targets") # Simplify work with
+                                                  # the `targets`
+                                                  # package
+remotes::install_github("nlmixr2/babelmixr2") # Convert/run from
+                                              # nlmixr2-based models
+                                              # to NONMEM, Monolix,
+                                              # and initialize models
+                                              # with PKNCA
+remotes::install_github("nlmixr2/nonmem2rx") # Convert from NONMEM to
+                                             # rxode2/nlmixr2-based
+                                             # models
+remotes::install_github("nlmixr2/nlmixr2lib") # A library of models
+                                              # and model modification
+                                              # functions
+remotes::install_github("nlmixr2/nlmixr2rpt") # Automated Microsoft
+                                              # Word and PowerPoint
+                                              # reporting for nlmixr2
 ```
+
+### Refreshing the installation with the latest CRAN version
 
 If you have difficulties due to errors while compiling models, it may be
 useful to reinstall all of nlmixr2 and its dependencies. For development
-versions, please use the `remotes::install_github()` commands above. For
-the stable version, please use the following command:
+versions, please use the `remotes::install_github()` or the
+`install.package()` with the `r-universe` above. For the stable version,
+please use the following command:
 
 ``` r
 install.packages(c("dparser", "lotri", "rxode2ll", "rxode2parse",
                    "rxode2random", "rxode2et", "rxode2",
                    "nlmixr2data", "nlmixr2est", "nlmixr2extra",
-                   "nlmixr2plot", "nlmixr2", "dparser"))
+                   "nlmixr2plot", "nlmixr2"))
 ```
 
 ## Example
@@ -163,6 +232,16 @@ one.compartment <- function() {
 fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
 #> 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
+#> 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
+#> 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
+#> 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
+#> 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
+#> 
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 print(fit)
 #> ── nlmixr² SAEM OBJF by FOCEi approximation ──
@@ -172,8 +251,8 @@ print(fit)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>         setup covariance saem table compress other
-#> elapsed 0.001       0.01 7.17  0.07     0.07 4.079
+#>            setup covariance saem table compress    other
+#> elapsed 0.000873   0.016004 2.36 0.028    0.016 2.291123
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
