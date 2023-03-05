@@ -104,6 +104,28 @@ install.packages(c("dparser", "nlmixr2data", "lotri", "rxode2ll",
                            'https://cloud.r-project.org'))
 ```
 
+If you are using a Ubuntu latest flavor (at the time of this writing
+`jammy`) you can also use the binaries (though if you use `bspm` you
+should install any dependencies first to reduce your computation time)
+
+``` r
+# bspm::disable() # if you are using r2u or other ubuntu binary for CRAN
+oldOptions <- options()
+
+options(repos=c(
+  linux = 'https://nlmixr2.r-universe.dev/bin/linux/jammy/4.2/',
+  sources = 'https://nlmixr2.r-universe.dev',
+  cran = 'https://cloud.r-project.org'
+))
+install.packages(c("dparser", "nlmixr2data", "lotri", "rxode2ll",
+                   "rxode2parse", "rxode2random", "rxode2et",
+                   "rxode2", "nlmixr2est", "nlmixr2extra", "nlmixr2plot",
+                   "nlmixr2"))
+
+options(oldOptions)
+#bspm::enable()
+```
+
 Support packages from the R universe can also be installed for the
 packages in the `nlmixr2` domain:
 
@@ -127,6 +149,26 @@ install.packages(c("xpose.nlmixr2", # Additional goodness of fit plots
                            'https://cloud.r-project.org'))
 
 # Some additional packages outside of the `nlmixr2.r-univers.dev`
+# install.packages("remotes")
+remotes::install_github("ggPMXdevelopment/ggPMX") # Goodness of fit plots
+remotes::install_github("RichardHooijmaijers/shinyMixR") # Shiny run manager (like Piranha)
+```
+
+For ubuntu latest it is similar
+
+``` r
+# bspm::disable() # if you are using r2u or other ubuntu binary for CRAN
+oldOptions <- options()
+
+options(repos=c(
+  linux = 'https://nlmixr2.r-universe.dev/bin/linux/jammy/4.2/',
+  sources = 'https://nlmixr2.r-universe.dev',
+  cran = 'https://cloud.r-project.org'
+))
+install.packages(c("xpose.nlmixr2", "nlmixr2targets", "babelmixr2", "nonmem2rx", "nlmixr2lib", "nlmixr2rpt"))
+
+options(oldOptions)
+#bspm::enable()
 # install.packages("remotes")
 remotes::install_github("ggPMXdevelopment/ggPMX") # Goodness of fit plots
 remotes::install_github("RichardHooijmaijers/shinyMixR") # Shiny run manager (like Piranha)
@@ -251,8 +293,8 @@ print(fit)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>            setup covariance saem table compress    other
-#> elapsed 0.000778   0.007003 2.19 0.028    0.016 1.630219
+#>            setup covariance  saem table compress    other
+#> elapsed 0.000801   0.009004 2.355 0.029    0.017 1.610195
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
