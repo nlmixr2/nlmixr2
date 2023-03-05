@@ -96,7 +96,7 @@ version of `nlmixr2` since it provides binaries for mac, windows for the
 latest and last version of R (no need to wait for a compile).
 
 ``` r
-install.packages(c("dparser-R", "nlmixr2data", "lotri", "rxode2ll",
+install.packages(c("dparser", "nlmixr2data", "lotri", "rxode2ll",
                    "rxode2parse", "rxode2random", "rxode2et",
                    "rxode2", "nlmixr2est", "nlmixr2extra", "nlmixr2plot",
                    "nlmixr2"),
@@ -252,7 +252,7 @@ print(fit)
 #> ── Time (sec $time): ──
 #> 
 #>            setup covariance saem table compress    other
-#> elapsed 0.000873   0.016004 2.36 0.028    0.016 2.291123
+#> elapsed 0.000778   0.007003 2.19 0.028    0.016 1.630219
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
