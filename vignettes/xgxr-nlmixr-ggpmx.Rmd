@@ -230,18 +230,10 @@ per dose group):
 doses <- unique(dat$DOSE)
 nid <- 7 # 7 ids per dose group
 dat2 <-
-  do.call(
-    "rbind",
-    lapply(doses, function(x) {
-      ids <- dat %>%
-        filter(DOSE == x) %>%
-        summarize(ids=unique(ID)) %>%
-        pull()
-      ids <- ids[seq(1, nid)]
-      dat %>% 
-        filter(ID %in% ids)
-    })
-  )
+  dat %>%
+  group_by(DOSE) %>%
+  filter(ID %in% sort(unique(ID))[1:nid]) %>%
+  ungroup()
 ```
 
 This approach is not only good for demonstration, but allows a variety
@@ -253,7 +245,7 @@ Next create a 2 compartment model:
 
 ```{r model-setup-2cmt}
 ## Use 2 compartment model
-cmt2 <- function(){
+cmt2 <- function() {
   ini({
     lka <- log(0.1); label("Ka")
     lv <- log(10); label("Vc")
