@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 This shows an example of integrated workflow between `xgxr` `nlmixr` and
 `ggPmx`
 
-```{r load}
+```{r load-libraries}
 library(rxode2)
 library(nlmixr2)
 library(xgxr)
@@ -40,8 +40,9 @@ library(broom.mixed)
 
 # Load the data
 
-```{r}
-pkpd_data <- case1_pkpd %>%
+```{r load-data}
+pkpd_data <-
+  case1_pkpd %>%
   arrange(DOSE) %>%
   select(-IPRED) %>%
   mutate(TRTACT_low2high = factor(TRTACT, levels = unique(TRTACT)),
@@ -82,7 +83,7 @@ the following helper functions:
 -   `xgx_annote_status()` which adds a `DRAFT` annotation which is often
     considered best practice when the data or plots are draft.
 
-```{r}
+```{r fig-simple-conc-time}
 xgx_theme_set() # This uses black and white theme based on xgxr best
                 # practices
 
@@ -126,7 +127,7 @@ useful to look at the mean concentrations and their relationship between
 actual individual profiles. Using `ggplot` coupled with the `xgxr`
 helper functions used above, we can easily create these plots as well:
 
-```{r}
+```{r fig-conc-time-facet-dose}
 ggplot(data = pk_data_cycle1, aes(x = TIME, y = LIDV)) +
   geom_line(aes(group = ID), color = "grey50", linewidth = 1, alpha = 0.3) +
   geom_cens(aes(cens=CENS)) + 
@@ -148,7 +149,7 @@ A common way to explore the dose linearity is to normalize by the dose.
 If the confidence intervals overlap, often this is a dose linear
 example.
 
-```{r}
+```{r fig-dose-linearity}
 ggplot(data = pk_data_cycle1,
        aes(x = NOMTIME,
            y = LIDV / as.numeric(as.character(DOSE)),
@@ -165,7 +166,7 @@ This example seems to be dose-linear, with the exception of the censored
 data. This can be made even more clear by removing the censored data for
 this plot:
 
-```{r}
+```{r fig-dose-linearity-censored}
 ggplot(data = pk_data_cycle1 %>% filter(CENS == 0),
        aes(x = NOMTIME,
            y = LIDV / as.numeric(as.character(DOSE)),
@@ -189,7 +190,7 @@ AUC values (which we will skip in this vignette).
 Using the `xgx` helper functions to `ggplot` you can explore the effect
 of high baseline weight. This particular plot is shown below:
 
-```{r}
+```{r fig-covariates}
 ggplot(data = pk_data_cycle1, aes(x = NOMTIME,
                                   y = LIDV,
                                   group = WEIGHTB > 100,
@@ -214,29 +215,33 @@ effect on the PK data.
 
 First we need to subset to the PK only data and rename `LIDV` to `DV`
 
-```{r}
-dat <- case1_pkpd %>%
+```{r model-data-setup}
+dat <-
+  case1_pkpd %>%
   rename(DV=LIDV) %>%
   filter(CMT %in% 1:2) %>%
   filter(TRTACT != "Placebo")
 ```
 
-Next, for the purpose of this demostrtaion we will subset to 7 patients
+Next, for the purpose of this demonstration we will subset to 7 patients
 per dose group):
 
-```{r}
+```{r model-data-filter}
 doses <- unique(dat$DOSE)
 nid <- 7 # 7 ids per dose group
-dat2 <- do.call("rbind",
-                lapply(doses, function(x) {
-                  ids <- dat %>%
-                    filter(DOSE == x) %>%
-                    summarize(ids=unique(ID)) %>%
-                    pull()
-                  ids <- ids[seq(1, nid)]
-                  dat %>% 
-                    filter(ID %in% ids)
-                }))
+dat2 <-
+  do.call(
+    "rbind",
+    lapply(doses, function(x) {
+      ids <- dat %>%
+        filter(DOSE == x) %>%
+        summarize(ids=unique(ID)) %>%
+        pull()
+      ids <- ids[seq(1, nid)]
+      dat %>% 
+        filter(ID %in% ids)
+    })
+  )
 ```
 
 This approach is not only good for demonstration, but allows a variety
@@ -246,15 +251,15 @@ make sure it makes sense with all the data.
 
 Next create a 2 compartment model:
 
-```{r}
+```{r model-setup-2cmt}
 ## Use 2 compartment model
 cmt2 <- function(){
   ini({
-    lka <- log(0.1) # log Ka
-    lv <- log(10) # Log Vc
-    lcl <- log(4) # Log Cl
-    lq <- log(10) # log Q
-    lvp <- log(20) # Log Vp
+    lka <- log(0.1); label("Ka")
+    lv <- log(10); label("Vc")
+    lcl <- log(4); label("Cl")
+    lq <- log(10); label("Q")
+    lvp <- log(20); label("Vp")
 
     eta.ka ~ 0.01
     eta.v ~ 0.1
@@ -279,7 +284,7 @@ print(cmt2m)
 Now that the parsing of the nlmixr model is complete start and compare a
 few models:
 
-```{r}
+```{r model-fit-2cmt}
 ## First try log-normal (since the variability seemed proportional to concentration)
 cmt2fit.logn <- nlmixr(cmt2m, dat2, "saem",
                        control=list(print=0), 
@@ -301,11 +306,15 @@ cmt2fit.add.prop <- cmt2fit.prop %>%
 Now that we have run 3 different estimation methods, we can compare the
 results side-by-side
 
-```{r}
+```{r model-compare}
 library(huxtable)
 
-huxreg("lognormal"=cmt2fit.logn, "proportional"=cmt2fit.prop, "add+prop"=cmt2fit.add.prop,
-       statistics=c(N="nobs", "logLik", "AIC"))
+huxreg(
+  "lognormal"=cmt2fit.logn,
+  "proportional"=cmt2fit.prop,
+  "add+prop"=cmt2fit.add.prop,
+  statistics=c(N="nobs", "logLik", "AIC")
+)
 ```
 
 Note that the additive and proportional model has the additive component
@@ -316,65 +325,48 @@ it is appropriate to compare the AIC/Objective function values)
 
 # Model Diagnostics with ggPMX
 
-```{r, fig.width=8, fig.height=8}
+```{r setup-ggpmx-controller, fig.width=8, fig.height=8}
 ## The controller then can be piped into a specific plot
 ctr <- pmx_nlmixr(cmt2fit.logn, conts = c("WEIGHTB"), cats="TRTACT", vpc=TRUE)
 ```
 
-```{r, fig.width=8, fig.height=8}
-ctr %>% pmx_plot_npde_pred
+```{r fig-npde-pred, fig.width=8, fig.height=8}
+ctr %>% pmx_plot_npde_pred()
 ```
 
-```{r, fig.width=8, fig.height=8}
+```{r fig-npde-pred-nodraft, fig.width=8, fig.height=8}
 ## Modify graphical options and remove DRAFT label:
-ctr %>% pmx_plot_npde_time(smooth = list(color="blue"), point = list(shape=4), is.draft=FALSE, 
-                           labels = list(x = "Time after first dose (days)", y = "Normalized PDE"))
+ctr %>%
+  pmx_plot_npde_time(
+    smooth = list(color="blue"), point = list(shape=4), is.draft=FALSE, 
+    labels = list(x = "Time after first dose (days)", y = "Normalized PDE")
+  )
 ```
 
-```{r, fig.width=8, fig.height=8}
-ctr %>% pmx_plot_dv_ipred(scale_x_log10=TRUE, scale_y_log10=TRUE,filter=IPRED>0.001)
+```{r fig-dv-ipred, fig.width=8, fig.height=8}
+ctr %>% pmx_plot_dv_ipred(scale_x_log10=TRUE, scale_y_log10=TRUE, filter=IPRED>0.001)
 ```
 
-```{r, fig.width=8, fig.height=8}
-ctr %>% pmx_plot_dv_pred(scale_x_log10=TRUE, scale_y_log10=TRUE,filter=IPRED>0.001)
+```{r fig-dv-pred, fig.width=8, fig.height=8}
+ctr %>% pmx_plot_dv_pred(scale_x_log10=TRUE, scale_y_log10=TRUE, filter=IPRED>0.001)
 ```
 
-```{r, fig.width=8, fig.height=8}
-ctr %>% pmx_plot_abs_iwres_ipred
+```{r fig-iwres-ipred, fig.width=8, fig.height=8}
+ctr %>% pmx_plot_abs_iwres_ipred()
 ```
 
-```{r, fig.width=8, fig.height=8}
+```{r fig-individual, fig.width=8, fig.height=8}
 ## For this display only show 1x1 individual plot for ID 110 for time < 12
 ctr %>% pmx_plot_individual(1, filter=ID == 31 & TIME > 0 & TIME < 12, 
                             facets = list(nrow = 1, ncol = 1))
 ```
 
-```{r, fig.width=8, fig.height=8}
-ctr %>% pmx_plot_iwres_dens
+```{r fig-iwres-dens, fig.width=8, fig.height=8}
+ctr %>% pmx_plot_iwres_dens()
 ```
 
-```{r, fig.width=8, fig.height=8}
-ctr %>% pmx_plot_eta_qq
-```
-
-This creates two reports with default settings, both a
-[pdf](https://github.com/nlmixr2/nlmixr2/raw/master/vignettes/nlmixr_report.pdf)
-and
-[word](https://github.com/nlmixr2/nlmixr2/raw/master/vignettes/nlmixr_report.docx)
-document. The report can be customized by editing the default template
-to include project specificities (change labels, stratifications,
-filtering, etc.).
-
-```{r, fig.width=8, fig.height=8}
-ctr %>% pmx_plot_eta_box
-```
-
-```{r, fig.width=8, fig.height=8}
-ctr %>% pmx_plot_eta_hist
-```
-
-```{r}
-ctr %>% pmx_plot_eta_matrix
+```{r fig-eta-qq, fig.width=8, fig.height=8}
+ctr %>% pmx_plot_eta_qq()
 ```
 
 This creates two reports with default settings, both a
@@ -385,8 +377,27 @@ document. The report can be customized by editing the default template
 to include project specificities (change labels, stratifications,
 filtering, etc.).
 
-```{r}
-ctr %>% pmx_plot_eta_matrix
+```{r fig-eta-box, fig.width=8, fig.height=8}
+ctr %>% pmx_plot_eta_box()
+```
+
+```{r fit-eta-hist, fig.width=8, fig.height=8}
+ctr %>% pmx_plot_eta_hist()
+```
+
+```{r fig-eta-matrix}
+ctr %>% pmx_plot_eta_matrix()
+```
+
+This creates two reports with default settings, both a
+[pdf](https://github.com/nlmixr2/nlmixr2/raw/master/vignettes/nlmixr_report.pdf)
+and
+[word](https://github.com/nlmixr2/nlmixr2/raw/master/vignettes/nlmixr_report.docx)
+document. The report can be customized by editing the default template
+to include project specifics (change labels, stratification, filtering, etc.).
+
+```{r fig-eta-matrix-duplicate}
+ctr %>% pmx_plot_eta_matrix()
 ```
 
 # Simulation of a new scenario with `rxode2`
@@ -401,12 +412,12 @@ created from `rxode2()`.
 In this case we wish to simulate with some variability and see what
 happens at steady state:
 
-```{r}
+```{r setup-simulation}
 # Start a new simulation
-(ev <- et(amt=100, ii=8, ss=1))
+ev <- et(amt=100, ii=8, ss=1)
 ```
 
-```{r}
+```{r setup-simulation-sampling}
 ev$add.sampling(seq(0, 8, length.out=50))
 print(ev)
 ```
@@ -420,7 +431,7 @@ theoretical studies where you simulate from the uncertainty in the fixed
 parameter estimates and covariances you can very easily with
 nlmixr2/rxode2:
 
-```{r}
+```{r simulate}
 set.seed(100)
 sim1 <- rxSolve(cmt2fit.logn, ev, nSub=100, nStud=100)
 print(sim1)
@@ -429,38 +440,39 @@ print(sim1)
 You may examine the simulated study information easily, as show in the
 `rxode2()` printout:
 
-```{r}
+```{r show-simulate-theta}
 head(sim1$thetaMat)
 ```
 
 You can also see the covariance matricies that are simulated (note they
 come from an inverse Wishart distribution):
 
-```{r}
+```{r show-simulate-omega}
 head(sim1$omegaList)
 ```
 
-```{r}
+```{r show-simulate-sigma}
 head(sim1$sigmaList)
 ```
 
 It is also easy enough to create a plot to see what is going on with the
 simulation:
 
-```{r}
+```{r fig-simulate}
 conf <- confint(sim1, "sim")
 
 p1 <- plot(conf) ## This returns a ggplot2 object
 
 ## you can tweak the plot by the standard ggplot commands
-p1 + xlab("Time (hr)") + 
+p1 +
+  xlab("Time (hr)") + 
   ylab("Simulated Concentrations of TID steady state")
 
 # And put the same plot on a semi-log plot
-p1 + xlab("Time (hr)") + 
+p1 +
+  xlab("Time (hr)") + 
   ylab("Simulated Concentrations of TID steady state") +
   xgx_scale_y_log10()
-
 ```
 
 For more complex simulations with variability you can also [simulate
