@@ -315,7 +315,8 @@ huxreg(
   "lognormal"=cmt2fit.logn,
   "proportional"=cmt2fit.prop,
   "add+prop"=cmt2fit.add.prop,
-  statistics=c(N="nobs", "logLik", "AIC")
+  statistics=c(N="nobs", "logLik", "AIC"),
+  stars = NULL
 )
 ```
 
