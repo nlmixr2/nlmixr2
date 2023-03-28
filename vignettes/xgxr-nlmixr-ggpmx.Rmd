@@ -330,7 +330,7 @@ it is appropriate to compare the AIC/Objective function values)
 
 ```{r setup-ggpmx-controller, fig.width=8, fig.height=8}
 ## The controller then can be piped into a specific plot
-ctr <- pmx_nlmixr(cmt2fit.logn, conts = c("WEIGHTB"), cats="TRTACT", vpc=TRUE)
+ctr <- pmx_nlmixr(cmt2fit.logn, conts = "WEIGHTB", cats="TRTACT", vpc=TRUE)
 ```
 
 ```{r fig-npde-pred, fig.width=8, fig.height=8}
@@ -360,8 +360,12 @@ ctr %>% pmx_plot_abs_iwres_ipred()
 
 ```{r fig-individual, fig.width=8, fig.height=8}
 ## For this display only show 1x1 individual plot for ID 110 for time < 12
-ctr %>% pmx_plot_individual(1, filter=ID == 31 & TIME > 0 & TIME < 12, 
-                            facets = list(nrow = 1, ncol = 1))
+ctr %>%
+  pmx_plot_individual(
+    1,
+    filter=ID == 31 & TIME > 0 & TIME < 12, 
+    facets = list(nrow = 1, ncol = 1)
+  )
 ```
 
 ```{r fig-iwres-dens, fig.width=8, fig.height=8}
