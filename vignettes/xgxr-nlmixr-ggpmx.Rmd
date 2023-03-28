@@ -403,10 +403,6 @@ and
 document. The report can be customized by editing the default template
 to include project specifics (change labels, stratification, filtering, etc.).
 
-```{r fig-eta-matrix-duplicate}
-ctr %>% pmx_plot_eta_matrix()
-```
-
 # Simulation of a new scenario with `rxode2`
 
 By creating events you can simply simulate a new scenario. Perhaps your
