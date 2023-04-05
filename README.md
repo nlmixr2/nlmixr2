@@ -43,11 +43,11 @@ To setup the mac compilers, simply
 1.  Install Xcode from app store
 
 2.  Install gfortran:
-    
+
     1.  Download and install from <https://mac.r-project.org/tools/>
-    
-    2.  Add gfortran directory to the path with: `export
-        PATH=$PATH:/usr/local/gfortran/bin`
+
+    2.  Add gfortran directory to the path with:
+        `export PATH=$PATH:/usr/local/gfortran/bin`
 
 ## R package installation
 
@@ -154,7 +154,7 @@ remotes::install_github("ggPMXdevelopment/ggPMX") # Goodness of fit plots
 remotes::install_github("RichardHooijmaijers/shinyMixR") # Shiny run manager (like Piranha)
 ```
 
-For ubuntu latest it is similar
+For Ubuntu latest it is similar
 
 ``` r
 # bspm::disable() # if you are using r2u or other ubuntu binary for CRAN
@@ -198,38 +198,30 @@ Optional supporting packages can be installed like so:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("ggPMXdevelopment/ggPMX") # Goodness of fit
-                                                  # plots
-remotes::install_github("nlmixr2/xpose.nlmixr2") # Additional goodness
-                                                 # of fit plots
-remotes::install_github("RichardHooijmaijers/shinyMixR") # Shiny run
-                                                         # manager
-                                                         # (like
-                                                         # Piranha)
-remotes::install_github("nlmixr2/nlmixr2targets") # Simplify work with
-                                                  # the `targets`
-                                                  # package
-remotes::install_github("nlmixr2/babelmixr2") # Convert/run from
-                                              # nlmixr2-based models
-                                              # to NONMEM, Monolix,
-                                              # and initialize models
-                                              # with PKNCA
-remotes::install_github("nlmixr2/nonmem2rx") # Convert from NONMEM to
-                                             # rxode2/nlmixr2-based
-                                             # models
-remotes::install_github("nlmixr2/nlmixr2lib") # A library of models
-                                              # and model modification
-                                              # functions
-remotes::install_github("nlmixr2/nlmixr2rpt") # Automated Microsoft
-                                              # Word and PowerPoint
-                                              # reporting for nlmixr2
+# Goodness of fit plots
+remotes::install_github("ggPMXdevelopment/ggPMX")
+# Additional goodness of fit plots
+remotes::install_github("nlmixr2/xpose.nlmixr2")
+# Shiny run manager (like Piranha)
+remotes::install_github("RichardHooijmaijers/shinyMixR")
+# Simplify work with the `targets` package
+remotes::install_github("nlmixr2/nlmixr2targets")
+# Convert/run from nlmixr2-based models to NONMEM, Monolix, and initialize
+# models with PKNCA
+remotes::install_github("nlmixr2/babelmixr2")
+# Convert from NONMEM to rxode2/nlmixr2-based models
+remotes::install_github("nlmixr2/nonmem2rx")
+# A library of models and model modification functions
+remotes::install_github("nlmixr2/nlmixr2lib")
+# Automated Microsoft Word and PowerPoint reporting for nlmixr2
+remotes::install_github("nlmixr2/nlmixr2rpt")
 ```
 
 ### Refreshing the installation with the latest CRAN version
 
 If you have difficulties due to errors while compiling models, it may be
-useful to reinstall all of nlmixr2 and its dependencies. For development
-versions, please use the `remotes::install_github()` or the
+useful to re-install all of nlmixr2 and its dependencies. For
+development versions, please use the `remotes::install_github()` or the
 `install.package()` with the `r-universe` above. For the stable version,
 please use the following command:
 
@@ -247,7 +239,7 @@ This is a basic example which shows you how to solve a common problem:
 ``` r
 library(nlmixr2)
 
-## The basic model consiss of an ini block that has initial estimates
+## The basic model consists of an ini block that has initial estimates
 one.compartment <- function() {
   ini({
     tka <- log(1.57); label("Ka")
@@ -258,30 +250,20 @@ one.compartment <- function() {
     eta.v ~ 0.1
     add.sd <- 0.7
   })
-  # and a model block with the error sppecification and model specification
+  # and a model block with the error specification and model specification
   model({
     ka <- exp(tka + eta.ka)
     cl <- exp(tcl + eta.cl)
     v <- exp(tv + eta.v)
-    d/dt(depot) = -ka * depot
-    d/dt(center) = ka * depot - cl / v * center
-    cp = center / v
+    d/dt(depot) <- -ka * depot
+    d/dt(center) <- ka * depot - cl / v * center
+    cp <- center / v
     cp ~ add(add.sd)
   })
 }
 
-## The fit is performed by the function nlmixr/nlmix2 specifying the model, data and estimate
+## The fit is performed by the function nlmixr/nlmixr2 specifying the model, data and estimate
 fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
 #> 
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
@@ -293,8 +275,8 @@ print(fit)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>            setup covariance  saem table compress    other
-#> elapsed 0.000801   0.009004 2.355 0.029    0.017 1.610195
+#>         setup saem table compress other
+#> elapsed 0.001 6.62  0.05     0.06 3.709
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -354,7 +336,7 @@ plt <- dv_vs_ipred(xpdb)
 
 ## ggPMX
 
-Another option is to use the ggPMX package. You first creat a ggPMX
+Another option is to use the ggPMX package. You first create a ggPMX
 controller object from the nlmixr fit object. Then that controller
 object can be used to generate figures:
 
