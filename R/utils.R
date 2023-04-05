@@ -69,6 +69,7 @@
 .genReexports <- function(soft=c("rxode2::rxode2",
                                  "rxode2::rxode",
                                  "rxode2::RxODE",
+                                 "rxode2::rxDerived",
                                  "magrittr::`%>%`",
                                  "rxode2::ini",
                                  "rxode2::model",
@@ -153,13 +154,16 @@
                paste(vapply(hard, .genHardReExport, character(1), USE.NAMES=FALSE),
                      collapse="\n\n")),
              devtools::package_file("R/hardReexports.R"))
+  ""
 } # nocov end
 
 #' @inherit nlmixr2est::nlmixr2
 #' @param ... Additional arguments passed to [nlmixr2est::nlmixr2()].
+#' @eval .genReexports()
 #' @export
 nlmixr2 <- function(object, data, est = NULL, control = list(),
                     table = tableControl(), ..., save = NULL, envir = parent.frame()) {
+  .hasColor <- crayon::has_color()
   .objectName <- try(as.character(substitute(object)), silent=TRUE)
   if (inherits(.objectName, "try-error")) .objectName <- "x"
   nlmixr2est::.nlmixr2objectNameAssign(.objectName)
