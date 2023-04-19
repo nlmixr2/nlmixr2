@@ -24,9 +24,17 @@ magrittr::`%>%`
 #' @export
 rxode2::ini
 
+#' @importFrom rxode2 `ini<-`
+#' @export
+rxode2::`ini<-`
+
 #' @importFrom rxode2 model
 #' @export
 rxode2::model
+
+#' @importFrom rxode2 `model<-`
+#' @export
+rxode2::`model<-`
 
 #' @importFrom rxode2 lotri
 #' @export
@@ -71,6 +79,10 @@ rxode2::add.dosing
 #' @importFrom rxode2 add.sampling
 #' @export
 rxode2::add.sampling
+
+#' @importFrom rxode2et etExpand
+#' @export
+rxode2et::etExpand
 
 #' @importFrom nlmixr2est pdDiag
 #' @export
