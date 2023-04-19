@@ -106,6 +106,7 @@
                                  "nlmixr2est::varComb",
                                  "nlmixr2est::groupedData",
                                  "nlmixr2est::getData",
+                                 "rxode2::etExpand",
                                  "rxode2::et",
                                  "rxode2::rxParams",
                                  "rxode2::rxParam",
@@ -126,7 +127,8 @@
                                  "nlmixr2est::.nlmixrNlmeFun",
                                  "nlmixr2est::nlmixr2NlmeControl",
                                  "nlmixr2est::nlmixr",
-                                 "lotri::lotri"),
+                                 "lotri::lotri"
+                                 ),
                           hard=c("nlmixr2plot::traceplot",
                                  "nlmixr2est::vpcSim",
                                  "nlmixr2plot::vpcPlot",
@@ -174,3 +176,11 @@ nlmixr2 <- function(object, data, est = NULL, control = list(),
         control = control, table = table, ..., save = save, envir = envir)
   }
 }
+
+#' @importFrom rxode2 `model<-`
+#' @export
+rxode2::`model<-`
+
+#' @importFrom rxode2 `ini<-`
+#' @export
+rxode2::`ini<-`
