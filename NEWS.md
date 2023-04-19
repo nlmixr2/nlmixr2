@@ -1,5 +1,7 @@
 # nlmixr2 (development version)
 
+* Reexports `etExpand()`, `model()<-` and `ini()<-`
+
 # nlmixr2 2.0.9
 
 * The new function `nlmixr2CheckInstall()` helps to check if your installation
