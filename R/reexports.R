@@ -160,6 +160,14 @@ nlmixr2est::groupedData
 #' @export
 nlmixr2est::getData
 
+#' @importFrom rxode2 `model<-`
+#' @export
+rxode2::`model<-`
+
+#' @importFrom rxode2 `ini<-`
+#' @export
+rxode2::`ini<-`
+
 #' @importFrom rxode2 etExpand
 #' @export
 rxode2::etExpand

@@ -106,6 +106,8 @@
                                  "nlmixr2est::varComb",
                                  "nlmixr2est::groupedData",
                                  "nlmixr2est::getData",
+                                 "rxode2::`model<-`",
+                                 "rxode2::`ini<-`",
                                  "rxode2::etExpand",
                                  "rxode2::et",
                                  "rxode2::rxParams",
@@ -176,11 +178,3 @@ nlmixr2 <- function(object, data, est = NULL, control = list(),
         control = control, table = table, ..., save = save, envir = envir)
   }
 }
-
-#' @importFrom rxode2 `model<-`
-#' @export
-rxode2::`model<-`
-
-#' @importFrom rxode2 `ini<-`
-#' @export
-rxode2::`ini<-`
