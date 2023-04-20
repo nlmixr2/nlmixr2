@@ -33,6 +33,7 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           pak-version: devel
+          # ggPMX from GitHub is needed until version 1.2.9 is on CRAN
           extra-packages: |
             any::pkgdown
             nlmixr2/lotri
@@ -44,7 +45,7 @@ jobs:
             nlmixr2/nlmixr2est
             nlmixr2/nlmixr2extra
             nlmixr2/nlmixr2plot
-            ggPMXdevelopment/ggPMX # needed until version 1.2.9 is on CRAN
+            ggPMXdevelopment/ggPMX
             any::xpose
             any::xpose.nlmixr2
             jeroen/curl
