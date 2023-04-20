@@ -44,9 +44,9 @@ jobs:
             nlmixr2/nlmixr2est
             nlmixr2/nlmixr2extra
             nlmixr2/nlmixr2plot
+            ggPMXdevelopment/ggPMX # needed until version 1.2.9 is on CRAN
             any::xpose
             any::xpose.nlmixr2
-            any::ggPMX
             jeroen/curl
             any::broom.mixed
             any::dotwhisker

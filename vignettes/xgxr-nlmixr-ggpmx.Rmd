@@ -361,12 +361,14 @@ ctr %>% pmx_plot_abs_iwres_ipred()
 ```{r fig-individual, fig.width=8, fig.height=8}
 ## For this display only show 1x1 individual plot for ID 110 for time < 12
 # avoid issue https://github.com/nlmixr2/nlmixr2/issues/95
-# ctr %>%
-#   pmx_plot_individual(
-#     1,
-#     filter=ID == 31 & TIME > 0 & TIME < 12, 
-#     facets = list(nrow = 1, ncol = 1)
-#   )
+if (packageVersion(ggpmx) > "1.2.8") {
+  ctr %>%
+    pmx_plot_individual(
+      1,
+      filter=ID == 31 & TIME > 0 & TIME < 12,
+      facets = list(nrow = 1, ncol = 1)
+    )
+}
 ```
 
 ```{r fig-iwres-dens, fig.width=8, fig.height=8}
