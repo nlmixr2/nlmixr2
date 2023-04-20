@@ -55,6 +55,7 @@ jobs:
             nlmixr2/nlmixr2extra
             nlmixr2/nlmixr2plot
             ggPMXdevelopment/ggPMX
+            lixoftConnectors=?ignore
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2

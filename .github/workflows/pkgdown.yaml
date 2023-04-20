@@ -46,6 +46,7 @@ jobs:
             nlmixr2/nlmixr2extra
             nlmixr2/nlmixr2plot
             ggPMXdevelopment/ggPMX
+            lixoftConnectors=?ignore
             any::xpose
             any::xpose.nlmixr2
             jeroen/curl
