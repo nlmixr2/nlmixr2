@@ -228,7 +228,7 @@ per dose group):
 
 ```{r model-data-filter}
 doses <- unique(dat$DOSE)
-nid <- 7 # 7 ids per dose group
+nid <- 20 # 7 ids per dose group
 dat2 <-
   dat %>%
   group_by(DOSE) %>%
@@ -359,16 +359,12 @@ ctr %>% pmx_plot_abs_iwres_ipred()
 ```
 
 ```{r fig-individual, fig.width=8, fig.height=8}
-## For this display only show 1x1 individual plot for ID 110 for time < 12
-try( # avoid issue https://github.com/nlmixr2/nlmixr2/issues/95
-  ctr %>%
-    pmx_plot_individual(
-      1,
-      filter=ID == 31 & TIME > 0 & TIME < 12, 
-      facets = list(nrow = 1, ncol = 1)
-    ),
-  silent = TRUE
-)
+ctr %>%
+  pmx_plot_individual(
+    1,
+    filter= TIME > 0 & TIME < 48,
+    facets = list(nrow = 2, ncol = 2)
+  )
 ```
 
 ```{r fig-iwres-dens, fig.width=8, fig.height=8}

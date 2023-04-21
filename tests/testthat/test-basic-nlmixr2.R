@@ -1,10 +1,9 @@
 test_that("basic nlmixr tests", {
-
   one.compartment <- function() {
     ini({
-      tka <- 0.45 # Log Ka
-      tcl <- 1 # Log Cl
-      tv <- 3.45    # Log V
+      tka <- 0.45
+      tcl <- 1
+      tv <- 3.45
       eta.ka ~ 0.6
       eta.cl ~ 0.3
       eta.v ~ 0.1
@@ -45,11 +44,12 @@ test_that("basic nlmixr tests", {
     })
   }
 
-  fit <- nlmixr(one.compartment, theo_sd,  est="saem",
-                control=list(print=0))
+  suppressMessages(
+    fit <- nlmixr(one.compartment, theo_sd,  est="saem",
+                  control=saemControl(print=0, nBurn = 1, nEm = 1))
+  )
 
   expect_equal(fit$ui$modelName, "one.compartment")
   expect_true(inherits(fit, "nlmixr2FitData"))
   expect_error(plot(fit), NA)
-
 })
