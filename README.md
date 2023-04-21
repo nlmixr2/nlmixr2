@@ -3,10 +3,33 @@
 
 # nlmixr2
 
+## CRAN updating
+
+[![CRAN-status](https://img.shields.io/badge/CRAN-Updating-red)](https://github.com/nlmixr2/rxode2/actions/workflows/R-CMD-check.yaml)
+
+Currently we are updating `PreciseSums` on CRAN; `nlmixr2est` is linked
+to `rxode2` which in turn is linked to `PreciseSums`. While
+`PreciseSums`, `rxode2` and `nlmixr2est` are being submitted, the most
+stable version of `nlmixr2` comes from the `r-universe`:
+
+``` r
+install.packages(c("PreciseSums", "dparser", "nlmixr2data", "lotri",
+                   "rxode2ll", "rxode2parse", "rxode2random", "rxode2et",
+                   "rxode2",  "nlmixr2est", "nlmixr2extra", "nlmixr2plot",
+                   "nlmixr2"),
+                 repos = c('ttps://nlmixr2.r-universe.dev',
+                           'https://cloud.r-project.org'))
+```
+
+This is temporary and should resolve itself in a couple of weeks.
+
+You could also compile from source to work around the issue.
+
 <!-- badges: start -->
 
-[![R build
-status](https://github.com/nlmixr2/nlmixr2/workflows/R-CMD-check/badge.svg)](https://github.com/nlmixr2/nlmixr2/actions)
+[![R-CMD-check](https://github.com/nlmixr2/nlmixr2/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/nlmixr2/nlmixr2/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/nlmixr2/nlmixr2/branch/main/graph/badge.svg)](https://app.codecov.io/gh/nlmixr2/nlmixr2?branch=main)
 [![CodeFactor](https://www.codefactor.io/repository/github/nlmixr2/nlmixr2/badge)](https://www.codefactor.io/repository/github/nlmixr2/nlmixr2)
 [![CRAN
 version](http://www.r-pkg.org/badges/version/nlmixr2)](https://cran.r-project.org/package=nlmixr2)
@@ -43,11 +66,11 @@ To setup the mac compilers, simply
 1.  Install Xcode from app store
 
 2.  Install gfortran:
-
+    
     1.  Download and install from <https://mac.r-project.org/tools/>
-
-    2.  Add gfortran directory to the path with:
-        `export PATH=$PATH:/usr/local/gfortran/bin`
+    
+    2.  Add gfortran directory to the path with: `export
+        PATH=$PATH:/usr/local/gfortran/bin`
 
 ## R package installation
 
@@ -266,6 +289,16 @@ one.compartment <- function() {
 fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
 #> 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
+#> 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
+#> 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
+#> 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
+#> 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
+#> 
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 print(fit)
 #> ── nlmixr² SAEM OBJF by FOCEi approximation ──
@@ -275,8 +308,8 @@ print(fit)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>         setup saem table compress other
-#> elapsed 0.001 6.62  0.05     0.06 3.709
+#>            setup covariance  saem table compress   other
+#> elapsed 0.000976   0.006004 1.779 0.028    0.017 1.48202
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -299,8 +332,9 @@ print(fit)
 #> 1 1      0     0.74  0     0.74   0     0.74   1.07  0.0988 -0.484 -0.0843  0   
 #> 2 1      0.25  2.84  3.27 -0.433  3.87 -1.03  -1.49  0.0988 -0.484 -0.0843  3.87
 #> 3 1      0.57  6.57  5.85  0.718  6.82 -0.247 -0.356 0.0988 -0.484 -0.0843  6.82
-#> # … with 129 more rows, and 7 more variables: depot <dbl>, center <dbl>,
-#> #   ka <dbl>, cl <dbl>, v <dbl>, tad <dbl>, dosenum <dbl>
+#> # ℹ 129 more rows
+#> # ℹ 7 more variables: depot <dbl>, center <dbl>, ka <dbl>, cl <dbl>, v <dbl>,
+#> #   tad <dbl>, dosenum <dbl>
 ```
 
 # Plotting outputs
