@@ -82,6 +82,9 @@
     <loc>https://nlmixr2.github.io/nlmixr2/reference/nlmixr2.html</loc>
   </url>
   <url>
+    <loc>https://nlmixr2.github.io/nlmixr2/reference/nlmixr2CheckInstall.html</loc>
+  </url>
+  <url>
     <loc>https://nlmixr2.github.io/nlmixr2/reference/preconditionFit.html</loc>
   </url>
   <url>
@@ -100,7 +103,16 @@
     <loc>https://nlmixr2.github.io/nlmixr2/reference/traceplot.html</loc>
   </url>
   <url>
+    <loc>https://nlmixr2.github.io/nlmixr2/reference/vpcCens.html</loc>
+  </url>
+  <url>
+    <loc>https://nlmixr2.github.io/nlmixr2/reference/vpcCensTad.html</loc>
+  </url>
+  <url>
     <loc>https://nlmixr2.github.io/nlmixr2/reference/vpcPlot.html</loc>
+  </url>
+  <url>
+    <loc>https://nlmixr2.github.io/nlmixr2/reference/vpcPlotTad.html</loc>
   </url>
   <url>
     <loc>https://nlmixr2.github.io/nlmixr2/reference/vpcSim.html</loc>
