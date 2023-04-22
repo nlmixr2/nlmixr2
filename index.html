@@ -136,9 +136,24 @@
 <img src="logo.png" class="logo" alt=""><h1 id="nlmixr2">nlmixr2<a class="anchor" aria-label="anchor" href="#nlmixr2"></a>
 </h1>
 </div>
+<div class="section level2">
+<h2 id="cran-updating">CRAN updating<a class="anchor" aria-label="anchor" href="#cran-updating"></a>
+</h2>
+<p><a href="https://github.com/nlmixr2/rxode2/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://img.shields.io/badge/CRAN-Updating-red" alt="CRAN-status"></a></p>
+<p>Currently we are updating <code>PreciseSums</code> on CRAN; <code>nlmixr2est</code> is linked to <code>rxode2</code> which in turn is linked to <code>PreciseSums</code>. While <code>PreciseSums</code>, <code>rxode2</code> and <code>nlmixr2est</code> are being submitted, the most stable version of <code>nlmixr2</code> comes from the <code>r-universe</code>:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PreciseSums"</span>, <span class="st">"dparser"</span>, <span class="st">"nlmixr2data"</span>, <span class="st">"lotri"</span>,</span>
+<span>                   <span class="st">"rxode2ll"</span>, <span class="st">"rxode2parse"</span>, <span class="st">"rxode2random"</span>, <span class="st">"rxode2et"</span>,</span>
+<span>                   <span class="st">"rxode2"</span>,  <span class="st">"nlmixr2est"</span>, <span class="st">"nlmixr2extra"</span>, <span class="st">"nlmixr2plot"</span>,</span>
+<span>                   <span class="st">"nlmixr2"</span><span class="op">)</span>,</span>
+<span>                 repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'ttps://nlmixr2.r-universe.dev'</span>,</span>
+<span>                           <span class="st">'https://cloud.r-project.org'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>This is temporary and should resolve itself in a couple of weeks.</p>
+<p>You could also compile from source to work around the issue.</p>
 <!-- badges: start -->
 
 <p>The goal of nlmixr2 is to support easy and robust nonlinear mixed effects models in R</p>
+</div>
 <div class="section level2">
 <h2 id="blog-for-more-information">Blog for more information<a class="anchor" aria-label="anchor" href="#blog-for-more-information"></a>
 </h2>
@@ -163,7 +178,7 @@
 <p>Install gfortran:</p>
 <ol style="list-style-type: decimal">
 <li><p>Download and install from <a href="https://mac.r-project.org/tools/" class="external-link uri">https://mac.r-project.org/tools/</a></p></li>
-<li><p>Add gfortran directory to the path with: <code>export PATH=$PATH:/usr/local/gfortran/bin</code></p></li>
+<li><p>Add gfortran directory to the path with: <code>export     PATH=$PATH:/usr/local/gfortran/bin</code></p></li>
 </ol>
 </li>
 </ol>
@@ -173,21 +188,21 @@
 <h2 id="r-package-installation">R package installation<a class="anchor" aria-label="anchor" href="#r-package-installation"></a>
 </h2>
 <p>Installation nlmixr2 itself is easiest in R-4.2.x because no further compilation is required and all supporting packages are available. From R, run:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"nlmixr2"</span>,dependencies <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>For R-4.0.x and R-4.1.x, the <code>symengine</code> package will need to be downgraded to run in those earlier <code>R</code> versions. This can be done by:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_version.html" class="external-link">install_version</a></span><span class="op">(</span><span class="st">"symengine"</span>, version <span class="op">=</span> <span class="st">"0.1.6"</span><span class="op">)</span></span></code></pre></div>
 <p>followed by:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"nlmixr2"</span>,dependencies <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="checking-installation">Checking installation<a class="anchor" aria-label="anchor" href="#checking-installation"></a>
 </h2>
 <p>You can check that your installation is likely setup correctly with the following command after installing the <code>nlmixr2</code> package:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">nlmixr2</span><span class="fu">::</span><span class="fu"><a href="reference/nlmixr2CheckInstall.html">nlmixr2CheckInstall</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -198,7 +213,7 @@
 <h3 id="install-using-the-r-universe">Install using the R universe<a class="anchor" aria-label="anchor" href="#install-using-the-r-universe"></a>
 </h3>
 <p>For many people this is the fastest way to install the development version of <code>nlmixr2</code> since it provides binaries for mac, windows for the latest and last version of R (no need to wait for a compile).</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dparser"</span>, <span class="st">"nlmixr2data"</span>, <span class="st">"lotri"</span>, <span class="st">"rxode2ll"</span>,</span>
 <span>                   <span class="st">"rxode2parse"</span>, <span class="st">"rxode2random"</span>, <span class="st">"rxode2et"</span>,</span>
 <span>                   <span class="st">"rxode2"</span>, <span class="st">"nlmixr2est"</span>, <span class="st">"nlmixr2extra"</span>, <span class="st">"nlmixr2plot"</span>,</span>
@@ -206,7 +221,7 @@
 <span>                 repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'https://nlmixr2.r-universe.dev'</span>,</span>
 <span>                           <span class="st">'https://cloud.r-project.org'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>If you are using a Ubuntu latest flavor (at the time of this writing <code>jammy</code>) you can also use the binaries (though if you use <code>bspm</code> you should install any dependencies first to reduce your computation time)</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># bspm::disable() # if you are using r2u or other ubuntu binary for CRAN</span></span>
 <span><span class="va">oldOptions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -223,7 +238,7 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="va">oldOptions</span><span class="op">)</span></span>
 <span><span class="co">#bspm::enable()</span></span></code></pre></div>
 <p>Support packages from the R universe can also be installed for the packages in the <code>nlmixr2</code> domain:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"xpose.nlmixr2"</span>, <span class="co"># Additional goodness of fit plots</span></span>
 <span>                                    <span class="co"># baesd on xpose</span></span>
 <span>                   <span class="st">"nlmixr2targets"</span>, <span class="co"># Simplify work with the</span></span>
@@ -247,7 +262,7 @@
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"ggPMXdevelopment/ggPMX"</span><span class="op">)</span> <span class="co"># Goodness of fit plots</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"RichardHooijmaijers/shinyMixR"</span><span class="op">)</span> <span class="co"># Shiny run manager (like Piranha)</span></span></code></pre></div>
 <p>For Ubuntu latest it is similar</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># bspm::disable() # if you are using r2u or other ubuntu binary for CRAN</span></span>
 <span><span class="va">oldOptions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -269,7 +284,7 @@
 <a class="anchor" aria-label="anchor" href="#install-using-remotes"></a>
 </h3>
 <p>This is sure to give the latest development version</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"nlmixr2/dparser-R"</span><span class="op">)</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"nlmixr2/nlmixr2data"</span><span class="op">)</span></span>
@@ -284,7 +299,7 @@
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"nlmixr2/nlmixr2plot"</span><span class="op">)</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"nlmixr2/nlmixr2"</span><span class="op">)</span></span></code></pre></div>
 <p>Optional supporting packages can be installed like so:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="co"># Goodness of fit plots</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"ggPMXdevelopment/ggPMX"</span><span class="op">)</span></span>
@@ -308,7 +323,7 @@
 <h3 id="refreshing-the-installation-with-the-latest-cran-version">Refreshing the installation with the latest CRAN version<a class="anchor" aria-label="anchor" href="#refreshing-the-installation-with-the-latest-cran-version"></a>
 </h3>
 <p>If you have difficulties due to errors while compiling models, it may be useful to re-install all of nlmixr2 and its dependencies. For development versions, please use the <code><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">remotes::install_github()</a></code> or the <code>install.package()</code> with the <code>r-universe</code> above. For the stable version, please use the following command:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dparser"</span>, <span class="st">"lotri"</span>, <span class="st">"rxode2ll"</span>, <span class="st">"rxode2parse"</span>,</span>
 <span>                   <span class="st">"rxode2random"</span>, <span class="st">"rxode2et"</span>, <span class="st">"rxode2"</span>,</span>
 <span>                   <span class="st">"nlmixr2data"</span>, <span class="st">"nlmixr2est"</span>, <span class="st">"nlmixr2extra"</span>,</span>
@@ -319,7 +334,7 @@
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>This is a basic example which shows you how to solve a common problem:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://nlmixr2.org/" class="external-link">nlmixr2</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## The basic model consists of an ini block that has initial estimates</span></span>
@@ -349,6 +364,16 @@
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/nlmixr2.html">nlmixr2</a></span><span class="op">(</span><span class="va">one.compartment</span>, <span class="va">theo_sd</span>,  est<span class="op">=</span><span class="st">"saem"</span>, <span class="fu"><a href="reference/saemControl.html">saemControl</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ── nlmixr² SAEM OBJF by FOCEi approximation ──</span></span>
@@ -358,8 +383,8 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Time (sec $time): ──</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;         setup saem table compress other</span></span>
-<span><span class="co">#&gt; elapsed 0.001 6.62  0.05     0.06 3.709</span></span>
+<span><span class="co">#&gt;            setup covariance  saem table compress   other</span></span>
+<span><span class="co">#&gt; elapsed 0.000976   0.006004 1.779 0.028    0.017 1.48202</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Population Parameters ($parFixed or $parFixedDf): ──</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -382,8 +407,9 @@
 <span><span class="co">#&gt; 1 1      0     0.74  0     0.74   0     0.74   1.07  0.0988 -0.484 -0.0843  0   </span></span>
 <span><span class="co">#&gt; 2 1      0.25  2.84  3.27 -0.433  3.87 -1.03  -1.49  0.0988 -0.484 -0.0843  3.87</span></span>
 <span><span class="co">#&gt; 3 1      0.57  6.57  5.85  0.718  6.82 -0.247 -0.356 0.0988 -0.484 -0.0843  6.82</span></span>
-<span><span class="co">#&gt; # … with 129 more rows, and 7 more variables: depot &lt;dbl&gt;, center &lt;dbl&gt;,</span></span>
-<span><span class="co">#&gt; #   ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;, tad &lt;dbl&gt;, dosenum &lt;dbl&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 129 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 7 more variables: depot &lt;dbl&gt;, center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   tad &lt;dbl&gt;, dosenum &lt;dbl&gt;</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level1">
@@ -393,7 +419,7 @@
 <h2 id="base-r-graphics">Base R Graphics<a class="anchor" aria-label="anchor" href="#base-r-graphics"></a>
 </h2>
 <p>You can use base plots with the fit and it will produce a standard set of goodness of fit plots:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/grDevices/pdf.html" class="external-link">pdf</a></span><span class="op">(</span>file<span class="op">=</span><span class="st">"myplots.pdf"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html" class="external-link">dev.off</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -402,11 +428,11 @@
 <h2 id="xposenlmixr2">xpose.nlmixr2<a class="anchor" aria-label="anchor" href="#xposenlmixr2"></a>
 </h2>
 <p>The {xpose.nlmixr2} package extends xpose support for nlmixr2. You simply need to convert the fit results into an xpose database:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">xpose.nlmixr2</span><span class="op">)</span></span>
 <span><span class="va">xpdb</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/xpose.nlmixr2/man/xpose_data_nlmixr2.html" class="external-link">xpose_data_nlmixr</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span></code></pre></div>
 <p>Then you can use any of the xpose functions for generating goodness of fit plots:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://uupharmacometrics.github.io/xpose/" class="external-link">xpose</a></span><span class="op">)</span></span>
 <span><span class="va">plt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://uupharmacometrics.github.io/xpose/reference/dv_vs_pred.html" class="external-link">dv_vs_ipred</a></span><span class="op">(</span><span class="va">xpdb</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -414,7 +440,7 @@
 <h2 id="ggpmx">ggPMX<a class="anchor" aria-label="anchor" href="#ggpmx"></a>
 </h2>
 <p>Another option is to use the ggPMX package. You first create a ggPMX controller object from the nlmixr fit object. Then that controller object can be used to generate figures:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ggPMXdevelopment/ggPMX" class="external-link">ggPMX</a></span><span class="op">)</span></span>
 <span><span class="va">ctr</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/pmx_nlmixr.html" class="external-link">pmx_nlmixr</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/residual_scatter.html" class="external-link">pmx_plot_dv_ipred</a></span><span class="op">(</span><span class="va">ctr</span><span class="op">)</span></span></code></pre></div>
@@ -457,7 +483,8 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/nlmixr2/nlmixr2/actions" class="external-link"><img src="https://github.com/nlmixr2/nlmixr2/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
+<li><a href="https://github.com/nlmixr2/nlmixr2/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/nlmixr2/nlmixr2/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://app.codecov.io/gh/nlmixr2/nlmixr2?branch=main" class="external-link"><img src="https://codecov.io/gh/nlmixr2/nlmixr2/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
 <li><a href="https://www.codefactor.io/repository/github/nlmixr2/nlmixr2" class="external-link"><img src="https://www.codefactor.io/repository/github/nlmixr2/nlmixr2/badge" alt="CodeFactor"></a></li>
 <li><a href="https://cran.r-project.org/package=nlmixr2" class="external-link"><img src="http://www.r-pkg.org/badges/version/nlmixr2" alt="CRAN version"></a></li>
 <li><a href="https://cran.r-project.org/package=nlmixr2" class="external-link"><img src="https://cranlogs.r-pkg.org/badges/grand-total/nlmixr2" alt="CRAN total downloads"></a></li>
