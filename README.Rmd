@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
 
 # nlmixr2
 
+<!--
 ## CRAN updating
 
 [![CRAN-status](https://img.shields.io/badge/CRAN-Updating-red)](https://github.com/nlmixr2/rxode2/actions/workflows/R-CMD-check.yaml)
@@ -37,8 +38,9 @@ This is temporary and should resolve itself in a couple of weeks.
 
 You could also compile from source to work around the issue.
 
-
+-->
 <!-- badges: start -->
+![Cran updating status](https://img.shields.io/badge/CRAN-Not%20Updating-green)
 [![R-CMD-check](https://github.com/nlmixr2/nlmixr2/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/nlmixr2/nlmixr2/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/nlmixr2/nlmixr2/branch/main/graph/badge.svg)](https://app.codecov.io/gh/nlmixr2/nlmixr2?branch=main)
 [![CodeFactor](https://www.codefactor.io/repository/github/nlmixr2/nlmixr2/badge)](https://www.codefactor.io/repository/github/nlmixr2/nlmixr2)

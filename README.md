@@ -3,16 +3,17 @@
 
 # nlmixr2
 
+<!--
 ## CRAN updating
 
 [![CRAN-status](https://img.shields.io/badge/CRAN-Updating-red)](https://github.com/nlmixr2/rxode2/actions/workflows/R-CMD-check.yaml)
 
-Currently we are updating `PreciseSums` on CRAN; `nlmixr2est` is linked
-to `rxode2` which in turn is linked to `PreciseSums`. While
-`PreciseSums`, `rxode2` and `nlmixr2est` are being submitted, the most
-stable version of `nlmixr2` comes from the `r-universe`:
+Currently we are updating `PreciseSums` on CRAN; `nlmixr2est` is
+linked to `rxode2` which in turn is linked to `PreciseSums`.  While
+`PreciseSums`, `rxode2` and `nlmixr2est` are being submitted, the most stable
+version of `nlmixr2` comes from the `r-universe`:
 
-``` r
+```r
 install.packages(c("PreciseSums", "dparser", "nlmixr2data", "lotri",
                    "rxode2ll", "rxode2parse", "rxode2random", "rxode2et",
                    "rxode2",  "nlmixr2est", "nlmixr2extra", "nlmixr2plot",
@@ -25,8 +26,12 @@ This is temporary and should resolve itself in a couple of weeks.
 
 You could also compile from source to work around the issue.
 
+-->
+
 <!-- badges: start -->
 
+![Cran updating
+status](https://img.shields.io/badge/CRAN-Not%20Updating-green)
 [![R-CMD-check](https://github.com/nlmixr2/nlmixr2/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/nlmixr2/nlmixr2/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/nlmixr2/nlmixr2/branch/main/graph/badge.svg)](https://app.codecov.io/gh/nlmixr2/nlmixr2?branch=main)
@@ -308,8 +313,8 @@ print(fit)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>            setup covariance  saem table compress   other
-#> elapsed 0.000976   0.006004 1.779 0.028    0.017 1.48202
+#>            setup covariance  saem table compress    other
+#> elapsed 0.000967   0.007004 1.784 0.028    0.017 1.491029
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
