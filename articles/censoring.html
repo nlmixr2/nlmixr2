@@ -147,40 +147,43 @@ above a certain number. In 2001, Beal introduced censoring to the
 pharmacometric community and described common ways to deal with missing
 data. The methods below, and the data structure used in nlmixr to
 support them are below:</p>
-<table style="width:100%;" class="table">
+<table class="table">
 <colgroup>
-<col width="1%">
-<col width="97%">
-<col width="0%">
+<col width="6%">
+<col width="93%">
 </colgroup>
+<thead><tr class="header">
+<th></th>
+<th>Description</th>
+</tr></thead>
 <tbody>
 <tr class="odd">
-<td rowspan="2">==== M1</td>
-<td colspan="2" rowspan="2">Description |
-========================================================================================================================================================================================================================================================================================================+
-Ignore the censored data entirely. This can be done by removing the
-censored observations from the dataset. |</td>
+<td>M1</td>
+<td>Ignore the censored data entirely. This can be done by removing the
+censored observations from the dataset.</td>
 </tr>
-<tr class="even"></tr>
-<tr class="odd">
+<tr class="even">
 <td>M2</td>
 <td>With this method a single limit is specified and observations below
 that limit are considered censored. This is not directly supported in
 nlmixr, but can be accomplished by using the M3 method.</td>
-<td></td>
-</tr>
-<tr class="even">
-<td>M3</td>
-<td colspan="2">Estimate Likelihood where observation is above or below
-some censored limit. | | When the concentrations are below the limit of
-quantitation (or left censored), you can specify this in nlmixr with two
-columns: DV, CENS. When a value is censored, DV is the limit of
-quantification, and CENS is 1. For the rest of the non-censored values,
-DV keeps its normal value and CENS is 0. | When the censored value are
-above a limit of quantitation (or right censored), the DV remains the
-limit of quantification and CENS is -1.</td>
 </tr>
 <tr class="odd">
+<td>M3</td>
+<td>
+<p>Estimate Likelihood where observation is above or below some
+censored limit.</p>
+<p>When the concentrations are below the limit of quantitation (or left
+censored), you can specify this in nlmixr with two columns: DV, CENS.
+When a value is censored, DV is the limit of quantification, and CENS is
+1. For the rest of the non-censored values, DV keeps its normal value
+and CENS is 0.</p>
+<p>When the censored value are above a limit of quantitation (or right
+censored), the DV remains the limit of quantification and CENS is
+-1.</p>
+</td>
+</tr>
+<tr class="even">
 <td>M4</td>
 <td>
 <p>This is an expansion of the M3 method. In cases, like in PK, you
@@ -192,24 +195,20 @@ In the case of the left censored problem, you can specify the
 concentration is between the LIMIT and DV. This works for both the right
 and left censored values.</p>
 </td>
-<td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>M5</td>
 <td>Replace all censored values with Lower Limit of Quantitation divided
 by 2. (ie LLOQ/2)</td>
-<td></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>M6</td>
 <td>Replace first censored value of the patient with LLOQ/2 and ignore
 the other censored values</td>
-<td></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>M7</td>
 <td>Replace all LLOQ values with 0</td>
-<td></td>
 </tr>
 </tbody>
 </table>
