@@ -128,7 +128,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Using broom with nlmixr2</h1>
             
-            <h4 data-toc-skip class="date">2023-05-23</h4>
+            <h4 data-toc-skip class="date">2023-05-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/HEAD/vignettes/broom.Rmd" class="external-link"><code>vignettes/broom.Rmd</code></a></small>
       <div class="d-none name"><code>broom.Rmd</code></div>
@@ -1302,8 +1302,8 @@ argument:</p>
 <td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.00598</td>
 </tr>
 </table>
-
-head(tidy(fit.s, effects="ran_coef", exponentiate=TRUE))
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">fit.s</span>, effects<span class="op">=</span><span class="st">"ran_coef"</span>, exponentiate<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-22">
 <col>
 <col>
@@ -1373,7 +1373,7 @@ tidyverse packages to interact with model information. An example of
 this is piping the tidy information to dplyr to filter the effects and
 then to the <code>dotwhisker</code> package to plot the model parameter
 confidence intervals.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>broom.mixed.sep2<span class="op">=</span><span class="st">": "</span>, broom.mixed.sep2<span class="op">=</span><span class="st">", "</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">dotwhisker</span><span class="op">)</span></span>
@@ -1390,7 +1390,7 @@ confidence intervals.</p>
 <p>This allows easy creation of report ready tables in many formats
 including word.</p>
 <p>Huxtable relies on the <code>broom</code> implementation</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hughjonesd.github.io/huxtable/" class="external-link">huxtable</a></span><span class="op">)</span></span>
 <span><span class="va">tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://hughjonesd.github.io/huxtable/reference/huxreg.html" class="external-link">huxreg</a></span><span class="op">(</span><span class="st">'Phenobarbitol'</span><span class="op">=</span><span class="va">fit.s</span><span class="op">)</span></span>
 <span></span>
@@ -1465,7 +1465,7 @@ including word.</p>
 <tr><th colspan="2" style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"> *** p &lt; 0.001;  ** p &lt; 0.01;  * p &lt; 0.05.</th></tr>
 </table>
 <p>You can also use <code>huxtable</code> to compare runs:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://hughjonesd.github.io/huxtable/reference/huxreg.html" class="external-link">huxreg</a></span><span class="op">(</span><span class="st">'SAEM'</span><span class="op">=</span><span class="va">fit.s</span>, <span class="st">'FOCEi'</span><span class="op">=</span><span class="va">fit.f</span><span class="op">)</span></span></code></pre></div>
 <table class="table huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-25">
 <col>
@@ -1554,7 +1554,7 @@ including word.</p>
 <tr><th colspan="3" style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"> *** p &lt; 0.001;  ** p &lt; 0.01;  * p &lt; 0.05.</th></tr>
 </table>
 <p>A word-based table can also be easily created with the tool:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ardata-fr.github.io/officeverse/" class="external-link">officer</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ardata-fr.github.io/flextable-book/" class="external-link">flextable</a></span><span class="op">)</span></span>
 <span></span>
