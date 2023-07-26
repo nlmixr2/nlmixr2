@@ -30,7 +30,7 @@ parameter may be used.
 A normal, one-compartment PK model will be used for the initial simulation.  It
 is setup below.
 
-```{r model-setup}
+```{r model-setup-nottitrated}
 one.compartment <- function() {
   ini({
     tka <- log(1.57); label("Ka")
@@ -74,7 +74,7 @@ dSim <- nlmixr2(one.compartment, dSimPrep, est="rxSolve")
 
 The simulated results are shown below.
 
-```{r fig-sim-noae}
+```{r fig-sim-nottitrated}
 ggplot(dSim, aes(x = time, y = ipredSim, group = id)) +
   geom_line()
 ```
@@ -117,7 +117,7 @@ dSimTitrated <- nlmixr2(one.compartment.titrated, dSimPrep, est="rxSolve")
 
 The simulated results are shown below.
 
-```{r fig-sim-noae}
+```{r fig-sim-titrated}
 ggplot(dSimTitrated, aes(x = time, y = ipredSim, group = id)) +
   geom_line()
 ```
