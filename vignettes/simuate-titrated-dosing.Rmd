@@ -1,0 +1,123 @@
+---
+title: "Simulations with individually-titrated dosing"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Simulations with individually-titrated dosing}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(nlmixr2)
+library(ggplot2)
+```
+
+# Simuations with individually-titrated dosing
+
+In some cases, parameters must be adjusted during a simulation in a way that
+cannot be handled with a dataset.  To perform these simulations, the `newind`
+parameter may be used.
+
+## Setup an initial simulation
+
+A normal, one-compartment PK model will be used for the initial simulation.  It
+is setup below.
+
+```{r model-setup}
+one.compartment <- function() {
+  ini({
+    tka <- log(1.57); label("Ka")
+    tcl <- log(2.72); label("Cl")
+    tv <- log(31.5); label("V")
+    eta.ka ~ 0.6
+    eta.cl ~ 0.3
+    eta.v ~ 0.1
+    add.sd <- 0.7
+  })
+  model({
+    ka <- exp(tka + eta.ka)
+    cl <- exp(tcl + eta.cl)
+    v <- exp(tv + eta.v)
+    d/dt(depot) <- -ka * depot
+    d/dt(center) <- ka * depot - cl / v * center
+    cp <- center / v
+    cp ~ add(add.sd)
+  })
+}
+
+# Setup simulation data (the 'CheckAE' column will be used later)
+dSimObserved <-
+  merge(
+    data.frame(ID = 1:10, CMT = "center", EVID = 0, AMT = 0),
+    data.frame(TIME = 0:48)
+  )
+dSimDose <-
+  merge(
+    data.frame(ID = 1:10, CMT = "depot", EVID = 1, AMT = 300),
+    data.frame(TIME = c(0, 24))
+  )
+dSimPrep <- rbind(dSimObserved, dSimDose)
+# CheckAE at time 24
+dSimPrep$CheckAE <- ifelse(dSimPrep$TIME == 24, 1, 0)
+# Sort for simulation
+dSimPrep <- dSimPrep[order(dSimPrep$ID, dSimPrep$TIME), ]
+
+dSim <- nlmixr2(one.compartment, dSimPrep, est="rxSolve")
+```
+
+The simulated results are shown below.
+
+```{r fig-sim-noae}
+ggplot(dSim, aes(x = time, y = ipredSim, group = id)) +
+  geom_line()
+```
+
+## Modify the model to adjust doses based on a theoretical adverse event
+
+```{r model-setup-titrated}
+one.compartment.titrated <- function() {
+  ini({
+    tka <- log(1.57); label("Ka")
+    tcl <- log(2.72); label("Cl")
+    tv <- log(31.5); label("V")
+    eta.ka ~ 0.6
+    eta.cl ~ 0.3
+    eta.v ~ 0.1
+    add.sd <- 0.7
+  })
+  model({
+    ka <- exp(tka + eta.ka)
+    cl <- exp(tcl + eta.cl)
+    v <- exp(tv + eta.v)
+    d/dt(depot) <- -ka * depot
+    d/dt(center) <- ka * depot - cl / v * center
+    cp <- center / v
+    if (newind == 1) { # The first row for each subject is found with 'newind == 1'
+      # All subjects start with an AE
+      hasAE = 1
+    } else if (CheckAE == 1) {
+      hasAE = cp > 0.5
+    }
+    # A subject gets half a dose if they are having an AE
+    fDepot <- 1 - hasAE * 0.5
+    f(depot) <- fDepot
+    cp ~ add(add.sd)
+  })
+}
+
+dSimTitrated <- nlmixr2(one.compartment.titrated, dSimPrep, est="rxSolve")
+```
+
+The simulated results are shown below.
+
+```{r fig-sim-noae}
+ggplot(dSimTitrated, aes(x = time, y = ipredSim, group = id)) +
+  geom_line()
+```
