@@ -38,6 +38,7 @@ saemControl(
   sigdigTable = NULL,
   ci = 0.95,
   muRefCov = TRUE,
+  muRefCovAlg = TRUE,
   ...
 )
 }
@@ -211,6 +212,24 @@ are handled differently than non mu-referenced covariates.  When
 `FALSE` mu-referenced covariates are treated the same as any
 other input parameter.}
 
+\item{muRefCovAlg}{This controls if algebraic expressions that can
+  be mu-referenced are treated as mu-referenced covariates by:
+
+  1. Creating a internal data-variable `nlmixrMuDerCov#` for each
+     algebraic mu-referenced expression
+
+  2. Change the algebraic expression to `nlmixrMuDerCov# * mu_cov_theta`
+
+  3. Use the internal mu-referenced covariate for saem
+
+  4. After optimization is completed, replace `model({})` with old
+  `model({})` expression
+
+  5. Remove `nlmixrMuDerCov#` from nlmix2 output
+
+In general, these covariates should be more accurate since it
+changes the system to a linear compartment model.  Therefore, by default this is `TRUE`.}
+
 \item{...}{Additional arguments passed to \code{\link[nlmixr2est:saemControl]{nlmixr2est::saemControl()}}.}
 }
 \value{
@@ -219,6 +238,11 @@ List of options to be used in \code{\link[nlmixr2est]{nlmixr2}} fit for
 }
 \description{
 Control Options for SAEM
+}
+\seealso{
+Other Estimation control: 
+\code{\link[nlmixr2est]{foceiControl}()},
+\code{\link[nlmixr2est]{nlmixr2NlmeControl}()}
 }
 \author{
 Wenping Wang & Matthew L. Fidler

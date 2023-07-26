@@ -44,17 +44,12 @@ selection method and "resBck" for the backward selection method.
 Stepwise Covariate Model-selection (SCM) method
 }
 \examples{
-\donttest{
-
+\dontrun{
 one.cmt <- function() {
   ini({
-    ## You may label each parameter with a comment
-    tka <- 0.45 # Log Ka
-    tcl <- log(c(0, 2.7, 100)) # Log Cl
-    ## This works with interactive models
-    ## You may also label the preceding line with label("label text")
-    tv <- 3.45; label("log V")
-    ## the label("Label name") works with all models
+    tka <- 0.45; label("Ka")
+    tcl <- log(c(0, 2.7, 100)); label("Cl")
+    tv <- 3.45; label("V")
     eta.ka ~ 0.6
     eta.cl ~ 0.3
     eta.v ~ 0.1
@@ -68,7 +63,7 @@ one.cmt <- function() {
   })
 }
 
-fit <- nlmixr2(one.cmt, nlmixr2data::theo_sd,"focei")
+fit <- nlmixr2(one.cmt, nlmixr2data::theo_sd, est = "saem", control = list(print = 0))
 rxode2::.rxWithWd(tempdir(), {# with temporary directory
 
 auto1 <- covarSearchAuto(fit, varsVec = c("ka", "cl"),
@@ -83,7 +78,7 @@ d <- nlmixr2data::theo_sd
 d$SEX <-0
 d$SEX[d$ID<=6] <-1
 
-fit <- nlmixr2(one.cmt, d, "focei")
+fit <- nlmixr2(one.cmt, d, est = "saem", control = list(print = 0))
 
 # This would restart if for some reason the search crashed:
 
@@ -96,7 +91,6 @@ auto3 <- covarSearchAuto(fit, varsVec = c("ka", "cl"), covarsVec = c("WT"),
                 catvarsVec=  c("SEX"), restart = TRUE,
                 searchType = "forward")
 })
-
 }
 }
 \author{

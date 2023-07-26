@@ -39,6 +39,7 @@ nlmeControl(
   ci = 0.95,
   sigdig = 4,
   sigdigTable = NULL,
+  muRefCovAlg = TRUE,
   ...
 )
 }
@@ -243,6 +244,24 @@ function.  By default this is \code{TRUE}}
 If not specified, then it matches the significant digits in the
 `sigdig` optimization algorithm.  If `sigdig` is NULL, use 3.}
 
+\item{muRefCovAlg}{This controls if algebraic expressions that can
+  be mu-referenced are treated as mu-referenced covariates by:
+
+  1. Creating a internal data-variable `nlmixrMuDerCov#` for each
+     algebraic mu-referenced expression
+
+  2. Change the algebraic expression to `nlmixrMuDerCov# * mu_cov_theta`
+
+  3. Use the internal mu-referenced covariate for saem
+
+  4. After optimization is completed, replace `model({})` with old
+  `model({})` expression
+
+  5. Remove `nlmixrMuDerCov#` from nlmix2 output
+
+In general, these covariates should be more accurate since it
+changes the system to a linear compartment model.  Therefore, by default this is `TRUE`.}
+
 \item{...}{Additional arguments passed to \code{\link[nlmixr2est:nlmixr2NlmeControl]{nlmixr2est::nlmeControl()}}.}
 }
 \value{
@@ -254,6 +273,11 @@ a list with all possible arguments is returned.  The returned list
 is used as the ‘control’ argument to the ‘nlme’ function.
 }
 \examples{
-nlmixr2est::nlmeControl()
+nlmeControl()
 nlmixr2NlmeControl()
+}
+\seealso{
+Other Estimation control: 
+\code{\link[nlmixr2est]{foceiControl}()},
+\code{\link[nlmixr2est]{saemControl}()}
 }
