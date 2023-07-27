@@ -70,7 +70,7 @@ saemControl <- function(seed = 99, nBurn = 200, nEm = 300, nmc = 3,
     lambdaRange = 3, odeRecalcFactor = 10^(0.5), maxOdeRecalc = 5L,
     perSa = 0.75, perNoCor = 0.75, perFixOmega = 0.1, perFixResid = 0.1,
     compress = TRUE, rxControl = NULL, sigdig = NULL, sigdigTable = NULL,
-    ci = 0.95, muRefCov = TRUE, muRefCovAlg = TRUE, ...) { # nocov start
+    ci = 0.95, muRefCov = TRUE, ...) { # nocov start
     nlmixr2est::saemControl(seed = seed, nBurn = nBurn, nEm = nEm,
         nmc = nmc, nu = nu, print = print, trace = trace, covMethod = covMethod,
         calcTables = calcTables, logLik = logLik, nnodesGq = nnodesGq,
@@ -81,7 +81,7 @@ saemControl <- function(seed = 99, nBurn = 200, nEm = 300, nmc = 3,
         perSa = perSa, perNoCor = perNoCor, perFixOmega = perFixOmega,
         perFixResid = perFixResid, compress = compress, rxControl = rxControl,
         sigdig = sigdig, sigdigTable = sigdigTable, ci = ci,
-        muRefCov = muRefCov, muRefCovAlg = muRefCovAlg, ...)
+        muRefCov = muRefCov, ...)
 } # nocov end
 
 #' @inherit nlmixr2est::foceiControl
@@ -184,8 +184,7 @@ nlmeControl <- function(maxIter = 100, pnlsMaxIter = 100, msMaxIter = 100,
     method = c("ML", "REML"), random = NULL, fixed = NULL, weights = NULL,
     verbose = TRUE, returnNlme = FALSE, addProp = c("combined2",
         "combined1"), calcTables = TRUE, compress = TRUE, adjObf = TRUE,
-    ci = 0.95, sigdig = 4, sigdigTable = NULL, muRefCovAlg = TRUE,
-    ...) { # nocov start
+    ci = 0.95, sigdig = 4, sigdigTable = NULL, ...) { # nocov start
     nlmixr2est::nlmeControl(maxIter = maxIter, pnlsMaxIter = pnlsMaxIter,
         msMaxIter = msMaxIter, minScale = minScale, tolerance = tolerance,
         niterEM = niterEM, pnlsTol = pnlsTol, msTol = msTol,
@@ -197,8 +196,7 @@ nlmeControl <- function(maxIter = 100, pnlsMaxIter = 100, msMaxIter = 100,
         fixed = fixed, weights = weights, verbose = verbose,
         returnNlme = returnNlme, addProp = addProp, calcTables = calcTables,
         compress = compress, adjObf = adjObf, ci = ci, sigdig = sigdig,
-        sigdigTable = sigdigTable, muRefCovAlg = muRefCovAlg,
-        ...)
+        sigdigTable = sigdigTable, ...)
 } # nocov end
 
 #' @inherit nlmixr2est::tableControl
