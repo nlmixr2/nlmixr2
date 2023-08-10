@@ -57,16 +57,16 @@ one.compartment <- function() {
 dSimObserved <-
   merge(
     data.frame(ID = 1:10, CMT = "center", EVID = 0, AMT = 0),
-    data.frame(TIME = 0:48)
+    data.frame(TIME = 0:72)
   )
 dSimDose <-
   merge(
     data.frame(ID = 1:10, CMT = "depot", EVID = 1, AMT = 300),
-    data.frame(TIME = c(0, 24))
+    data.frame(TIME = c(0, 24, 48))
   )
 dSimPrep <- rbind(dSimObserved, dSimDose)
-# CheckAE at time 24
-dSimPrep$CheckAE <- ifelse(dSimPrep$TIME == 24, 1, 0)
+# CheckAE at times 24 and 48
+dSimPrep$CheckAE <- ifelse(dSimPrep$TIME %in% c(24, 48), 1, 0)
 # Sort for simulation
 dSimPrep <- dSimPrep[order(dSimPrep$ID, dSimPrep$TIME), ]
 
@@ -81,6 +81,15 @@ plot(dSim, ipredSim) + xlab("Time (hr)") + ylab("PK")
 ```
 
 ## Modify the model to adjust doses based on a theoretical adverse event
+
+An important part of the model below is that the value must be reassigned to
+itself to have the value persist.  In the model below, it is done with the line
+`hasAE <- hasAE`.
+
+If the model has an infusion for the dose, then the adjustment of
+bioavailability will change the amount and the duration.  (That method of
+changing bioavailablity is standard for `rxode2` models, not specific to this
+example.)
 
 ```{r model-setup-titrated}
 one.compartment.titrated <- function() {
@@ -106,6 +115,10 @@ one.compartment.titrated <- function() {
       hasAE <- 1
     } else if (CheckAE == 1) {
       hasAE <- cp > 0.5
+    } else {
+      # Assign the current value to itself, otherwise the initial value assigned
+      # will remain assigned.
+      hasAE <- hasAE
     }
     # A subject gets half a dose if they are having an AE
     fDepot <- 1 - hasAE * 0.5
@@ -120,6 +133,24 @@ dSimTitrated <- nlmixr2(one.compartment.titrated, dSimPrep, est="rxSolve")
 The simulated results are shown below.
 
 ```{r fig-sim-titrated}
-ggplot(dSimTitrated, aes(x = time, y = ipredSim, group = id, col=factor(hasAE))) +
-  geom_line(alpha=0.5)
+ggplot(dSimTitrated, aes(x = time, y = ipredSim, group = id, col=factor(hasAE, labels = c("No", "Yes")))) +
+  geom_line(alpha=0.5) +
+  geom_hline(yintercept = 0.5) +
+  labs(
+    colour = "Has AE?"
+  )
+```
+
+The results are clearer when just the subjects who had no AE at some time are
+shown.
+
+```{r fig-sim-titrated-subset}
+dSimTitratedAEChange <- dSimTitrated[dSimTitrated$id %in% dSimTitrated$id[dSimTitrated$hasAE == 0], ]
+
+ggplot(dSimTitratedAEChange, aes(x = time, y = ipredSim, group = id, col=factor(hasAE, labels = c("No", "Yes")))) +
+  geom_line(alpha=0.5) +
+  geom_hline(yintercept = 0.5) +
+  labs(
+    colour = "Has AE?"
+  )
 ```
