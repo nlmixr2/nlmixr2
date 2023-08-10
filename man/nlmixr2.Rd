@@ -47,6 +47,51 @@ and pharmacokinetic-pharmacodynamic (PKPD) models.
 \details{
 The nlmixr2 generalized function allows common access to the nlmixr2
 estimation routines.
+
+The nlmixr object has the following fields:\tabular{ll}{
+   Field \tab Description \cr
+   conditionNumber \tab Condition number, that is the highest divided by the lowest eigenvalue in the population covariance matrix \cr
+   cor \tab Correlation matrix \cr
+   phiR \tab correlation matrix of each individual’s eta (if present) \cr
+   objDF \tab Data frame containing objective function information (AIC, BIC, etc.) \cr
+   time \tab Duration of different parts of the analysis (e.g. setup, optimization, calculation of covariance, etc.) \cr
+   theta \tab Estimates for eta for each individual \cr
+   etaObf \tab Estimates for eta for each individual, This also includes the objective function for each individual \cr
+   fixef \tab Estimates of fixed effects \cr
+   foceiControl \tab Estimation options if focei was used \cr
+   ui \tab Final estimates for the model \cr
+   dataMergeFull \tab Full data merge with the fit output and the original dataset; Also includes nlmixrLlikObs which includes the individual observation contribution to the likelihood \cr
+   censInfo \tab Gives the censorng information abot the fit (the type of censoring that was seend and handled in the dataset) \cr
+   dataLloq \tab Gives the lloq from the dataset (average) when cesoring has occured; Requires the fit to have a table step \cr
+   dataUloq \tab Gives the uloq from the dataset (average) when censoring has occured; requires the fit to have a table step \cr
+   eta \tab IIV values for each indiviudal \cr
+   dataMergeInner \tab Inner data merge with the fit output and the original dataset; Also includes nlmixrLlikObs which includes the individual observation contribution to the likelihood \cr
+   rxControl \tab Integration options used to control rxode2 \cr
+   dataMergeLeft \tab Left data merge with the fit output and the original dataset; Also includes nlmixrLlikObs which includes the individual observation contribution to the likelihood \cr
+   omega \tab Matrix containing the estimates of the multivarte normal covariance matrix for between subject varaibilities (omega) \cr
+   covMethod \tab Method used to calculate covariance of the fixed effects \cr
+   modelName \tab Name of the R object containing the model \cr
+   origData \tab Original dataset \cr
+   phiRSE \tab Relative standard error of each individuals eta \cr
+   dataMergeRight \tab Right data merge with the fit output and the original dataset; Also includes nlmixrLlikObs which includes the individual observation contribution to the likelihood \cr
+   ipredModel \tab rxode2 estimation model for fit (internal will likely be removed from visibility \cr
+   phiSE \tab Standard error of each individuals eta \cr
+   parFixed \tab Table of parameter estimates (rounded and pretty looking) \cr
+   parFixedDF \tab Table of parameter estimates as a data frame \cr
+   omegaR \tab The correlation matirx of omega with standard deviations for the diagonal pieces \cr
+   iniUi \tab The initial model used to start the estimation \cr
+   finalUi \tab The model with the estimates replaced as values \cr
+   scaleInfo \tab The scaling factors used for nlmixr2 estimation in focei; The can be changed by foceiControl(scaleC=…) if you think these are unreasonable. It also tells the Gill83 outcome of trying to find the best step size (High gradient error, bad gradient etc) \cr
+   table \tab These are the table options that were used when generating the table output (were CWRES included, etc \cr
+   shrink \tab This is a table of shrinkages for all the individual ETAs as well as the variance shrinkage as well as summary statistics for the ETAs and Residual Error \cr
+   env \tab This is the environment where all the information for the fit is stored outside of the data-frame. It is an R environment hence $env \cr
+   seed \tab This is the initial seed used for saem \cr
+   simInfo \tab This returns a list of all the fit information used for a traditional rxode2 simulation, which you can tweak yourself if you wish \cr
+   runInfo \tab This returns a list of all the warnings or fit information \cr
+   parHistStacked \tab Value of objective function and parameters at each iteration (tall format) \cr
+   parHist \tab Value of objective function and parameters at each iteration (wide format) \cr
+   cov \tab Variance-covariance matrix \cr
+}
 }
 \section{nlmixr modeling mini-language}{
 

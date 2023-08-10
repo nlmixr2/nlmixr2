@@ -783,6 +783,10 @@ Optimization.
 \code{\link[n1qn1]{n1qn1}}
 
 \code{\link[rxode2]{rxSolve}}
+
+Other Estimation control: 
+\code{\link[nlmixr2est]{nlmixr2NlmeControl}()},
+\code{\link[nlmixr2est]{saemControl}()}
 }
 \author{
 Matthew L. Fidler
