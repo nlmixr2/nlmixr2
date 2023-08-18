@@ -137,7 +137,7 @@ fields.
 
 Model specifications for nlmixr are written using functions containing
 `ini` and `model` blocks. These functions can be called anything, but
-must contain these two components. Let's look at a very simple
+often contain these two components. Let's look at a very simple
 one-compartment model with no covariates.
 
 ```r
@@ -205,7 +205,7 @@ name. Please note that:
 * Variable names that start with `_` are not supported. Note that R
   does not allow variable starting with `_` to be assigned without
   quoting them.
-* Naming variables that start with `rx_` or `nlmixr_` is not allowed,
+* Naming variables that start with `rx` or `nlmixr` is not suggested,
   since `rxode2()` and nlmixr use these prefixes internally for certain
   estimation routines and for calculating residuals.
 * Variable names are case-sensitive, just like they are in R. `CL` is
@@ -226,9 +226,9 @@ the between-subject error distribution...
 ```r
 f <- function() {
   ini({
-    lCl <- 1.6      # log Cl (L/hr)
-    lVc = log(90)   # log V (L)
-    lKa <- 1        # log Ka (1/hr)
+    lCl <- 1.6      ; label("log Cl (L/hr)")
+    lVc = log(90)   ; label("log V (L)")
+    lKa <- 1        ; label("log Ka (1/hr)")
     prop.err <- c(0, 0.2, 1)
     
     # Initial estimate for ka IIV variance
@@ -254,17 +254,15 @@ f <- function() {
 As shown in the above example: 
 
 * Simple variances are specified by the variable name and the estimate
-  separated by `~`.
-*	Correlated parameters are specified by the sum of the variable
+  separated by `~`
+* Correlated parameters are specified by the sum of the variable
   labels and then the lower triangular matrix of the covariance is
   specified on the left handed side of the equation. This is also
   separated by `~`.
-*	The initial estimates are specified on the variance scale, and in
-  analogy with NONMEM, the square roots of the diagonal elements
-  correspond to coefficients of variation when used in the
-  exponential IIV implementation.
-
-Currently, comments inside the lower triangular matrix are not allowed. 
+*  The initial estimates are specified on the variance scale, and in
+   analogy with NONMEM, the square roots of the diagonal elements
+   correspond to coefficients of variation when used in the
+   exponential IIV implementation.
 
 
 ### The model block
@@ -383,9 +381,9 @@ below:
 ```{r}
 f <- function(){
   ini({
-    lCl <- 1.6      #log Cl (L/hr)
-    lVc <- log(90)  #log Vc (L)
-    lKA <- 0.1      #log Ka (1/hr)
+    lCl <- 1.6      ; label("log Cl (L/hr)")
+    lVc <- log(90)  ; label("log Vc (L)")
+    lKA <- 0.1      ; label("log Ka (1/hr)")
     prop.err <- c(0, 0.2, 1)
     eta.Cl ~ 0.1   # BSV Cl
     eta.Vc ~ 0.1   # BSV Vc
@@ -409,19 +407,17 @@ f <- function(){
 
 A few things to keep in mind:
 
-*	Currently the solved systems support either oral dosing, IV dosing
-  or IV infusion dosing and does not allow mixing the dosing types.
-*	While `rxode2()` allows mixing of solved systems and ODEs, this has not
-  been implemented in nlmixr yet.
 *	The solved systems implemented are the one, two and three
-  compartment models with or without first-order absorption. Each
-  of the models support a lag time with a tlag parameter.
+     compartment models with or without first-order absorption. Each
+     of the models support a lag time with a tlag parameter.
 *	In general the linear compartment model figures out the model by
-  the parameter names. nlmixr currently knows about numbered
-  volumes, `Vc`/`Vp`, Clearances in terms of both `Cl` and
-  `Q`/`CLD`. Additionally nlmixr knows about elimination
-  micro-constants (ie `K12`). Mixing of these parameters for these
-  models is currently not supported.
+     the parameter names. `nlmixr2` currently knows about numbered
+     volumes, `Vc`/`Vp`, Clearances in terms of both `Cl` and
+     `Q`/`CLD`. Additionally nlmixr knows about elimination
+     micro-constants (ie `K12`). Mixing of these parameters for these
+     models is currently not supported.
+     
+For the most up-to-date information about `linCmt()` models see the [rxode2 documentation](https://nlmixr2.github.io/rxode2/articles/rxode2-model-types.html#solved-compartment-models).
 
 ## Checking model syntax 
 
