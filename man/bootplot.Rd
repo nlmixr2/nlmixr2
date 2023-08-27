@@ -13,20 +13,11 @@ bootplot(x, ...)
 }
 \value{
 Fit traceplot or nothing.
-
-Fit traceplot or nothing.
 }
 \description{
 Produce delta objective function for boostrap
-
-Produce delta objective function for boostrap
 }
 \references{
-R Niebecker,  MO Karlsson. (2013)
-\emph{Are datasets for NLME models large enough for a bootstrap to provide reliable parameter uncertainty distributions?}
-PAGE 2013.
-\url{https://www.page-meeting.org/?abstract=2899}
-
 R Niebecker,  MO Karlsson. (2013)
 \emph{Are datasets for NLME models large enough for a bootstrap to provide reliable parameter uncertainty distributions?}
 PAGE 2013.

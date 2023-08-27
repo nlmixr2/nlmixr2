@@ -60,6 +60,10 @@ rxode2::rxClean
 #' @export
 rxode2::rxCat
 
+#' @importFrom rxode2 rxSetPipingAuto
+#' @export
+rxode2::rxSetPipingAuto
+
 #' @importFrom rxode2 eventTable
 #' @export
 rxode2::eventTable
