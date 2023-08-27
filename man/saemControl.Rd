@@ -38,6 +38,7 @@ saemControl(
   sigdigTable = NULL,
   ci = 0.95,
   muRefCov = TRUE,
+  muRefCovAlg = TRUE,
   ...
 )
 }
@@ -191,11 +192,11 @@ exploration of the likelihood surface.}
 solving requests.  When specified this controls the relative and
 absolute tolerances of the ODE solvers.  By default the tolerance
 is \code{0.5*10^(-sigdig-2)} for regular ODEs. For the
-sensitivity equations the default is \code{0.5*10^(-sigdig-1.5)}
+sensitivity equations the default is \verb{0.5*10\\^(-sigdig-1.5)}
 (sensitivity changes only applicable for liblsoda).  This also
 controls the \code{atol}/\code{rtol} of the steady state solutions. The
-\code{ssAtol}/\code{ssRtol} is \code{0.5*10^(-sigdig)} and for the sensitivities
-\code{0.5*10^(-sigdig+0.625)}.  By default
+\code{ssAtol}/\code{ssRtol} is \verb{0.5*10\\^(-sigdig)} and for the sensitivities
+\verb{0.5*10\\^(-sigdig+0.625)}.  By default
 this is unspecified (\code{NULL}) and uses the standard \code{atol}/\code{rtol}.}
 
 \item{sigdigTable}{Significant digits in the final output table.
@@ -210,6 +211,24 @@ are handled differently than non mu-referenced covariates.  When
 `TRUE`, mu-referenced covariates have special handling.  When
 `FALSE` mu-referenced covariates are treated the same as any
 other input parameter.}
+
+\item{muRefCovAlg}{This controls if algebraic expressions that can
+  be mu-referenced are treated as mu-referenced covariates by:
+
+  1. Creating a internal data-variable `nlmixrMuDerCov#` for each
+     algebraic mu-referenced expression
+
+  2. Change the algebraic expression to `nlmixrMuDerCov# * mu_cov_theta`
+
+  3. Use the internal mu-referenced covariate for saem
+
+  4. After optimization is completed, replace `model({})` with old
+  `model({})` expression
+
+  5. Remove `nlmixrMuDerCov#` from nlmix2 output
+
+In general, these covariates should be more accurate since it
+changes the system to a linear compartment model.  Therefore, by default this is `TRUE`.}
 
 \item{...}{Additional arguments passed to \code{\link[nlmixr2est:saemControl]{nlmixr2est::saemControl()}}.}
 }

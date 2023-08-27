@@ -81,6 +81,7 @@
                                  "rxode2::rxSolve",
                                  "rxode2::rxClean",
                                  "rxode2::rxCat",
+                                 "rxode2::rxSetPipingAuto",
                                  "rxode2::eventTable",
                                  "rxode2::add.dosing",
                                  "rxode2::add.sampling",
