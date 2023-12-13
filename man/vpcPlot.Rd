@@ -45,7 +45,7 @@ default is the fitted data, (can be retrieved by
 \code{\link[nlme]{getData}}), but it can be changed by specifying
 this argument.}
 
-\item{n}{Number of VPC simulations}
+\item{n}{Number of VPC simulations.  By default 100}
 
 \item{bins}{either "density", "time", or "data", "none", or one of the approaches available in classInterval() such as "jenks" (default) or "pretty", or a numeric vector specifying the bin separators.}
 
@@ -117,13 +117,17 @@ VPC based on ui model
 \donttest{
 one.cmt <- function() {
  ini({
-   tka <- 0.45; label("Ka")
-   tcl <- log(c(0, 2.7, 100)); label("Cl")
-   tv <- 3.45; label("V")
+   ## You may label each parameter with a comment
+   tka <- 0.45 # Log Ka
+   tcl <- log(c(0, 2.7, 100)) # Log Cl
+   ## This works with interactive models
+   ## You may also label the preceding line with label("label text")
+   tv <- 3.45; label("log V")
+   ## the label("Label name") works with all models
    eta.ka ~ 0.6
    eta.cl ~ 0.3
    eta.v ~ 0.1
-   add.sd <- 0.7; label("Additive residual error")
+   add.sd <- 0.7
  })
  model({
    ka <- exp(tka + eta.ka)
@@ -133,15 +137,10 @@ one.cmt <- function() {
  })
 }
 
-fit <-
-  nlmixr2est::nlmixr(
-    one.cmt,
-    data = nlmixr2data::theo_sd,
-    est="focei",
-    control=list(print = 0)
-  )
+fit <- nlmixr2est::nlmixr(one.cmt, nlmixr2data::theo_sd, est="focei")
 
 vpcPlot(fit)
+
 }
 }
 \author{

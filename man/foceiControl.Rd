@@ -173,14 +173,15 @@ value.  By default this is 0 (meaning do not scale)}
 
     In general, all all scaling formula can be described by:
 
-    v_{scaled} = (v_{unscaled}-C_{1})/C_{2}
+    \deqn{v_{scaled}}{Vscaled} = (\deqn{v_{unscaled}-C_{1}}{Vunscaled-C1})/\deqn{C_{2}}{C2}
+
 
     Where
 
 
     The other data normalization approaches follow the following formula
 
-    v_{scaled} = (v_{unscaled}-C_{1})/C_{2};
+    \deqn{v_{scaled}}{Vscaled} = (\deqn{v_{unscaled}-C_{1}}{Vunscaled-C1})/\deqn{C_{2}}{C2}
 
 \itemize{
 
@@ -188,49 +189,49 @@ value.  By default this is 0 (meaning do not scale)}
     The relative differences between the parameters are preserved
     with this approach and the constants are:
 
-    C_{1} = (max(all unscaled values)+min(all unscaled values))/2
+    \deqn{C_{1}}{C1} = (max(all unscaled values)+min(all unscaled values))/2
 
-    C_{2} = (max(all unscaled values) - min(all unscaled values))/2
+    \deqn{C_{2}}{C2} = (max(all unscaled values) - min(all unscaled values))/2
 
 
 \item \code{rescale} or min-max normalization. This rescales all
     parameters from (0 to 1).  As in the \code{rescale2} the
     relative differences are preserved.  In this approach:
 
-    C_{1} = min(all unscaled values)
+    \deqn{C_{1}}{C1} = min(all unscaled values)
 
-    C_{2} = max(all unscaled values) - min(all unscaled values)
+    \deqn{C_{2}}{C2} = max(all unscaled values) - min(all unscaled values)
 
 
 \item \code{mean} or mean normalization.  This rescales to center
     the parameters around the mean but the parameters are from 0
     to 1.  In this approach:
 
-    C_{1} = mean(all unscaled values)
+    \deqn{C_{1}}{C1} = mean(all unscaled values)
 
-    C_{2} = max(all unscaled values) - min(all unscaled values)
+    \deqn{C_{2}}{C2} = max(all unscaled values) - min(all unscaled values)
 
 \item \code{std} or standardization.  This standardizes by the mean
      and standard deviation.  In this approach:
 
-    C_{1} = mean(all unscaled values)
+    \deqn{C_{1}}{C1} = mean(all unscaled values)
 
-    C_{2} = sd(all unscaled values)
+    \deqn{C_{2}}{C2} = sd(all unscaled values)
 
 \item \code{len} or unit length scaling.  This scales the
    parameters to the unit length.  For this approach we use the Euclidean length, that
    is:
 
-    C_{1} = 0
+    \deqn{C_{1}}{C1} = 0
 
-    C_{2} = sqrt(v_1^2 + v_2^2 + ... + v_n^2)
+    \deqn{C_{2}}{C2} = \deqn{\sqrt(v_1^2 + v_2^2 + \cdots + v_n^2)}{sqrt(v_1^2 + v_2^2 + ... + v_n^2)}
 
 
 \item \code{constant} which does not perform data normalization. That is
 
-    C_{1} = 0
+    \deqn{C_{1}}{C1} = 0
 
-    C_{2} = 1
+    \deqn{C_{2}}{C2} = 1
 
 }}
 
@@ -239,7 +240,7 @@ value.  By default this is 0 (meaning do not scale)}
 \itemize{
 \item \code{nlmixr2}  In this approach the scaling is performed by the following equation:
 
-   v_{scaled} = (v_{current} - v_{init})/scaleC[i] + scaleTo
+   \deqn{v_{scaled}}{Vscaled} = (\deqn{v_{current} - v_{init}}{Vcurrent - Vinit})*scaleC[i] + scaleTo
 
 The \code{scaleTo} parameter is specified by the \code{normType},
 and the scales are specified by \code{scaleC}.
@@ -254,18 +255,18 @@ argument.
 
   In this case:
 
-  v_{scaled} = v_{current}/v_{init}*scaleTo
+  \deqn{v_{scaled}}{Vscaled} = \deqn{v_{current}}{Vcurrent}/\deqn{v_{init}}{Vinit}*scaleTo
 
 \item \code{multAdd} This approach changes the scaling based on
 the parameter being specified.  If a parameter is defined in an
 exponential block (ie exp(theta)), then it is scaled on a
 linearly, that is:
 
-  v_{scaled} = (v_{current}-v_{init}) + scaleTo
+  \deqn{v_{scaled}}{Vscaled} = (\deqn{v_{current}-v_{init}}{Vcurrent-Vinit}) + scaleTo
 
 Otherwise the parameter is scaled multiplicatively.
 
-   v_{scaled} = v_{current}/v_{init}*scaleTo
+   \deqn{v_{scaled}}{Vscaled} = \deqn{v_{current}}{Vcurrent}/\deqn{v_{init}}{Vinit}*scaleTo
 
 }}
 
@@ -707,11 +708,11 @@ function evaluation (in seconds) to start progress bars on gradient evaluations}
 
 The combined1 error type can be described by the following equation:
 
-  y = f + (a + b*f^c)*err
+  \deqn{y = f + (a + b\times f^c) \times \varepsilon}{y = f + (a + b*f^c)*err}
 
 The combined2 error model can be described by the following equation:
 
- y = f + sqrt(a^2 + b^2*(f^c)^2)*err
+ \deqn{y = f + \sqrt{a^2 + b^2\times f^{2\times c}} \times \varepsilon}{y = f + sqrt(a^2 + b^2*(f^c)^2)*err}
 
  Where:
 

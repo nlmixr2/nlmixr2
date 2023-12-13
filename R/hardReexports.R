@@ -11,9 +11,10 @@ traceplot <- function(x, ...) { # nocov start
 #' @param ... Additional arguments passed to [nlmixr2est::vpcSim()].
 #' @export
 vpcSim <- function(object, ..., keep = NULL, n = 300, pred = FALSE,
-    seed = 1009, nretry = 50, normRelated = TRUE) { # nocov start
+    seed = 1009, nretry = 50, minN = 10, normRelated = TRUE) { # nocov start
     nlmixr2est::vpcSim(object = object, ..., keep = keep, n = n,
-        pred = pred, seed = seed, nretry = nretry, normRelated = normRelated)
+        pred = pred, seed = seed, nretry = nretry, minN = minN,
+        normRelated = normRelated)
 } # nocov end
 
 #' @inherit nlmixr2plot::vpcPlot
