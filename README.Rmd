@@ -62,9 +62,8 @@ For all versions of R, we need to have a compiler setup to run `nlmixr2` and `rx
 
 ### Windows compilation tools setup 
 
-For Windows the compilers come from Rtools. For R version 4.2 and
-above you need to have Rtools42, for R-4.0.x, and R-4.1.x you need
-Rtools40. Download and the install from
+For Windows the compilers come from RTools. Download and the install the version
+of RTools for your version of R from
 https://cran.r-project.org/bin/windows/Rtools/
 
 ### Mac compilation tools setup
@@ -81,7 +80,7 @@ To setup the mac compilers, simply
 
 ## R package installation 
 
-Installation nlmixr2 itself is easiest in R-4.2.x because no further compilation
+Installation nlmixr2 itself is easiest in R-4.3.x because no further compilation
 is required and all supporting packages are available. From R, run:
 
 ``` r
