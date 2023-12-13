@@ -5,15 +5,12 @@
 
 <!--
 ## CRAN updating
-
-[![CRAN-status](https://img.shields.io/badge/CRAN-Updating-red)](https://github.com/nlmixr2/rxode2/actions/workflows/R-CMD-check.yaml)
-
-Currently we are updating `PreciseSums` on CRAN; `nlmixr2est` is
+&#10;[![CRAN-status](https://img.shields.io/badge/CRAN-Updating-red)](https://github.com/nlmixr2/rxode2/actions/workflows/R-CMD-check.yaml)
+&#10;Currently we are updating `PreciseSums` on CRAN; `nlmixr2est` is
 linked to `rxode2` which in turn is linked to `PreciseSums`.  While
 `PreciseSums`, `rxode2` and `nlmixr2est` are being submitted, the most stable
 version of `nlmixr2` comes from the `r-universe`:
-
-```r
+&#10;```r
 install.packages(c("PreciseSums", "dparser", "nlmixr2data", "lotri",
                    "rxode2ll", "rxode2parse", "rxode2random", "rxode2et",
                    "rxode2",  "nlmixr2est", "nlmixr2extra", "nlmixr2plot",
@@ -21,13 +18,9 @@ install.packages(c("PreciseSums", "dparser", "nlmixr2data", "lotri",
                  repos = c('ttps://nlmixr2.r-universe.dev',
                            'https://cloud.r-project.org'))
 ```
-
-This is temporary and should resolve itself in a couple of weeks.
-
-You could also compile from source to work around the issue.
-
--->
-
+&#10;This is temporary and should resolve itself in a couple of weeks.
+&#10;You could also compile from source to work around the issue.
+&#10;-->
 <!-- badges: start -->
 
 ![Cran updating
@@ -59,9 +52,8 @@ and `rxode2`
 
 ### Windows compilation tools setup
 
-For Windows the compilers come from Rtools. For R version 4.2 and above
-you need to have Rtools42, for R-4.0.x, and R-4.1.x you need Rtools40.
-Download and the install from
+For Windows the compilers come from RTools. Download and the install the
+version of RTools for your version of R from
 <https://cran.r-project.org/bin/windows/Rtools/>
 
 ### Mac compilation tools setup
@@ -71,15 +63,15 @@ To setup the mac compilers, simply
 1.  Install Xcode from app store
 
 2.  Install gfortran:
-    
+
     1.  Download and install from <https://mac.r-project.org/tools/>
-    
-    2.  Add gfortran directory to the path with: `export
-        PATH=$PATH:/usr/local/gfortran/bin`
+
+    2.  Add gfortran directory to the path with:
+        `export PATH=$PATH:/usr/local/gfortran/bin`
 
 ## R package installation
 
-Installation nlmixr2 itself is easiest in R-4.2.x because no further
+Installation nlmixr2 itself is easiest in R-4.3.x because no further
 compilation is required and all supporting packages are available. From
 R, run:
 
@@ -293,18 +285,6 @@ one.compartment <- function() {
 ## The fit is performed by the function nlmixr/nlmixr2 specifying the model, data and estimate
 fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 print(fit)
 #> ── nlmixr² SAEM OBJF by FOCEi approximation ──
 #> 
@@ -313,8 +293,8 @@ print(fit)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>            setup covariance  saem table compress    other
-#> elapsed 0.000967   0.007004 1.784 0.028    0.017 1.491029
+#>         setup optimize covariance saem table compress other
+#> elapsed 0.006    0.001      0.031 7.44  0.07     0.06 4.822
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
