@@ -76,6 +76,10 @@ rxode2::add.dosing
 #' @export
 rxode2::add.sampling
 
+#' @importFrom rxode2 rxFun
+#' @export
+rxode2::rxFun
+
 #' @importFrom nlmixr2est nlmixr2AllEst
 #' @export
 nlmixr2est::nlmixr2AllEst

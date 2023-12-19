@@ -1,3 +1,21 @@
+.isLatex <- function ()
+{
+  if (!("knitr" %in% loadedNamespaces())) {
+    return(FALSE)
+  }
+  get("is_latex_output", asNamespace("knitr"))()
+}
+
+.useUtf <- function() {
+  opt <- getOption("cli.unicode", NULL)
+  if (!is.null(opt)) {
+    isTRUE(opt)
+  }
+  else {
+    l10n_info()$`UTF-8` && !.isLatex()
+  }
+}
+
 #' Check your nlmixr2 installation for potential issues
 #'
 #' @examples
@@ -5,17 +23,15 @@
 #' @export
 nlmixr2CheckInstall <- function() {
   # Setup functions for reporting back to the user
-
   infoFun <- function(x) message(x, sep = "")
-  successFun <- function(x) message("\u2714", x,  sep = "")
+  successFun <- function(x) message(ifelse(.useUtf(), "\u2714", "v"), x,  sep = "")
   warningFun <- function(x) message("! ", x, sep = "")
-  hasCli <- requireNamespace("cli")
+  hasCli <- requireNamespace("cli", quietly = TRUE)
   if (hasCli) {
     infoFun <- cli::cli_alert_info
     successFun <- cli::cli_alert_success
     warningFun <- cli::cli_alert_danger
   }
-
   sysInfo <- Sys.info()
   osInfo <- sprintf("Operating system: %s %s %s", sysInfo["sysname"], sysInfo["release"], sysInfo["version"])
   infoFun(osInfo)
@@ -41,9 +57,9 @@ nlmixr2CheckInstall <- function() {
   }
   pkgNames <-
     list(
-      rxode2 = c("rxode2", "rxode2et", "rxode2parse", "rxode2ll", "rxode2random"),
-      nlmixr2 = c("nlmixr2", "nlmixr2est", "nlmixr2data"),
-      optional = c("nlmixr2lib", "nlmixr2extra", "babelmixr2")
+      rxode2 = c("rxode2", "rxode2et", "rxode2parse", "rxode2ll", "rxode2random", "lotri"),
+      nlmixr2 = c("nlmixr2", "nlmixr2est", "nlmixr2data", "nlmixr2extra", "nlmixr2plot"),
+      optional = c("nlmixr2lib", "nonmem2rx", "babelmixr2")
     )
   repos <- getOption("repos")
   if ("@CRAN@" %in% repos)  {

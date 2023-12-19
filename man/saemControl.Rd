@@ -129,11 +129,11 @@ this is \code{FALSE}.}
 
 The combined1 error type can be described by the following equation:
 
-  y = f + (a + b*f^c)*err
+  \deqn{y = f + (a + b\times f^c) \times \varepsilon}{y = f + (a + b*f^c)*err}
 
 The combined2 error model can be described by the following equation:
 
- y = f + sqrt(a^2 + b^2*(f^c)^2)*err
+ \deqn{y = f + \sqrt{a^2 + b^2\times f^{2\times c}} \times \varepsilon}{y = f + sqrt(a^2 + b^2*(f^c)^2)*err}
 
  Where:
 
