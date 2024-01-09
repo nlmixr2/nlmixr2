@@ -1,0 +1,2 @@
+- This release ensures newer versions of `rxode2` and `nlmixr2est` to maintain binary compatibility compatibility
+- This release exports more from `rxode2` for user convenience.
