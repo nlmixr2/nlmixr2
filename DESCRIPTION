@@ -1,6 +1,6 @@
 Package: nlmixr2
 Title: Nonlinear Mixed Effects Models in Population PK/PD
-Version: 2.0.9.9000
+Version: 2.1.0
 Authors@R: c(person("Matthew","Fidler", role = c("aut", "cre"), email = "matthew.fidler@gmail.com", comment=c(ORCID="0000-0001-8538-6691")),
    person("Yuan", "Xiong", role = "ctb", email = "yuan.xiong@gmail.com"),
    person("Rik", "Schoemaker", role = "ctb", email = "rik.schoemaker@occams.com", comment=c(ORCID="0000-0002-7538-3005")),
@@ -11,12 +11,12 @@ Authors@R: c(person("Matthew","Fidler", role = c("aut", "cre"), email = "matthew
    person("John", "Harrold", role="ctb", email="john.m.harrold@gmail.com"),
    person("Bill", "Denney", email="wdenney@humanpredictions.com", role="ctb", comment=c(ORCID="0000-0002-5759-428X")),
    person("Theodoros", "Papathanasiou",  role="ctb"),
-   person("Teun","Post", role = "ctb", email = "t.post@lapp.nl"),  
+   person("Teun","Post", role = "ctb", email = "t.post@lapp.nl"),
    person("Richard", "Hooijmaijers", email = "richardhooijmaijers@gmail.com", role = "ctb"))
 Description: Fit and compare nonlinear mixed-effects models in differential
     equations with flexible dosing information commonly seen in pharmacokinetics
-    and pharmacodynamics (Almquist, Leander, and Jirstrand 2015 
-    <doi:10.1007/s10928-015-9409-1>). Differential equation solving is 
+    and pharmacodynamics (Almquist, Leander, and Jirstrand 2015
+    <doi:10.1007/s10928-015-9409-1>). Differential equation solving is
     by compiled C code provided in the 'rxode2' package
     (Wang, Hallow, and James 2015 <doi:10.1002/psp4.12052>).
 License: GPL (>= 3)
@@ -24,9 +24,9 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Imports:
-    nlmixr2est (>= 2.1.1),
+    nlmixr2est (>= 2.2.0),
     nlmixr2extra,
-    rxode2 (>= 2.0.10),
+    rxode2 (>= 2.1.1),
     lotri,
     nlmixr2plot,
     magrittr,
