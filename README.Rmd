@@ -60,7 +60,7 @@ nlmixr2, please see the [nlmixr2 blog](https://blog.nlmixr2.org/).
 
 For all versions of R, we need to have a compiler setup to run `nlmixr2` and `rxode2`
 
-### Windows compilation tools setup 
+### Windows compilation tools setup
 
 For Windows the compilers come from RTools. Download and the install the version
 of RTools for your version of R from
@@ -75,10 +75,10 @@ To setup the mac compilers, simply
 2. Install gfortran:
 
    a. Download and install from https://mac.r-project.org/tools/
-   
+
    b. Add gfortran directory to the path with: `export PATH=$PATH:/usr/local/gfortran/bin`
 
-## R package installation 
+## R package installation
 
 Installation nlmixr2 itself is easiest in R-4.3.x because no further compilation
 is required and all supporting packages are available. From R, run:
@@ -299,8 +299,8 @@ print(fit)
 
 ## Base R Graphics
 
-You can use base plots with the fit and it will produce a standard set of
-goodness of fit plots:
+You can use the built-in `plot` with the fit and it will produce a
+standard set of goodness of fit plots:
 
 ```{r base-r-plot, eval=FALSE}
 pdf(file="myplots.pdf")
