@@ -1,4 +1,6 @@
-# nlmixr2 (development version)
+# nlmixr2 2.1.1
+
+* Work with systems (like intel c++) where linCmt() linear compartmental models do not have gradients.
 
 # nlmixr2 2.1.0
 
