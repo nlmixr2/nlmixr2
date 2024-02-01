@@ -41,6 +41,7 @@ Suggests:
     ggplot2,
     testthat,
     n1qn1,
+    rxode2parse,
     withr
 BugReports: https://github.com/nlmixr2/nlmixr2/issues/
 URL: https://nlmixr2.org/, https://github.com/nlmixr2/nlmixr2/
