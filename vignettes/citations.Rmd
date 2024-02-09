@@ -2,8 +2,6 @@
 title: "nlmixr2 Citations"
 date: "2024-02-09"
 output: html_document
-bibliography: citations.bib
-csl: vancouver.csl
 ---
 
 ## Citations
