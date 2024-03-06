@@ -78,6 +78,9 @@ Kovács L, Ferenci T, Gombos B, Füredi A, Rudas I, Szakács G, et al. **Positiv
 
 Lepak AJ, VanScoy B, Rubino C, Ambrose PG, Andes DR. **In vivo pharmacodynamic characterization of a next-generation polyene, SF001, in the invasive pulmonary aspergillosis mouse model.** Antimicrobial Agents and Chemotherapy. 2024 Feb 6;0(0):e01631-23. [10.1128/aac.01631-23](https://journals.asm.org/doi/10.1128/aac.01631-23)
 
+Standing JF, Buggiotti L, Guerra-Assuncao JA, Woodall M, Ellis S, Agyeman AA, et al. **Randomized controlled trial of molnupiravir SARS-CoV-2 viral and antibody response in at-risk adult outpatients.** Nat Commun. 2024 Feb 23;15(1):1652. [10.1038/s41467-024-45641-0](https://doi.org/10.1038/s41467-024-45641-0)
+
+
 ### Conference Proceedings
 
 #### 2016
