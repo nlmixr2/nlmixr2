@@ -217,6 +217,297 @@ tableControl <- function(npde = NULL, cwres = NULL, nsim = 300,
         keep = keep, drop = drop)
 } # nocov end
 
+#' @inherit nlmixr2est::bobyqaControl
+#' @param ... Additional arguments passed to [nlmixr2est::bobyqaControl()].
+#' @export
+bobyqaControl <- function(npt = NULL, rhobeg = NULL, rhoend = NULL,
+    iprint = 0L, maxfun = 100000L, returnBobyqa = FALSE, stickyRecalcN = 4,
+    maxOdeRecalc = 5, odeRecalcFactor = 10^(0.5), useColor = crayon::has_color(),
+    printNcol = floor((getOption("width") - 23)/12), print = 1L,
+    normType = c("rescale2", "mean", "rescale", "std", "len",
+        "constant"), scaleType = c("nlmixr2", "norm", "mult",
+        "multAdd"), scaleCmax = 1e+05, scaleCmin = 1e-05, scaleC = NULL,
+    scaleTo = 1, rxControl = NULL, optExpression = TRUE, sumProd = FALSE,
+    addProp = c("combined2", "combined1"), calcTables = TRUE,
+    compress = TRUE, covMethod = c("r", ""), adjObf = TRUE, ci = 0.95,
+    sigdig = 4, sigdigTable = NULL, ...) { # nocov start
+    nlmixr2est::bobyqaControl(npt = npt, rhobeg = rhobeg, rhoend = rhoend,
+        iprint = iprint, maxfun = maxfun, returnBobyqa = returnBobyqa,
+        stickyRecalcN = stickyRecalcN, maxOdeRecalc = maxOdeRecalc,
+        odeRecalcFactor = odeRecalcFactor, useColor = useColor,
+        printNcol = printNcol, print = print, normType = normType,
+        scaleType = scaleType, scaleCmax = scaleCmax, scaleCmin = scaleCmin,
+        scaleC = scaleC, scaleTo = scaleTo, rxControl = rxControl,
+        optExpression = optExpression, sumProd = sumProd, addProp = addProp,
+        calcTables = calcTables, compress = compress, covMethod = covMethod,
+        adjObf = adjObf, ci = ci, sigdig = sigdig, sigdigTable = sigdigTable,
+        ...)
+} # nocov end
+
+#' @inherit nlmixr2est::lbfgsb3cControl
+#' @param ... Additional arguments passed to [nlmixr2est::lbfgsb3cControl()].
+#' @export
+lbfgsb3cControl <- function(trace = 0, factr = 1e+07, pgtol = 0,
+    abstol = 0, reltol = 0, lmm = 5L, maxit = 10000L, returnLbfgsb3c = FALSE,
+    stickyRecalcN = 4, maxOdeRecalc = 5, odeRecalcFactor = 10^(0.5),
+    useColor = crayon::has_color(), printNcol = floor((getOption("width") -
+        23)/12), print = 1L, normType = c("rescale2", "mean",
+        "rescale", "std", "len", "constant"), scaleType = c("nlmixr2",
+        "norm", "mult", "multAdd"), scaleCmax = 1e+05, scaleCmin = 1e-05,
+    scaleC = NULL, scaleTo = 1, gradTo = 1, rxControl = NULL,
+    optExpression = TRUE, sumProd = FALSE, addProp = c("combined2",
+        "combined1"), calcTables = TRUE, compress = TRUE, covMethod = c("r",
+        ""), adjObf = TRUE, ci = 0.95, sigdig = 4, sigdigTable = NULL,
+    ...) { # nocov start
+    nlmixr2est::lbfgsb3cControl(trace = trace, factr = factr,
+        pgtol = pgtol, abstol = abstol, reltol = reltol, lmm = lmm,
+        maxit = maxit, returnLbfgsb3c = returnLbfgsb3c, stickyRecalcN = stickyRecalcN,
+        maxOdeRecalc = maxOdeRecalc, odeRecalcFactor = odeRecalcFactor,
+        useColor = useColor, printNcol = printNcol, print = print,
+        normType = normType, scaleType = scaleType, scaleCmax = scaleCmax,
+        scaleCmin = scaleCmin, scaleC = scaleC, scaleTo = scaleTo,
+        gradTo = gradTo, rxControl = rxControl, optExpression = optExpression,
+        sumProd = sumProd, addProp = addProp, calcTables = calcTables,
+        compress = compress, covMethod = covMethod, adjObf = adjObf,
+        ci = ci, sigdig = sigdig, sigdigTable = sigdigTable,
+        ...)
+} # nocov end
+
+#' @inherit nlmixr2est::n1qn1Control
+#' @param ... Additional arguments passed to [nlmixr2est::n1qn1Control()].
+#' @export
+n1qn1Control <- function(epsilon = (.Machine$double.eps)^0.25,
+    max_iterations = 10000, nsim = 10000, imp = 0, print.functions = FALSE,
+    returnN1qn1 = FALSE, stickyRecalcN = 4, maxOdeRecalc = 5,
+    odeRecalcFactor = 10^(0.5), useColor = crayon::has_color(),
+    printNcol = floor((getOption("width") - 23)/12), print = 1L,
+    normType = c("rescale2", "mean", "rescale", "std", "len",
+        "constant"), scaleType = c("nlmixr2", "norm", "mult",
+        "multAdd"), scaleCmax = 1e+05, scaleCmin = 1e-05, scaleC = NULL,
+    scaleTo = 1, gradTo = 1, rxControl = NULL, optExpression = TRUE,
+    sumProd = FALSE, addProp = c("combined2", "combined1"), calcTables = TRUE,
+    compress = TRUE, covMethod = c("r", "n1qn1", ""), adjObf = TRUE,
+    ci = 0.95, sigdig = 4, sigdigTable = NULL, ...) { # nocov start
+    nlmixr2est::n1qn1Control(epsilon = epsilon, max_iterations = max_iterations,
+        nsim = nsim, imp = imp, print.functions = print.functions,
+        returnN1qn1 = returnN1qn1, stickyRecalcN = stickyRecalcN,
+        maxOdeRecalc = maxOdeRecalc, odeRecalcFactor = odeRecalcFactor,
+        useColor = useColor, printNcol = printNcol, print = print,
+        normType = normType, scaleType = scaleType, scaleCmax = scaleCmax,
+        scaleCmin = scaleCmin, scaleC = scaleC, scaleTo = scaleTo,
+        gradTo = gradTo, rxControl = rxControl, optExpression = optExpression,
+        sumProd = sumProd, addProp = addProp, calcTables = calcTables,
+        compress = compress, covMethod = covMethod, adjObf = adjObf,
+        ci = ci, sigdig = sigdig, sigdigTable = sigdigTable,
+        ...)
+} # nocov end
+
+#' @inherit nlmixr2est::newuoaControl
+#' @param ... Additional arguments passed to [nlmixr2est::newuoaControl()].
+#' @export
+newuoaControl <- function(npt = NULL, rhobeg = NULL, rhoend = NULL,
+    iprint = 0L, maxfun = 100000L, returnNewuoa = FALSE, stickyRecalcN = 4,
+    maxOdeRecalc = 5, odeRecalcFactor = 10^(0.5), useColor = crayon::has_color(),
+    printNcol = floor((getOption("width") - 23)/12), print = 1L,
+    normType = c("rescale2", "mean", "rescale", "std", "len",
+        "constant"), scaleType = c("nlmixr2", "norm", "mult",
+        "multAdd"), scaleCmax = 1e+05, scaleCmin = 1e-05, scaleC = NULL,
+    scaleTo = 1, rxControl = NULL, optExpression = TRUE, sumProd = FALSE,
+    addProp = c("combined2", "combined1"), calcTables = TRUE,
+    compress = TRUE, covMethod = c("r", ""), adjObf = TRUE, ci = 0.95,
+    sigdig = 4, sigdigTable = NULL, ...) { # nocov start
+    nlmixr2est::newuoaControl(npt = npt, rhobeg = rhobeg, rhoend = rhoend,
+        iprint = iprint, maxfun = maxfun, returnNewuoa = returnNewuoa,
+        stickyRecalcN = stickyRecalcN, maxOdeRecalc = maxOdeRecalc,
+        odeRecalcFactor = odeRecalcFactor, useColor = useColor,
+        printNcol = printNcol, print = print, normType = normType,
+        scaleType = scaleType, scaleCmax = scaleCmax, scaleCmin = scaleCmin,
+        scaleC = scaleC, scaleTo = scaleTo, rxControl = rxControl,
+        optExpression = optExpression, sumProd = sumProd, addProp = addProp,
+        calcTables = calcTables, compress = compress, covMethod = covMethod,
+        adjObf = adjObf, ci = ci, sigdig = sigdig, sigdigTable = sigdigTable,
+        ...)
+} # nocov end
+
+#' @inherit nlmixr2est::nlmControl
+#' @param ... Additional arguments passed to [nlmixr2est::nlmControl()].
+#' @export
+nlmControl <- function(typsize = NULL, fscale = 1, print.level = 0,
+    ndigit = NULL, gradtol = 1e-06, stepmax = NULL, steptol = 1e-06,
+    iterlim = 10000, check.analyticals = FALSE, returnNlm = FALSE,
+    solveType = c("hessian", "grad", "fun"), stickyRecalcN = 4,
+    maxOdeRecalc = 5, odeRecalcFactor = 10^(0.5), eventType = c("central",
+        "forward"), shiErr = (.Machine$double.eps)^(1/3), shi21maxFD = 20L,
+    optimHessType = c("central", "forward"), hessErr = (.Machine$double.eps)^(1/3),
+    shi21maxHess = 20L, useColor = crayon::has_color(), printNcol = floor((getOption("width") -
+        23)/12), print = 1L, normType = c("rescale2", "mean",
+        "rescale", "std", "len", "constant"), scaleType = c("nlmixr2",
+        "norm", "mult", "multAdd"), scaleCmax = 1e+05, scaleCmin = 1e-05,
+    scaleC = NULL, scaleTo = 1, gradTo = 1, rxControl = NULL,
+    optExpression = TRUE, sumProd = FALSE, addProp = c("combined2",
+        "combined1"), calcTables = TRUE, compress = TRUE, covMethod = c("r",
+        "nlm", ""), adjObf = TRUE, ci = 0.95, sigdig = 4, sigdigTable = NULL,
+    ...) { # nocov start
+    nlmixr2est::nlmControl(typsize = typsize, fscale = fscale,
+        print.level = print.level, ndigit = ndigit, gradtol = gradtol,
+        stepmax = stepmax, steptol = steptol, iterlim = iterlim,
+        check.analyticals = check.analyticals, returnNlm = returnNlm,
+        solveType = solveType, stickyRecalcN = stickyRecalcN,
+        maxOdeRecalc = maxOdeRecalc, odeRecalcFactor = odeRecalcFactor,
+        eventType = eventType, shiErr = shiErr, shi21maxFD = shi21maxFD,
+        optimHessType = optimHessType, hessErr = hessErr, shi21maxHess = shi21maxHess,
+        useColor = useColor, printNcol = printNcol, print = print,
+        normType = normType, scaleType = scaleType, scaleCmax = scaleCmax,
+        scaleCmin = scaleCmin, scaleC = scaleC, scaleTo = scaleTo,
+        gradTo = gradTo, rxControl = rxControl, optExpression = optExpression,
+        sumProd = sumProd, addProp = addProp, calcTables = calcTables,
+        compress = compress, covMethod = covMethod, adjObf = adjObf,
+        ci = ci, sigdig = sigdig, sigdigTable = sigdigTable,
+        ...)
+} # nocov end
+
+#' @inherit nlmixr2est::nlminbControl
+#' @param ... Additional arguments passed to [nlmixr2est::nlminbControl()].
+#' @export
+nlminbControl <- function(eval.max = 200, iter.max = 150, trace = 0,
+    abs.tol = 0, rel.tol = 1e-10, x.tol = 1.5e-08, xf.tol = 2.2e-14,
+    step.min = 1, step.max = 1, sing.tol = rel.tol, scale = 1,
+    scale.init = NULL, diff.g = NULL, rxControl = NULL, optExpression = TRUE,
+    sumProd = FALSE, returnNlminb = FALSE, solveType = c("hessian",
+        "grad", "fun"), stickyRecalcN = 4, maxOdeRecalc = 5,
+    odeRecalcFactor = 10^(0.5), eventType = c("central", "forward"),
+    shiErr = (.Machine$double.eps)^(1/3), shi21maxFD = 20L, optimHessType = c("central",
+        "forward"), hessErr = (.Machine$double.eps)^(1/3), shi21maxHess = 20L,
+    useColor = crayon::has_color(), printNcol = floor((getOption("width") -
+        23)/12), print = 1L, normType = c("rescale2", "mean",
+        "rescale", "std", "len", "constant"), scaleType = c("nlmixr2",
+        "norm", "mult", "multAdd"), scaleCmax = 1e+05, scaleCmin = 1e-05,
+    scaleC = NULL, scaleTo = 1, gradTo = 1, addProp = c("combined2",
+        "combined1"), calcTables = TRUE, compress = TRUE, covMethod = c("r",
+        "nlminb", ""), adjObf = TRUE, ci = 0.95, sigdig = 4,
+    sigdigTable = NULL, ...) { # nocov start
+    nlmixr2est::nlminbControl(eval.max = eval.max, iter.max = iter.max,
+        trace = trace, abs.tol = abs.tol, rel.tol = rel.tol,
+        x.tol = x.tol, xf.tol = xf.tol, step.min = step.min,
+        step.max = step.max, sing.tol = sing.tol, scale = scale,
+        scale.init = scale.init, diff.g = diff.g, rxControl = rxControl,
+        optExpression = optExpression, sumProd = sumProd, returnNlminb = returnNlminb,
+        solveType = solveType, stickyRecalcN = stickyRecalcN,
+        maxOdeRecalc = maxOdeRecalc, odeRecalcFactor = odeRecalcFactor,
+        eventType = eventType, shiErr = shiErr, shi21maxFD = shi21maxFD,
+        optimHessType = optimHessType, hessErr = hessErr, shi21maxHess = shi21maxHess,
+        useColor = useColor, printNcol = printNcol, print = print,
+        normType = normType, scaleType = scaleType, scaleCmax = scaleCmax,
+        scaleCmin = scaleCmin, scaleC = scaleC, scaleTo = scaleTo,
+        gradTo = gradTo, addProp = addProp, calcTables = calcTables,
+        compress = compress, covMethod = covMethod, adjObf = adjObf,
+        ci = ci, sigdig = sigdig, sigdigTable = sigdigTable,
+        ...)
+} # nocov end
+
+#' @inherit nlmixr2est::nlsControl
+#' @param ... Additional arguments passed to [nlmixr2est::nlsControl()].
+#' @export
+nlsControl <- function(maxiter = 10000, tol = 1e-05, minFactor = 1/1024,
+    printEval = FALSE, warnOnly = FALSE, scaleOffset = 0, nDcentral = FALSE,
+    algorithm = c("LM", "default", "plinear", "port"), ftol = sqrt(.Machine$double.eps),
+    ptol = sqrt(.Machine$double.eps), gtol = 0, diag = list(),
+    epsfcn = 0, factor = 100, maxfev = integer(), nprint = 0,
+    solveType = c("grad", "fun"), stickyRecalcN = 4, maxOdeRecalc = 5,
+    odeRecalcFactor = 10^(0.5), eventType = c("central", "forward"),
+    shiErr = (.Machine$double.eps)^(1/3), shi21maxFD = 20L, useColor = crayon::has_color(),
+    printNcol = floor((getOption("width") - 23)/12), print = 1L,
+    normType = c("rescale2", "mean", "rescale", "std", "len",
+        "constant"), scaleType = c("nlmixr2", "norm", "mult",
+        "multAdd"), scaleCmax = 1e+05, scaleCmin = 1e-05, scaleC = NULL,
+    scaleTo = 1, gradTo = 1, trace = FALSE, rxControl = NULL,
+    optExpression = TRUE, sumProd = FALSE, returnNls = FALSE,
+    addProp = c("combined2", "combined1"), calcTables = TRUE,
+    compress = TRUE, adjObf = TRUE, ci = 0.95, sigdig = 4, sigdigTable = NULL,
+    ...) { # nocov start
+    nlmixr2est::nlsControl(maxiter = maxiter, tol = tol, minFactor = minFactor,
+        printEval = printEval, warnOnly = warnOnly, scaleOffset = scaleOffset,
+        nDcentral = nDcentral, algorithm = algorithm, ftol = ftol,
+        ptol = ptol, gtol = gtol, diag = diag, epsfcn = epsfcn,
+        factor = factor, maxfev = maxfev, nprint = nprint, solveType = solveType,
+        stickyRecalcN = stickyRecalcN, maxOdeRecalc = maxOdeRecalc,
+        odeRecalcFactor = odeRecalcFactor, eventType = eventType,
+        shiErr = shiErr, shi21maxFD = shi21maxFD, useColor = useColor,
+        printNcol = printNcol, print = print, normType = normType,
+        scaleType = scaleType, scaleCmax = scaleCmax, scaleCmin = scaleCmin,
+        scaleC = scaleC, scaleTo = scaleTo, gradTo = gradTo,
+        trace = trace, rxControl = rxControl, optExpression = optExpression,
+        sumProd = sumProd, returnNls = returnNls, addProp = addProp,
+        calcTables = calcTables, compress = compress, adjObf = adjObf,
+        ci = ci, sigdig = sigdig, sigdigTable = sigdigTable,
+        ...)
+} # nocov end
+
+#' @inherit nlmixr2est::optimControl
+#' @param ... Additional arguments passed to [nlmixr2est::optimControl()].
+#' @export
+optimControl <- function(method = c("Nelder-Mead", "BFGS", "CG",
+    "L-BFGS-B", "SANN", "Brent"), trace = 0, fnscale = 1, parscale = 1,
+    ndeps = 0.001, maxit = 10000, abstol = 1e-08, reltol = 1e-08,
+    alpha = 1, beta = 0.5, gamma = 2, REPORT = NULL, warn.1d.NelderMead = TRUE,
+    type = NULL, lmm = 5, factr = 1e+07, pgtol = 0, temp = 10,
+    tmax = 10, stickyRecalcN = 4, maxOdeRecalc = 5, odeRecalcFactor = 10^(0.5),
+    eventType = c("central", "forward"), shiErr = (.Machine$double.eps)^(1/3),
+    shi21maxFD = 20L, solveType = c("grad", "fun"), useColor = crayon::has_color(),
+    printNcol = floor((getOption("width") - 23)/12), print = 1L,
+    normType = c("rescale2", "mean", "rescale", "std", "len",
+        "constant"), scaleType = c("nlmixr2", "norm", "mult",
+        "multAdd"), scaleCmax = 1e+05, scaleCmin = 1e-05, scaleC = NULL,
+    scaleTo = 1, gradTo = 1, rxControl = NULL, optExpression = TRUE,
+    sumProd = FALSE, returnOptim = FALSE, addProp = c("combined2",
+        "combined1"), calcTables = TRUE, compress = TRUE, covMethod = c("r",
+        "optim", ""), adjObf = TRUE, ci = 0.95, sigdig = 4, sigdigTable = NULL,
+    ...) { # nocov start
+    nlmixr2est::optimControl(method = method, trace = trace,
+        fnscale = fnscale, parscale = parscale, ndeps = ndeps,
+        maxit = maxit, abstol = abstol, reltol = reltol, alpha = alpha,
+        beta = beta, gamma = gamma, REPORT = REPORT, warn.1d.NelderMead = warn.1d.NelderMead,
+        type = type, lmm = lmm, factr = factr, pgtol = pgtol,
+        temp = temp, tmax = tmax, stickyRecalcN = stickyRecalcN,
+        maxOdeRecalc = maxOdeRecalc, odeRecalcFactor = odeRecalcFactor,
+        eventType = eventType, shiErr = shiErr, shi21maxFD = shi21maxFD,
+        solveType = solveType, useColor = useColor, printNcol = printNcol,
+        print = print, normType = normType, scaleType = scaleType,
+        scaleCmax = scaleCmax, scaleCmin = scaleCmin, scaleC = scaleC,
+        scaleTo = scaleTo, gradTo = gradTo, rxControl = rxControl,
+        optExpression = optExpression, sumProd = sumProd, returnOptim = returnOptim,
+        addProp = addProp, calcTables = calcTables, compress = compress,
+        covMethod = covMethod, adjObf = adjObf, ci = ci, sigdig = sigdig,
+        sigdigTable = sigdigTable, ...)
+} # nocov end
+
+#' @inherit nlmixr2est::uobyqaControl
+#' @param ... Additional arguments passed to [nlmixr2est::uobyqaControl()].
+#' @export
+uobyqaControl <- function(npt = NULL, rhobeg = NULL, rhoend = NULL,
+    iprint = 0L, maxfun = 100000L, returnUobyqa = FALSE, stickyRecalcN = 4,
+    maxOdeRecalc = 5, odeRecalcFactor = 10^(0.5), useColor = crayon::has_color(),
+    printNcol = floor((getOption("width") - 23)/12), print = 1L,
+    normType = c("rescale2", "mean", "rescale", "std", "len",
+        "constant"), scaleType = c("nlmixr2", "norm", "mult",
+        "multAdd"), scaleCmax = 1e+05, scaleCmin = 1e-05, scaleC = NULL,
+    scaleTo = 1, rxControl = NULL, optExpression = TRUE, sumProd = FALSE,
+    addProp = c("combined2", "combined1"), calcTables = TRUE,
+    compress = TRUE, covMethod = c("r", ""), adjObf = TRUE, ci = 0.95,
+    sigdig = 4, sigdigTable = NULL, ...) { # nocov start
+    nlmixr2est::uobyqaControl(npt = npt, rhobeg = rhobeg, rhoend = rhoend,
+        iprint = iprint, maxfun = maxfun, returnUobyqa = returnUobyqa,
+        stickyRecalcN = stickyRecalcN, maxOdeRecalc = maxOdeRecalc,
+        odeRecalcFactor = odeRecalcFactor, useColor = useColor,
+        printNcol = printNcol, print = print, normType = normType,
+        scaleType = scaleType, scaleCmax = scaleCmax, scaleCmin = scaleCmin,
+        scaleC = scaleC, scaleTo = scaleTo, rxControl = rxControl,
+        optExpression = optExpression, sumProd = sumProd, addProp = addProp,
+        calcTables = calcTables, compress = compress, covMethod = covMethod,
+        adjObf = adjObf, ci = ci, sigdig = sigdig, sigdigTable = sigdigTable,
+        ...)
+} # nocov end
+
 #' @inherit nlmixr2est::addCwres
 #' @export
 addCwres <- function(fit, focei = TRUE, updateObject = TRUE,
