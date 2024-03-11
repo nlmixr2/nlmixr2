@@ -1,5 +1,7 @@
 # nlmixr2 (development version)
 
+* Re-export the population only estimation control methods.
+
 # nlmixr2 2.1.1
 
 * Work with systems (like intel c++) where linCmt() linear compartmental models do not have gradients.
