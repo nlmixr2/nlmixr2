@@ -49,12 +49,19 @@ You could also compile from source to work around the issue.
 [![CRAN total downloads](https://cranlogs.r-pkg.org/badges/nlmixr2)](https://cran.r-project.org/package=nlmixr2)
 <!-- badges: end -->
 
-The goal of nlmixr2 is to support easy and robust nonlinear mixed effects models in R
+The vision of nlmixr2 is to develop a R-based open-source nonlinear
+mixed-effects modeling software package that can compete with
+commercial pharmacometric tools and is suitable for regulatory
+submissions.
+
+In short, the goal of nlmixr2 is to support easy and robust nonlinear
+mixed effects models in R.  This is supported by a
 
 ## Blog for more information
 
-For more information about ongoing development, best practices, and news about
-nlmixr2, please see the [nlmixr2 blog](https://blog.nlmixr2.org/).
+For more information about ongoing development, best practices, and
+news about nlmixr2, please see the [nlmixr2
+blog](https://blog.nlmixr2.org/).
 
 ## Installation
 
