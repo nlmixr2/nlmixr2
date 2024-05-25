@@ -55,7 +55,8 @@ commercial pharmacometric tools and is suitable for regulatory
 submissions.
 
 In short, the goal of nlmixr2 is to support easy and robust nonlinear
-mixed effects models in R.  This is supported by a
+mixed effects models in R.  This is supported by [our team and advisory
+committee](https://nlmixr2.org/articles/nlmixr2-team-and-advisory-committee.html)
 
 ## Blog for more information
 

@@ -44,8 +44,13 @@ downloads](https://cranlogs.r-pkg.org/badges/grand-total/nlmixr2)](https://cran.
 downloads](https://cranlogs.r-pkg.org/badges/nlmixr2)](https://cran.r-project.org/package=nlmixr2)
 <!-- badges: end -->
 
-The goal of nlmixr2 is to support easy and robust nonlinear mixed
-effects models in R
+The vision of nlmixr2 is to develop a R-based open-source nonlinear
+mixed-effects modeling software package that can compete with commercial
+pharmacometric tools and is suitable for regulatory submissions.
+
+In short, the goal of nlmixr2 is to support easy and robust nonlinear
+mixed effects models in R. This is supported by [our team and advisory
+committee](https://nlmixr2.org/articles/nlmixr2-team-and-advisory-committee.html)
 
 ## Blog for more information
 
@@ -315,8 +320,8 @@ print(fit)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>            setup covariance saem table compress    other
-#> elapsed 0.001151   0.016005 2.87 0.048    0.018 2.366844
+#>            setup covariance  saem table compress    other
+#> elapsed 0.000891   0.020004 2.792 0.043    0.017 2.397105
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 

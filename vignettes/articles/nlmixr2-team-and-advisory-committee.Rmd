@@ -1,0 +1,56 @@
+---
+title: "nlmixr2 team and advisory committee"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## The nlmixr2 team
+
+The nlmixr2 team currently has the following members:
+
+- Matt Fidler (Lead developer)
+
+- Bill Denney
+
+- John Harrold
+
+- Richard Hooijmaijers
+
+- Theodoros Papathanasiou
+
+- Rik Schoemaker
+
+- Mirjam Trame
+
+- Justin Wilkins
+
+They also have the following emeritus members:
+
+- Wenping Wang (founder of nlmixr)
+
+- Teun Post
+
+- Yuan Xiong
+
+- Huijuan Xu
+
+## The nlmixr2 advisory committee
+
+- Paolo Denti
+
+- Stephen Duffull
+
+- Marc Gastonguay
+
+- Lisa Hendricks
+
+- Manuel Ibarra
+
+- Mats Karlsson
+
+- Joseph Standing
