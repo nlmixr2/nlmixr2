@@ -80,8 +80,9 @@ To setup the mac compilers, simply
 
 ## R package installation
 
-Installation nlmixr2 itself is easiest in R-4.3.x because no further compilation
-is required and all supporting packages are available. From R, run:
+Installation nlmixr2 itself is easiest the latest version of R because
+no further compilation is required and all supporting packages are
+available. From R, run:
 
 ``` r
 install.packages("nlmixr2",dependencies = TRUE)
@@ -94,7 +95,6 @@ downgraded to run in those earlier `R` versions.  This can be done by:
 # install.packages("remotes")
 remotes::install_version("symengine", version = "0.1.6")
 ```
-
 followed by:
 
 ``` r
