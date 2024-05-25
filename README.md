@@ -78,9 +78,9 @@ To setup the mac compilers, simply
 
 ## R package installation
 
-Installation nlmixr2 itself is easiest in R-4.3.x because no further
-compilation is required and all supporting packages are available. From
-R, run:
+Installation nlmixr2 itself is easiest the latest version of R because
+no further compilation is required and all supporting packages are
+available. From R, run:
 
 ``` r
 install.packages("nlmixr2",dependencies = TRUE)
@@ -304,6 +304,9 @@ fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
 #> 
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
+```
+
+``` r
 print(fit)
 #> ── nlmixr² SAEM OBJF by FOCEi approximation ──
 #> 
@@ -312,8 +315,8 @@ print(fit)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>           setup covariance  saem table compress    other
-#> elapsed 0.00104   0.018005 2.409 0.048    0.018 2.468955
+#>            setup covariance saem table compress    other
+#> elapsed 0.001151   0.016005 2.87 0.048    0.018 2.366844
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
