@@ -1,4 +1,4 @@
-# nlmixr2 (development version)
+# nlmixr2 2.1.2
 
 * Re-export the population only estimation control methods.
 

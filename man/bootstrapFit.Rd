@@ -33,23 +33,26 @@ and other features you may wish to keep distinct in your
 bootstrap}
 
 \item{stdErrType}{This gives the standard error type for the
-updated standard errors; The current possibilities are:
-\code{"perc"} which gives the standard errors by percentiles
-(default) or \code{"se"} which gives the standard errors by the
-traditional formula.}
+updated standard errors; The current possibilities are: \code{"perc"}
+which gives the standard errors by percentiles (default), \code{"sd"}
+which gives the standard errors by the using the normal
+approximation of the mean with standard devaition, or \code{"se"}
+which uses the normal approximation with standard errors
+calculated with \code{nSampIndiv}}
 
 \item{ci}{Confidence interval level to calculate.  Default is 0.95
 for a 95 percent confidence interval}
 
 \item{pvalues}{a vector of pvalues indicating the probability of
-each subject to get selected; default value is \code{NULL} implying that
-probability of each subject is the same}
+each subject to get selected; default value is \code{NULL} implying
+that probability of each subject is the same}
 
 \item{restart}{A boolean to try to restart an interrupted or
 incomplete boostrap.  By default this is \code{FALSE}}
 
 \item{plotHist}{A boolean indicating if a histogram plot to assess
-how well the bootstrap is doing.  By default this is turned off (\code{FALSE})}
+how well the bootstrap is doing.  By default this is turned off
+(\code{FALSE})}
 
 \item{fitName}{is the fit name that is used for the name of the
 boostrap files.  By default it is the fit provided though it
