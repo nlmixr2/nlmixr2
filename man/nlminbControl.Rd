@@ -21,6 +21,7 @@ nlminbControl(
   rxControl = NULL,
   optExpression = TRUE,
   sumProd = FALSE,
+  literalFix = TRUE,
   returnNlminb = FALSE,
   solveType = c("hessian", "grad", "fun"),
   stickyRecalcN = 4,
@@ -97,6 +98,10 @@ calculation. By default this is turned on.}
 multiplication to high precision multiplication and sums to
 high precision sums using the PreciseSums package.  By default
 this is \code{FALSE}.}
+
+\item{literalFix}{boolean, substitute fixed population values as
+literals and re-adjust ui and parameter estimates after
+optimization; Default is `TRUE`.}
 
 \item{returnNlminb}{logical; when TRUE this will return the nlminb
 result instead of the nlmixr2 fit object}

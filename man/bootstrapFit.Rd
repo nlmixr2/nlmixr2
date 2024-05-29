@@ -9,7 +9,7 @@ bootstrapFit(
   nboot = 200,
   nSampIndiv,
   stratVar,
-  stdErrType = c("perc", "se"),
+  stdErrType = c("perc", "sd", "se"),
   ci = 0.95,
   pvalues = NULL,
   restart = FALSE,

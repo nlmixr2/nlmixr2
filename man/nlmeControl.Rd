@@ -24,6 +24,7 @@ nlmeControl(
   natural = TRUE,
   sigma = NULL,
   optExpression = TRUE,
+  literalFix = TRUE,
   sumProd = FALSE,
   rxControl = NULL,
   method = c("ML", "REML"),
@@ -122,6 +123,10 @@ nlmeControl(
 
 \item{optExpression}{Optimize the rxode2 expression to speed up
 calculation. By default this is turned on.}
+
+\item{literalFix}{boolean, substitute fixed population values as
+literals and re-adjust ui and parameter estimates after
+optimization; Default is `TRUE`.}
 
 \item{sumProd}{Is a boolean indicating if the model should change
 multiplication to high precision multiplication and sums to

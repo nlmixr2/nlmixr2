@@ -18,6 +18,7 @@ saemControl(
   nnodesGq = 3,
   nsdGq = 1.6,
   optExpression = TRUE,
+  literalFix = TRUE,
   adjObf = TRUE,
   sumProd = FALSE,
   addProp = c("combined2", "combined1"),
@@ -39,6 +40,7 @@ saemControl(
   ci = 0.95,
   muRefCov = TRUE,
   muRefCovAlg = TRUE,
+  handleUninformativeEtas = TRUE,
   ...
 )
 }
@@ -113,6 +115,10 @@ times the SD)}
 
 \item{optExpression}{Optimize the rxode2 expression to speed up
 calculation. By default this is turned on.}
+
+\item{literalFix}{boolean, substitute fixed population values as
+literals and re-adjust ui and parameter estimates after
+optimization; Default is `TRUE`.}
 
 \item{adjObf}{is a boolean to indicate if the objective function
 should be adjusted to be closer to NONMEM's default objective
@@ -229,6 +235,10 @@ other input parameter.}
 
 In general, these covariates should be more accurate since it
 changes the system to a linear compartment model.  Therefore, by default this is `TRUE`.}
+
+\item{handleUninformativeEtas}{boolean that tells nlmixr2's saem to
+calculate uninformative etas and handle them specially (default
+is `TRUE`).}
 
 \item{...}{Additional arguments passed to \code{\link[nlmixr2est:saemControl]{nlmixr2est::saemControl()}}.}
 }

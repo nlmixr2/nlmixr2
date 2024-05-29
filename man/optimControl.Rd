@@ -44,6 +44,7 @@ optimControl(
   rxControl = NULL,
   optExpression = TRUE,
   sumProd = FALSE,
+  literalFix = TRUE,
   returnOptim = FALSE,
   addProp = c("combined2", "combined1"),
   calcTables = TRUE,
@@ -343,6 +344,10 @@ calculation. By default this is turned on.}
 multiplication to high precision multiplication and sums to
 high precision sums using the PreciseSums package.  By default
 this is \code{FALSE}.}
+
+\item{literalFix}{boolean, substitute fixed population values as
+literals and re-adjust ui and parameter estimates after
+optimization; Default is `TRUE`.}
 
 \item{returnOptim}{logical; when TRUE this will return the optim
 list instead of the nlmixr2 fit object}
