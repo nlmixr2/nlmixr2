@@ -7,9 +7,6 @@ on:
     branches: [main, master]
   release:
     types: [published]
-  workflow_dispatch:
-  schedule:
-    - cron: '30 5 * * 2'
 
 name: pkgdown
 
@@ -33,7 +30,6 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           pak-version: devel
-          # ggPMX from GitHub is needed until version 1.2.9 is on CRAN
           extra-packages: |
             any::pkgdown
             nlmixr2/lotri
