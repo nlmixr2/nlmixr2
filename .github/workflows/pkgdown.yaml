@@ -64,6 +64,7 @@ jobs:
             readr
             tidyr
             xgxr
+            ggPMX
             local::.
           needs: website
 
