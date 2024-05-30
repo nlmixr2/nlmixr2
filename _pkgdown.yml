@@ -56,6 +56,11 @@ navbar:
         - text: "--------------------------"
         - text: "Integrated development with xgxr/nlmixr/ggPMX"
           href: articles/xgxr-nlmixr-ggpmx.html
+        - text: "--------------------------"
+        - text: "Citations of nlmixr2"
+          href: articles/citations.html
+        - text: "Who we are"
+          href: articles/nlmixr2-team-and-advisory-committee.html
   - text: Example models
     icon: fas fa-chalkboard-teacher
     menu:

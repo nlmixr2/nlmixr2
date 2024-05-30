@@ -16,3 +16,4 @@
 ^CRAN-SUBMISSION$
 ^\.github$
 ^codecov\.yml$
+^vignettes/articles$
