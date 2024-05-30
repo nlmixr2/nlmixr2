@@ -15,7 +15,7 @@ reference:
   - bobyqaControl
   - lbfgsb3cControl
   - n1qn1Control
-  - newuoaControl,
+  - newuoaControl
   - nlmControl
   - nlminbControl
   - nlsControl
