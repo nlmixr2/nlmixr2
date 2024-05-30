@@ -7,6 +7,9 @@ on:
     branches: [main, master]
   release:
     types: [published]
+  workflow_dispatch:
+  schedule:
+    - cron: '30 5 * * 2'
 
 name: pkgdown
 
@@ -17,7 +20,11 @@ jobs:
     concurrency:
       group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      _R_CHECK_FORCE_SUGGESTS_: false
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
 
@@ -29,9 +36,10 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          pak-version: devel
+          cache-version: 2
           extra-packages: |
             any::pkgdown
+            nlmixr2/dparser-R
             nlmixr2/lotri
             nlmixr2/rxode2ll
             nlmixr2/rxode2parse
@@ -41,11 +49,9 @@ jobs:
             nlmixr2/nlmixr2est
             nlmixr2/nlmixr2extra
             nlmixr2/nlmixr2plot
-            ggPMXdevelopment/ggPMX
             lixoftConnectors=?ignore
             any::xpose
             any::xpose.nlmixr2
-            jeroen/curl
             any::broom.mixed
             any::dotwhisker
             any::dplyr
