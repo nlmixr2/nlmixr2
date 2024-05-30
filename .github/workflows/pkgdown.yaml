@@ -50,6 +50,8 @@ jobs:
             nlmixr2/nlmixr2extra
             nlmixr2/nlmixr2plot
             lixoftConnectors=?ignore
+            dotwhisker=?ignore
+            glmmADMB=?ignore
             xpose
             xpose.nlmixr2
             broom.mixed
