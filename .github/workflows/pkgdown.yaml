@@ -38,7 +38,7 @@ jobs:
         with:
           cache-version: 2
           extra-packages: |
-            any::pkgdown
+            pkgdown
             nlmixr2/dparser-R
             nlmixr2/lotri
             nlmixr2/rxode2ll
@@ -50,18 +50,17 @@ jobs:
             nlmixr2/nlmixr2extra
             nlmixr2/nlmixr2plot
             lixoftConnectors=?ignore
-            any::xpose
-            any::xpose.nlmixr2
-            any::broom.mixed
-            any::dotwhisker
-            any::dplyr
-            any::flextable
-            any::huxtable
-            any::officer
-            any::patchwork
-            any::readr
-            any::tidyr
-            any::xgxr
+            xpose
+            xpose.nlmixr2
+            broom.mixed
+            dplyr
+            flextable
+            huxtable
+            officer
+            patchwork
+            readr
+            tidyr
+            xgxr
             local::.
           needs: website
 
