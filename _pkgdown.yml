@@ -12,6 +12,15 @@ reference:
   - foceiControl
   - saemControl
   - nlmeControl
+  - bobyqaControl
+  - lbfgsb3cControl
+  - n1qn1Control
+  - newuoaControl,
+  - nlmControl
+  - nlminbControl
+  - nlsControl
+  - optimControl
+  - uobyqaControl
   - tableControl
 - title: Post-fit table functions
   contents:
