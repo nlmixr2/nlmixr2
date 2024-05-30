@@ -16,6 +16,9 @@
     <loc>https://nlmixr2.github.io/nlmixr2/articles/censoring.html</loc>
   </url>
   <url>
+    <loc>https://nlmixr2.github.io/nlmixr2/articles/citations.html</loc>
+  </url>
+  <url>
     <loc>https://nlmixr2.github.io/nlmixr2/articles/index.html</loc>
   </url>
   <url>
@@ -29,6 +32,9 @@
   </url>
   <url>
     <loc>https://nlmixr2.github.io/nlmixr2/articles/nimo.html</loc>
+  </url>
+  <url>
+    <loc>https://nlmixr2.github.io/nlmixr2/articles/nlmixr2-team-and-advisory-committee.html</loc>
   </url>
   <url>
     <loc>https://nlmixr2.github.io/nlmixr2/articles/residualErrors.html</loc>
@@ -61,6 +67,9 @@
     <loc>https://nlmixr2.github.io/nlmixr2/reference/addTable.html</loc>
   </url>
   <url>
+    <loc>https://nlmixr2.github.io/nlmixr2/reference/bobyqaControl.html</loc>
+  </url>
+  <url>
     <loc>https://nlmixr2.github.io/nlmixr2/reference/bootplot.html</loc>
   </url>
   <url>
@@ -76,13 +85,34 @@
     <loc>https://nlmixr2.github.io/nlmixr2/reference/index.html</loc>
   </url>
   <url>
+    <loc>https://nlmixr2.github.io/nlmixr2/reference/lbfgsb3cControl.html</loc>
+  </url>
+  <url>
+    <loc>https://nlmixr2.github.io/nlmixr2/reference/n1qn1Control.html</loc>
+  </url>
+  <url>
+    <loc>https://nlmixr2.github.io/nlmixr2/reference/newuoaControl.html</loc>
+  </url>
+  <url>
+    <loc>https://nlmixr2.github.io/nlmixr2/reference/nlmControl.html</loc>
+  </url>
+  <url>
     <loc>https://nlmixr2.github.io/nlmixr2/reference/nlmeControl.html</loc>
+  </url>
+  <url>
+    <loc>https://nlmixr2.github.io/nlmixr2/reference/nlminbControl.html</loc>
   </url>
   <url>
     <loc>https://nlmixr2.github.io/nlmixr2/reference/nlmixr2.html</loc>
   </url>
   <url>
     <loc>https://nlmixr2.github.io/nlmixr2/reference/nlmixr2CheckInstall.html</loc>
+  </url>
+  <url>
+    <loc>https://nlmixr2.github.io/nlmixr2/reference/nlsControl.html</loc>
+  </url>
+  <url>
+    <loc>https://nlmixr2.github.io/nlmixr2/reference/optimControl.html</loc>
   </url>
   <url>
     <loc>https://nlmixr2.github.io/nlmixr2/reference/preconditionFit.html</loc>
@@ -101,6 +131,9 @@
   </url>
   <url>
     <loc>https://nlmixr2.github.io/nlmixr2/reference/traceplot.html</loc>
+  </url>
+  <url>
+    <loc>https://nlmixr2.github.io/nlmixr2/reference/uobyqaControl.html</loc>
   </url>
   <url>
     <loc>https://nlmixr2.github.io/nlmixr2/reference/vpcCens.html</loc>

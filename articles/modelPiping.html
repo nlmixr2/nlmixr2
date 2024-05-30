@@ -14,10 +14,10 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Modifying nlmixr2 models by piping">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Modifying nlmixr2 models by piping">
 <meta property="og:description" content="nlmixr2">
 <meta property="og:image" content="https://nlmixr2.github.io/nlmixr2/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -29,11 +29,11 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary"><div class="container">
+    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary" data-bs-theme="dark"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">nlmixr2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.9.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,6 +59,9 @@
     <a class="dropdown-item" href="../articles/censoring.html">Censoring in nlmixr2 (M3 and others)</a>
     <div class="dropdown-divider"></div>
     <a class="dropdown-item" href="../articles/xgxr-nlmixr-ggpmx.html">Integrated development with xgxr/nlmixr/ggPMX</a>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="../articles/citations.html">Citations of nlmixr2</a>
+    <a class="dropdown-item" href="../articles/nlmixr2-team-and-advisory-committee.html">Who we are</a>
   </div>
 </li>
 <li class="nav-item dropdown">
@@ -128,7 +131,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Modifying nlmixr2 models by piping</h1>
             
-            <h4 data-toc-skip class="date">2023-05-30</h4>
+            <h4 data-toc-skip class="date">2024-05-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/HEAD/vignettes/modelPiping.Rmd" class="external-link"><code>vignettes/modelPiping.Rmd</code></a></small>
       <div class="d-none name"><code>modelPiping.Rmd</code></div>
@@ -136,8 +139,8 @@
 
     
     
-<div class="figure">
-<img src="logo.png" alt=""><p class="caption">nlmixr</p>
+<div class="float">
+<img src="logo.png" alt="nlmixr"><div class="figcaption">nlmixr</div>
 </div>
 <div class="section level2">
 <h2 id="changing-models-via-piping">Changing models via piping<a class="anchor" aria-label="anchor" href="#changing-models-via-piping"></a>
@@ -151,9 +154,9 @@ Francisco:</p>
 <span></span>
 <span><span class="va">one.compartment</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span><span class="op">{</span></span>
-<span>    <span class="va">tka</span> <span class="op">&lt;-</span> <span class="fl">0.45</span>; <span class="fu"><a href="https://hughjonesd.github.io/huxtable/reference/label.html" class="external-link">label</a></span><span class="op">(</span><span class="st">"Ka"</span><span class="op">)</span></span>
-<span>    <span class="va">tcl</span> <span class="op">&lt;-</span> <span class="fl">1</span>; <span class="fu"><a href="https://hughjonesd.github.io/huxtable/reference/label.html" class="external-link">label</a></span><span class="op">(</span><span class="st">"Cl"</span><span class="op">)</span></span>
-<span>    <span class="va">tv</span> <span class="op">&lt;-</span> <span class="fl">3.45</span>; <span class="fu"><a href="https://hughjonesd.github.io/huxtable/reference/label.html" class="external-link">label</a></span><span class="op">(</span><span class="st">"V"</span><span class="op">)</span></span>
+<span>    <span class="va">tka</span> <span class="op">&lt;-</span> <span class="fl">0.45</span>; <span class="fu">label</span><span class="op">(</span><span class="st">"Ka"</span><span class="op">)</span></span>
+<span>    <span class="va">tcl</span> <span class="op">&lt;-</span> <span class="fl">1</span>; <span class="fu">label</span><span class="op">(</span><span class="st">"Cl"</span><span class="op">)</span></span>
+<span>    <span class="va">tv</span> <span class="op">&lt;-</span> <span class="fl">3.45</span>; <span class="fu">label</span><span class="op">(</span><span class="st">"V"</span><span class="op">)</span></span>
 <span>    <span class="va">eta.ka</span> <span class="op">~</span> <span class="fl">0.6</span></span>
 <span>    <span class="va">eta.cl</span> <span class="op">~</span> <span class="fl">0.3</span></span>
 <span>    <span class="va">eta.v</span> <span class="op">~</span> <span class="fl">0.1</span></span>
@@ -165,7 +168,7 @@ Francisco:</p>
 <span>    <span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">tv</span> <span class="op">+</span> <span class="va">eta.v</span><span class="op">)</span></span>
 <span>    <span class="va">d</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/stats/TDist.html" class="external-link">dt</a></span><span class="op">(</span><span class="va">depot</span><span class="op">)</span> <span class="op">=</span> <span class="op">-</span><span class="va">ka</span> <span class="op">*</span> <span class="va">depot</span></span>
 <span>    <span class="va">d</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/stats/TDist.html" class="external-link">dt</a></span><span class="op">(</span><span class="va">center</span><span class="op">)</span> <span class="op">=</span> <span class="va">ka</span> <span class="op">*</span> <span class="va">depot</span> <span class="op">-</span> <span class="va">cl</span> <span class="op">/</span> <span class="va">v</span> <span class="op">*</span> <span class="va">center</span></span>
-<span>    <span class="va">cp</span> <span class="op">=</span> <span class="va">center</span> <span class="op">/</span> <span class="va">v</span> </span>
+<span>    <span class="va">cp</span> <span class="op">=</span> <span class="va">center</span> <span class="op">/</span> <span class="va">v</span></span>
 <span>    <span class="va">cp</span> <span class="op">~</span> <span class="fu">add</span><span class="op">(</span><span class="va">add.sd</span><span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
@@ -173,7 +176,7 @@ Francisco:</p>
 (FOCEi) method to find a good solution:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">one.compartment</span>, <span class="va">theo_sd</span>, est<span class="op">=</span><span class="st">"focei"</span>,</span>
-<span>              control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>, </span>
+<span>              control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
 <span>              table<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>npde<span class="op">=</span><span class="cn">TRUE</span>, cwres<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -197,30 +200,31 @@ Francisco:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; calculating covariance matrix</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; done</span></span>
-<span></span>
+<span><span class="co">#&gt; done</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── </span><span style="color: #0000BB; font-weight: bold;">nlmix</span><span style="color: #BB0000; font-weight: bold;">r²</span><span style="font-weight: bold;"> </span><span style="color: #BBBB00; font-weight: bold;">FOCE</span><span style="color: #BB0000; font-weight: bold;">i</span> (outer: nlminb) ──</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;           OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)</span></span>
-<span><span class="co">#&gt; FOCEi 116.8089 373.4087 393.5883      -179.7044        133.7735        8.054721</span></span>
+<span><span class="co">#&gt;           OBJF      AIC     BIC Log-likelihood Condition#(Cov) Condition#(Cor)</span></span>
+<span><span class="co">#&gt; FOCEi 116.8116 373.4114 393.591      -179.7057        115.6797        9.731882</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;            setup optimize covariance table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.018965 0.657575   0.657577 0.898    0.013 5.499883</span></span>
+<span><span class="co">#&gt; elapsed 0.013982 0.476317   0.476318 0.754    0.011 5.072383</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;        <span style="font-weight: bold;">Parameter</span>  <span style="font-weight: bold;">Est.</span>     <span style="font-weight: bold;">SE</span>  <span style="font-weight: bold;">%RSE</span> <span style="font-weight: bold;">Back-transformed(95%CI)</span> <span style="font-weight: bold;">BSV(CV%)</span></span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>           Ka 0.464  0.203  43.9       1.59 (1.07, 2.37)     69.0</span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>           Cl  1.01 0.0461  4.57       2.75 (2.51, 3.01)     26.7</span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>             V  3.46 0.0311 0.899       31.8 (29.9, 33.8)     13.9</span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">add.sd</span>           0.694                                0.694         </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>           Ka 0.474  0.199  42.1       1.61 (1.09, 2.38)     69.2</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>           Cl  1.01 0.0742  7.34       2.75 (2.38, 3.18)     26.8</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>             V  3.46 0.0337 0.973         31.8 (29.8, 34)     14.0</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">add.sd</span>           0.695                                0.695         </span></span>
 <span><span class="co">#&gt;        <span style="font-weight: bold;">Shrink(SD)%</span></span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>        0.510% </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>         3.80% </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>          10.4% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>        0.659% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>         4.19% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>          10.6% </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">add.sd</span>            </span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt;   Covariance Type (<span style="color: #0000BB; font-weight: bold;">$covMethod</span>): <span style="font-weight: bold;">r,s</span></span></span>
@@ -229,25 +233,19 @@ Francisco:</p>
 <span><span class="co">#&gt;   Distribution stats (mean/skewness/kurtosis/p-value) available in <span style="color: #0000BB; font-weight: bold;">$shrink</span> </span></span>
 <span><span class="co">#&gt;   Information about run found (<span style="color: #0000BB; font-weight: bold;">$runInfo</span>):</span></span>
 <span><span class="co">#&gt;    • gradient problems with initial estimate and covariance; see $scaleInfo </span></span>
-<span><span class="co">#&gt;    • last objective function was not at minimum, possible problems in optimization </span></span>
 <span><span class="co">#&gt;    • ETAs were reset to zero during optimization; (Can control by foceiControl(resetEtaP=.)) </span></span>
 <span><span class="co">#&gt;    • initial ETAs were nudged; (can control by foceiControl(etaNudge=., etaNudge2=)) </span></span>
 <span><span class="co">#&gt;   Censoring (<span style="color: #0000BB; font-weight: bold;">$censInformation</span>): No censoring</span></span>
 <span><span class="co">#&gt;   Minimization message (<span style="color: #0000BB; font-weight: bold;">$message</span>):  </span></span>
-<span><span class="co">#&gt;     false convergence (8) </span></span>
-<span><span class="co">#&gt;   In an ODE system, false convergence may mean "useless" evaluations were performed.</span></span>
-<span><span class="co">#&gt;   See https://tinyurl.com/yyrrwkce</span></span>
-<span><span class="co">#&gt;   It could also mean the convergence is poor, check results before accepting fit</span></span>
-<span><span class="co">#&gt;   You may also try a good derivative free optimization:</span></span>
-<span><span class="co">#&gt;     nlmixr2(...,control=list(outerOpt="bobyqa"))</span></span>
+<span><span class="co">#&gt;     relative convergence (4) </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Fit Data (object is a modified </span><span style="color: #0000BB; font-weight: bold;">tibble</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 28</span></span></span>
-<span><span class="co">#&gt;   ID     TIME    DV  EPRED   ERES   NPDE    NPD   PDE    PD  PRED    RES   WRES</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.094<span style="text-decoration: underline;">4</span>  0.646  1.21   0.915 0.887 0.82   0     0.74   1.07 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.81   -<span style="color: #BB0000;">0.970</span> -<span style="color: #BB0000;">0.477</span> -<span style="color: #BB0000;">0.376</span> 0.317 0.353  3.26 -<span style="color: #BB0000;">0.422</span> -<span style="color: #BB0000;">0.228</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 6.13    0.444 -<span style="color: #BB0000;">1.75</span>   0.109 0.04  0.543  5.83  0.742  0.302</span></span>
+<span><span class="co">#&gt;   ID     TIME    DV EPRED   ERES   NPDE    NPD    PDE    PD  PRED    RES   WRES</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.114  0.626  0.468  0.866 0.68   0.807  0     0.74   1.06 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.66  -<span style="color: #BB0000;">0.816</span> -<span style="color: #BB0000;">0.431</span> -<span style="color: #BB0000;">0.394</span> 0.333  0.347  3.29 -<span style="color: #BB0000;">0.451</span> -<span style="color: #BB0000;">0.242</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 5.97   0.604 -<span style="color: #BB0000;">1.79</span>   0.332 0.036<span style="text-decoration: underline;">7</span> 0.63   5.87  0.702  0.284</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 129 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 16 more variables: IPRED &lt;dbl&gt;, IRES &lt;dbl&gt;, IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.ka &lt;dbl&gt;, eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;,</span></span></span>
@@ -272,101 +270,63 @@ situations it can be come tedious to modify the models by hand.</p>
 </ol>
 <p>The easiest way to illustrate this is by showing a few examples of
 piping changes to the model:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Example 1 -- Set inital estimate to 0.5 (shown w/posthoc)</span></span>
 <span><span class="va">one.ka.0.5</span> <span class="op">&lt;-</span> <span class="va">fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span>tka<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>    <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span>est<span class="op">=</span><span class="st">"posthoc"</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>, </span>
+<span>    <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span>tka<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span>est<span class="op">=</span><span class="st">"posthoc"</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
 <span>           table<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cwres<span class="op">=</span><span class="cn">TRUE</span>, npde<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">one.ka.0.5</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Example 2 -- Fix tka to 0.5 and re-estimate.</span></span>
 <span><span class="va">one.ka.0.5</span> <span class="op">&lt;-</span> <span class="va">fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span>tka<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/utils/fix.html" class="external-link">fix</a></span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span>est<span class="op">=</span><span class="st">"focei"</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
 <span>           table<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cwres<span class="op">=</span><span class="cn">TRUE</span>, npde<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; calculating covariance matrix</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; done</span></span>
-<span></span>
+<span><span class="co">#&gt; done</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">one.ka.0.5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── </span><span style="color: #0000BB; font-weight: bold;">nlmix</span><span style="color: #BB0000; font-weight: bold;">r²</span><span style="font-weight: bold;"> </span><span style="color: #BBBB00; font-weight: bold;">FOCE</span><span style="color: #BB0000; font-weight: bold;">i</span> (outer: nlminb) ──</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;           OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)</span></span>
-<span><span class="co">#&gt; FOCEi 116.8459 371.4457 388.7425      -179.7228        1743.649        41.24887</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;            setup optimize covariance table compress   other</span></span>
-<span><span class="co">#&gt; elapsed 0.001708  0.39003   0.390032 0.448    0.013 0.57423</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;        <span style="font-weight: bold;">Parameter</span>  <span style="font-weight: bold;">Est.</span>    <span style="font-weight: bold;">SE</span>  <span style="font-weight: bold;">%RSE</span> <span style="font-weight: bold;">Back-transformed(95%CI)</span> <span style="font-weight: bold;">BSV(CV%)</span> <span style="font-weight: bold;">Shrink(SD)%</span></span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>           Ka   0.5 <span style="color: #00BB00; font-weight: bold;">FIXED</span> <span style="color: #00BB00; font-weight: bold;">FIXED</span>                    1.65     69.0     0.444% </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>           Cl  1.01  1.38   136      2.75 (0.185, 40.8)     26.7      3.89% </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>             V  3.46 0.109  3.15       31.8 (25.7, 39.4)     13.9      10.3% </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">add.sd</span>           0.695                               0.695                     </span></span>
-<span><span class="co">#&gt;  </span></span>
-<span><span class="co">#&gt;   Covariance Type (<span style="color: #0000BB; font-weight: bold;">$covMethod</span>): <span style="font-weight: bold;">r,s</span></span></span>
-<span><span class="co">#&gt;   No correlations in between subject variability (BSV) matrix</span></span>
-<span><span class="co">#&gt;   Full BSV covariance (<span style="color: #0000BB; font-weight: bold;">$omega</span>) or correlation (<span style="color: #0000BB; font-weight: bold;">$omegaR</span>; diagonals=SDs) </span></span>
-<span><span class="co">#&gt;   Distribution stats (mean/skewness/kurtosis/p-value) available in <span style="color: #0000BB; font-weight: bold;">$shrink</span> </span></span>
-<span><span class="co">#&gt;   Information about run found (<span style="color: #0000BB; font-weight: bold;">$runInfo</span>):</span></span>
-<span><span class="co">#&gt;    • gradient problems with initial estimate and covariance; see $scaleInfo </span></span>
-<span><span class="co">#&gt;    • last objective function was not at minimum, possible problems in optimization </span></span>
-<span><span class="co">#&gt;    • ETAs were reset to zero during optimization; (Can control by foceiControl(resetEtaP=.)) </span></span>
-<span><span class="co">#&gt;    • initial ETAs were nudged; (can control by foceiControl(etaNudge=., etaNudge2=)) </span></span>
-<span><span class="co">#&gt;   Censoring (<span style="color: #0000BB; font-weight: bold;">$censInformation</span>): No censoring</span></span>
-<span><span class="co">#&gt;   Minimization message (<span style="color: #0000BB; font-weight: bold;">$message</span>):  </span></span>
-<span><span class="co">#&gt;     false convergence (8) </span></span>
-<span><span class="co">#&gt;   In an ODE system, false convergence may mean "useless" evaluations were performed.</span></span>
-<span><span class="co">#&gt;   See https://tinyurl.com/yyrrwkce</span></span>
-<span><span class="co">#&gt;   It could also mean the convergence is poor, check results before accepting fit</span></span>
-<span><span class="co">#&gt;   You may also try a good derivative free optimization:</span></span>
-<span><span class="co">#&gt;     nlmixr2(...,control=list(outerOpt="bobyqa"))</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">── Fit Data (object is a modified </span><span style="color: #0000BB; font-weight: bold;">tibble</span><span style="font-weight: bold;">): ──</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 28</span></span></span>
-<span><span class="co">#&gt;   ID     TIME    DV  EPRED   ERES   NPDE     NPD   PDE    PD  PRED    RES   WRES</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.094<span style="text-decoration: underline;">6</span>  0.645  1.23   0.915  0.89  0.82   0     0.74   1.06 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.90   -<span style="color: #BB0000;">1.06</span>  -<span style="color: #BB0000;">0.403</span> -<span style="color: #BB0000;">0.403</span>  0.343 0.343  3.36 -<span style="color: #BB0000;">0.516</span> -<span style="color: #BB0000;">0.273</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 6.23    0.341 -<span style="color: #BB0000;">1.75</span>   0.075<span style="text-decoration: underline;">3</span> 0.04  0.53   5.95  0.618  0.251</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 129 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 16 more variables: IPRED &lt;dbl&gt;, IRES &lt;dbl&gt;, IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.ka &lt;dbl&gt;, eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   depot &lt;dbl&gt;, center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;, tad &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   dosenum &lt;dbl&gt;</span></span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">## Example 3 -- Fix tka to model estimated value and re-estimate.</span></span>
-<span><span class="va">one.ka.0.5</span> <span class="op">&lt;-</span> <span class="va">fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span>tka<span class="op">=</span><span class="va">fix</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span>est<span class="op">=</span><span class="st">"focei"</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
-<span>           table<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cwres<span class="op">=</span><span class="cn">TRUE</span>, npde<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; calculating covariance matrix</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; done</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">one.ka.0.5</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">── </span><span style="color: #0000BB; font-weight: bold;">nlmix</span><span style="color: #BB0000; font-weight: bold;">r²</span><span style="font-weight: bold;"> </span><span style="color: #BBBB00; font-weight: bold;">FOCE</span><span style="color: #BB0000; font-weight: bold;">i</span> (outer: nlminb) ──</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;           OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)</span></span>
-<span><span class="co">#&gt; FOCEi 116.8089 371.4087 388.7055      -179.7043        17.62862        12.23209</span></span>
+<span><span class="co">#&gt; FOCEi 116.8471 371.4469 388.7437      -179.7234        17.52287        12.09477</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;            setup optimize covariance table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.001501  0.39467   0.394672 0.502    0.011 0.427157</span></span>
+<span><span class="co">#&gt; elapsed 0.001461 0.288265   0.288267  0.73    0.011 2.660007</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;        <span style="font-weight: bold;">Parameter</span>  <span style="font-weight: bold;">Est.</span>    <span style="font-weight: bold;">SE</span>  <span style="font-weight: bold;">%RSE</span> <span style="font-weight: bold;">Back-transformed(95%CI)</span> <span style="font-weight: bold;">BSV(CV%)</span> <span style="font-weight: bold;">Shrink(SD)%</span></span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>           Ka 0.464 <span style="color: #00BB00; font-weight: bold;">FIXED</span> <span style="color: #00BB00; font-weight: bold;">FIXED</span>                    1.59     69.0     0.519% </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>           Cl  1.01 0.312  30.8       2.75 (1.49, 5.07)     26.7      3.82% </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>             V  3.46 0.174  5.04       31.8 (22.6, 44.8)     13.9      10.4% </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">add.sd</span>           0.694                               0.694                     </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>           Ka   0.5 <span style="color: #00BB00; font-weight: bold;">FIXED</span> <span style="color: #00BB00; font-weight: bold;">FIXED</span>                     0.5     69.2     0.600% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>           Cl  1.01 0.312  30.9       2.75 (1.49, 5.07)     26.8      4.21% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>             V  3.46 0.174  5.04       31.8 (22.6, 44.7)     14.0      10.6% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">add.sd</span>           0.695                               0.695                     </span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt;   Covariance Type (<span style="color: #0000BB; font-weight: bold;">$covMethod</span>): <span style="font-weight: bold;">s</span></span></span>
 <span><span class="co">#&gt;   No correlations in between subject variability (BSV) matrix</span></span>
@@ -389,49 +349,126 @@ piping changes to the model:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Fit Data (object is a modified </span><span style="color: #0000BB; font-weight: bold;">tibble</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 28</span></span></span>
-<span><span class="co">#&gt;   ID     TIME    DV  EPRED   ERES   NPDE    NPD   PDE    PD  PRED    RES   WRES</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.094<span style="text-decoration: underline;">4</span>  0.646  1.23   0.928 0.89  0.823  0     0.74   1.07 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.81   -<span style="color: #BB0000;">0.966</span> -<span style="color: #BB0000;">0.477</span> -<span style="color: #BB0000;">0.376</span> 0.317 0.353  3.26 -<span style="color: #BB0000;">0.418</span> -<span style="color: #BB0000;">0.226</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 6.12    0.451 -<span style="color: #BB0000;">1.75</span>   0.109 0.04  0.543  5.82  0.748  0.305</span></span>
+<span><span class="co">#&gt;   ID     TIME    DV EPRED   ERES   NPDE    NPD   PDE    PD  PRED    RES   WRES</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.114  0.626  0.468  0.866  0.68 0.807  0     0.74   1.06 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.72  -<span style="color: #BB0000;">0.885</span> -<span style="color: #BB0000;">0.358</span> -<span style="color: #BB0000;">0.422</span>  0.36 0.337  3.36 -<span style="color: #BB0000;">0.520</span> -<span style="color: #BB0000;">0.275</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 6.04   0.526 -<span style="color: #BB0000;">1.75</span>   0.253  0.04 0.6    5.96  0.610  0.246</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 129 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 16 more variables: IPRED &lt;dbl&gt;, IRES &lt;dbl&gt;, IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.ka &lt;dbl&gt;, eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   depot &lt;dbl&gt;, center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;, tad &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   dosenum &lt;dbl&gt;</span></span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">## Example 4 -- Change tka to 0.7 in orginal model function and then estimate</span></span>
-<span><span class="va">one.ka.0.7</span> <span class="op">&lt;-</span> <span class="va">one.compartment</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>    <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span>tka<span class="op">=</span><span class="fl">0.7</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>    <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">theo_sd</span>, est<span class="op">=</span><span class="st">"focei"</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## Example 3 -- Fix tka to model estimated value and re-estimate.</span></span>
+<span><span class="va">one.ka.0.5</span> <span class="op">&lt;-</span> <span class="va">fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span>tka<span class="op">=</span><span class="va">fix</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span>est<span class="op">=</span><span class="st">"focei"</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
 <span>           table<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cwres<span class="op">=</span><span class="cn">TRUE</span>, npde<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; calculating covariance matrix</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; done</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">one.ka.0.7</span><span class="op">)</span></span>
+<span><span class="co">#&gt; done</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">one.ka.0.5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── </span><span style="color: #0000BB; font-weight: bold;">nlmix</span><span style="color: #BB0000; font-weight: bold;">r²</span><span style="font-weight: bold;"> </span><span style="color: #BBBB00; font-weight: bold;">FOCE</span><span style="color: #BB0000; font-weight: bold;">i</span> (outer: nlminb) ──</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;           OBJF     AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)</span></span>
-<span><span class="co">#&gt; FOCEi 116.8082 373.408 393.5876       -179.704        125.5805        10.85831</span></span>
+<span><span class="co">#&gt;           OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)</span></span>
+<span><span class="co">#&gt; FOCEi 116.8131 371.4128 388.7096      -179.7064        17.54673        12.12971</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;           setup optimize covariance table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.00149   0.6608   0.660802 0.449    0.011 2.178908</span></span>
+<span><span class="co">#&gt; elapsed 0.00127 0.281107   0.281109 0.738     0.01 2.749514</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;        <span style="font-weight: bold;">Parameter</span>  <span style="font-weight: bold;">Est.</span>     <span style="font-weight: bold;">SE</span>  <span style="font-weight: bold;">%RSE</span> <span style="font-weight: bold;">Back-transformed(95%CI)</span> <span style="font-weight: bold;">BSV(CV%)</span></span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>           Ka 0.469  0.203  43.3        1.6 (1.07, 2.38)     69.3</span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>           Cl  1.01 0.0875  8.65       2.75 (2.32, 3.27)     26.7</span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>             V  3.46  0.034 0.983         31.8 (29.8, 34)     13.8</span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">add.sd</span>           0.695                                0.695         </span></span>
-<span><span class="co">#&gt;        <span style="font-weight: bold;">Shrink(SD)%</span></span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>        0.822% </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>         3.71% </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>          9.97% </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">add.sd</span>            </span></span>
+<span><span class="co">#&gt;        <span style="font-weight: bold;">Parameter</span>  <span style="font-weight: bold;">Est.</span>    <span style="font-weight: bold;">SE</span>  <span style="font-weight: bold;">%RSE</span> <span style="font-weight: bold;">Back-transformed(95%CI)</span> <span style="font-weight: bold;">BSV(CV%)</span> <span style="font-weight: bold;">Shrink(SD)%</span></span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>           Ka 0.474 <span style="color: #00BB00; font-weight: bold;">FIXED</span> <span style="color: #00BB00; font-weight: bold;">FIXED</span>                   0.474     69.2     0.670% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>           Cl  1.01 0.313  30.9       2.75 (1.49, 5.08)     26.8      4.19% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>             V  3.46 0.175  5.05       31.8 (22.6, 44.8)     14.0      10.6% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">add.sd</span>           0.695                               0.695                     </span></span>
+<span><span class="co">#&gt;  </span></span>
+<span><span class="co">#&gt;   Covariance Type (<span style="color: #0000BB; font-weight: bold;">$covMethod</span>): <span style="font-weight: bold;">s</span></span></span>
+<span><span class="co">#&gt;   No correlations in between subject variability (BSV) matrix</span></span>
+<span><span class="co">#&gt;   Full BSV covariance (<span style="color: #0000BB; font-weight: bold;">$omega</span>) or correlation (<span style="color: #0000BB; font-weight: bold;">$omegaR</span>; diagonals=SDs) </span></span>
+<span><span class="co">#&gt;   Distribution stats (mean/skewness/kurtosis/p-value) available in <span style="color: #0000BB; font-weight: bold;">$shrink</span> </span></span>
+<span><span class="co">#&gt;   Information about run found (<span style="color: #0000BB; font-weight: bold;">$runInfo</span>):</span></span>
+<span><span class="co">#&gt;    • gradient problems with initial estimate and covariance; see $scaleInfo </span></span>
+<span><span class="co">#&gt;    • using S matrix to calculate covariance, can check sandwich or R matrix with $covRS and $covR </span></span>
+<span><span class="co">#&gt;    • last objective function was not at minimum, possible problems in optimization </span></span>
+<span><span class="co">#&gt;    • ETAs were reset to zero during optimization; (Can control by foceiControl(resetEtaP=.)) </span></span>
+<span><span class="co">#&gt;    • initial ETAs were nudged; (can control by foceiControl(etaNudge=., etaNudge2=)) </span></span>
+<span><span class="co">#&gt;   Censoring (<span style="color: #0000BB; font-weight: bold;">$censInformation</span>): No censoring</span></span>
+<span><span class="co">#&gt;   Minimization message (<span style="color: #0000BB; font-weight: bold;">$message</span>):  </span></span>
+<span><span class="co">#&gt;     false convergence (8) </span></span>
+<span><span class="co">#&gt;   In an ODE system, false convergence may mean "useless" evaluations were performed.</span></span>
+<span><span class="co">#&gt;   See https://tinyurl.com/yyrrwkce</span></span>
+<span><span class="co">#&gt;   It could also mean the convergence is poor, check results before accepting fit</span></span>
+<span><span class="co">#&gt;   You may also try a good derivative free optimization:</span></span>
+<span><span class="co">#&gt;     nlmixr2(...,control=list(outerOpt="bobyqa"))</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">── Fit Data (object is a modified </span><span style="color: #0000BB; font-weight: bold;">tibble</span><span style="font-weight: bold;">): ──</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 28</span></span></span>
+<span><span class="co">#&gt;   ID     TIME    DV EPRED   ERES   NPDE    NPD    PDE    PD  PRED    RES   WRES</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.114  0.626  0.468  0.866 0.68   0.807  0     0.74   1.06 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.66  -<span style="color: #BB0000;">0.816</span> -<span style="color: #BB0000;">0.431</span> -<span style="color: #BB0000;">0.394</span> 0.333  0.347  3.29 -<span style="color: #BB0000;">0.451</span> -<span style="color: #BB0000;">0.242</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 5.97   0.604 -<span style="color: #BB0000;">1.79</span>   0.332 0.036<span style="text-decoration: underline;">7</span> 0.63   5.87  0.702  0.284</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 129 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 16 more variables: IPRED &lt;dbl&gt;, IRES &lt;dbl&gt;, IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.ka &lt;dbl&gt;, eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   depot &lt;dbl&gt;, center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;, tad &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   dosenum &lt;dbl&gt;</span></span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## Example 4 -- Change tka to 0.7 in orginal model function and then estimate</span></span>
+<span><span class="va">one.ka.0.7</span> <span class="op">&lt;-</span> <span class="va">one.compartment</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span>tka<span class="op">=</span><span class="fl">0.7</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">theo_sd</span>, est<span class="op">=</span><span class="st">"focei"</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
+<span>           table<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cwres<span class="op">=</span><span class="cn">TRUE</span>, npde<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; calculating covariance matrix</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; done</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">one.ka.0.7</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">── </span><span style="color: #0000BB; font-weight: bold;">nlmix</span><span style="color: #BB0000; font-weight: bold;">r²</span><span style="font-weight: bold;"> </span><span style="color: #BBBB00; font-weight: bold;">FOCE</span><span style="color: #BB0000; font-weight: bold;">i</span> (outer: nlminb) ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;           OBJF     AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)</span></span>
+<span><span class="co">#&gt; FOCEi 116.9872 373.587 393.7666      -179.7935        77.33962        11.86369</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;            setup optimize covariance table compress    other</span></span>
+<span><span class="co">#&gt; elapsed 0.001255 0.484295   0.484296 0.341    0.009 2.317154</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;        <span style="font-weight: bold;">Parameter</span>  <span style="font-weight: bold;">Est.</span>     <span style="font-weight: bold;">SE</span> <span style="font-weight: bold;">%RSE</span> <span style="font-weight: bold;">Back-transformed(95%CI)</span> <span style="font-weight: bold;">BSV(CV%)</span> <span style="font-weight: bold;">Shrink(SD)%</span></span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>           Ka 0.481  0.213 44.2       1.62 (1.07, 2.46)     70.5      1.61% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>           Cl  1.02 0.0737 7.22         2.77 (2.4, 3.2)     28.0      7.96% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>             V  3.46 0.0516 1.49       31.8 (28.8, 35.2)     15.3      15.1% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">add.sd</span>           0.693                               0.693                     </span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt;   Covariance Type (<span style="color: #0000BB; font-weight: bold;">$covMethod</span>): <span style="font-weight: bold;">r,s</span></span></span>
 <span><span class="co">#&gt;   No correlations in between subject variability (BSV) matrix</span></span>
@@ -453,11 +490,11 @@ piping changes to the model:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Fit Data (object is a modified </span><span style="color: #0000BB; font-weight: bold;">tibble</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 28</span></span></span>
-<span><span class="co">#&gt;   ID     TIME    DV  EPRED   ERES   NPDE     NPD   PDE    PD  PRED    RES   WRES</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.094<span style="text-decoration: underline;">5</span>  0.645  1.21   0.915  0.887 0.82   0     0.74   1.06 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.83   -<span style="color: #BB0000;">0.987</span> -<span style="color: #BB0000;">0.468</span> -<span style="color: #BB0000;">0.385</span>  0.32  0.35   3.28 -<span style="color: #BB0000;">0.437</span> -<span style="color: #BB0000;">0.235</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 6.14    0.428 -<span style="color: #BB0000;">1.75</span>   0.092<span style="text-decoration: underline;">0</span> 0.04  0.537  5.85  0.721  0.293</span></span>
+<span><span class="co">#&gt;   ID     TIME    DV EPRED   ERES   NPDE    NPD    PDE    PD  PRED    RES   WRES</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.113  0.627  0.468  0.878 0.68   0.81   0     0.74   1.07 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.68  -<span style="color: #BB0000;">0.845</span> -<span style="color: #BB0000;">0.332</span> -<span style="color: #BB0000;">0.394</span> 0.37   0.347  3.31 -<span style="color: #BB0000;">0.468</span> -<span style="color: #BB0000;">0.246</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 5.99   0.582 -<span style="color: #BB0000;">1.83</span>   0.297 0.033<span style="text-decoration: underline;">3</span> 0.617  5.89  0.680  0.270</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 129 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 16 more variables: IPRED &lt;dbl&gt;, IRES &lt;dbl&gt;, IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.ka &lt;dbl&gt;, eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;,</span></span></span>
@@ -475,22 +512,22 @@ order of parameters.</p>
 have the desired output table format ready to use in a report.</p>
 <p>For example, you can change the label from <code>"Ka"</code> to
 <code>"Absorption rate"</code> as follows:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span></span>
-<span>    <span class="va">tka</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://hughjonesd.github.io/huxtable/reference/label.html" class="external-link">label</a></span><span class="op">(</span><span class="st">"Absorption rate"</span><span class="op">)</span></span>
+<span>    <span class="va">tka</span> <span class="op">&lt;-</span> <span class="fu">label</span><span class="op">(</span><span class="st">"Absorption rate"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt;  <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">rxode2-based free-form 2-cmt ODE model</span> <span style="color: #00BBBB;">──────────────────────────────────────</span> </span></span>
 <span><span class="co">#&gt;  ── <span style="font-weight: bold;">Initalization:</span> ──  </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">Fixed Effects</span> (<span style="color: #0000BB; font-weight: bold;">$theta</span>): </span></span>
 <span><span class="co">#&gt;       tka       tcl        tv    add.sd </span></span>
-<span><span class="co">#&gt; 0.4636771 1.0104293 3.4598240 0.6944224 </span></span>
+<span><span class="co">#&gt; 0.4741772 1.0112664 3.4593293 0.6952432 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">Omega</span> (<span style="color: #0000BB; font-weight: bold;">$omega</span>): </span></span>
-<span><span class="co">#&gt;           eta.ka     eta.cl      eta.v</span></span>
-<span><span class="co">#&gt; eta.ka 0.3897047 0.00000000 0.00000000</span></span>
-<span><span class="co">#&gt; eta.cl 0.0000000 0.06884827 0.00000000</span></span>
-<span><span class="co">#&gt; eta.v  0.0000000 0.00000000 0.01926383</span></span>
+<span><span class="co">#&gt;           eta.ka    eta.cl      eta.v</span></span>
+<span><span class="co">#&gt; eta.ka 0.3913202 0.0000000 0.00000000</span></span>
+<span><span class="co">#&gt; eta.cl 0.0000000 0.0695591 0.00000000</span></span>
+<span><span class="co">#&gt; eta.v  0.0000000 0.0000000 0.01935147</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co"><span style="font-weight: bold;">#&gt; States</span> (<span style="color: #0000BB; font-weight: bold;">$state</span> or <span style="color: #0000BB; font-weight: bold;">$stateDf</span>): </span></span>
 <span><span class="co">#&gt;   Compartment Number Compartment Name</span></span>
@@ -505,16 +542,16 @@ have the desired output table format ready to use in a report.</p>
 <span><span class="co">#&gt;  ── <span style="font-weight: bold;">Model (Normalized Syntax):</span> ── </span></span>
 <span><span class="co">#&gt; function() {</span></span>
 <span><span class="co">#&gt;     ini({</span></span>
-<span><span class="co">#&gt;         tka &lt;- 0.46367714477264</span></span>
+<span><span class="co">#&gt;         tka &lt;- 0.474177171359262</span></span>
 <span><span class="co">#&gt;         label("Absorption rate")</span></span>
-<span><span class="co">#&gt;         tcl &lt;- 1.01042925559219</span></span>
+<span><span class="co">#&gt;         tcl &lt;- 1.01126635373108</span></span>
 <span><span class="co">#&gt;         label("Cl")</span></span>
-<span><span class="co">#&gt;         tv &lt;- 3.45982403489384</span></span>
+<span><span class="co">#&gt;         tv &lt;- 3.45932933156061</span></span>
 <span><span class="co">#&gt;         label("V")</span></span>
-<span><span class="co">#&gt;         add.sd &lt;- c(0, 0.694422369336317)</span></span>
-<span><span class="co">#&gt;         eta.ka ~ 0.389704654875509</span></span>
-<span><span class="co">#&gt;         eta.cl ~ 0.0688482683617762</span></span>
-<span><span class="co">#&gt;         eta.v ~ 0.0192638319970625</span></span>
+<span><span class="co">#&gt;         add.sd &lt;- c(0, 0.695243197595218)</span></span>
+<span><span class="co">#&gt;         eta.ka ~ 0.391320225986854</span></span>
+<span><span class="co">#&gt;         eta.cl ~ 0.0695590964689484</span></span>
+<span><span class="co">#&gt;         eta.v ~ 0.019351468331187</span></span>
 <span><span class="co">#&gt;     })</span></span>
 <span><span class="co">#&gt;     model({</span></span>
 <span><span class="co">#&gt;         ka &lt;- exp(tka + eta.ka)</span></span>
@@ -529,23 +566,23 @@ have the desired output table format ready to use in a report.</p>
 <p>And, if you’d prefer for volume to come before clearance in the
 parameter table (<code>fit$parFixed</code>), you can change that,
 too.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span></span>
-<span>    <span class="va">tv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://hughjonesd.github.io/huxtable/reference/label.html" class="external-link">label</a></span><span class="op">(</span><span class="st">"Central volume"</span><span class="op">)</span>,</span>
+<span>    <span class="va">tv</span> <span class="op">&lt;-</span> <span class="fu">label</span><span class="op">(</span><span class="st">"Central volume"</span><span class="op">)</span>,</span>
 <span>    append <span class="op">=</span> <span class="st">"tcl"</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt;  <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">rxode2-based free-form 2-cmt ODE model</span> <span style="color: #00BBBB;">──────────────────────────────────────</span> </span></span>
 <span><span class="co">#&gt;  ── <span style="font-weight: bold;">Initalization:</span> ──  </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">Fixed Effects</span> (<span style="color: #0000BB; font-weight: bold;">$theta</span>): </span></span>
 <span><span class="co">#&gt;       tka       tcl        tv    add.sd </span></span>
-<span><span class="co">#&gt; 0.4636771 1.0104293 3.4598240 0.6944224 </span></span>
+<span><span class="co">#&gt; 0.4741772 1.0112664 3.4593293 0.6952432 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">Omega</span> (<span style="color: #0000BB; font-weight: bold;">$omega</span>): </span></span>
-<span><span class="co">#&gt;           eta.ka     eta.cl      eta.v</span></span>
-<span><span class="co">#&gt; eta.ka 0.3897047 0.00000000 0.00000000</span></span>
-<span><span class="co">#&gt; eta.cl 0.0000000 0.06884827 0.00000000</span></span>
-<span><span class="co">#&gt; eta.v  0.0000000 0.00000000 0.01926383</span></span>
+<span><span class="co">#&gt;           eta.ka    eta.cl      eta.v</span></span>
+<span><span class="co">#&gt; eta.ka 0.3913202 0.0000000 0.00000000</span></span>
+<span><span class="co">#&gt; eta.cl 0.0000000 0.0695591 0.00000000</span></span>
+<span><span class="co">#&gt; eta.v  0.0000000 0.0000000 0.01935147</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co"><span style="font-weight: bold;">#&gt; States</span> (<span style="color: #0000BB; font-weight: bold;">$state</span> or <span style="color: #0000BB; font-weight: bold;">$stateDf</span>): </span></span>
 <span><span class="co">#&gt;   Compartment Number Compartment Name</span></span>
@@ -560,16 +597,16 @@ too.</p>
 <span><span class="co">#&gt;  ── <span style="font-weight: bold;">Model (Normalized Syntax):</span> ── </span></span>
 <span><span class="co">#&gt; function() {</span></span>
 <span><span class="co">#&gt;     ini({</span></span>
-<span><span class="co">#&gt;         tka &lt;- 0.46367714477264</span></span>
+<span><span class="co">#&gt;         tka &lt;- 0.474177171359262</span></span>
 <span><span class="co">#&gt;         label("Ka")</span></span>
-<span><span class="co">#&gt;         tcl &lt;- 1.01042925559219</span></span>
+<span><span class="co">#&gt;         tcl &lt;- 1.01126635373108</span></span>
 <span><span class="co">#&gt;         label("Cl")</span></span>
-<span><span class="co">#&gt;         tv &lt;- 3.45982403489384</span></span>
+<span><span class="co">#&gt;         tv &lt;- 3.45932933156061</span></span>
 <span><span class="co">#&gt;         label("Central volume")</span></span>
-<span><span class="co">#&gt;         add.sd &lt;- c(0, 0.694422369336317)</span></span>
-<span><span class="co">#&gt;         eta.ka ~ 0.389704654875509</span></span>
-<span><span class="co">#&gt;         eta.cl ~ 0.0688482683617762</span></span>
-<span><span class="co">#&gt;         eta.v ~ 0.0192638319970625</span></span>
+<span><span class="co">#&gt;         add.sd &lt;- c(0, 0.695243197595218)</span></span>
+<span><span class="co">#&gt;         eta.ka ~ 0.391320225986854</span></span>
+<span><span class="co">#&gt;         eta.cl ~ 0.0695590964689484</span></span>
+<span><span class="co">#&gt;         eta.v ~ 0.019351468331187</span></span>
 <span><span class="co">#&gt;     })</span></span>
 <span><span class="co">#&gt;     model({</span></span>
 <span><span class="co">#&gt;         ka &lt;- exp(tka + eta.ka)</span></span>
@@ -602,7 +639,7 @@ line in the model;</p>
 specification function, simply pipe it to the model function. You can
 then re-estimate by piping it to the <code>nlmixr</code> function
 again.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Remove eta.ka on ka</span></span>
 <span><span class="va">noEta</span> <span class="op">&lt;-</span> <span class="va">fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/model.html" class="external-link">model</a></span><span class="op">(</span><span class="va">ka</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">tka</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -630,25 +667,26 @@ again.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; calculating covariance matrix</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; done</span></span>
-<span></span>
+<span><span class="co">#&gt; done</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">noEta</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── </span><span style="color: #0000BB; font-weight: bold;">nlmix</span><span style="color: #BB0000; font-weight: bold;">r²</span><span style="font-weight: bold;"> </span><span style="color: #BBBB00; font-weight: bold;">FOCE</span><span style="color: #BB0000; font-weight: bold;">i</span> (outer: nlminb) ──</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;           OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)</span></span>
-<span><span class="co">#&gt; FOCEi 176.5816 431.1813 448.4781      -209.5907        34.92461         7.32861</span></span>
+<span><span class="co">#&gt; FOCEi 176.5777 431.1775 448.4743      -209.5887        33.12954        7.050454</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;            setup optimize covariance table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.001923 0.414655   0.414657  0.89    0.012 3.345765</span></span>
+<span><span class="co">#&gt; elapsed 0.001387 0.298484   0.298485 0.755    0.009 3.571644</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;        <span style="font-weight: bold;">Parameter</span>  <span style="font-weight: bold;">Est.</span>     <span style="font-weight: bold;">SE</span> <span style="font-weight: bold;">%RSE</span> <span style="font-weight: bold;">Back-transformed(95%CI)</span> <span style="font-weight: bold;">BSV(CV%)</span> <span style="font-weight: bold;">Shrink(SD)%</span></span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>           Ka 0.431  0.172 39.8        1.54 (1.1, 2.16)                     </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>           Cl 0.991 0.0746 7.53       2.69 (2.33, 3.12)     30.4      7.89% </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>             V  3.48  0.049 1.41       32.4 (29.4, 35.7)     15.6      7.92% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>           Ka 0.433  0.167 38.6       1.54 (1.11, 2.14)                     </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>           Cl 0.988  0.076  7.7       2.69 (2.31, 3.12)     30.4      7.95% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>             V  3.48 0.0481 1.38       32.4 (29.5, 35.6)     15.4      7.24% </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">add.sd</span>            1.02                                1.02                     </span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt;   Covariance Type (<span style="color: #0000BB; font-weight: bold;">$covMethod</span>): <span style="font-weight: bold;">r,s</span></span></span>
@@ -666,18 +704,18 @@ again.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Fit Data (object is a modified </span><span style="color: #0000BB; font-weight: bold;">tibble</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 27</span></span></span>
-<span><span class="co">#&gt;   ID     TIME    DV EPRED   ERES   NPDE    NPD   PDE    PD  PRED    RES   WRES</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.139  0.601  0.928  0.643 0.823 0.74   0     0.74   0.725</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.24  -<span style="color: #BB0000;">0.403</span> -<span style="color: #BB0000;">0.593</span> -<span style="color: #BB0000;">0.297</span> 0.277 0.383  3.12 -<span style="color: #BB0000;">0.281</span> -<span style="color: #BB0000;">0.249</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 5.70   0.870 -<span style="color: #BB0000;">0.468</span>  0.613 0.32  0.73   5.62  0.954  0.718</span></span>
+<span><span class="co">#&gt;   ID     TIME    DV EPRED   ERES   NPDE    NPD    PDE    PD  PRED    RES   WRES</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.167  0.573  0.126  0.477 0.55   0.683  0     0.74   0.724</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.18  -<span style="color: #BB0000;">0.342</span> -<span style="color: #BB0000;">1.36</span>  -<span style="color: #BB0000;">0.253</span> 0.086<span style="text-decoration: underline;">7</span> 0.4    3.12 -<span style="color: #BB0000;">0.282</span> -<span style="color: #BB0000;">0.250</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 5.68   0.888 -<span style="color: #BB0000;">0.524</span>  0.674 0.3    0.75   5.62  0.954  0.722</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 129 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 15 more variables: IPRED &lt;dbl&gt;, IRES &lt;dbl&gt;, IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;, depot &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;, tad &lt;dbl&gt;, dosenum &lt;dbl&gt;</span></span></span></code></pre></div>
 <p>Of course you could also add an eta on a parameter in the same
 way;</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">addBackKa</span> <span class="op">&lt;-</span> <span class="va">noEta</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/model.html" class="external-link">model</a></span><span class="op">(</span><span class="op">{</span><span class="va">ka</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">tka</span> <span class="op">+</span> <span class="va">bsv.ka</span><span class="op">)</span><span class="op">}</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span>bsv.ka<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -705,26 +743,27 @@ way;</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; calculating covariance matrix</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; done</span></span>
-<span></span>
+<span><span class="co">#&gt; done</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">addBackKa</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── </span><span style="color: #0000BB; font-weight: bold;">nlmix</span><span style="color: #BB0000; font-weight: bold;">r²</span><span style="font-weight: bold;"> </span><span style="color: #BBBB00; font-weight: bold;">FOCE</span><span style="color: #BB0000; font-weight: bold;">i</span> (outer: nlminb) ──</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;           OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)</span></span>
-<span><span class="co">#&gt; FOCEi 116.8119 373.4117 393.5913      -179.7059        93.97821        9.559932</span></span>
+<span><span class="co">#&gt; FOCEi 116.8978 373.4976 393.6772      -179.7488        50.95108        7.394634</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;           setup optimize covariance table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.00178 0.662247   0.662249 0.907    0.012 5.333724</span></span>
+<span><span class="co">#&gt; elapsed 0.00134 0.481875   0.481877 0.788     0.01 5.016908</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;        <span style="font-weight: bold;">Parameter</span>  <span style="font-weight: bold;">Est.</span>     <span style="font-weight: bold;">SE</span> <span style="font-weight: bold;">%RSE</span> <span style="font-weight: bold;">Back-transformed(95%CI)</span> <span style="font-weight: bold;">BSV(CV%)</span> <span style="font-weight: bold;">Shrink(SD)%</span></span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>           Ka 0.469  0.208 44.3         1.6 (1.06, 2.4)     69.3     0.744% </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>           Cl  1.01 0.0768 7.57       2.76 (2.37, 3.21)     26.8      3.80% </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>             V  3.46 0.0392 1.13       31.8 (29.4, 34.3)     13.7      9.77% </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">add.sd</span>           0.695                               0.695                     </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>           Ka 0.462  0.207 44.9       1.59 (1.06, 2.38)     69.1     0.451% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>           Cl  1.01 0.0715 7.08       2.74 (2.39, 3.16)     27.4      6.47% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>             V  3.46 0.0505 1.46       31.9 (28.9, 35.2)     15.0      13.8% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">add.sd</span>           0.693                               0.693                     </span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt;   Covariance Type (<span style="color: #0000BB; font-weight: bold;">$covMethod</span>): <span style="font-weight: bold;">r,s</span></span></span>
 <span><span class="co">#&gt;   No correlations in between subject variability (BSV) matrix</span></span>
@@ -746,11 +785,11 @@ way;</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Fit Data (object is a modified </span><span style="color: #0000BB; font-weight: bold;">tibble</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 28</span></span></span>
-<span><span class="co">#&gt;   ID     TIME    DV  EPRED   ERES   NPDE    NPD    PDE    PD  PRED    RES   WRES</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.094<span style="text-decoration: underline;">5</span>  0.646  1.45   0.915 0.927   0.82  0     0.74   1.07 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.61   -<span style="color: #BB0000;">0.774</span> -<span style="color: #BB0000;">0.728</span> -<span style="color: #BB0000;">0.279</span> 0.233   0.39  3.28 -<span style="color: #BB0000;">0.439</span> -<span style="color: #BB0000;">0.236</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 5.88    0.686 -<span style="color: #BB0000;">1.83</span>   0.358 0.033<span style="text-decoration: underline;">3</span>  0.64  5.85  0.717  0.291</span></span>
+<span><span class="co">#&gt;   ID     TIME    DV EPRED   ERES   NPDE    NPD   PDE    PD  PRED    RES   WRES</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.114  0.626  0.468  0.878 0.68  0.81   0     0.74   1.07 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.66  -<span style="color: #BB0000;">0.825</span> -<span style="color: #BB0000;">0.866</span> -<span style="color: #BB0000;">0.271</span> 0.193 0.393  3.25 -<span style="color: #BB0000;">0.411</span> -<span style="color: #BB0000;">0.222</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 5.96   0.611 -<span style="color: #BB0000;">1.48</span>   0.314 0.07  0.623  5.81  0.758  0.306</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 129 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 16 more variables: IPRED &lt;dbl&gt;, IRES &lt;dbl&gt;, IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;, bsv.ka &lt;dbl&gt;,</span></span></span>
@@ -758,12 +797,12 @@ way;</p>
 <span><span class="co">#&gt; <span style="color: #949494;">#   dosenum &lt;dbl&gt;</span></span></span></code></pre></div>
 <p>You can see the name change by examining the <code>omega</code>
 matrix:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">addBackKa</span><span class="op">$</span><span class="va">omega</span></span>
 <span><span class="co">#&gt;            eta.cl      eta.v    bsv.ka</span></span>
-<span><span class="co">#&gt; eta.cl 0.06958784 0.00000000 0.0000000</span></span>
-<span><span class="co">#&gt; eta.v  0.00000000 0.01852672 0.0000000</span></span>
-<span><span class="co">#&gt; bsv.ka 0.00000000 0.00000000 0.3918599</span></span></code></pre></div>
+<span><span class="co">#&gt; eta.cl 0.07240395 0.00000000 0.0000000</span></span>
+<span><span class="co">#&gt; eta.v  0.00000000 0.02217241 0.0000000</span></span>
+<span><span class="co">#&gt; bsv.ka 0.00000000 0.00000000 0.3907193</span></span></code></pre></div>
 <p>Note that new between subject variability parameters are
 distinguished from other types of parameters (ie population parameters,
 and individual covariates) by their name. Parameters starting or ending
@@ -781,10 +820,10 @@ parameters:</p>
 <div class="section level3">
 <h3 id="adding-covariate-effects">Adding Covariate effects<a class="anchor" aria-label="anchor" href="#adding-covariate-effects"></a>
 </h3>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Note currently cov is needed as a prefix so nlmixr knows this is an</span></span>
 <span><span class="co">## estimated parameter not a parameter</span></span>
-<span><span class="va">wt70</span> <span class="op">&lt;-</span> <span class="va">fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">wt70</span> <span class="op">&lt;-</span> <span class="va">fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/model.html" class="external-link">model</a></span><span class="op">(</span><span class="op">{</span><span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">tcl</span> <span class="op">+</span> <span class="va">eta.cl</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">WT</span><span class="op">/</span><span class="fl">70</span><span class="op">)</span><span class="op">^</span><span class="va">covWtPow</span><span class="op">}</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span>covWtPow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/utils/fix.html" class="external-link">fix</a></span><span class="op">(</span><span class="fl">0.75</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span>tka<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/utils/fix.html" class="external-link">fix</a></span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -810,36 +849,43 @@ parameters:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:01 </span></span>
-<span><span class="co">#&gt; done</span></span>
-<span></span>
+<span><span class="co">#&gt; calculating covariance matrix</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; done</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">wt70</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── </span><span style="color: #0000BB; font-weight: bold;">nlmix</span><span style="color: #BB0000; font-weight: bold;">r²</span><span style="font-weight: bold;"> </span><span style="color: #BBBB00; font-weight: bold;">FOCE</span><span style="color: #BB0000; font-weight: bold;">i</span> (outer: nlminb) ──</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;            OBJF       AIC       BIC Log-likelihood</span></span>
-<span><span class="co">#&gt; FOCEi -3647.111 -3392.512 -3375.215       1702.256</span></span>
+<span><span class="co">#&gt;           OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)</span></span>
+<span><span class="co">#&gt; FOCEi 116.2103 370.8101 388.1069      -179.4051        3.142512        2.615431</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;            setup optimize covariance table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.001913 0.000133   0.000135 0.922    0.012 4.953819</span></span>
+<span><span class="co">#&gt; elapsed 0.001348 0.536494   0.536495 0.745     0.01 2.984663</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;          <span style="font-weight: bold;">Parameter</span>     <span style="font-weight: bold;">Est.</span> <span style="font-weight: bold;">Back-transformed</span> <span style="font-weight: bold;">BSV(CV%)</span> <span style="font-weight: bold;">Shrink(SD)%</span></span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>             Ka      0.5             1.65     63.2      6.16% </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>             Cl        1             2.72     25.3      11.4% </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>               V     3.46             31.9     12.6      <span style="color: #00BB00; font-weight: bold;">23.2%</span> </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">add.sd</span>             5.96e-07         5.96e-07                     </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">covWtPow</span>               0.75             0.75                     </span></span>
+<span><span class="co">#&gt;          <span style="font-weight: bold;">Parameter</span>  <span style="font-weight: bold;">Est.</span>     <span style="font-weight: bold;">SE</span>  <span style="font-weight: bold;">%RSE</span> <span style="font-weight: bold;">Back-transformed(95%CI)</span> <span style="font-weight: bold;">BSV(CV%)</span></span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>             Ka   0.5  <span style="color: #00BB00; font-weight: bold;">FIXED</span> <span style="color: #00BB00; font-weight: bold;">FIXED</span>                     0.5     69.4</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>             Cl  1.02 0.0777  7.62       2.77 (2.38, 3.23)     26.8</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>               V  3.46 0.0576  1.66       31.8 (28.4, 35.6)     14.0</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">add.sd</span>             0.695                                0.695         </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">covWtPow</span>            0.75  <span style="color: #00BB00; font-weight: bold;">FIXED</span> <span style="color: #00BB00; font-weight: bold;">FIXED</span>                    0.75         </span></span>
+<span><span class="co">#&gt;          <span style="font-weight: bold;">Shrink(SD)%</span></span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>           1.26% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>           6.79% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>            12.6% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">add.sd</span>              </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">covWtPow</span>            </span></span>
 <span><span class="co">#&gt;  </span></span>
-<span><span class="co">#&gt;   Covariance Type (<span style="color: #0000BB; font-weight: bold;">$covMethod</span>): <span style="font-weight: bold;">Boundary issue; Get SEs with `getVarCov()`: "add.sd" </span></span></span>
+<span><span class="co">#&gt;   Covariance Type (<span style="color: #0000BB; font-weight: bold;">$covMethod</span>): <span style="font-weight: bold;">r,s</span></span></span>
 <span><span class="co">#&gt;   No correlations in between subject variability (BSV) matrix</span></span>
 <span><span class="co">#&gt;   Full BSV covariance (<span style="color: #0000BB; font-weight: bold;">$omega</span>) or correlation (<span style="color: #0000BB; font-weight: bold;">$omegaR</span>; diagonals=SDs) </span></span>
 <span><span class="co">#&gt;   Distribution stats (mean/skewness/kurtosis/p-value) available in <span style="color: #0000BB; font-weight: bold;">$shrink</span> </span></span>
 <span><span class="co">#&gt;   Information about run found (<span style="color: #0000BB; font-weight: bold;">$runInfo</span>):</span></span>
-<span><span class="co">#&gt;    • gradient problems with initial estimate; see $scaleInfo </span></span>
-<span><span class="co">#&gt;    • parameter estimate near boundary; covariance not calculated: "add.sd" use 'getVarCov' to calculate anyway </span></span>
+<span><span class="co">#&gt;    • gradient problems with initial estimate and covariance; see $scaleInfo </span></span>
 <span><span class="co">#&gt;    • last objective function was not at minimum, possible problems in optimization </span></span>
 <span><span class="co">#&gt;    • ETAs were reset to zero during optimization; (Can control by foceiControl(resetEtaP=.)) </span></span>
 <span><span class="co">#&gt;    • initial ETAs were nudged; (can control by foceiControl(etaNudge=., etaNudge2=)) </span></span>
@@ -854,23 +900,23 @@ parameters:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Fit Data (object is a modified </span><span style="color: #0000BB; font-weight: bold;">tibble</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 29</span></span></span>
-<span><span class="co">#&gt;   ID     TIME    DV        EPRED   ERES  NPDE    NPD   PDE    PD  PRED    RES</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.000<span style="text-decoration: underline;">000</span>081<span style="text-decoration: underline;">1</span>  0.740 1.99   2.94  0.977 0.998  0     0.74 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.79         -<span style="color: #BB0000;">0.945</span> 0.830 -<span style="color: #BB0000;">0.468</span> 0.797 0.32   3.34 -<span style="color: #BB0000;">0.503</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 6.17          0.402 1.83   0.193 0.967 0.577  5.92  0.650</span></span>
+<span><span class="co">#&gt;   ID     TIME    DV EPRED   ERES   NPDE    NPD    PDE    PD  PRED    RES   WRES</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.114  0.626  0.422  0.866 0.663  0.807  0     0.74   1.06 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.72  -<span style="color: #BB0000;">0.885</span> -<span style="color: #BB0000;">0.297</span> -<span style="color: #BB0000;">0.422</span> 0.383  0.337  3.36 -<span style="color: #BB0000;">0.520</span> -<span style="color: #BB0000;">0.274</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 6.03   0.541 -<span style="color: #BB0000;">1.79</span>   0.271 0.036<span style="text-decoration: underline;">7</span> 0.607  5.95  0.622  0.252</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 129 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 18 more variables: WRES &lt;dbl&gt;, IPRED &lt;dbl&gt;, IRES &lt;dbl&gt;, IWRES &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   CPRED &lt;dbl&gt;, CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.ka &lt;dbl&gt;, eta.cl &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   eta.v &lt;dbl&gt;, depot &lt;dbl&gt;, center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   tad &lt;dbl&gt;, dosenum &lt;dbl&gt;, WT &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 17 more variables: IPRED &lt;dbl&gt;, IRES &lt;dbl&gt;, IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.ka &lt;dbl&gt;, eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   depot &lt;dbl&gt;, center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;, tad &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   dosenum &lt;dbl&gt;, WT &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="changing-residual-errors">Changing residual errors<a class="anchor" aria-label="anchor" href="#changing-residual-errors"></a>
 </h3>
 <p>Changing the residual errors is also just as easy, by simply
 specifying the error you wish to change:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Since there are 0 predictions in the data, these are changed to</span></span>
 <span><span class="co">## 0.0150 to show proportional error change.</span></span>
 <span><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">theo_sd</span></span>
@@ -904,31 +950,32 @@ specifying the error you wish to change:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; calculating covariance matrix</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; done</span></span>
-<span></span>
+<span><span class="co">#&gt; done</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">addPropModel</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── </span><span style="color: #0000BB; font-weight: bold;">nlmix</span><span style="color: #BB0000; font-weight: bold;">r²</span><span style="font-weight: bold;"> </span><span style="color: #BBBB00; font-weight: bold;">FOCE</span><span style="color: #BB0000; font-weight: bold;">i</span> (outer: nlminb) ──</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;           OBJF    AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)</span></span>
-<span><span class="co">#&gt; FOCEi 104.3503 362.95 386.0125       -173.475         54.0613         8.72833</span></span>
+<span><span class="co">#&gt;           OBJF     AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)</span></span>
+<span><span class="co">#&gt; FOCEi 104.9613 363.561 386.6235      -173.7805        29.38653        16.08647</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;            setup optimize covariance table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.001911 0.687078    0.68708 0.886    0.012 7.859931</span></span>
+<span><span class="co">#&gt; elapsed 0.001417 0.518964   0.518966 0.781     0.01 7.965653</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;          <span style="font-weight: bold;">Parameter</span>  <span style="font-weight: bold;">Est.</span>     <span style="font-weight: bold;">SE</span> <span style="font-weight: bold;">%RSE</span> <span style="font-weight: bold;">Back-transformed(95%CI)</span> <span style="font-weight: bold;">BSV(CV%)</span></span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>             Ka 0.394  0.196 49.7       1.48 (1.01, 2.18)     69.4</span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>             Cl  1.02 0.0732 7.15       2.78 (2.41, 3.21)     25.9</span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>               V  3.47 0.0487 1.41         32 (29.1, 35.2)     12.6</span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">add.err</span>            0.277                               0.277         </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">prop.err</span>           0.133                               0.133         </span></span>
+<span><span class="co">#&gt;          <span style="font-weight: bold;">Parameter</span>  <span style="font-weight: bold;">Est.</span>    <span style="font-weight: bold;">SE</span> <span style="font-weight: bold;">%RSE</span> <span style="font-weight: bold;">Back-transformed(95%CI)</span> <span style="font-weight: bold;">BSV(CV%)</span></span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>             Ka 0.424 0.326 76.9       1.53 (0.806, 2.9)     72.2</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>             Cl  1.02 0.111 10.9       2.77 (2.23, 3.44)     26.4</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>               V  3.46 0.176 5.08       31.8 (22.6, 44.9)     13.4</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">add.err</span>            0.315                              0.315         </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">prop.err</span>            0.12                               0.12         </span></span>
 <span><span class="co">#&gt;          <span style="font-weight: bold;">Shrink(SD)%</span></span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>           2.34% </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>           1.27% </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>            15.5% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>           3.73% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>           1.93% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>            14.3% </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">add.err</span>             </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">prop.err</span>            </span></span>
 <span><span class="co">#&gt;  </span></span>
@@ -938,6 +985,7 @@ specifying the error you wish to change:</p>
 <span><span class="co">#&gt;   Distribution stats (mean/skewness/kurtosis/p-value) available in <span style="color: #0000BB; font-weight: bold;">$shrink</span> </span></span>
 <span><span class="co">#&gt;   Information about run found (<span style="color: #0000BB; font-weight: bold;">$runInfo</span>):</span></span>
 <span><span class="co">#&gt;    • gradient problems with initial estimate and covariance; see $scaleInfo </span></span>
+<span><span class="co">#&gt;    • last objective function was not at minimum, possible problems in optimization </span></span>
 <span><span class="co">#&gt;    • ETAs were reset to zero during optimization; (Can control by foceiControl(resetEtaP=.)) </span></span>
 <span><span class="co">#&gt;    • initial ETAs were nudged; (can control by foceiControl(etaNudge=., etaNudge2=)) </span></span>
 <span><span class="co">#&gt;   Censoring (<span style="color: #0000BB; font-weight: bold;">$censInformation</span>): No censoring</span></span>
@@ -948,14 +996,19 @@ specifying the error you wish to change:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 28</span></span></span>
 <span><span class="co">#&gt;   ID     TIME    DV  EPRED   ERES   NPDE    NPD   PDE    PD  PRED    RES   WRES</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.037<span style="text-decoration: underline;">7</span>  0.702  2.13   2.22  0.983 0.987  0     0.74   2.67 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.61   -<span style="color: #BB0000;">0.772</span> -<span style="color: #BB0000;">0.854</span> -<span style="color: #BB0000;">0.288</span> 0.197 0.387  3.06 -<span style="color: #BB0000;">0.224</span> -<span style="color: #BB0000;">0.132</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 5.88    0.687 -<span style="color: #BB0000;">0.842</span>  0.245 0.2   0.597  5.55  1.02   0.418</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 0.051<span style="text-decoration: underline;">6</span>  0.688  0.954  2.22  0.83  0.987  0     0.74   2.35 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84 3.52   -<span style="color: #BB0000;">0.679</span> -<span style="color: #BB0000;">0.573</span> -<span style="color: #BB0000;">0.305</span> 0.283 0.38   3.16 -<span style="color: #BB0000;">0.317</span> -<span style="color: #BB0000;">0.177</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57 5.82    0.751 -<span style="color: #BB0000;">0.515</span>  0.358 0.303 0.64   5.69  0.885  0.350</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 129 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 16 more variables: IPRED &lt;dbl&gt;, IRES &lt;dbl&gt;, IWRES &lt;dbl&gt;, CPRED &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   CRES &lt;dbl&gt;, CWRES &lt;dbl&gt;, eta.ka &lt;dbl&gt;, eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   depot &lt;dbl&gt;, center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;, tad &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   dosenum &lt;dbl&gt;</span></span></span></code></pre></div>
+<p>There is much more you can do with piping. For a more complete
+discussion see <a href="https://nlmixr2.github.io/rxode2/articles/Modifying-Models.html" class="external-link">see
+rxode2 piping documentation</a>. Since <code>rxode2</code> and
+<code>nlmixr2</code> models can share the same functional form the
+piping applies to fits as well as model definitions.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -965,13 +1018,11 @@ specifying the error you wish to change:</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p>
-<p>Developed by Matthew Fidler.</p>
+  <p>Developed by Matthew Fidler.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
     </footer>
