@@ -1,2 +1,1 @@
-- This release has testing fixes for systems without compiled linear
-  compartment sensitivity equations
+- This release tags the correct versions of packages so there isn't a binary problem
