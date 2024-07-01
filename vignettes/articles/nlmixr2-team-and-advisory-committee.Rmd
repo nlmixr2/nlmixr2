@@ -39,11 +39,13 @@ They also have the following emeritus members:
 
 - Huijuan Xu
 
-## The nlmixr2 advisory committee
+## The nlmixr2 Scientific Advisors
 
 - Paolo Denti
 
 - Stephen Duffull
+
+- Jeffry Florian
 
 - Marc Gastonguay
 
@@ -54,3 +56,5 @@ They also have the following emeritus members:
 - Mats Karlsson
 
 - Joseph Standing
+
+## nlmixr2
