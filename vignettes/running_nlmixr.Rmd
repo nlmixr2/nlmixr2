@@ -45,7 +45,7 @@ dataset. We write the model as follows:
 one.cmt <- function() {
   ini({
     ## You may label each parameter with a comment
-    tka <- 0.45 # Ka
+    tka <- 0.45 # Log Ka
     tcl <- log(c(0, 2.7, 100)) # Log Cl
     ## This works with interactive models
     ## You may also label the preceding line with label("label text")
