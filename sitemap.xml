@@ -1,153 +1,53 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/404.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/articles/addingCovariances.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/articles/broom.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/articles/censoring.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/articles/citations.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/articles/mavoglurant.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/articles/modelPiping.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/articles/multiple-endpoints.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/articles/nimo.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/articles/nlmixr2-team-and-advisory-committee.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/articles/residualErrors.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/articles/running_nlmixr.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/articles/wbc.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/articles/xgxr-nlmixr-ggpmx.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/index.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/addCwres.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/addNpde.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/addTable.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/bobyqaControl.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/bootplot.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/bootstrapFit.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/covarSearchAuto.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/foceiControl.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/lbfgsb3cControl.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/n1qn1Control.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/newuoaControl.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/nlmControl.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/nlmeControl.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/nlminbControl.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/nlmixr2.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/nlmixr2CheckInstall.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/nlsControl.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/optimControl.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/preconditionFit.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/reexports.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/saemControl.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/setOfv.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/tableControl.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/traceplot.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/uobyqaControl.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/vpcCens.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/vpcCensTad.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/vpcPlot.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/vpcPlotTad.html</loc>
-  </url>
-  <url>
-    <loc>https://nlmixr2.github.io/nlmixr2/reference/vpcSim.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://nlmixr2.github.io/nlmixr2/404.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/LICENSE.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/articles/addingCovariances.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/articles/broom.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/articles/censoring.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/articles/citations.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/articles/index.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/articles/mavoglurant.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/articles/modelPiping.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/articles/multiple-endpoints.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/articles/nimo.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/articles/nlmixr2-team-and-advisory-committee.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/articles/residualErrors.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/articles/running_nlmixr.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/articles/wbc.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/articles/xgxr-nlmixr-ggpmx.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/authors.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/index.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/news/index.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/addCwres.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/addNpde.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/addTable.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/bobyqaControl.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/bootplot.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/bootstrapFit.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/covarSearchAuto.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/foceiControl.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/index.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/lbfgsb3cControl.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/n1qn1Control.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/newuoaControl.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/nlmControl.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/nlmeControl.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/nlminbControl.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/nlmixr2.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/nlmixr2CheckInstall.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/nlsControl.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/optimControl.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/preconditionFit.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/reexports.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/saemControl.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/setOfv.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/tableControl.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/traceplot.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/uobyqaControl.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/vpcCens.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/vpcCensTad.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/vpcPlot.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/vpcPlotTad.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/vpcSim.html</loc></url>
 </urlset>
+

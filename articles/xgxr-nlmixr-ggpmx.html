@@ -5,7 +5,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="nlmixr2">
 <title>xgxr and ggPMX integration with nlmixr2 • nlmixr2</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
@@ -15,27 +14,21 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="xgxr and ggPMX integration with nlmixr2">
-<meta property="og:description" content="nlmixr2">
-<meta property="og:image" content="https://nlmixr2.github.io/nlmixr2/logo.png">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="xgxr and ggPMX integration with nlmixr2">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
-    
 
-    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary" data-bs-theme="dark"><div class="container">
-    
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">nlmixr2</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.2</small>
 
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -43,84 +36,45 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="active nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown--articles">
-    <span class="fas fa fas fa-book"></span>
-     
-    Articles
-  </a>
-  <div class="dropdown-menu" aria-labelledby="dropdown--articles">
-    <h6 class="dropdown-header" data-toc-skip>Getting started</h6>
-    <a class="dropdown-item" href="../articles/running_nlmixr.html">Introduction to Running Nlmixr</a>
-    <a class="dropdown-item" href="../articles/multiple-endpoints.html">Using Multiple Endpoints in Nlmixr</a>
-    <div class="dropdown-divider"></div>
-    <h6 class="dropdown-header" data-toc-skip>Going further</h6>
-    <a class="dropdown-item" href="../articles/modelPiping.html">Model Piping</a>
-    <a class="dropdown-item" href="../articles/broom.html">Sweeping models to tidy datasets (broom)</a>
-    <a class="dropdown-item" href="../articles/censoring.html">Censoring in nlmixr2 (M3 and others)</a>
-    <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="../articles/xgxr-nlmixr-ggpmx.html">Integrated development with xgxr/nlmixr/ggPMX</a>
-    <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="../articles/citations.html">Citations of nlmixr2</a>
-    <a class="dropdown-item" href="../articles/nlmixr2-team-and-advisory-committee.html">Who we are</a>
-  </div>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true"><span class="fa fas fa-book"></span> Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Getting started</h6></li>
+    <li><a class="dropdown-item" href="../articles/running_nlmixr.html">Introduction to Running Nlmixr</a></li>
+    <li><a class="dropdown-item" href="../articles/multiple-endpoints.html">Using Multiple Endpoints in Nlmixr</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Going further</h6></li>
+    <li><a class="dropdown-item" href="../articles/modelPiping.html">Model Piping</a></li>
+    <li><a class="dropdown-item" href="../articles/broom.html">Sweeping models to tidy datasets (broom)</a></li>
+    <li><a class="dropdown-item" href="../articles/censoring.html">Censoring in nlmixr2 (M3 and others)</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/xgxr-nlmixr-ggpmx.html">Integrated development with xgxr/nlmixr/ggPMX</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/citations.html">Citations of nlmixr2</a></li>
+    <li><a class="dropdown-item" href="../articles/nlmixr2-team-and-advisory-committee.html">Who we are</a></li>
+  </ul>
 </li>
 <li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown--example-models">
-    <span class="fas fa fas fa-chalkboard-teacher"></span>
-     
-    Example models
-  </a>
-  <div class="dropdown-menu" aria-labelledby="dropdown--example-models">
-    <a class="dropdown-item" href="../articles/addingCovariances.html">Phenobarbatol with correlations</a>
-    <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="../articles/nimo.html">Nonlinear PK/PD -- Nimotuzumab</a>
-    <a class="dropdown-item" href="../articles/mavoglurant.html">PBPK -- Mavoglurant</a>
-    <a class="dropdown-item" href="../articles/wbc.html">PKPD -- Myelosuppression model</a>
-  </div>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-example-models" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true"><span class="fa fas fa-chalkboard-teacher"></span> Example models</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-example-models">
+<li><a class="dropdown-item" href="../articles/addingCovariances.html">Phenobarbatol with correlations</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/nimo.html">Nonlinear PK/PD -- Nimotuzumab</a></li>
+    <li><a class="dropdown-item" href="../articles/mavoglurant.html">PBPK -- Mavoglurant</a></li>
+    <li><a class="dropdown-item" href="../articles/wbc.html">PKPD -- Myelosuppression model</a></li>
+  </ul>
 </li>
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/nlmixr2/nlmixr2/raw/main/CheatSheet_nlmixr_220621.pdf">
-    <span class="fa fa-scroll fa-lg"></span>
-     
-    Cheat Sheet
-  </a>
-</li>
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://doi.org/10.1002/psp4.12445">
-    <span class="fas fa fas fa-life-ring"></span>
-     
-    Tutorial
-  </a>
-</li>
-<li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">
-    <span class="fa fa-file-code-o fa-lg"></span>
-     
-    Functions
-  </a>
-</li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/nlmixr2/nlmixr2/raw/main/CheatSheet_nlmixr_220621.pdf"><span class="fa fa-scroll fa-lg"></span> Cheat Sheet</a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://doi.org/10.1002/psp4.12445"><span class="fa fas fa-life-ring"></span> Tutorial</a></li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html"><span class="fa fa-file-code-o fa-lg"></span> Functions</a></li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav">
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/nlmixr2/nlmixr2">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/nlmixr2/nlmixr2/releases">
-    <span class="fa fa-download"></span>
-     
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/nlmixr2/nlmixr2"><span class="fa fa-github fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/nlmixr2/nlmixr2/releases"><span class="fa fa-download"></span></a></li>
       </ul>
 </div>
 
-    
+
   </div>
 </nav><div class="container template-article">
 
@@ -132,7 +86,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>xgxr and ggPMX integration with nlmixr2</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/HEAD/vignettes/xgxr-nlmixr-ggpmx.Rmd" class="external-link"><code>vignettes/xgxr-nlmixr-ggpmx.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/main/vignettes/xgxr-nlmixr-ggpmx.Rmd" class="external-link"><code>vignettes/xgxr-nlmixr-ggpmx.Rmd</code></a></small>
       <div class="d-none name"><code>xgxr-nlmixr-ggpmx.Rmd</code></div>
     </div>
 
@@ -471,9 +425,8 @@ compare a few models:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
+<span></span>
 <span><span class="co">## Now try proportional</span></span>
 <span><span class="va">cmt2fit.prop</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">cmt2fit.logn</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -526,9 +479,8 @@ compare a few models:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
+<span></span>
 <span><span class="co">## now try add+prop</span></span>
 <span><span class="va">cmt2fit.add.prop</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">cmt2fit.prop</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -584,7 +536,7 @@ compare a few models:</p>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span></code></pre></div>
 <p>Now that we have run 3 different estimation methods, we can compare
 the results side-by-side</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hughjonesd.github.io/huxtable/" class="external-link">huxtable</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://hughjonesd.github.io/huxtable/reference/huxreg.html" class="external-link">huxreg</a></span><span class="op">(</span></span>
@@ -766,13 +718,13 @@ function values)</p>
 <div class="section level2">
 <h2 id="model-diagnostics-with-ggpmx">Model Diagnostics with ggPMX<a class="anchor" aria-label="anchor" href="#model-diagnostics-with-ggpmx"></a>
 </h2>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## The controller then can be piped into a specific plot</span></span>
 <span><span class="va">ctr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/pmx_nlmixr.html" class="external-link">pmx_nlmixr</a></span><span class="op">(</span><span class="va">cmt2fit.logn</span>, conts <span class="op">=</span> <span class="st">"WEIGHTB"</span>, cats<span class="op">=</span><span class="st">"TRTACT"</span>, vpc<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ctr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/residual_scatter.html" class="external-link">pmx_plot_npde_pred</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fig-npde-pred-1.png" width="100%"></p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Modify graphical options and remove DRAFT label:</span></span>
 <span><span class="va">ctr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/residual_scatter.html" class="external-link">pmx_plot_npde_time</a></span><span class="op">(</span></span>
@@ -780,16 +732,16 @@ function values)</p>
 <span>    labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Time after first dose (days)"</span>, y <span class="op">=</span> <span class="st">"Normalized PDE"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fig-npde-pred-nodraft-1.png" width="100%"></p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ctr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/residual_scatter.html" class="external-link">pmx_plot_dv_ipred</a></span><span class="op">(</span>scale_x_log10<span class="op">=</span><span class="cn">TRUE</span>, scale_y_log10<span class="op">=</span><span class="cn">TRUE</span>, filter<span class="op">=</span><span class="va">IPRED</span><span class="op">&gt;</span><span class="fl">0.001</span><span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fig-dv-ipred-1.png" width="100%"></p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ctr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/residual_scatter.html" class="external-link">pmx_plot_dv_pred</a></span><span class="op">(</span>scale_x_log10<span class="op">=</span><span class="cn">TRUE</span>, scale_y_log10<span class="op">=</span><span class="cn">TRUE</span>, filter<span class="op">=</span><span class="va">IPRED</span><span class="op">&gt;</span><span class="fl">0.001</span><span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fig-dv-pred-1.png" width="100%"></p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ctr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/residual_scatter.html" class="external-link">pmx_plot_abs_iwres_ipred</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fig-iwres-ipred-1.png" width="100%"></p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ctr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/pmx_plot_individual.html" class="external-link">pmx_plot_individual</a></span><span class="op">(</span></span>
 <span>    <span class="fl">1</span>,</span>
@@ -797,10 +749,10 @@ function values)</p>
 <span>    facets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fig-individual-1.png" width="100%"></p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ctr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/pmx_plot_iwres_dens.html" class="external-link">pmx_plot_iwres_dens</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fig-iwres-dens-1.png" width="100%"></p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ctr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/pmx_qq_plot.html" class="external-link">pmx_plot_eta_qq</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fig-eta-qq-1.png" width="100%"></p>
 <p>This creates two reports with default settings, both a <a href="https://github.com/nlmixr2/nlmixr2/raw/master/vignettes/nlmixr_report.pdf" class="external-link">pdf</a>
@@ -808,13 +760,13 @@ and <a href="https://github.com/nlmixr2/nlmixr2/raw/master/vignettes/nlmixr_repo
 document. The report can be customized by editing the default template
 to include project specificities (change labels, stratifications,
 filtering, etc.).</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ctr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/eta_distribution_plot.html" class="external-link">pmx_plot_eta_box</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fig-eta-box-1.png" width="100%"></p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ctr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/eta_distribution_plot.html" class="external-link">pmx_plot_eta_hist</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fit-eta-hist-1.png" width="100%"></p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ctr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/pmx_plot_eta_matrix.html" class="external-link">pmx_plot_eta_matrix</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fig-eta-matrix-1.png" width="100%"></p>
 <p>This creates two reports with default settings, both a <a href="https://github.com/nlmixr2/nlmixr2/raw/master/vignettes/nlmixr_report.pdf" class="external-link">pdf</a>
@@ -833,10 +785,10 @@ the nlmixr model using a <a href="https://nlmixr2.github.io/rxode2/articles/rxod
 event table</a> created from <code><a href="https://nlmixr2.github.io/rxode2/reference/rxode2.html" class="external-link">rxode2()</a></code>.</p>
 <p>In this case we wish to simulate with some variability and see what
 happens at steady state:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Start a new simulation</span></span>
-<span><span class="va">ev</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/rxode2et/reference/et.html" class="external-link">et</a></span><span class="op">(</span>amt<span class="op">=</span><span class="fl">100</span>, ii<span class="op">=</span><span class="fl">8</span>, ss<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<span><span class="va">ev</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/et.html" class="external-link">et</a></span><span class="op">(</span>amt<span class="op">=</span><span class="fl">100</span>, ii<span class="op">=</span><span class="fl">8</span>, ss<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ev</span><span class="op">$</span><span class="fu">add.sampling</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">8</span>, length.out<span class="op">=</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">ev</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── EventTable with 51 records ──</span></span></span>
@@ -864,25 +816,25 @@ parameters or covariances, like what is done for a VPC.</p>
 <code>100</code> different theoretical studies where you simulate from
 the uncertainty in the fixed parameter estimates and covariances you can
 very easily with nlmixr2/rxode2:</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
 <span><span class="va">sim1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/rxSolve.html" class="external-link">rxSolve</a></span><span class="op">(</span><span class="va">cmt2fit.logn</span>, <span class="va">ev</span>, nSub<span class="op">=</span><span class="fl">100</span>, nStud<span class="op">=</span><span class="fl">100</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Solved rxode2 object ──</span></span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Parameters (</span><span style="color: #0000BB; font-weight: bold;">$params</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10,000 × 10</span></span></span>
-<span><span class="co">#&gt;    sim.id   lka    lv   lcl    lq   lvp logn.sd  eta.ka    eta.v  eta.cl</span></span>
-<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>      1 -<span style="color: #BB0000;">2.37</span>  2.05  1.82  2.00  2.80    1.07  0.011<span style="text-decoration: underline;">5</span> -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">7</span>  -<span style="color: #BB0000;">0.847</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>      2 -<span style="color: #BB0000;">2.37</span>  2.05  1.82  2.00  2.80    1.07  0.194  -<span style="color: #BB0000;">0.069</span><span style="color: #BB0000; text-decoration: underline;">7</span>  -<span style="color: #BB0000;">0.651</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>      3 -<span style="color: #BB0000;">2.37</span>  2.05  1.82  2.00  2.80    1.07  0.156   0.390   -<span style="color: #BB0000;">0.014</span><span style="color: #BB0000; text-decoration: underline;">6</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>      4 -<span style="color: #BB0000;">2.37</span>  2.05  1.82  2.00  2.80    1.07 -<span style="color: #BB0000;">0.046</span><span style="color: #BB0000; text-decoration: underline;">1</span>  0.004<span style="text-decoration: underline;">46</span>  0.391 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>      5 -<span style="color: #BB0000;">2.37</span>  2.05  1.82  2.00  2.80    1.07  0.251  -<span style="color: #BB0000;">0.264</span>    0.252 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>      6 -<span style="color: #BB0000;">2.37</span>  2.05  1.82  2.00  2.80    1.07  0.165   0.253   -<span style="color: #BB0000;">0.335</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>      7 -<span style="color: #BB0000;">2.37</span>  2.05  1.82  2.00  2.80    1.07 -<span style="color: #BB0000;">0.047</span><span style="color: #BB0000; text-decoration: underline;">9</span> -<span style="color: #BB0000;">0.114</span>   -<span style="color: #BB0000;">1.07</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>      8 -<span style="color: #BB0000;">2.37</span>  2.05  1.82  2.00  2.80    1.07 -<span style="color: #BB0000;">0.065</span><span style="color: #BB0000; text-decoration: underline;">5</span> -<span style="color: #BB0000;">0.820</span>   -<span style="color: #BB0000;">0.041</span><span style="color: #BB0000; text-decoration: underline;">0</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>      9 -<span style="color: #BB0000;">2.37</span>  2.05  1.82  2.00  2.80    1.07 -<span style="color: #BB0000;">0.011</span><span style="color: #BB0000; text-decoration: underline;">7</span>  0.287    0.218 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     10 -<span style="color: #BB0000;">2.37</span>  2.05  1.82  2.00  2.80    1.07  0.168  -<span style="color: #BB0000;">0.104</span>    0.112 </span></span>
+<span><span class="co">#&gt;    sim.id   lka    lv   lcl    lq   lvp logn.sd  eta.ka   eta.v   eta.cl</span></span>
+<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>      1 -<span style="color: #BB0000;">2.26</span>  2.27  1.89  2.12  3.07    1.07  0.011<span style="text-decoration: underline;">4</span> -<span style="color: #BB0000;">0.016</span><span style="color: #BB0000; text-decoration: underline;">9</span> -<span style="color: #BB0000;">0.796</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>      2 -<span style="color: #BB0000;">2.26</span>  2.27  1.89  2.12  3.07    1.07  0.192  -<span style="color: #BB0000;">0.162</span>  -<span style="color: #BB0000;">0.758</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>      3 -<span style="color: #BB0000;">2.26</span>  2.27  1.89  2.12  3.07    1.07  0.155   0.366  -<span style="color: #BB0000;">0.002</span><span style="color: #BB0000; text-decoration: underline;">54</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>      4 -<span style="color: #BB0000;">2.26</span>  2.27  1.89  2.12  3.07    1.07 -<span style="color: #BB0000;">0.045</span><span style="color: #BB0000; text-decoration: underline;">8</span>  0.025<span style="text-decoration: underline;">1</span>  0.395  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>      5 -<span style="color: #BB0000;">2.26</span>  2.27  1.89  2.12  3.07    1.07  0.250  -<span style="color: #BB0000;">0.404</span>  -<span style="color: #BB0000;">0.018</span><span style="color: #BB0000; text-decoration: underline;">9</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>      6 -<span style="color: #BB0000;">2.26</span>  2.27  1.89  2.12  3.07    1.07  0.164   0.210  -<span style="color: #BB0000;">0.347</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>      7 -<span style="color: #BB0000;">2.26</span>  2.27  1.89  2.12  3.07    1.07 -<span style="color: #BB0000;">0.047</span><span style="color: #BB0000; text-decoration: underline;">5</span> -<span style="color: #BB0000;">0.106</span>  -<span style="color: #BB0000;">0.991</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>      8 -<span style="color: #BB0000;">2.26</span>  2.27  1.89  2.12  3.07    1.07 -<span style="color: #BB0000;">0.065</span><span style="color: #BB0000; text-decoration: underline;">0</span> -<span style="color: #BB0000;">0.885</span>  -<span style="color: #BB0000;">0.241</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>      9 -<span style="color: #BB0000;">2.26</span>  2.27  1.89  2.12  3.07    1.07 -<span style="color: #BB0000;">0.011</span><span style="color: #BB0000; text-decoration: underline;">6</span>  0.326   0.297  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     10 -<span style="color: #BB0000;">2.26</span>  2.27  1.89  2.12  3.07    1.07  0.166  -<span style="color: #BB0000;">0.190</span>  -<span style="color: #BB0000;">0.042</span><span style="color: #BB0000; text-decoration: underline;">8</span> </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 9,990 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Initial Conditions (</span><span style="color: #0000BB; font-weight: bold;">$inits</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; named numeric(0)</span></span>
@@ -894,66 +846,66 @@ very easily with nlmixr2/rxode2:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── First part of data (object): ──</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 500,000 × 9</span></span></span>
-<span><span class="co">#&gt;   sim.id  time     ka    cl     v     q    vp ipredSim   sim</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>      1 0     0.094<span style="text-decoration: underline;">6</span>  2.65  7.67  7.35  16.4     4.31  6.65</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>      1 0.163 0.094<span style="text-decoration: underline;">6</span>  2.65  7.67  7.35  16.4     4.47  2.06</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>      1 0.327 0.094<span style="text-decoration: underline;">6</span>  2.65  7.67  7.35  16.4     4.58 15.3 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>      1 0.490 0.094<span style="text-decoration: underline;">6</span>  2.65  7.67  7.35  16.4     4.68 41.1 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>      1 0.653 0.094<span style="text-decoration: underline;">6</span>  2.65  7.67  7.35  16.4     4.75  1.28</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>      1 0.816 0.094<span style="text-decoration: underline;">6</span>  2.65  7.67  7.35  16.4     4.80  2.56</span></span>
+<span><span class="co">#&gt;   sim.id  time    ka    cl     v     q    vp ipredSim   sim</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>      1 0     0.106  2.98  9.50  8.30  21.4     3.81  5.88</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>      1 0.163 0.106  2.98  9.50  8.30  21.4     3.96  1.83</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>      1 0.327 0.106  2.98  9.50  8.30  21.4     4.07 13.6 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>      1 0.490 0.106  2.98  9.50  8.30  21.4     4.15 36.5 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>      1 0.653 0.106  2.98  9.50  8.30  21.4     4.22  1.14</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>      1 0.816 0.106  2.98  9.50  8.30  21.4     4.27  2.28</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 499,994 more rows</span></span></span></code></pre></div>
 <p>You may examine the simulated study information easily, as show in
 the <code><a href="https://nlmixr2.github.io/rxode2/reference/rxode2.html" class="external-link">rxode2()</a></code> printout:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">thetaMat</span><span class="op">)</span></span>
-<span><span class="co">#&gt;              lka          lv         lcl          lq        lvp</span></span>
-<span><span class="co">#&gt; [1,] -0.08185950 -0.12747136 -0.01401328 -0.19834260 -0.2039910</span></span>
-<span><span class="co">#&gt; [2,] -0.06325313 -0.13788637 -0.07355197  0.39646454 -0.2124947</span></span>
-<span><span class="co">#&gt; [3,]  0.02719113  0.04279752  0.02012297 -0.13041034  0.2271712</span></span>
-<span><span class="co">#&gt; [4,] -0.04482512 -0.13964879 -0.12688340  0.01159764 -0.2040580</span></span>
-<span><span class="co">#&gt; [5,] -0.05921310  0.03727557 -0.20171452 -0.47452940 -0.1990387</span></span>
-<span><span class="co">#&gt; [6,]  0.12180032  0.19929710  0.11656215  0.04746766  0.3845787</span></span></code></pre></div>
+<span><span class="co">#&gt;              lka          lv         lcl          lq         lvp</span></span>
+<span><span class="co">#&gt; [1,]  0.02990893  0.09231888  0.05262066 -0.07761409  0.06457724</span></span>
+<span><span class="co">#&gt; [2,]  0.06287836 -0.17711317 -0.05730538  0.73106324  0.09939245</span></span>
+<span><span class="co">#&gt; [3,] -0.06795305 -0.22310746 -0.11596125 -0.19584895 -0.14001815</span></span>
+<span><span class="co">#&gt; [4,] -0.06425253 -0.18892367  0.17625022  0.33655865 -0.03101308</span></span>
+<span><span class="co">#&gt; [5,] -0.17972148 -0.14976138  0.07913054 -0.72176495 -0.52406985</span></span>
+<span><span class="co">#&gt; [6,] -0.05900267  0.01028711 -0.05519068 -0.24244836 -0.25188618</span></span></code></pre></div>
 <p>You can also see the covariance matricies that are simulated (note
 they come from an inverse Wishart distribution):</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">omegaList</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [[1]]</span></span>
-<span><span class="co">#&gt;             eta.ka        eta.v       eta.cl</span></span>
-<span><span class="co">#&gt; eta.ka 0.012753101  0.001091743  0.005611709</span></span>
-<span><span class="co">#&gt; eta.v  0.001091743  0.113187728 -0.021403817</span></span>
-<span><span class="co">#&gt; eta.cl 0.005611709 -0.021403817  0.671377841</span></span>
+<span><span class="co">#&gt;              eta.ka        eta.v       eta.cl</span></span>
+<span><span class="co">#&gt; eta.ka  0.012560490 -0.004327282 -0.003205114</span></span>
+<span><span class="co">#&gt; eta.v  -0.004327282  0.141963025  0.016678588</span></span>
+<span><span class="co">#&gt; eta.cl -0.003205114  0.016678588  0.572971855</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[2]]</span></span>
 <span><span class="co">#&gt;              eta.ka        eta.v       eta.cl</span></span>
-<span><span class="co">#&gt; eta.ka  0.013192573 -0.002407201  0.008154693</span></span>
-<span><span class="co">#&gt; eta.v  -0.002407201  0.105115215 -0.026919657</span></span>
-<span><span class="co">#&gt; eta.cl  0.008154693 -0.026919657  0.530291035</span></span>
+<span><span class="co">#&gt; eta.ka  0.010538183 -0.002168786 -0.005290046</span></span>
+<span><span class="co">#&gt; eta.v  -0.002168786  0.126690657  0.024094398</span></span>
+<span><span class="co">#&gt; eta.cl -0.005290046  0.024094398  0.538783902</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[3]]</span></span>
-<span><span class="co">#&gt;             eta.ka       eta.v      eta.cl</span></span>
-<span><span class="co">#&gt; eta.ka  0.01297879 -0.00541988  0.01049447</span></span>
-<span><span class="co">#&gt; eta.v  -0.00541988  0.11909746 -0.02799901</span></span>
-<span><span class="co">#&gt; eta.cl  0.01049447 -0.02799901  0.55595993</span></span>
+<span><span class="co">#&gt;              eta.ka         eta.v       eta.cl</span></span>
+<span><span class="co">#&gt; eta.ka 0.0099015260  0.0007886667  0.005853895</span></span>
+<span><span class="co">#&gt; eta.v  0.0007886667  0.1274449355 -0.058011193</span></span>
+<span><span class="co">#&gt; eta.cl 0.0058538950 -0.0580111927  0.542138274</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[4]]</span></span>
-<span><span class="co">#&gt;             eta.ka       eta.v      eta.cl</span></span>
-<span><span class="co">#&gt; eta.ka 0.010256283 0.002931796 0.005431144</span></span>
-<span><span class="co">#&gt; eta.v  0.002931796 0.112131185 0.018322456</span></span>
-<span><span class="co">#&gt; eta.cl 0.005431144 0.018322456 0.621125163</span></span>
+<span><span class="co">#&gt;              eta.ka        eta.v      eta.cl</span></span>
+<span><span class="co">#&gt; eta.ka 0.0123269412 0.0002018033 0.003687504</span></span>
+<span><span class="co">#&gt; eta.v  0.0002018033 0.0982476736 0.017381675</span></span>
+<span><span class="co">#&gt; eta.cl 0.0036875040 0.0173816746 0.494107228</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[5]]</span></span>
-<span><span class="co">#&gt;              eta.ka        eta.v      eta.cl</span></span>
-<span><span class="co">#&gt; eta.ka  0.012953569 -0.001709199 0.006299318</span></span>
-<span><span class="co">#&gt; eta.v  -0.001709199  0.112763029 0.006084967</span></span>
-<span><span class="co">#&gt; eta.cl  0.006299318  0.006084967 0.614363222</span></span>
+<span><span class="co">#&gt;              eta.ka       eta.v       eta.cl</span></span>
+<span><span class="co">#&gt; eta.ka  0.012713638 0.003539703 -0.003507816</span></span>
+<span><span class="co">#&gt; eta.v   0.003539703 0.132372841  0.009734182</span></span>
+<span><span class="co">#&gt; eta.cl -0.003507816 0.009734182  0.552292301</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[6]]</span></span>
 <span><span class="co">#&gt;              eta.ka        eta.v       eta.cl</span></span>
-<span><span class="co">#&gt; eta.ka  0.011380171 -0.003698008  0.001783818</span></span>
-<span><span class="co">#&gt; eta.v  -0.003698008  0.106754778 -0.030783628</span></span>
-<span><span class="co">#&gt; eta.cl  0.001783818 -0.030783628  0.509223758</span></span></code></pre></div>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt; eta.ka  0.012310656 -0.007424328 -0.008086206</span></span>
+<span><span class="co">#&gt; eta.v  -0.007424328  0.116857348  0.033429252</span></span>
+<span><span class="co">#&gt; eta.cl -0.008086206  0.033429252  0.556928026</span></span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">sigmaList</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [[1]]</span></span>
 <span><span class="co">#&gt;                rxerr.rxLinCmt</span></span>
@@ -980,7 +932,7 @@ they come from an inverse Wishart distribution):</p>
 <span><span class="co">#&gt; rxerr.rxLinCmt       1.025798</span></span></code></pre></div>
 <p>It is also easy enough to create a plot to see what is going on with
 the simulation:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">conf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">sim1</span>, <span class="st">"sim"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">conf</span><span class="op">)</span> <span class="co">## This returns a ggplot2 object</span></span>
@@ -990,7 +942,7 @@ the simulation:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Time (hr)"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Simulated Concentrations of TID steady state"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fig-simulate-1.png" width="100%"></p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># And put the same plot on a semi-log plot</span></span>
 <span><span class="va">p1</span> <span class="op">+</span></span>
@@ -1002,7 +954,7 @@ the simulation:</p>
 dosing windows and sampling windows</a> and use any tool you want to
 summarize it in the way you wish.</p>
 </div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
 
@@ -1013,15 +965,15 @@ summarize it in the way you wish.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
     </footer>
 </div>
 
-  
 
-  
+
+
 
   </body>
 </html>

@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.0.9
+pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
   addingCovariances: addingCovariances.html
@@ -10,13 +10,12 @@ articles:
   modelPiping: modelPiping.html
   multiple-endpoints: multiple-endpoints.html
   nimo: nimo.html
-  nlmixr2-team-and-advisory-committee: nlmixr2-team-and-advisory-committee.html
+  articles/nlmixr2-team-and-advisory-committee: nlmixr2-team-and-advisory-committee.html
   residualErrors: residualErrors.html
   running_nlmixr: running_nlmixr.html
   wbc: wbc.html
   xgxr-nlmixr-ggpmx: xgxr-nlmixr-ggpmx.html
-last_built: 2024-06-25T05:40Z
+last_built: 2024-07-17T21:13Z
 urls:
   reference: https://nlmixr2.github.io/nlmixr2/reference
   article: https://nlmixr2.github.io/nlmixr2/articles
-
