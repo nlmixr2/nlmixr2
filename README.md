@@ -129,7 +129,6 @@ latest and last version of R (no need to wait for a compile).
 
 ``` r
 install.packages(c("dparser", "nlmixr2data", "lotri", "rxode2ll",
-                   "rxode2parse", "rxode2random", "rxode2et",
                    "rxode2", "nlmixr2est", "nlmixr2extra", "nlmixr2plot",
                    "nlmixr2"),
                  repos = c('https://nlmixr2.r-universe.dev',
@@ -150,7 +149,6 @@ options(repos=c(
   cran = 'https://cloud.r-project.org'
 ))
 install.packages(c("dparser", "nlmixr2data", "lotri", "rxode2ll",
-                   "rxode2parse", "rxode2random", "rxode2et",
                    "rxode2", "nlmixr2est", "nlmixr2extra", "nlmixr2plot",
                    "nlmixr2"))
 
@@ -216,9 +214,6 @@ remotes::install_github("nlmixr2/dparser-R")
 remotes::install_github("nlmixr2/nlmixr2data")
 remotes::install_github("nlmixr2/lotri")
 remotes::install_github("nlmixr2/rxode2ll")
-remotes::install_github("nlmixr2/rxode2parse")
-remotes::install_github("nlmixr2/rxode2random")
-remotes::install_github("nlmixr2/rxode2et")
 remotes::install_github("nlmixr2/rxode2")
 remotes::install_github("nlmixr2/nlmixr2est")
 remotes::install_github("nlmixr2/nlmixr2extra")
@@ -309,9 +304,6 @@ fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
 #> 
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-```
-
-``` r
 print(fit)
 #> ── nlmixr² SAEM OBJF by FOCEi approximation ──
 #> 
@@ -320,8 +312,8 @@ print(fit)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>            setup covariance  saem table compress    other
-#> elapsed 0.000891   0.020004 2.792 0.043    0.017 2.397105
+#>           setup covariance  saem table compress    other
+#> elapsed 0.00089   0.007004 4.546  0.05    0.018 1.785106
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
