@@ -85,7 +85,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Working with multiple endpoints</h1>
             
-            <h4 data-toc-skip class="date">2024-08-06</h4>
+            <h4 data-toc-skip class="date">2024-08-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/main/vignettes/multiple-endpoints.Rmd" class="external-link"><code>vignettes/multiple-endpoints.Rmd</code></a></small>
       <div class="d-none name"><code>multiple-endpoints.Rmd</code></div>
@@ -542,8 +542,8 @@ update the model to be more explicit making one last change:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;            setup optimize covariance  saem  table compress</span></span>
-<span><span class="co">#&gt; elapsed 0.002007    8e-06   0.047009 88.26 10.263    0.026</span></span>
+<span><span class="co">#&gt;            setup optimize covariance    saem  table compress</span></span>
+<span><span class="co">#&gt; elapsed 0.001827    8e-06    0.05201 105.622 10.277    0.026</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -564,8 +564,6 @@ update the model to be more explicit making one last change:</p>
 <span><span class="co">#&gt;   No correlations in between subject variability (BSV) matrix</span></span>
 <span><span class="co">#&gt;   Full BSV covariance (<span style="color: #0000BB; font-weight: bold;">$omega</span>) or correlation (<span style="color: #0000BB; font-weight: bold;">$omegaR</span>; diagonals=SDs) </span></span>
 <span><span class="co">#&gt;   Distribution stats (mean/skewness/kurtosis/p-value) available in <span style="color: #0000BB; font-weight: bold;">$shrink</span> </span></span>
-<span><span class="co">#&gt;   Information about run found (<span style="color: #0000BB; font-weight: bold;">$runInfo</span>):</span></span>
-<span><span class="co">#&gt;    • subscript out of bounds (index 256 &gt;= vector size 256) </span></span>
 <span><span class="co">#&gt;   Censoring (<span style="color: #0000BB; font-weight: bold;">$censInformation</span>): No censoring</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Fit Data (object is a modified </span><span style="color: #0000BB; font-weight: bold;">tibble</span><span style="font-weight: bold;">): ──</span></span></span>
@@ -614,7 +612,7 @@ update the model to be more explicit making one last change:</p>
 <span><span class="va">fit.TOF</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">pk.turnover.emax3</span>, <span class="va">warfarin</span>, <span class="st">"focei"</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
 <span>                  table<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cwres<span class="op">=</span><span class="cn">TRUE</span>, npde<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; calculating covariance matrix</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:01:22 </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:01:26 </span></span>
 <span><span class="co">#&gt; done</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="focei-diagnostic-plots">FOCEi Diagnostic Plots<a class="anchor" aria-label="anchor" href="#focei-diagnostic-plots"></a>
@@ -628,8 +626,8 @@ update the model to be more explicit making one last change:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;            setup optimize covariance table compress   other</span></span>
-<span><span class="co">#&gt; elapsed 0.002041 82.31199   82.31199 1.535    0.009 171.697</span></span>
+<span><span class="co">#&gt;            setup optimize covariance table compress    other</span></span>
+<span><span class="co">#&gt; elapsed 0.001891  86.2019    86.2019  1.72    0.009 179.2133</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -655,7 +653,6 @@ update the model to be more explicit making one last change:</p>
 <span><span class="co">#&gt;    • last objective function was not at minimum, possible problems in optimization </span></span>
 <span><span class="co">#&gt;    • ETAs were reset to zero during optimization; (Can control by foceiControl(resetEtaP=.)) </span></span>
 <span><span class="co">#&gt;    • initial ETAs were nudged; (can control by foceiControl(etaNudge=., etaNudge2=)) </span></span>
-<span><span class="co">#&gt;    • subscript out of bounds (index 256 &gt;= vector size 256) </span></span>
 <span><span class="co">#&gt;   Censoring (<span style="color: #0000BB; font-weight: bold;">$censInformation</span>): No censoring</span></span>
 <span><span class="co">#&gt;   Minimization message (<span style="color: #0000BB; font-weight: bold;">$message</span>):  </span></span>
 <span><span class="co">#&gt;     false convergence (8) </span></span>
