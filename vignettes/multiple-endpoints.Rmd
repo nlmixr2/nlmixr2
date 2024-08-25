@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 ```
 ![nlmixr](logo.png)
 
-# Multiple endpoints 
+# Multiple endpoints
 
 Joint PK/PD models, or PK/PD models where you fix certain components
 are common in pharmacometrics.  A classic example, (provided by Tomoo
@@ -82,7 +82,6 @@ pk.turnover.emax <- function() {
     DCP = center/v
     PD=1-emax*DCP/(ec50+DCP)
     ##
-    effect(0) = e0
     kin = e0*kout
     ##
     d/dt(depot) = -ktr * depot
@@ -90,6 +89,8 @@ pk.turnover.emax <- function() {
     d/dt(center) =  ka * gut - cl / v * center
     d/dt(effect) = kin*PD -kout*effect
     ##
+    effect(0) = e0
+
     cp = center / v
     cp ~ prop(prop.err) + add(pkadd.err)
     effect ~ add(pdadd.err)
@@ -144,8 +145,8 @@ change
 
 ```
 cp ~ prop(prop.err) + add(pkadd.err)
-``` 
-to 
+```
+to
 
 ```
 cp ~ prop(prop.err) + add(pkadd.err) | center
@@ -193,13 +194,14 @@ pk.turnover.emax2 <- function() {
     DCP = center/v
     PD=1-emax*DCP/(ec50+DCP)
     ##
-    effect(0) = e0
     kin = e0*kout
     ##
     d/dt(depot) = -ktr * depot
     d/dt(gut) =  ktr * depot -ka * gut
     d/dt(center) =  ka * gut - cl / v * center
     d/dt(effect) = kin*PD -kout*effect
+    ##
+    effect(0) = e0
     ##
     cp = center / v
     cp ~ prop(prop.err) + add(pkadd.err) | center
@@ -251,9 +253,9 @@ model to be more explicit making one last change:
 
 ```
 cp ~ prop(prop.err) + add(pkadd.err)
-effect ~ add(pdadd.err) 
-``` 
-to 
+effect ~ add(pdadd.err)
+```
+to
 
 ```
 cp ~ prop(prop.err) + add(pkadd.err)
@@ -301,13 +303,14 @@ pk.turnover.emax3 <- function() {
     DCP = center/v
     PD=1-emax*DCP/(ec50+DCP)
     ##
-    effect(0) = e0
     kin = e0*kout
     ##
     d/dt(depot) = -ktr * depot
     d/dt(gut) =  ktr * depot -ka * gut
     d/dt(center) =  ka * gut - cl / v * center
     d/dt(effect) = kin*PD -kout*effect
+    ##
+    effect(0) = e0
     ##
     cp = center / v
     cp ~ prop(prop.err) + add(pkadd.err)

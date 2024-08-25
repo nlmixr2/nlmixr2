@@ -1,6 +1,6 @@
 ---
 title: "Friberg myelosuppression model"
-author: "Yuan Xiong" 
+author: "Yuan Xiong"
 output:
   rmarkdown::html_vignette:
     self_contained: no
@@ -62,12 +62,6 @@ wbc <- function() {
 
     CIRC = circ
 
-    prol(0) = CIRC0
-    tr1(0) = CIRC0
-    tr2(0) = CIRC0
-    tr3(0) = CIRC0
-    circ(0) = CIRC0
-
     d/dt(centr) = periph * Q/V2 - centr * (CL/V1 + Q/V1)
     d/dt(periph) = centr * Q/V1 - periph * Q/V2
     d/dt(prol) = KTR * prol * EDRUG * FDBK - KTR * prol
@@ -75,6 +69,13 @@ wbc <- function() {
     d/dt(tr2) = KTR * tr1 - KTR * tr2
     d/dt(tr3) = KTR * tr2 - KTR * tr3
     d/dt(circ) = KTR * tr3 - KTR * circ
+
+    # Initial conditions
+    prol(0) = CIRC0
+    tr1(0) = CIRC0
+    tr2(0) = CIRC0
+    tr3(0) = CIRC0
+    circ(0) = CIRC0
 
     CIRC ~ prop(prop.err)
   })

@@ -1,6 +1,6 @@
 ---
 title: "Nimotuzumab"
-author: "Mirjam Trame" 
+author: "Mirjam Trame"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 
 ![nlmixr](logo.png)
 
-This is an example of a complex model that can be estimated. 
+This is an example of a complex model that can be estimated.
 
 In the example below, a target-mediated drug disposition PK model for
 nimotuzumab is illustrated (Rodríguez-Vera et al. 2015).
@@ -72,14 +72,14 @@ nimo <- function() {
     k12 <- Q/v1
     k21 <- Q/v2
 
-    eff(0) <- ksyn/kdeg ##initializing compartment
-
     ## Concentration is calculated
     conc = 0.5*(central/v1-eff-kss)+0.5*sqrt((central/v1-eff-kss)**2+4*kss*central/v1)
 
     d/dt(central)  = -(k+k12)*conc*v1+k21*peripheral-kint*eff*conc*v1/(kss+conc)
     d/dt(peripheral) = k12*conc*v1-k21*peripheral  ##Free Drug second compartment amount
     d/dt(eff) = ksyn - kdeg*eff - (kint-kdeg)*conc*eff/(kss+conc)
+
+    eff(0) <- ksyn/kdeg ##initializing compartment
 
     IPRED=log(conc)
 
