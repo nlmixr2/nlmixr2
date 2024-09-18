@@ -115,7 +115,10 @@ foceiControl(
   sigdigTable = NULL,
   fallbackFD = FALSE,
   smatPer = 0.6,
-  sdLowerFact = 0.001
+  sdLowerFact = 0.001,
+  zeroGradFirstReset = TRUE,
+  zeroGradRunReset = TRUE,
+  zeroGradBobyqa = TRUE
 )
 }
 \arguments{
@@ -759,6 +762,24 @@ standard deviation of a parameter (like add.sd, prop.sd, pow.sd,
 lnorm.sd, etc).  When zero, no factor is applied.  If your
 initial estimate is 0.15 and your lower bound is zero, then the
 lower bound would be assumed to be 0.00015.}
+
+\item{zeroGradFirstReset}{boolean, when `TRUE` if the first
+gradient is zero, reset the zero gradient to
+`sqrt(.Machine$double.eps)` to get past the bad initial estimate,
+otherwise error (and possibly reset), when `FALSE` error when the
+first gradient is zero.  When `NA` on the last reset, have the
+zero gradient ignored, otherwise error and look for another
+value.  Default is `TRUE`}
+
+\item{zeroGradRunReset}{boolean, when `TRUE` if a gradient is zero,
+reset the zero gradient to `sqrt(.Machine$double.eps)` to get
+past the bad estimate while running.  Otherwise error (and
+possibly reset). Default is `TRUE`}
+
+\item{zeroGradBobyqa}{boolean, when `TRUE` if a gradient is zero,
+the reset will change the method to the gradient free bobyqa
+method. When `NA`, the zero gradient will change to bobyqa only
+when the first gradient is zero.  Default is `TRUE`}
 }
 \value{
 The control object that changes the options for the FOCEi
