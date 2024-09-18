@@ -1,3 +1,7 @@
+# nlmixr2 3.0.0
+
+* Re-export the new profiling from `nlmixr2extra`
+
 # nlmixr2 2.1.2
 
 * Re-export the population only estimation control methods.
