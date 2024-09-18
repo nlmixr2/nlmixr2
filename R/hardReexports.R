@@ -131,7 +131,8 @@ foceiControl <- function(sigdig = 3, ..., epsilon = NULL, maxInnerIterations = 1
     etaMat = NULL, repeatGillMax = 1, stickyRecalcN = 4, gradProgressOfvTime = 10,
     addProp = c("combined2", "combined1"), badSolveObjfAdj = 100,
     compress = TRUE, rxControl = NULL, sigdigTable = NULL, fallbackFD = FALSE,
-    smatPer = 0.6, sdLowerFact = 0.001) { # nocov start
+    smatPer = 0.6, sdLowerFact = 0.001, zeroGradFirstReset = TRUE,
+    zeroGradRunReset = TRUE, zeroGradBobyqa = TRUE) { # nocov start
     nlmixr2est::foceiControl(sigdig = sigdig, ..., epsilon = epsilon,
         maxInnerIterations = maxInnerIterations, maxOuterIterations = maxOuterIterations,
         n1qn1nsim = n1qn1nsim, print = print, printNcol = printNcol,
@@ -174,7 +175,8 @@ foceiControl <- function(sigdig = 3, ..., epsilon = NULL, maxInnerIterations = 1
         gradProgressOfvTime = gradProgressOfvTime, addProp = addProp,
         badSolveObjfAdj = badSolveObjfAdj, compress = compress,
         rxControl = rxControl, sigdigTable = sigdigTable, fallbackFD = fallbackFD,
-        smatPer = smatPer, sdLowerFact = sdLowerFact)
+        smatPer = smatPer, sdLowerFact = sdLowerFact, zeroGradFirstReset = zeroGradFirstReset,
+        zeroGradRunReset = zeroGradRunReset, zeroGradBobyqa = zeroGradBobyqa)
 } # nocov end
 
 #' @inherit nlmixr2est::nlmeControl
@@ -548,6 +550,26 @@ addTable <- function(object, updateObject = FALSE, data = object$dataSav,
 #' @export
 setOfv <- function(x, type) { # nocov start
     nlmixr2est::setOfv(x = x, type = type)
+} # nocov end
+
+#' @inherit nlmixr2extra::profileFixed
+#' @export
+profileFixed <- function(fitted, which, control = list()) { # nocov start
+    nlmixr2extra::profileFixed(fitted = fitted, which = which,
+        control = control)
+} # nocov end
+
+#' @inherit nlmixr2extra::profileFixedSingle
+#' @export
+profileFixedSingle <- function(fitted, which) { # nocov start
+    nlmixr2extra::profileFixedSingle(fitted = fitted, which = which)
+} # nocov end
+
+#' @inherit nlmixr2extra::profileLlp
+#' @export
+profileLlp <- function(fitted, which, control) { # nocov start
+    nlmixr2extra::profileLlp(fitted = fitted, which = which,
+        control = control)
 } # nocov end
 
 #' @inherit nlmixr2extra::preconditionFit
