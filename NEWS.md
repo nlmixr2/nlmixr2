@@ -1,5 +1,7 @@
 # nlmixr2 (development version)
 
+* Remove `rxode2parse` suggested dependency
+
 # nlmixr2 3.0.0
 
 * Re-export the new profiling from `nlmixr2extra`
