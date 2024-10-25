@@ -162,7 +162,6 @@
                                  "nlmixr2extra::profileLlp",
                                  "nlmixr2extra::preconditionFit",
                                  "nlmixr2extra::bootstrapFit",
-                                 "nlmixr2extra::covarSearchAuto",
                                  "nlmixr2extra::bootplot")
                           ) { # nocov start
   writeLines(c("# Generated from .genReexports()\n",

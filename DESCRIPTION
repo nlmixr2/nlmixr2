@@ -1,6 +1,6 @@
 Package: nlmixr2
 Title: Nonlinear Mixed Effects Models in Population PK/PD
-Version: 3.0.0.9000
+Version: 3.0.1
 Authors@R: c(person("Matthew","Fidler", role = c("aut", "cre"), email = "matthew.fidler@gmail.com", comment=c(ORCID="0000-0001-8538-6691")),
    person("Yuan", "Xiong", role = "ctb", email = "yuan.xiong@gmail.com"),
    person("Rik", "Schoemaker", role = "ctb", email = "rik.schoemaker@occams.com", comment=c(ORCID="0000-0002-7538-3005")),

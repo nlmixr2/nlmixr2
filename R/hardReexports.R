@@ -591,16 +591,6 @@ bootstrapFit <- function(fit, nboot = 200, nSampIndiv, stratVar,
         fitName = fitName)
 } # nocov end
 
-#' @inherit nlmixr2extra::covarSearchAuto
-#' @export
-covarSearchAuto <- function(fit, varsVec, covarsVec, pVal = list(fwd = 0.05,
-    bck = 0.01), catvarsVec = NULL, searchType = c("scm", "forward",
-    "backward"), restart = FALSE) { # nocov start
-    nlmixr2extra::covarSearchAuto(fit = fit, varsVec = varsVec,
-        covarsVec = covarsVec, pVal = pVal, catvarsVec = catvarsVec,
-        searchType = searchType, restart = restart)
-} # nocov end
-
 #' @inherit nlmixr2extra::bootplot
 #' @param ... Additional arguments passed to [nlmixr2extra::bootplot()].
 #' @export
