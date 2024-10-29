@@ -1,3 +1,5 @@
+# nlmixr2 (development version)
+
 # nlmixr2 3.0.1
 
 * Remove `backwardSearch`, `covarSearchAuto` and `forwardSearch`
@@ -15,7 +17,8 @@
 
 # nlmixr2 2.1.1
 
-* Work with systems (like intel c++) where linCmt() linear compartmental models do not have gradients.
+* Work with systems (like intel c++) where linCmt() linear
+  compartmental models do not have gradients.
 
 # nlmixr2 2.1.0
 
