@@ -65,7 +65,7 @@ vpcCensTad <- function(..., cens = TRUE, idv = "tad") { # nocov start
 saemControl <- function(seed = 99, nBurn = 200, nEm = 300, nmc = 3,
     nu = c(2, 2, 2), print = 1, trace = 0, covMethod = c("linFim",
         "fim", "r,s", "r", "s", ""), calcTables = TRUE, logLik = FALSE,
-    nnodesGq = 3, nsdGq = 1.6, optExpression = TRUE, literalFix = TRUE,
+    nnodesGq = 3, nsdGq = 1.6, optExpression = TRUE, literalFix = FALSE,
     adjObf = TRUE, sumProd = FALSE, addProp = c("combined2",
         "combined1"), tol = 1e-06, itmax = 30, type = c("nelder-mead",
         "newuoa"), powRange = 10, lambdaRange = 3, odeRecalcFactor = 10^(0.5),
