@@ -31,7 +31,6 @@ reference:
   contents:
   - bootstrapFit
   - bootplot
-  - covarSearchAuto
   - preconditionFit
   - setOfv
   - traceplot
