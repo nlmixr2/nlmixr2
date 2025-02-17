@@ -260,7 +260,7 @@ gofs(fit.lnorm.F);
 ```
 # Traditional lognormal estimates are identical
 
-```{r logNormalFocei}
+```{r logNormalFocei2}
 datL  <- dat
 datL$DV <- log(datL$DV);
 
