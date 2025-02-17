@@ -29,15 +29,18 @@ reference:
   - addTable
 - title: Utility functions for nlmixr2 fits
   contents:
-  - bootstrapFit
   - bootplot
+  - bootstrapFit
   - preconditionFit
+  - profileFixed
+  - profileFixedSingle
+  - profileLlp
   - setOfv
   - traceplot
-  - vpcPlot
-  - vpcPlotTad
   - vpcCens
   - vpcCensTad
+  - vpcPlot
+  - vpcPlotTad
   - vpcSim
 - title: Installation support
   contents:
