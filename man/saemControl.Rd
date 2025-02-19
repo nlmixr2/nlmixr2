@@ -18,7 +18,7 @@ saemControl(
   nnodesGq = 3,
   nsdGq = 1.6,
   optExpression = TRUE,
-  literalFix = TRUE,
+  literalFix = FALSE,
   adjObf = TRUE,
   sumProd = FALSE,
   addProp = c("combined2", "combined1"),

@@ -85,6 +85,7 @@
                                  "rxode2::eventTable",
                                  "rxode2::add.dosing",
                                  "rxode2::add.sampling",
+                                 "rxode2::rxSetSeed",
                                  "rxode2::rxFun",
                                  "nlmixr2est::nlmixr2AllEst",
                                  "nlmixr2est::pdDiag",

@@ -203,8 +203,8 @@ gofs <- function(fit){
 # SAEM
 ## Fit add+prop SAEM
 
-```{r}
-fit.addProp.S <- nlmixr(pbpk, dat, est="saem", control=list(print=0), 
+```{r saem}
+fit.addProp.S <- nlmixr(pbpk, dat, est="saem", control=list(print=0),
                         table=list(cwres=TRUE, npde=TRUE))
 
 gofs(fit.addProp.S)
@@ -212,7 +212,7 @@ gofs(fit.addProp.S)
 
 ## Change error to lognormal
 
-```{r}
+```{r saemLogNormal}
 fit.lnorm.S <- pbpk %>%
     model({C15 ~ lnorm(lnorm.err)}) %>% # Change C15 to be log-normally distributed
     ## Requires data since piping from pbpk model
@@ -226,7 +226,7 @@ fit.addProp since they are calculated on the same scale.
 In this case you can see that the AIC for the log-normal model is
 better than the AIC for the addProp model.
 
-```{r}
+```{r saemLognormalGofs}
 gofs(fit.lnorm.S)
 ```
 
@@ -236,10 +236,10 @@ You can pipe models from different estimation methods to new
 estimation methods.
 
 ## Additive + Proportional
-```{r}
+```{r focei}
 fit.addProp.F <- fit.addProp.S %>%
     nlmixr(est="focei",
-           control=list(print=0), 
+           control=list(print=0),
            table=list(cwres=TRUE, npde=TRUE))
 ## Since this was a model pipline, the data
 ## remains the same as the last fit.
@@ -248,11 +248,11 @@ gofs(fit.addProp.F)
 ```
 
 ## Log-normal
-```{r}
+```{r logNormalFocei}
 fit.lnorm.F <- fit.addProp.F %>%
     model({C15 ~ lnorm(lnorm.err)}) %>%
     nlmixr(est="focei",
-           control=list(print=0), 
+           control=list(print=0),
            table=list(cwres=TRUE, npde=TRUE));
 ## In this model pipline we are changing the fit method to focei.
 
@@ -260,7 +260,7 @@ gofs(fit.lnorm.F);
 ```
 # Traditional lognormal estimates are identical
 
-```{r}
+```{r logNormalFocei2}
 datL  <- dat
 datL$DV <- log(datL$DV);
 
@@ -369,11 +369,9 @@ pbpkL <- function() {
 
 fit.lnorm.trans <- pbpkL %>%
     nlmixr(datL,est="saem",
-           control=list(print=0), 
+           control=list(print=0),
            table=list(npde=TRUE, cwres=TRUE))
 ```
 
 **NOTE:** the estimates are the same but the AIC is different since it
 is calculated on the log scale.
-
-

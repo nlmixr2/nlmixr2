@@ -1,3 +1,3 @@
-- This release removes `rxode2parse` since it was removed from CRAN
-- This release removes stepwise covariate search from nlmixr2 since it
-  isn't working in nlmixr2extra
+- This release updates some of the defaults for controllers to match nlmixr2est
+- This release exports `rxode2::rxSetSeed()`
+- This release updates the author list to reflect current nlmixr2 team
