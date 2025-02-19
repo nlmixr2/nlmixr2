@@ -14,8 +14,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="mavoglurant -- physiologically-based PK">
 </head>
 <body>
@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">nlmixr2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,7 +87,7 @@
                         <h4 data-toc-skip class="author">Wenping
 Wang</h4>
             
-            <h4 data-toc-skip class="date">2024-09-18</h4>
+            <h4 data-toc-skip class="date">2025-02-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/main/vignettes/mavoglurant.Rmd" class="external-link"><code>vignettes/mavoglurant.Rmd</code></a></small>
       <div class="d-none name"><code>mavoglurant.Rmd</code></div>
@@ -281,7 +281,7 @@ et al. 2016).</p>
 <h3 id="fit-addprop-saem">Fit add+prop SAEM<a class="anchor" aria-label="anchor" href="#fit-addprop-saem"></a>
 </h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fit.addProp.S</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">pbpk</span>, <span class="va">dat</span>, est<span class="op">=</span><span class="st">"saem"</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>, </span>
+<code class="sourceCode R"><span><span class="va">fit.addProp.S</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">pbpk</span>, <span class="va">dat</span>, est<span class="op">=</span><span class="st">"saem"</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
 <span>                        table<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cwres<span class="op">=</span><span class="cn">TRUE</span>, npde<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
@@ -301,7 +301,7 @@ et al. 2016).</p>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:01</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
@@ -313,7 +313,7 @@ et al. 2016).</p>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span></span>
 <span><span class="fu">gofs</span><span class="op">(</span><span class="va">fit.addProp.S</span><span class="op">)</span></span></code></pre></div>
-<p><img src="mavoglurant_files/figure-html/unnamed-chunk-2-1.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-2-2.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-2-3.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-2-4.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-2-5.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-2-6.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-2-7.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-2-8.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-2-9.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-2-10.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-2-11.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-2-12.png" width="100%"></p>
+<p><img src="mavoglurant_files/figure-html/saem-1.png" width="100%"><img src="mavoglurant_files/figure-html/saem-2.png" width="100%"><img src="mavoglurant_files/figure-html/saem-3.png" width="100%"><img src="mavoglurant_files/figure-html/saem-4.png" width="100%"><img src="mavoglurant_files/figure-html/saem-5.png" width="100%"><img src="mavoglurant_files/figure-html/saem-6.png" width="100%"><img src="mavoglurant_files/figure-html/saem-7.png" width="100%"><img src="mavoglurant_files/figure-html/saem-8.png" width="100%"><img src="mavoglurant_files/figure-html/saem-9.png" width="100%"><img src="mavoglurant_files/figure-html/saem-10.png" width="100%"><img src="mavoglurant_files/figure-html/saem-11.png" width="100%"><img src="mavoglurant_files/figure-html/saem-12.png" width="100%"></p>
 </div>
 <div class="section level3">
 <h3 id="change-error-to-lognormal">Change error to lognormal<a class="anchor" aria-label="anchor" href="#change-error-to-lognormal"></a>
@@ -332,7 +332,7 @@ et al. 2016).</p>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:01</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
@@ -359,7 +359,7 @@ fit.addProp since they are calculated on the same scale.</p>
 better than the AIC for the addProp model.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">gofs</span><span class="op">(</span><span class="va">fit.lnorm.S</span><span class="op">)</span></span></code></pre></div>
-<p><img src="mavoglurant_files/figure-html/unnamed-chunk-4-1.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-4-2.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-4-3.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-4-4.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-4-5.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-4-6.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-4-7.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-4-8.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-4-9.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-4-10.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-4-11.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-4-12.png" width="100%"></p>
+<p><img src="mavoglurant_files/figure-html/saemLognormalGofs-1.png" width="100%"><img src="mavoglurant_files/figure-html/saemLognormalGofs-2.png" width="100%"><img src="mavoglurant_files/figure-html/saemLognormalGofs-3.png" width="100%"><img src="mavoglurant_files/figure-html/saemLognormalGofs-4.png" width="100%"><img src="mavoglurant_files/figure-html/saemLognormalGofs-5.png" width="100%"><img src="mavoglurant_files/figure-html/saemLognormalGofs-6.png" width="100%"><img src="mavoglurant_files/figure-html/saemLognormalGofs-7.png" width="100%"><img src="mavoglurant_files/figure-html/saemLognormalGofs-8.png" width="100%"><img src="mavoglurant_files/figure-html/saemLognormalGofs-9.png" width="100%"><img src="mavoglurant_files/figure-html/saemLognormalGofs-10.png" width="100%"><img src="mavoglurant_files/figure-html/saemLognormalGofs-11.png" width="100%"><img src="mavoglurant_files/figure-html/saemLognormalGofs-12.png" width="100%"></p>
 </div>
 </div>
 <div class="section level2">
@@ -373,7 +373,7 @@ estimation methods.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit.addProp.F</span> <span class="op">&lt;-</span> <span class="va">fit.addProp.S</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span>est<span class="op">=</span><span class="st">"focei"</span>,</span>
-<span>           control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>, </span>
+<span>           control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
 <span>           table<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cwres<span class="op">=</span><span class="cn">TRUE</span>, npde<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; calculating covariance matrix</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:16 </span></span>
@@ -382,7 +382,7 @@ estimation methods.</p>
 <span><span class="co">## remains the same as the last fit.</span></span>
 <span></span>
 <span><span class="fu">gofs</span><span class="op">(</span><span class="va">fit.addProp.F</span><span class="op">)</span></span></code></pre></div>
-<p><img src="mavoglurant_files/figure-html/unnamed-chunk-5-1.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-5-2.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-5-3.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-5-4.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-5-5.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-5-6.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-5-7.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-5-8.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-5-9.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-5-10.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-5-11.png" width="100%"></p>
+<p><img src="mavoglurant_files/figure-html/focei-1.png" width="100%"><img src="mavoglurant_files/figure-html/focei-2.png" width="100%"><img src="mavoglurant_files/figure-html/focei-3.png" width="100%"><img src="mavoglurant_files/figure-html/focei-4.png" width="100%"><img src="mavoglurant_files/figure-html/focei-5.png" width="100%"><img src="mavoglurant_files/figure-html/focei-6.png" width="100%"><img src="mavoglurant_files/figure-html/focei-7.png" width="100%"><img src="mavoglurant_files/figure-html/focei-8.png" width="100%"><img src="mavoglurant_files/figure-html/focei-9.png" width="100%"><img src="mavoglurant_files/figure-html/focei-10.png" width="100%"><img src="mavoglurant_files/figure-html/focei-11.png" width="100%"></p>
 </div>
 <div class="section level3">
 <h3 id="log-normal">Log-normal<a class="anchor" aria-label="anchor" href="#log-normal"></a>
@@ -391,15 +391,15 @@ estimation methods.</p>
 <code class="sourceCode R"><span><span class="va">fit.lnorm.F</span> <span class="op">&lt;-</span> <span class="va">fit.addProp.F</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/model.html" class="external-link">model</a></span><span class="op">(</span><span class="op">{</span><span class="va">C15</span> <span class="op">~</span> <span class="fu">lnorm</span><span class="op">(</span><span class="va">lnorm.err</span><span class="op">)</span><span class="op">}</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span>est<span class="op">=</span><span class="st">"focei"</span>,</span>
-<span>           control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>, </span>
+<span>           control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
 <span>           table<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cwres<span class="op">=</span><span class="cn">TRUE</span>, npde<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>;</span>
 <span><span class="co">#&gt; calculating covariance matrix</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:16 </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:15 </span></span>
 <span><span class="co">#&gt; done</span></span>
 <span><span class="co">## In this model pipline we are changing the fit method to focei.</span></span>
 <span></span>
 <span><span class="fu">gofs</span><span class="op">(</span><span class="va">fit.lnorm.F</span><span class="op">)</span>;</span></code></pre></div>
-<p><img src="mavoglurant_files/figure-html/unnamed-chunk-6-1.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-6-2.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-6-3.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-6-4.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-6-5.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-6-6.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-6-7.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-6-8.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-6-9.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-6-10.png" width="100%"><img src="mavoglurant_files/figure-html/unnamed-chunk-6-11.png" width="100%">
+<p><img src="mavoglurant_files/figure-html/logNormalFocei-1.png" width="100%"><img src="mavoglurant_files/figure-html/logNormalFocei-2.png" width="100%"><img src="mavoglurant_files/figure-html/logNormalFocei-3.png" width="100%"><img src="mavoglurant_files/figure-html/logNormalFocei-4.png" width="100%"><img src="mavoglurant_files/figure-html/logNormalFocei-5.png" width="100%"><img src="mavoglurant_files/figure-html/logNormalFocei-6.png" width="100%"><img src="mavoglurant_files/figure-html/logNormalFocei-7.png" width="100%"><img src="mavoglurant_files/figure-html/logNormalFocei-8.png" width="100%"><img src="mavoglurant_files/figure-html/logNormalFocei-9.png" width="100%"><img src="mavoglurant_files/figure-html/logNormalFocei-10.png" width="100%"><img src="mavoglurant_files/figure-html/logNormalFocei-11.png" width="100%">
 # Traditional lognormal estimates are identical</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">datL</span>  <span class="op">&lt;-</span> <span class="va">dat</span></span>
@@ -508,7 +508,7 @@ estimation methods.</p>
 <span></span>
 <span><span class="va">fit.lnorm.trans</span> <span class="op">&lt;-</span> <span class="va">pbpkL</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">datL</span>,est<span class="op">=</span><span class="st">"saem"</span>,</span>
-<span>           control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>, </span>
+<span>           control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
 <span>           table<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>npde<span class="op">=</span><span class="cn">TRUE</span>, cwres<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
@@ -518,7 +518,7 @@ estimation methods.</p>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:01</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>

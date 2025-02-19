@@ -24,7 +24,6 @@
 <url><loc>https://nlmixr2.github.io/nlmixr2/reference/bobyqaControl.html</loc></url>
 <url><loc>https://nlmixr2.github.io/nlmixr2/reference/bootplot.html</loc></url>
 <url><loc>https://nlmixr2.github.io/nlmixr2/reference/bootstrapFit.html</loc></url>
-<url><loc>https://nlmixr2.github.io/nlmixr2/reference/covarSearchAuto.html</loc></url>
 <url><loc>https://nlmixr2.github.io/nlmixr2/reference/foceiControl.html</loc></url>
 <url><loc>https://nlmixr2.github.io/nlmixr2/reference/index.html</loc></url>
 <url><loc>https://nlmixr2.github.io/nlmixr2/reference/lbfgsb3cControl.html</loc></url>
@@ -38,6 +37,9 @@
 <url><loc>https://nlmixr2.github.io/nlmixr2/reference/nlsControl.html</loc></url>
 <url><loc>https://nlmixr2.github.io/nlmixr2/reference/optimControl.html</loc></url>
 <url><loc>https://nlmixr2.github.io/nlmixr2/reference/preconditionFit.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/profileFixed.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/profileFixedSingle.html</loc></url>
+<url><loc>https://nlmixr2.github.io/nlmixr2/reference/profileLlp.html</loc></url>
 <url><loc>https://nlmixr2.github.io/nlmixr2/reference/reexports.html</loc></url>
 <url><loc>https://nlmixr2.github.io/nlmixr2/reference/saemControl.html</loc></url>
 <url><loc>https://nlmixr2.github.io/nlmixr2/reference/setOfv.html</loc></url>
