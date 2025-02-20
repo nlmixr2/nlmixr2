@@ -1,4 +1,11 @@
-# nlmixr2 (development version)
+# nlmixr2 3.0.2
+
+* Change saemControl() and other options to reflect the `nlmixr2est`
+  default options
+
+* Update authors to reflect current team.
+
+* Export `rxSetSeed()`
 
 # nlmixr2 3.0.1
 
