@@ -85,7 +85,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Running PK models with nlmixr</h1>
             
-            <h4 data-toc-skip class="date">2025-03-25</h4>
+            <h4 data-toc-skip class="date">2025-03-31</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/main/vignettes/running_nlmixr.Rmd" class="external-link"><code>vignettes/running_nlmixr.Rmd</code></a></small>
       <div class="d-none name"><code>running_nlmixr.Rmd</code></div>
@@ -158,7 +158,7 @@ dataset. We write the model as follows:</p>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;            setup optimize covariance table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.017943 0.210637   0.210638 0.067     0.01 1.641782</span></span>
+<span><span class="co">#&gt; elapsed 0.018457 0.211937   0.211939 0.067     0.01 1.680667</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -234,7 +234,7 @@ model:</p>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;            setup covariance  saem table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.001743   0.008005 4.586 0.065    0.019 1.100252</span></span>
+<span><span class="co">#&gt; elapsed 0.001724   0.008005 4.722 0.065     0.02 1.108271</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -303,7 +303,7 @@ nlme method to this model:</p>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;            setup table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.002021 0.067    0.005 2.712979</span></span>
+<span><span class="co">#&gt; elapsed 0.002046 0.069    0.005 2.742954</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -557,12 +557,12 @@ modeling dataset for the model to run.</li>
 </h3>
 <p>Models can be fitted several ways, including via the [magrittr]
 forward-pipe operator.</p>
-<pre><code><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">one.compartment</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">saem.fit</span><span class="op">(</span>data<span class="op">=</span><span class="va">theo_sd</span><span class="op">)</span></span></code></pre>
-<pre><code><span><span class="va">fit2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">one.compartment</span>, data<span class="op">=</span><span class="va">theo_sd</span>, est<span class="op">=</span><span class="st">"saem"</span><span class="op">)</span></span></code></pre>
-<pre><code><span><span class="va">fit3</span> <span class="op">&lt;-</span> <span class="va">one.compartment</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">saem.fit</span><span class="op">(</span>data<span class="op">=</span><span class="va">theo_sd</span><span class="op">)</span></span></code></pre>
+<pre><code><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">one.compartment</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">theo_sd</span>, est <span class="op">=</span> <span class="st">"saem"</span><span class="op">)</span></span></code></pre>
+<pre><code><span><span class="va">fit2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">one.compartment</span>, data <span class="op">=</span> <span class="va">theo_sd</span>, est <span class="op">=</span> <span class="st">"saem"</span><span class="op">)</span></span></code></pre>
+<pre><code><span><span class="va">fit3</span> <span class="op">&lt;-</span> <span class="va">one.compartment</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">theo_sd</span>, est <span class="op">=</span> <span class="st">"saem"</span><span class="op">)</span></span></code></pre>
 <p>Options to the estimation routines can be specified using nlmeControl
 for nlme estimation:</p>
-<pre><code><span><span class="va">fit4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">one.compartment</span>, <span class="va">theo_sd</span>,est<span class="op">=</span><span class="st">"nlme"</span>,control <span class="op">=</span> <span class="fu"><a href="../reference/nlmeControl.html">nlmeControl</a></span><span class="op">(</span>pnlsTol <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<pre><code><span><span class="va">fit4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">one.compartment</span>, <span class="va">theo_sd</span>, est <span class="op">=</span> <span class="st">"nlme"</span>, control <span class="op">=</span> <span class="fu"><a href="../reference/nlmeControl.html">nlmeControl</a></span><span class="op">(</span>pnlsTol <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 <p>where options are specified in the <code>nlme</code> documentation.
 Options for saem can be specified using <code>saemControl</code>:</p>
 <pre><code><span><span class="va">fit5</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">one.compartment</span>,<span class="va">theo_sd</span>,est<span class="op">=</span><span class="st">"saem"</span>,control<span class="op">=</span><span class="fu"><a href="../reference/saemControl.html">saemControl</a></span><span class="op">(</span>n.burn<span class="op">=</span><span class="fl">250</span>,n.em<span class="op">=</span><span class="fl">350</span>,print<span class="op">=</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span></span></code></pre>
