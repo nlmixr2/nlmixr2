@@ -330,7 +330,7 @@ is_attached <- function(x) {
 dummy <- function()  {
   lotri::lotri()
   rxode2::rxModelVars("a=b")
-  try(nlmixr2::nlmixr2())
+  try(nlmixr2est::nlmixr2())
   try(nlmixr2extra::bootplot())
   try(nlmixr2plot::vpcPlot())
 }
