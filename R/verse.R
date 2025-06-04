@@ -289,12 +289,15 @@ style_grey <- function(level, ...) {
 #'
 #' This also updates `.verse$extra` with the loaded optional packages
 #'
+#' @param exclude is a character vector of excluded optional packages
+#'
 #' @return  nothing called for side effects
 #' @noRd
 #' @author Matthew L. Fidler
-.updatePackageCore <- function() {
+.updatePackageCore <- function(exclude=character()) {
   .extra <- vapply(.verse$optional,
                    function(p) {
+                     if (p %in% exclude) return(FALSE)
                      requireNamespace(p, quietly = TRUE)
                    }, logical(1))
   added <- .verse$optional[.extra]
@@ -320,9 +323,16 @@ style_grey <- function(level, ...) {
 
   .verse$extra <- paste(info, collapse = "\n")
 }
-
-.onAttach <- function(...) {
-  .updatePackageCore()
+#' Load nlmixr2 stack
+#'
+#' @param exclude exclude certain packages when loading.  This allows
+#'   package like babelmixr2 to not recursively load itself
+#' @return nothing, called for side effects
+#' @export
+#' @author Matthew L. Fidler
+#' @keywords internal
+.nlmixr2attach <- function(exclude=character()) {
+  .updatePackageCore(exclude=exclude)
   needed <- .verse$core[!is_attached(.verse$core)]
   if (length(needed) == 0)
     return()
@@ -334,7 +344,10 @@ style_grey <- function(level, ...) {
     x <- nlmixr2conflicts()
     msg(nlmixr2_conflict_message(x), startup = TRUE)
   }
+}
 
+.onAttach <- function(...) {
+  .nlmixr2attach()
 }
 
 is_attached <- function(x) {
