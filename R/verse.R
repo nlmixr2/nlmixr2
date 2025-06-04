@@ -98,7 +98,7 @@ nlmixr2_conflict_message <- function(x) {
 
   header <- cli::rule(
     left = crayon::bold("Conflicts"),
-    right = "nlmixr2_conflicts()"
+    right = "nlmixr2conflicts()"
   )
 
   pkgs <- x %>% purrr::map(~ gsub("^package:", "", .))
