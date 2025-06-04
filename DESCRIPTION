@@ -33,6 +33,7 @@ Imports:
     rxode2 (>= 2.1.3),
     lotri (>= 0.4.3),
     nlmixr2plot (>= 2.0.8),
+    tibble,
     magrittr,
     crayon,
     cli
