@@ -20,6 +20,6 @@ test_that("ini piping", {
   }
 
   suppressMessages(
-    expect_error(nlmixr2::ini(model, etalka~1), NA)
+    expect_error(ini(model, etalka~1), NA)
   )
 })
