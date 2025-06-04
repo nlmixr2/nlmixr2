@@ -271,8 +271,14 @@ style_grey <- function(level, ...) {
     crayon::make_style(grDevices::grey(level), grey = TRUE)
   )
 }
-
-.updatePacakgeCore <- function() {
+#' This updates the "required" packages by adding available optional packages
+#'
+#' This also updates `.verse$extra` with the loaded optional packages
+#'
+#' @return  nothing called for side effects
+#' @noRd
+#' @author Matthew L. Fidler
+.updatePackageCore <- function() {
   .extra <- vapply(.verse$optional,
                    function(p) {
                      requireNamespace(p, quietly = TRUE)
@@ -302,7 +308,7 @@ style_grey <- function(level, ...) {
 }
 
 .onAttach <- function(...) {
-  .updatePacakgeCore()
+  .updatePackageCore()
   needed <- .verse$core[!is_attached(.verse$core)]
   if (length(needed) == 0)
     return()
