@@ -13,7 +13,7 @@
   "monolix2rx",
   "nlmixr2lib",
   "nonmem2rx",
-  "shinymixr2",
+  "shinymixr",
   "xpose.nlmixr2"
 )
 
