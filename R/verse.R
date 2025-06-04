@@ -1,7 +1,21 @@
 .verse <- new.env(parent=emptyenv())
-.verse$core <- c("rxode2", "nlmixr2est", "lotri", "nlmixr2plot", "nlmixr2extra", "nlmixr2data")
-.verse$optional <- c("nlmixr2lib", "nonmem2rx", "monolix2rx", "babelmixr2",
-                     "xpose.nlmixr2", "ggPMX")
+.verse$core <- c(
+  "lotri",
+  "nlmixr2data",
+  "nlmixr2est",
+  "nlmixr2extra",
+  "nlmixr2plot",
+  "rxode2"
+)
+.verse$optional <- c(
+  "babelmixr2",
+  "ggPMX",
+  "monolix2rx",
+  "nlmixr2lib",
+  "nonmem2rx",
+  "shinymixr2",
+  "xpose.nlmixr2"
+)
 
 core_loaded <- function() {
   search <- paste0("package:", .verse$core)
