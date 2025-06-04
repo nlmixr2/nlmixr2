@@ -326,3 +326,11 @@ style_grey <- function(level, ...) {
 is_attached <- function(x) {
   paste0("package:", x) %in% search()
 }
+
+dummy <- function()  {
+  lotri::lotri()
+  rxode2::rxModelVars("a=b")
+  try(nlmixr2::nlmixr2())
+  try(nlmixr2extra::bootplot())
+  try(nlmixr2plot::vpcPlot())
+}
