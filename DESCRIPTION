@@ -31,8 +31,6 @@ Imports:
     magrittr,
     crayon,
     cli
-Depends:
-    nlmixr2data
 Suggests:
     rmarkdown,
     knitr,
