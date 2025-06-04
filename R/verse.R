@@ -166,7 +166,7 @@ ls_env <- function(env) {
 #' }
 nlmixr2update <- function(recursive = FALSE) {
 
-  deps <- nlmixr2_deps(recursive)
+  deps <- nlmixr2deps(recursive)
   behind <- dplyr::filter(deps, behind)
 
   if (nrow(behind) == 0) {
