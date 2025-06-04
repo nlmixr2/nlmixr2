@@ -10,7 +10,8 @@ Authors@R: c(person("Matthew","Fidler", role = c("aut", "cre"), email = "matthew
    person("John", "Harrold", role="ctb", email="john.m.harrold@gmail.com"),
    person("Bill", "Denney", email="wdenney@humanpredictions.com", role="ctb", comment=c(ORCID="0000-0002-5759-428X")),
    person("Theodoros", "Papathanasiou",  role="ctb"),
-   person("Richard", "Hooijmaijers", email = "richardhooijmaijers@gmail.com", role = "ctb"))
+   person("Richard", "Hooijmaijers", email = "richardhooijmaijers@gmail.com", role = "ctb"),
+   person("Michael Wayne", "Kearney", email = "kearneymw@missouri.edu", role = "ctb",comment = c(ORCID = "0000-0002-0730-4694")))
 Description: Fit and compare nonlinear mixed-effects models in differential
     equations with flexible dosing information commonly seen in pharmacokinetics
     and pharmacodynamics (Almquist, Leander, and Jirstrand 2015

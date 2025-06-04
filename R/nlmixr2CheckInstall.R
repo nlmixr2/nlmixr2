@@ -59,7 +59,7 @@ nlmixr2CheckInstall <- function() {
     list(
       rxode2 = c("rxode2", "rxode2ll", "lotri"),
       nlmixr2 = c("nlmixr2", "nlmixr2est", "nlmixr2data", "nlmixr2extra", "nlmixr2plot"),
-      optional = c("nlmixr2lib", "nonmem2rx", "babelmixr2")
+      optional = .verse$optional
     )
   repos <- getOption("repos")
   if ("@CRAN@" %in% repos)  {
