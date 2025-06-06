@@ -5,13 +5,15 @@
   "nlmixr2est",
   "nlmixr2extra",
   "nlmixr2plot",
-  "rxode2"
+  "rxode2",
+  "rxode2ll"
 )
 .verse$optional <- c(
   "babelmixr2",
   "ggPMX",
   "monolix2rx",
   "nlmixr2lib",
+  "nlmixr2rpt",
   "nonmem2rx",
   "shinymixr",
   "xpose.nlmixr2"
