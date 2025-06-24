@@ -84,7 +84,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Modifying nlmixr2 models by piping</h1>
             
-            <h4 data-toc-skip class="date">2025-06-17</h4>
+            <h4 data-toc-skip class="date">2025-06-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/main/vignettes/modelPiping.Rmd" class="external-link"><code>vignettes/modelPiping.Rmd</code></a></small>
       <div class="d-none name"><code>modelPiping.Rmd</code></div>
@@ -158,7 +158,7 @@ Francisco:</p>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;            setup optimize covariance table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.017214 0.476184   0.476185 0.804    0.011 5.600417</span></span>
+<span><span class="co">#&gt; elapsed 0.018715 0.490523   0.490524 0.794    0.011 5.665238</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -257,7 +257,7 @@ piping changes to the model:</p>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;            setup optimize covariance table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.002395 0.285797   0.285799   0.8    0.011 3.158009</span></span>
+<span><span class="co">#&gt; elapsed 0.002397 0.295899     0.2959 0.826    0.011 3.154804</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -330,8 +330,8 @@ piping changes to the model:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;           setup optimize covariance table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.00216  0.28176   0.281761 0.816    0.011 3.250319</span></span>
+<span><span class="co">#&gt;            setup optimize covariance table compress   other</span></span>
+<span><span class="co">#&gt; elapsed 0.002096 0.292181   0.292183 0.808    0.016 3.26254</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -391,7 +391,7 @@ piping changes to the model:</p>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;            setup optimize covariance table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.001744 0.478254   0.478255 0.352    0.009 2.301747</span></span>
+<span><span class="co">#&gt; elapsed 0.001792  0.49263   0.492632 0.359    0.009 2.381946</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -602,8 +602,8 @@ again.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;           setup optimize covariance table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.00194  0.30758   0.307582 0.808     0.01 3.989898</span></span>
+<span><span class="co">#&gt;            setup optimize covariance table compress    other</span></span>
+<span><span class="co">#&gt; elapsed 0.002019 0.311064   0.311065 0.796    0.017 3.981852</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -672,7 +672,7 @@ way;</p>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;            setup optimize covariance table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.001975  0.48203   0.482031 0.821     0.01 5.455964</span></span>
+<span><span class="co">#&gt; elapsed 0.002019 0.495651   0.495653 0.814     0.01 5.534677</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -772,8 +772,8 @@ parameters:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;            setup optimize covariance table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.002196 0.298653   0.298654 0.826     0.01 3.945497</span></span>
+<span><span class="co">#&gt;            setup optimize covariance table compress   other</span></span>
+<span><span class="co">#&gt; elapsed 0.002174 0.314427   0.314429 0.839     0.01 3.98397</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -865,7 +865,7 @@ specifying the error you wish to change:</p>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;            setup optimize covariance table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.002093  0.48984   0.489842 0.829    0.009 8.089225</span></span>
+<span><span class="co">#&gt; elapsed 0.002087 0.510969   0.510971 0.825     0.01 8.304973</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>

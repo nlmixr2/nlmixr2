@@ -447,26 +447,26 @@ If not specified, then it matches the significant digits in the
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> done</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> → Calculating residuals/tables</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> done</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> → compress origData in nlmixr2 object, save 9048</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> → compress parHistData in nlmixr2 object, save 14528</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> → compress origData in nlmixr2 object, save 9104</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> → compress parHistData in nlmixr2 object, save 37496</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fit2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">── </span><span style="color: #0000BB; font-weight: bold;">nlmix</span><span style="color: #BB0000; font-weight: bold;">r²</span><span style="font-weight: bold;"> log-likelihood </span><span style="color: #BBBB00; font-weight: bold;">newuoa</span><span style="font-weight: bold;"> ──</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> lPop -688.6227 1155.254 1169.978      -574.6272        556.8025        73.45763</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           OBJF     AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> lPop -691.4067 1152.47 1167.194      -573.2352        2801.191        121.6294</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            setup table compress    other</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> elapsed 0.002656 0.029    0.009 1.703344</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> elapsed 0.002579 0.039     0.01 1.756421</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">── (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        <span style="font-weight: bold;">Est.</span>     <span style="font-weight: bold;">SE</span>  <span style="font-weight: bold;">%RSE</span>    <span style="font-weight: bold;">Back-transformed(95%CI)</span> <span style="font-weight: bold;">BSV(SD)</span> <span style="font-weight: bold;">Shrink(SD)%</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">E0</span>  -0.5494 0.2404 43.75 -0.5494 (-1.021, -0.07832)                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Em</span>    5.624  2.816 50.07      5.624 (0.1043, 11.14)                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">E50</span>   3.156   1.54 48.81      3.156 (0.1366, 6.175)                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">E0</span>  -0.5277 0.2056 38.96 -0.5277 (-0.9307, -0.1248)                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Em</span>    8.802  6.861 77.95      8.802 (-4.646, 22.25)                    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">E50</span>   4.604  2.614 56.78     4.604 (-0.5194, 9.727)                    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">g</span>         2  <span style="color: #00BB00; font-weight: bold;">FIXED</span> <span style="color: #00BB00; font-weight: bold;">FIXED</span>                          2                    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Covariance Type (<span style="color: #0000BB; font-weight: bold;">$covMethod</span>): <span style="font-weight: bold;">r</span></span>
@@ -476,17 +476,17 @@ If not specified, then it matches the significant digits in the
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1,000 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ID      TIME    DV  IPRED      v</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 1     0.025<span style="text-decoration: underline;">5</span>     0 -<span style="color: #BB0000;">0.456</span> -<span style="color: #BB0000;">0.549</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 1     0.052<span style="text-decoration: underline;">4</span>     0 -<span style="color: #BB0000;">0.456</span> -<span style="color: #BB0000;">0.548</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 1     0.062<span style="text-decoration: underline;">6</span>     0 -<span style="color: #BB0000;">0.457</span> -<span style="color: #BB0000;">0.547</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 1     0.025<span style="text-decoration: underline;">5</span>     0 -<span style="color: #BB0000;">0.464</span> -<span style="color: #BB0000;">0.527</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 1     0.052<span style="text-decoration: underline;">4</span>     1 -<span style="color: #BB0000;">0.991</span> -<span style="color: #BB0000;">0.527</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 1     0.062<span style="text-decoration: underline;">6</span>     0 -<span style="color: #BB0000;">0.464</span> -<span style="color: #BB0000;">0.526</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 997 more rows</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># you can also get the nlm output with</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">fit2</span><span class="op">$</span><span class="va">newuoa</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> parameter estimates: -0.549437112727316, 5.62412415493367, 3.15569016602292 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> objective: 574.627190890731 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> number of function evaluations: 242 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> parameter estimates: -0.527740229316039, 8.80189534934972, 4.60368939129469 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> objective: 573.235158247941 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> number of function evaluations: 652 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># The nlm control has been modified slightly to include</span></span></span>
 <span class="r-in"><span><span class="co"># extra components and name the parameters</span></span></span>
