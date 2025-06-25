@@ -5,8 +5,7 @@
   "nlmixr2est",
   "nlmixr2extra",
   "nlmixr2plot",
-  "rxode2",
-  "rxode2ll"
+  "rxode2"
 )
 .verse$optional <- c(
   "babelmixr2",
