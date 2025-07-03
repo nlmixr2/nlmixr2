@@ -4,47 +4,14 @@ template:
   params:
     bootswatch: flatly
 reference:
-- title: Running/Parsing `nlmixr2` model
-  contents:
-  - nlmixr2
-- title: Estimation options
-  contents:
-  - foceiControl
-  - saemControl
-  - nlmeControl
-  - bobyqaControl
-  - lbfgsb3cControl
-  - n1qn1Control
-  - newuoaControl
-  - nlmControl
-  - nlminbControl
-  - nlsControl
-  - optimControl
-  - uobyqaControl
-  - tableControl
-- title: Post-fit table functions
-  contents:
-  - addNpde
-  - addCwres
-  - addTable
-- title: Utility functions for nlmixr2 fits
-  contents:
-  - bootplot
-  - bootstrapFit
-  - preconditionFit
-  - profileFixed
-  - profileFixedSingle
-  - profileLlp
-  - setOfv
-  - traceplot
-  - vpcCens
-  - vpcCensTad
-  - vpcPlot
-  - vpcPlotTad
-  - vpcSim
-- title: Installation support
+
+- title: Installation and Loading support
   contents:
   - nlmixr2CheckInstall
+  - nlmixr2conflicts
+  - nlmixr2deps
+  - nlmixr2packages
+  - nlmixr2update
 navbar:
   left:
   - text: Articles
