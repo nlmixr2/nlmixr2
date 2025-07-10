@@ -32,10 +32,9 @@ structure used in nlmixr to support them are below:
 | M1 | Ignore the censored data entirely. This can be done by removing the     |
 |    | censored observations from the dataset.                                 |
 +----+-------------------------------------------------------------------------+
-| M2 | With this method a single limit is specified and observations below that|
-|    | limit are considered censored. This is not directly supported in nlmixr,|
-|    | but can be accomplished by using the M3 method.                         |
-+----+-------------------------------------------------------------------------+
+| M2 | With this method a single limit is specified and observations below that |
+|    | limit are considered censored. To use in `nlmixr2` specify the `limit`   |
+|    | in the data and remove all concentrations below the limit of quantitation | +----+-------------------------------------------------------------------------+
 | M3 | Estimate Likelihood where observation is above or below some censored   |
 |    | limit.                                                                  |
 |    |                                                                         |
@@ -48,14 +47,19 @@ structure used in nlmixr to support them are below:
 |    | When the censored value are above a limit of quantitation (or right     |
 |    | censored), the DV remains the limit of quantification and CENS is -1.   |
 +----+-------------------------------------------------------------------------+
-| M4 | This is an expansion of the M3 method. In cases, like in PK, you can    |
-|    | also assume that the observations are actually positive. Therefore, you |
-|    | may want to adjust the likelihood to take into consideration this fact. |
-|    |                                                                         |
-|    | This can be accomplished in nlmixr as well by adding a LIMIT column. In |
-|    | the case of the left censored problem, you can specify the concentration|
-|    | is between the LIMIT and DV. This works for both the right and left     |
-|    | censored values.                                                        |
+| M4 | This is an expansion of the M3 method. In cases, like in PK, you can       |
+|    | also assume that the observations are actually positive. Therefore, you    |
+|    | may want to adjust the likelihood to take into consideration this fact.    |
+|    |                                                                            |
+|    | This can be accomplished in nlmixr as well by adding a LIMIT column. In    |
+|    | the case of the left censored problem, you can specify the concentration   |
+|    | is between the LIMIT and DV. This works for both the right and left        |
+|    | censored values.                                                           |
+|    |                                                                            |
+|    | For the M4, you can use the limit on concentrations that are not censored. |
+|    | In this way you can make the assumption that all concentrations are        |
+|    | above a certain value.                                                     |
+|    |                                                                            |
 +----+-------------------------------------------------------------------------+
 | M5 | Replace all censored values with Lower Limit of Quantitation divided by |
 |    | 2. (ie LLOQ/2)                                                          |
