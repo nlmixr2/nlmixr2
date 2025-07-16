@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">nlmixr2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,7 +96,7 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://nlmixr2.org/" class="external-link">nlmixr2</a></span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">wbc</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="fu">ini</span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="co">## Note that the UI can take expressions</span></span>
 <span>    <span class="co">## Also note that these initial estimates should be provided on the log-scale</span></span>
 <span>    <span class="va">log_CIRC0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">7.21</span><span class="op">)</span></span>
@@ -110,7 +110,7 @@
 <span>    <span class="co">##  Also true for additive error (also ignored in SAEM)</span></span>
 <span>    <span class="va">prop.err</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/model.html" class="external-link">model</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="fu">model</span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="va">CIRC0</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">log_CIRC0</span> <span class="op">+</span> <span class="va">eta.CIRC0</span><span class="op">)</span></span>
 <span>    <span class="va">MTT</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">log_MTT</span> <span class="op">+</span> <span class="va">eta.MTT</span><span class="op">)</span></span>
 <span>    <span class="va">SLOPU</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">log_SLOPU</span> <span class="op">+</span> <span class="va">eta.SLOPU</span><span class="op">)</span></span>
@@ -155,7 +155,7 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"Simulated_WBC_pacl_ddmore_samePK_nlmixr.csv"</span>, na.strings <span class="op">=</span> <span class="st">"."</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">fit.S</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">wbc</span>, <span class="va">d3</span>, est<span class="op">=</span><span class="st">"saem"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>, table<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cwres<span class="op">=</span><span class="cn">TRUE</span>, npde<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">fit.S</span> <span class="op">&lt;-</span> <span class="fu">nlmixr</span><span class="op">(</span><span class="va">wbc</span>, <span class="va">d3</span>, est<span class="op">=</span><span class="st">"saem"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>, table<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cwres<span class="op">=</span><span class="cn">TRUE</span>, npde<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
@@ -253,13 +253,13 @@
 <p><img src="wbc_files/figure-html/saem-82.png" width="100%"></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="../reference/vpcPlot.html">vpcPlot</a></span><span class="op">(</span><span class="va">fit.S</span>, n<span class="op">=</span><span class="fl">500</span>, n_bins <span class="op">=</span> <span class="fl">10</span>, show<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>obs_dv<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span><span class="fu">vpcPlot</span><span class="op">(</span><span class="va">fit.S</span>, n<span class="op">=</span><span class="fl">500</span>, n_bins <span class="op">=</span> <span class="fl">10</span>, show<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>obs_dv<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>        ylab <span class="op">=</span> <span class="st">"Neutrophil Count (10^9/L)"</span>, xlab <span class="op">=</span> <span class="st">"Time (h)"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:04</span></span></code></pre></div>
 <p><img src="wbc_files/figure-html/saem-83.png" width="100%"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="../reference/vpcPlot.html">vpcPlot</a></span><span class="op">(</span><span class="va">fit.S</span>, n<span class="op">=</span><span class="fl">500</span>, bins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">170</span>,<span class="fl">300</span>,<span class="fl">350</span>,<span class="fl">500</span>,<span class="fl">600</span>,<span class="fl">900</span>,<span class="fl">3000</span>,<span class="fl">4580</span><span class="op">)</span>,</span>
+<span><span class="fu">vpcPlot</span><span class="op">(</span><span class="va">fit.S</span>, n<span class="op">=</span><span class="fl">500</span>, bins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">170</span>,<span class="fl">300</span>,<span class="fl">350</span>,<span class="fl">500</span>,<span class="fl">600</span>,<span class="fl">900</span>,<span class="fl">3000</span>,<span class="fl">4580</span><span class="op">)</span>,</span>
 <span>        show<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>obs_dv<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, ylab <span class="op">=</span> <span class="st">"Neutrophil Count (10^9/L)"</span>, xlab <span class="op">=</span> <span class="st">"Time (h)"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:04</span></span></code></pre></div>
 <p><img src="wbc_files/figure-html/saem-84.png" width="100%"></p>
@@ -268,9 +268,9 @@
 <h2 id="fit-model-using-focei">Fit model using FOCEi<a class="anchor" aria-label="anchor" href="#fit-model-using-focei"></a>
 </h2>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fit.F</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">wbc</span>, <span class="va">d3</span>, est<span class="op">=</span><span class="st">"focei"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>, table<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cwres<span class="op">=</span><span class="cn">TRUE</span>, npde<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">fit.F</span> <span class="op">&lt;-</span> <span class="fu">nlmixr</span><span class="op">(</span><span class="va">wbc</span>, <span class="va">d3</span>, est<span class="op">=</span><span class="st">"focei"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>, table<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cwres<span class="op">=</span><span class="cn">TRUE</span>, npde<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; calculating covariance matrix</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:28 </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:27 </span></span>
 <span><span class="co">#&gt; done</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:02</span></span></code></pre></div>
 <div class="section level3">
@@ -330,14 +330,14 @@
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># 10 bins is slightly better than auto bin</span></span>
-<span><span class="fu"><a href="../reference/vpcPlot.html">vpcPlot</a></span><span class="op">(</span><span class="va">fit.F</span>, n<span class="op">=</span><span class="fl">500</span>, n_bins <span class="op">=</span> <span class="fl">10</span>, show<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>obs_dv<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span><span class="fu">vpcPlot</span><span class="op">(</span><span class="va">fit.F</span>, n<span class="op">=</span><span class="fl">500</span>, n_bins <span class="op">=</span> <span class="fl">10</span>, show<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>obs_dv<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>        ylab <span class="op">=</span> <span class="st">"Neutrophil Count (10^9/L)"</span>, xlab <span class="op">=</span> <span class="st">"Time (h)"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:04</span></span></code></pre></div>
 <p><img src="wbc_files/figure-html/foceiGof-82.png" width="100%"></p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># specify bins</span></span>
-<span><span class="fu"><a href="../reference/vpcPlot.html">vpcPlot</a></span><span class="op">(</span><span class="va">fit.F</span>, n<span class="op">=</span><span class="fl">500</span>, bins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">170</span>, <span class="fl">300</span>, <span class="fl">350</span>, <span class="fl">500</span>, <span class="fl">600</span>, <span class="fl">900</span>, <span class="fl">3000</span>, <span class="fl">4580</span><span class="op">)</span>,</span>
+<span><span class="fu">vpcPlot</span><span class="op">(</span><span class="va">fit.F</span>, n<span class="op">=</span><span class="fl">500</span>, bins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">170</span>, <span class="fl">300</span>, <span class="fl">350</span>, <span class="fl">500</span>, <span class="fl">600</span>, <span class="fl">900</span>, <span class="fl">3000</span>, <span class="fl">4580</span><span class="op">)</span>,</span>
 <span>        show<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>obs_dv<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>        ylab <span class="op">=</span> <span class="st">"Neutrophil Count (10^9/L)"</span>, xlab <span class="op">=</span> <span class="st">"Time (h)"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:04</span></span></code></pre></div>

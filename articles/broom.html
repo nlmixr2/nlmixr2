@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">nlmixr2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,7 +84,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Using broom with nlmixr2</h1>
             
-            <h4 data-toc-skip class="date">2025-07-01</h4>
+            <h4 data-toc-skip class="date">2025-07-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/main/vignettes/broom.Rmd" class="external-link"><code>vignettes/broom.Rmd</code></a></small>
       <div class="d-none name"><code>broom.Rmd</code></div>
@@ -111,7 +111,7 @@ the different types of output that is used in the tidy functions.</p>
 <span></span>
 <span><span class="va">pheno</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># Pheno with covariance</span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="fu">ini</span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="va">tcl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">0.008</span><span class="op">)</span> <span class="co"># typical value of clearance</span></span>
 <span>    <span class="va">tv</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">0.6</span><span class="op">)</span>   <span class="co"># typical value of volume</span></span>
 <span>    <span class="co">## var(eta.cl)</span></span>
@@ -120,7 +120,7 @@ the different types of output that is used in the tidy functions.</p>
 <span>    <span class="co"># interindividual variability on clearance and volume</span></span>
 <span>    <span class="va">add.err</span> <span class="op">&lt;-</span> <span class="fl">0.1</span>    <span class="co"># residual variability</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/model.html" class="external-link">model</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="fu">model</span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">tcl</span> <span class="op">+</span> <span class="va">eta.cl</span><span class="op">)</span> <span class="co"># individual value of clearance</span></span>
 <span>    <span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">tv</span> <span class="op">+</span> <span class="va">eta.v</span><span class="op">)</span>    <span class="co"># individual value of volume</span></span>
 <span>    <span class="va">ke</span> <span class="op">&lt;-</span> <span class="va">cl</span> <span class="op">/</span> <span class="va">v</span>            <span class="co"># elimination rate constant</span></span>
@@ -131,7 +131,7 @@ the different types of output that is used in the tidy functions.</p>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="co">## We will run it two ways to allow comparisons</span></span>
-<span><span class="va">fit.s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">pheno</span>, <span class="va">pheno_sd</span>, <span class="st">"saem"</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>logLik<span class="op">=</span><span class="cn">TRUE</span>, print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
+<span><span class="va">fit.s</span> <span class="op">&lt;-</span> <span class="fu">nlmixr</span><span class="op">(</span><span class="va">pheno</span>, <span class="va">pheno_sd</span>, <span class="st">"saem"</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>logLik<span class="op">=</span><span class="cn">TRUE</span>, print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
 <span>                table<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cwres<span class="op">=</span><span class="cn">TRUE</span>, npde<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
@@ -155,7 +155,7 @@ the different types of output that is used in the tidy functions.</p>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span></span>
-<span><span class="va">fit.f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">pheno</span>, <span class="va">pheno_sd</span>, <span class="st">"focei"</span>,</span>
+<span><span class="va">fit.f</span> <span class="op">&lt;-</span> <span class="fu">nlmixr</span><span class="op">(</span><span class="va">pheno</span>, <span class="va">pheno_sd</span>, <span class="st">"focei"</span>,</span>
 <span>                control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
 <span>                table<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cwres<span class="op">=</span><span class="cn">TRUE</span>, npde<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; calculating covariance matrix</span></span>
@@ -182,7 +182,7 @@ on different quadratures, FOCEi approximation etc). However, the
 <p>If you wish you can set the objective function to the focei objective
 function (which was already calculated with CWRES).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/setOfv.html">setOfv</a></span><span class="op">(</span><span class="va">fit.s</span>,<span class="st">"gauss3_1.6"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">setOfv</span><span class="op">(</span><span class="va">fit.s</span>,<span class="st">"gauss3_1.6"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span></code></pre></div>
 <p>Now the glance gives the <code>gauss3_1.6</code> values.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -196,7 +196,7 @@ function (which was already calculated with CWRES).</p>
 <p>Of course you can always change the type of objective function that
 nlmixr uses:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/setOfv.html">setOfv</a></span><span class="op">(</span><span class="va">fit.s</span>,<span class="st">"FOCEi"</span><span class="op">)</span> <span class="co"># Setting objective function to focei</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">setOfv</span><span class="op">(</span><span class="va">fit.s</span>,<span class="st">"FOCEi"</span><span class="op">)</span> <span class="co"># Setting objective function to focei</span></span></code></pre></div>
 <p>By setting it back to the SAEM default objective function of
 <code>FOCEi</code>, the <code>glance(fit.s)</code> has the same values
 again:</p>

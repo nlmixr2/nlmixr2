@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">nlmixr2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -329,9 +329,9 @@ to make sure it makes sense with all the data.</p>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="co">## Check parsing</span></span>
-<span><span class="va">cmt2m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">cmt2</span><span class="op">)</span></span>
+<span><span class="va">cmt2m</span> <span class="op">&lt;-</span> <span class="fu">nlmixr</span><span class="op">(</span><span class="va">cmt2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cmt2m</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">rxode2-based solved PK 2-compartment model with first-order absorption</span> <span style="color: #00BBBB;">──────</span> </span></span>
+<span><span class="co">#&gt;  <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">rxode2-based solved PK 2-compartment model mixed with free from 3-cmt ODE mod</span> </span></span>
 <span><span class="co">#&gt;  ── <span style="font-weight: bold;">Initalization:</span> ──  </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">Fixed Effects</span> (<span style="color: #0000BB; font-weight: bold;">$theta</span>): </span></span>
 <span><span class="co">#&gt;       lka        lv       lcl        lq       lvp   logn.sd </span></span>
@@ -342,6 +342,11 @@ to make sure it makes sense with all the data.</p>
 <span><span class="co">#&gt; eta.ka   0.01   0.0    0.0</span></span>
 <span><span class="co">#&gt; eta.v    0.00   0.1    0.0</span></span>
 <span><span class="co">#&gt; eta.cl   0.00   0.0    0.1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co"><span style="font-weight: bold;">#&gt; States</span> (<span style="color: #0000BB; font-weight: bold;">$state</span> or <span style="color: #0000BB; font-weight: bold;">$stateDf</span>): </span></span>
+<span><span class="co">#&gt;   Compartment Number Compartment Name Rate   Off Internal #</span></span>
+<span><span class="co">#&gt; 1                  1            depot TRUE FALSE          1</span></span>
+<span><span class="co">#&gt; 2                  2          central TRUE FALSE          2</span></span>
 <span><span class="co">#&gt;  ── <span style="font-weight: bold;">μ-referencing (</span><span style="color: #0000BB; font-weight: bold;">$muRefTable</span><span style="font-weight: bold;">):</span> ──  </span></span>
 <span><span class="co">#&gt;   theta    eta level</span></span>
 <span><span class="co">#&gt; 1   lka eta.ka    id</span></span>
@@ -380,11 +385,11 @@ compare a few models:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## First try log-normal (since the variability seemed proportional to concentration)</span></span>
 <span><span class="va">cmt2fit.logn</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span></span>
+<span>  <span class="fu">nlmixr</span><span class="op">(</span></span>
 <span>    <span class="va">cmt2m</span>, data <span class="op">=</span> <span class="va">dat2</span>,</span>
 <span>    est <span class="op">=</span> <span class="st">"saem"</span>,</span>
 <span>    control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>, </span>
-<span>    table<span class="op">=</span><span class="fu"><a href="../reference/tableControl.html">tableControl</a></span><span class="op">(</span>cwres<span class="op">=</span><span class="cn">TRUE</span>, npde<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span>    table<span class="op">=</span><span class="fu">tableControl</span><span class="op">(</span>cwres<span class="op">=</span><span class="cn">TRUE</span>, npde<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
@@ -402,6 +407,7 @@ compare a few models:</p>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:03</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
@@ -418,9 +424,9 @@ compare a few models:</p>
 <span><span class="va">cmt2fit.prop</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">cmt2fit.logn</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/update.html" class="external-link">update</a></span><span class="op">(</span><span class="fu">linCmt</span><span class="op">(</span><span class="op">)</span> <span class="op">~</span> <span class="fu">prop</span><span class="op">(</span><span class="va">prop.sd</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span></span>
+<span>  <span class="fu">nlmixr</span><span class="op">(</span></span>
 <span>    est<span class="op">=</span><span class="st">"saem"</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
-<span>    table<span class="op">=</span><span class="fu"><a href="../reference/tableControl.html">tableControl</a></span><span class="op">(</span>npde<span class="op">=</span><span class="cn">TRUE</span>, cwres<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span>    table<span class="op">=</span><span class="fu">tableControl</span><span class="op">(</span>npde<span class="op">=</span><span class="cn">TRUE</span>, cwres<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
@@ -440,6 +446,7 @@ compare a few models:</p>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:03</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
@@ -457,9 +464,9 @@ compare a few models:</p>
 <span><span class="va">cmt2fit.add.prop</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">cmt2fit.prop</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/update.html" class="external-link">update</a></span><span class="op">(</span><span class="fu">linCmt</span><span class="op">(</span><span class="op">)</span> <span class="op">~</span> <span class="fu">prop</span><span class="op">(</span><span class="va">prop.sd</span><span class="op">)</span> <span class="op">+</span> <span class="fu">add</span><span class="op">(</span><span class="va">add.sd</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span></span>
+<span>  <span class="fu">nlmixr</span><span class="op">(</span></span>
 <span>    est<span class="op">=</span><span class="st">"saem"</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>, </span>
-<span>    table<span class="op">=</span><span class="fu"><a href="../reference/tableControl.html">tableControl</a></span><span class="op">(</span>npde<span class="op">=</span><span class="cn">TRUE</span>, cwres<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span>    table<span class="op">=</span><span class="fu">tableControl</span><span class="op">(</span>npde<span class="op">=</span><span class="cn">TRUE</span>, cwres<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
@@ -479,6 +486,7 @@ compare a few models:</p>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:03</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
@@ -516,69 +524,69 @@ the results side-by-side</p>
 </tr>
 <tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">lka</th>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-2.288 </td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-2.354 </td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-2.395 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-2.285 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-2.391 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-2.445 </td>
 </tr>
 <tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.087)</td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.052)</td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.059)</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.085)</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.058)</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.065)</td>
 </tr>
 <tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">lv</th>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">2.176 </td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-3.121 </td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-3.094 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">2.164 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-8.180 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-8.290 </td>
 </tr>
 <tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.143)</td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.226)</td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.248)</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.139)</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.426)</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.452)</td>
 </tr>
 <tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">lcl</th>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.836 </td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-13.984 </td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-13.643 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.847 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-16.869 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-15.636 </td>
 </tr>
 <tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.080)</td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1.918)</td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1.783)</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.075)</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1.865)</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1.778)</td>
 </tr>
 <tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">lq</th>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">2.194 </td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.954 </td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">2.009 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">2.172 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">2.148 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">2.200 </td>
 </tr>
 <tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.310)</td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(70.423)</td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(67.784)</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.294)</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(295.204)</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(441.230)</td>
 </tr>
 <tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">lvp</th>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3.001 </td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-6.572 </td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-6.580 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3.044 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-9.138 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-9.130 </td>
 </tr>
 <tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.250)</td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.923)</td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.548)</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.243)</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.113)</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.142)</td>
 </tr>
 <tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">sd__eta.ka</th>
 <td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.107 </td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.261 </td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.311 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.330 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.378 </td>
 </tr>
 <tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th>
@@ -588,9 +596,9 @@ the results side-by-side</p>
 </tr>
 <tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">sd__eta.v</th>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.330 </td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.876 </td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">2.161 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.340 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3.477 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3.526 </td>
 </tr>
 <tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th>
@@ -600,9 +608,9 @@ the results side-by-side</p>
 </tr>
 <tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">sd__eta.cl</th>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.752 </td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">9.893 </td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">10.448 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.710 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">11.391 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">12.172 </td>
 </tr>
 <tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th>
@@ -612,7 +620,7 @@ the results side-by-side</p>
 </tr>
 <tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">logn.sd</th>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.074 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.045 </td>
 <td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">     </td>
 <td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">     </td>
 </tr>
@@ -625,8 +633,8 @@ the results side-by-side</p>
 <tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">prop.sd</th>
 <td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">     </td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.952 </td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.968 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.957 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.973 </td>
 </tr>
 <tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th>
@@ -638,7 +646,7 @@ the results side-by-side</p>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">add.sd</th>
 <td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">     </td>
 <td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">     </td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.070 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.075 </td>
 </tr>
 <tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th>
@@ -654,15 +662,15 @@ the results side-by-side</p>
 </tr>
 <tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">logLik</th>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-254.593 </td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-13477.282 </td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-13628.769 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-223.596 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-17116.552 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-17030.792 </td>
 </tr>
 <tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">AIC</th>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">527.186 </td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">26972.563 </td>
-<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">27277.538 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">465.193 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">34251.105 </td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">34081.584 </td>
 </tr>
 </table>
 <p>Note that the additive and proportional model has the additive
@@ -677,7 +685,8 @@ function values)</p>
 </h2>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## The controller then can be piped into a specific plot</span></span>
-<span><span class="va">ctr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/pmx_nlmixr.html" class="external-link">pmx_nlmixr</a></span><span class="op">(</span><span class="va">cmt2fit.logn</span>, conts <span class="op">=</span> <span class="st">"WEIGHTB"</span>, cats<span class="op">=</span><span class="st">"TRTACT"</span>, vpc<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">ctr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/pmx_nlmixr.html" class="external-link">pmx_nlmixr</a></span><span class="op">(</span><span class="va">cmt2fit.logn</span>, conts <span class="op">=</span> <span class="st">"WEIGHTB"</span>, cats<span class="op">=</span><span class="st">"TRTACT"</span>, vpc<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:03</span></span></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ctr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/residual_scatter.html" class="external-link">pmx_plot_npde_pred</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fig-npde-pred-1.png" width="100%"></p>
@@ -776,25 +785,27 @@ very easily with nlmixr2/rxode2:</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
 <span><span class="va">sim1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/rxSolve.html" class="external-link">rxSolve</a></span><span class="op">(</span><span class="va">cmt2fit.logn</span>, <span class="va">ev</span>, nSub<span class="op">=</span><span class="fl">100</span>, nStud<span class="op">=</span><span class="fl">100</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Solved rxode2 object ──</span></span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Parameters (</span><span style="color: #0000BB; font-weight: bold;">$params</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10,000 × 10</span></span></span>
 <span><span class="co">#&gt;    sim.id   lka    lv   lcl    lq   lvp logn.sd  eta.ka   eta.v   eta.cl</span></span>
 <span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>      1 -<span style="color: #BB0000;">2.26</span>  2.27  1.89  2.12  3.07    1.07  0.011<span style="text-decoration: underline;">4</span> -<span style="color: #BB0000;">0.016</span><span style="color: #BB0000; text-decoration: underline;">9</span> -<span style="color: #BB0000;">0.796</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>      2 -<span style="color: #BB0000;">2.26</span>  2.27  1.89  2.12  3.07    1.07  0.192  -<span style="color: #BB0000;">0.162</span>  -<span style="color: #BB0000;">0.758</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>      3 -<span style="color: #BB0000;">2.26</span>  2.27  1.89  2.12  3.07    1.07  0.155   0.366  -<span style="color: #BB0000;">0.002</span><span style="color: #BB0000; text-decoration: underline;">54</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>      4 -<span style="color: #BB0000;">2.26</span>  2.27  1.89  2.12  3.07    1.07 -<span style="color: #BB0000;">0.045</span><span style="color: #BB0000; text-decoration: underline;">8</span>  0.025<span style="text-decoration: underline;">1</span>  0.395  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>      5 -<span style="color: #BB0000;">2.26</span>  2.27  1.89  2.12  3.07    1.07  0.250  -<span style="color: #BB0000;">0.404</span>  -<span style="color: #BB0000;">0.018</span><span style="color: #BB0000; text-decoration: underline;">9</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>      6 -<span style="color: #BB0000;">2.26</span>  2.27  1.89  2.12  3.07    1.07  0.164   0.210  -<span style="color: #BB0000;">0.347</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>      7 -<span style="color: #BB0000;">2.26</span>  2.27  1.89  2.12  3.07    1.07 -<span style="color: #BB0000;">0.047</span><span style="color: #BB0000; text-decoration: underline;">5</span> -<span style="color: #BB0000;">0.106</span>  -<span style="color: #BB0000;">0.991</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>      8 -<span style="color: #BB0000;">2.26</span>  2.27  1.89  2.12  3.07    1.07 -<span style="color: #BB0000;">0.065</span><span style="color: #BB0000; text-decoration: underline;">0</span> -<span style="color: #BB0000;">0.885</span>  -<span style="color: #BB0000;">0.241</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>      9 -<span style="color: #BB0000;">2.26</span>  2.27  1.89  2.12  3.07    1.07 -<span style="color: #BB0000;">0.011</span><span style="color: #BB0000; text-decoration: underline;">6</span>  0.326   0.297  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     10 -<span style="color: #BB0000;">2.26</span>  2.27  1.89  2.12  3.07    1.07  0.166  -<span style="color: #BB0000;">0.190</span>  -<span style="color: #BB0000;">0.042</span><span style="color: #BB0000; text-decoration: underline;">8</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>      1 -<span style="color: #BB0000;">2.26</span>  2.25  1.90  2.10  3.11    1.04  0.011<span style="text-decoration: underline;">4</span> -<span style="color: #BB0000;">0.017</span><span style="color: #BB0000; text-decoration: underline;">4</span> -<span style="color: #BB0000;">0.752</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>      2 -<span style="color: #BB0000;">2.26</span>  2.25  1.90  2.10  3.11    1.04  0.193  -<span style="color: #BB0000;">0.167</span>  -<span style="color: #BB0000;">0.716</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>      3 -<span style="color: #BB0000;">2.26</span>  2.25  1.90  2.10  3.11    1.04  0.155   0.377  -<span style="color: #BB0000;">0.002</span><span style="color: #BB0000; text-decoration: underline;">40</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>      4 -<span style="color: #BB0000;">2.26</span>  2.25  1.90  2.10  3.11    1.04 -<span style="color: #BB0000;">0.045</span><span style="color: #BB0000; text-decoration: underline;">9</span>  0.025<span style="text-decoration: underline;">9</span>  0.373  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>      5 -<span style="color: #BB0000;">2.26</span>  2.25  1.90  2.10  3.11    1.04  0.250  -<span style="color: #BB0000;">0.416</span>  -<span style="color: #BB0000;">0.017</span><span style="color: #BB0000; text-decoration: underline;">9</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>      6 -<span style="color: #BB0000;">2.26</span>  2.25  1.90  2.10  3.11    1.04  0.164   0.216  -<span style="color: #BB0000;">0.328</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>      7 -<span style="color: #BB0000;">2.26</span>  2.25  1.90  2.10  3.11    1.04 -<span style="color: #BB0000;">0.047</span><span style="color: #BB0000; text-decoration: underline;">6</span> -<span style="color: #BB0000;">0.109</span>  -<span style="color: #BB0000;">0.936</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>      8 -<span style="color: #BB0000;">2.26</span>  2.25  1.90  2.10  3.11    1.04 -<span style="color: #BB0000;">0.065</span><span style="color: #BB0000; text-decoration: underline;">2</span> -<span style="color: #BB0000;">0.911</span>  -<span style="color: #BB0000;">0.228</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>      9 -<span style="color: #BB0000;">2.26</span>  2.25  1.90  2.10  3.11    1.04 -<span style="color: #BB0000;">0.011</span><span style="color: #BB0000; text-decoration: underline;">6</span>  0.335   0.281  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     10 -<span style="color: #BB0000;">2.26</span>  2.25  1.90  2.10  3.11    1.04  0.167  -<span style="color: #BB0000;">0.195</span>  -<span style="color: #BB0000;">0.040</span><span style="color: #BB0000; text-decoration: underline;">4</span> </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 9,990 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Initial Conditions (</span><span style="color: #0000BB; font-weight: bold;">$inits</span><span style="font-weight: bold;">): ──</span></span></span>
-<span><span class="co">#&gt; named numeric(0)</span></span>
+<span><span class="co">#&gt;       depot     central peripheral1 </span></span>
+<span><span class="co">#&gt;           0           0           0 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Simulation <span style="font-weight: bold;">with uncertainty</span> in:</span></span>
 <span><span class="co">#&gt; • parameters (<span style="color: #0000BB; font-weight: bold;">$thetaMat</span> for changes)</span></span>
@@ -802,66 +813,67 @@ very easily with nlmixr2/rxode2:</p>
 <span><span class="co">#&gt; • sigma matrix (<span style="color: #0000BB; font-weight: bold;">$sigmaList</span>)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── First part of data (object): ──</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 500,000 × 9</span></span></span>
-<span><span class="co">#&gt;   sim.id  time    ka    cl     v     q    vp ipredSim   sim</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>      1 0     0.106  2.98  9.50  8.30  21.4     3.81  5.88</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>      1 0.163 0.106  2.98  9.50  8.30  21.4     3.96  1.83</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>      1 0.327 0.106  2.98  9.50  8.30  21.4     4.07 13.6 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>      1 0.490 0.106  2.98  9.50  8.30  21.4     4.15 36.5 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>      1 0.653 0.106  2.98  9.50  8.30  21.4     4.22  1.14</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>      1 0.816 0.106  2.98  9.50  8.30  21.4     4.27  2.28</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 499,994 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 500,000 × 12</span></span></span>
+<span><span class="co">#&gt;   sim.id  time    ka    cl     v     q    vp ipredSim   sim depot central</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>      1 0     0.106  3.14  9.36  8.21  22.4     3.60  5.49  175.    33.8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>      1 0.163 0.106  3.14  9.36  8.21  22.4     3.75  1.77  172.    35.1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>      1 0.327 0.106  3.14  9.36  8.21  22.4     3.86 12.5   169.    36.2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>      1 0.490 0.106  3.14  9.36  8.21  22.4     3.95 32.7   166.    37.0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>      1 0.653 0.106  3.14  9.36  8.21  22.4     4.02  1.13  163.    37.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>      1 0.816 0.106  3.14  9.36  8.21  22.4     4.07  2.21  160.    38.1</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 499,994 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: peripheral1 &lt;dbl&gt;</span></span></span></code></pre></div>
 <p>You may examine the simulated study information easily, as show in
 the <code><a href="https://nlmixr2.github.io/rxode2/reference/rxode2.html" class="external-link">rxode2()</a></code> printout:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">thetaMat</span><span class="op">)</span></span>
-<span><span class="co">#&gt;              lka          lv         lcl          lq         lvp</span></span>
-<span><span class="co">#&gt; [1,]  0.02990893  0.09231888  0.05262066 -0.07761409  0.06457724</span></span>
-<span><span class="co">#&gt; [2,]  0.06287836 -0.17711317 -0.05730538  0.73106324  0.09939245</span></span>
-<span><span class="co">#&gt; [3,] -0.06795305 -0.22310746 -0.11596125 -0.19584895 -0.14001815</span></span>
-<span><span class="co">#&gt; [4,] -0.06425253 -0.18892367  0.17625022  0.33655865 -0.03101308</span></span>
-<span><span class="co">#&gt; [5,] -0.17972148 -0.14976138  0.07913054 -0.72176495 -0.52406985</span></span>
-<span><span class="co">#&gt; [6,] -0.05900267  0.01028711 -0.05519068 -0.24244836 -0.25188618</span></span></code></pre></div>
+<span><span class="co">#&gt;              lka           lv         lcl          lq         lvp</span></span>
+<span><span class="co">#&gt; [1,]  0.02947905  0.089896667  0.04984078 -0.06706706  0.06520861</span></span>
+<span><span class="co">#&gt; [2,]  0.06197460 -0.170342222 -0.05373612  0.68716441  0.09226292</span></span>
+<span><span class="co">#&gt; [3,] -0.06697635 -0.217177252 -0.10981408 -0.20229225 -0.14341128</span></span>
+<span><span class="co">#&gt; [4,] -0.06332902 -0.184020593  0.16697188  0.30978833 -0.03255698</span></span>
+<span><span class="co">#&gt; [5,] -0.17713830 -0.148149267  0.07439355 -0.69996458 -0.51233627</span></span>
+<span><span class="co">#&gt; [6,] -0.05815461  0.008916266 -0.05256217 -0.23281914 -0.24435683</span></span></code></pre></div>
 <p>You can also see the covariance matricies that are simulated (note
 they come from an inverse Wishart distribution):</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">omegaList</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [[1]]</span></span>
 <span><span class="co">#&gt;              eta.ka        eta.v       eta.cl</span></span>
-<span><span class="co">#&gt; eta.ka  0.012560490 -0.004327282 -0.003205114</span></span>
-<span><span class="co">#&gt; eta.v  -0.004327282  0.141963025  0.016678588</span></span>
-<span><span class="co">#&gt; eta.cl -0.003205114  0.016678588  0.572971855</span></span>
+<span><span class="co">#&gt; eta.ka  0.012623191 -0.004464206 -0.003035283</span></span>
+<span><span class="co">#&gt; eta.v  -0.004464206  0.150338686  0.016213674</span></span>
+<span><span class="co">#&gt; eta.cl -0.003035283  0.016213674  0.511307406</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[2]]</span></span>
 <span><span class="co">#&gt;              eta.ka        eta.v       eta.cl</span></span>
-<span><span class="co">#&gt; eta.ka  0.010538183 -0.002168786 -0.005290046</span></span>
-<span><span class="co">#&gt; eta.v  -0.002168786  0.126690657  0.024094398</span></span>
-<span><span class="co">#&gt; eta.cl -0.005290046  0.024094398  0.538783902</span></span>
+<span><span class="co">#&gt; eta.ka  0.010590789 -0.002237411 -0.005009739</span></span>
+<span><span class="co">#&gt; eta.v  -0.002237411  0.134165266  0.023422769</span></span>
+<span><span class="co">#&gt; eta.cl -0.005009739  0.023422769  0.480798833</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[3]]</span></span>
 <span><span class="co">#&gt;              eta.ka         eta.v       eta.cl</span></span>
-<span><span class="co">#&gt; eta.ka 0.0099015260  0.0007886667  0.005853895</span></span>
-<span><span class="co">#&gt; eta.v  0.0007886667  0.1274449355 -0.058011193</span></span>
-<span><span class="co">#&gt; eta.cl 0.0058538950 -0.0580111927  0.542138274</span></span>
+<span><span class="co">#&gt; eta.ka 0.0099509533  0.0008136218  0.005543711</span></span>
+<span><span class="co">#&gt; eta.v  0.0008136218  0.1349640454 -0.056394136</span></span>
+<span><span class="co">#&gt; eta.cl 0.0055437113 -0.0563941356  0.483792201</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[4]]</span></span>
 <span><span class="co">#&gt;              eta.ka        eta.v      eta.cl</span></span>
-<span><span class="co">#&gt; eta.ka 0.0123269412 0.0002018033 0.003687504</span></span>
-<span><span class="co">#&gt; eta.v  0.0002018033 0.0982476736 0.017381675</span></span>
-<span><span class="co">#&gt; eta.cl 0.0036875040 0.0173816746 0.494107228</span></span>
+<span><span class="co">#&gt; eta.ka 0.0123884759 0.0002081887 0.003492112</span></span>
+<span><span class="co">#&gt; eta.v  0.0002081887 0.1040441775 0.016897162</span></span>
+<span><span class="co">#&gt; eta.cl 0.0034921121 0.0168971618 0.440930357</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[5]]</span></span>
 <span><span class="co">#&gt;              eta.ka       eta.v       eta.cl</span></span>
-<span><span class="co">#&gt; eta.ka  0.012713638 0.003539703 -0.003507816</span></span>
-<span><span class="co">#&gt; eta.v   0.003539703 0.132372841  0.009734182</span></span>
-<span><span class="co">#&gt; eta.cl -0.003507816 0.009734182  0.552292301</span></span>
+<span><span class="co">#&gt; eta.ka  0.012777103 0.003651706 -0.003321946</span></span>
+<span><span class="co">#&gt; eta.v   0.003651706 0.140182692  0.009462842</span></span>
+<span><span class="co">#&gt; eta.cl -0.003321946 0.009462842  0.492853429</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[6]]</span></span>
 <span><span class="co">#&gt;              eta.ka        eta.v       eta.cl</span></span>
-<span><span class="co">#&gt; eta.ka  0.012310656 -0.007424328 -0.008086206</span></span>
-<span><span class="co">#&gt; eta.v  -0.007424328  0.116857348  0.033429252</span></span>
-<span><span class="co">#&gt; eta.cl -0.008086206  0.033429252  0.556928026</span></span></code></pre></div>
+<span><span class="co">#&gt; eta.ka  0.012372109 -0.007659249 -0.007657738</span></span>
+<span><span class="co">#&gt; eta.v  -0.007659249  0.123751802  0.032497415</span></span>
+<span><span class="co">#&gt; eta.cl -0.007657738  0.032497415  0.496990248</span></span></code></pre></div>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">sigmaList</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [[1]]</span></span>

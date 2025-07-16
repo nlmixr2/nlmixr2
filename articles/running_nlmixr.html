@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">nlmixr2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,7 +84,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Running PK models with nlmixr</h1>
             
-            <h4 data-toc-skip class="date">2025-07-01</h4>
+            <h4 data-toc-skip class="date">2025-07-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/main/vignettes/running_nlmixr.Rmd" class="external-link"><code>vignettes/running_nlmixr.Rmd</code></a></small>
       <div class="d-none name"><code>running_nlmixr.Rmd</code></div>
@@ -118,7 +118,7 @@ University of California, San Francisco:</p>
 dataset. We write the model as follows:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">one.cmt</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="fu">ini</span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="co">## You may label each parameter with a comment</span></span>
 <span>    <span class="va">tka</span> <span class="op">&lt;-</span> <span class="fl">0.45</span> <span class="co"># Log Ka</span></span>
 <span>    <span class="va">tcl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2.7</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span> <span class="co"># Log Cl</span></span>
@@ -131,7 +131,7 @@ dataset. We write the model as follows:</p>
 <span>    <span class="va">eta.v</span> <span class="op">~</span> <span class="fl">0.1</span></span>
 <span>    <span class="va">add.sd</span> <span class="op">&lt;-</span> <span class="fl">0.7</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/model.html" class="external-link">model</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="fu">model</span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="va">ka</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">tka</span> <span class="op">+</span> <span class="va">eta.ka</span><span class="op">)</span></span>
 <span>    <span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">tcl</span> <span class="op">+</span> <span class="va">eta.cl</span><span class="op">)</span></span>
 <span>    <span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">tv</span> <span class="op">+</span> <span class="va">eta.v</span><span class="op">)</span></span>
@@ -139,11 +139,22 @@ dataset. We write the model as follows:</p>
 <span>  <span class="op">}</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
-<span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">one.cmt</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu">nlmixr</span><span class="op">(</span><span class="va">one.cmt</span><span class="op">)</span></span></code></pre></div>
 <p>We can now run the model…</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">one.cmt</span>, <span class="va">theo_sd</span>, est<span class="op">=</span><span class="st">"focei"</span>,</span>
+<code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">nlmixr</span><span class="op">(</span><span class="va">one.cmt</span>, <span class="va">theo_sd</span>, est<span class="op">=</span><span class="st">"focei"</span>,</span>
 <span>              control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; calculating covariance matrix</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
 <span><span class="co">#&gt; done</span></span>
@@ -151,21 +162,21 @@ dataset. We write the model as follows:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── </span><span style="color: #0000BB; font-weight: bold;">nlmix</span><span style="color: #BB0000; font-weight: bold;">r²</span><span style="font-weight: bold;"> </span><span style="color: #BBBB00; font-weight: bold;">FOCE</span><span style="color: #BB0000; font-weight: bold;">i</span> (outer: nlminb) ──</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;           OBJF      AIC     BIC Log-likelihood Condition#(Cov) Condition#(Cor)</span></span>
-<span><span class="co">#&gt; FOCEi 116.8096 373.4094 393.589      -179.7047        67.96527        9.332554</span></span>
+<span><span class="co">#&gt;           OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)</span></span>
+<span><span class="co">#&gt; FOCEi 116.8047 373.4045 393.5841      -179.7022        68.62502        9.381311</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;            setup optimize covariance table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.018479 0.232313   0.232315 0.045    0.009 1.726893</span></span>
+<span><span class="co">#&gt; elapsed 0.001763 0.344495   0.344497  0.06     0.01 5.801245</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;        <span style="font-weight: bold;">Parameter</span>  <span style="font-weight: bold;">Est.</span>     <span style="font-weight: bold;">SE</span> <span style="font-weight: bold;">%RSE</span> <span style="font-weight: bold;">Back-transformed(95%CI)</span> <span style="font-weight: bold;">BSV(CV%)</span> <span style="font-weight: bold;">Shrink(SD)%</span></span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>              0.469  0.195 41.6        1.6 (1.09, 2.34)     70.0      1.40% </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>               1.01 0.0751 7.43       2.75 (2.37, 3.18)     26.7      4.16% </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>         log V  3.46 0.0436 1.26       31.9 (29.2, 34.7)     14.2      11.1% </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">add.sd</span>           0.695                               0.695                     </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>              0.463  0.195 42.2       1.59 (1.08, 2.33)     70.6      1.95% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>               1.01 0.0751 7.42       2.75 (2.37, 3.19)     26.7      3.79% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>         log V  3.46 0.0436 1.26       31.8 (29.2, 34.6)     14.0      10.5% </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">add.sd</span>           0.694                               0.694                     </span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt;   Covariance Type (<span style="color: #0000BB; font-weight: bold;">$covMethod</span>): <span style="font-weight: bold;">r,s</span></span></span>
 <span><span class="co">#&gt;   No correlations in between subject variability (BSV) matrix</span></span>
@@ -180,20 +191,22 @@ dataset. We write the model as follows:</p>
 <span><span class="co">#&gt;     relative convergence (4) </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Fit Data (object is a modified </span><span style="color: #0000BB; font-weight: bold;">tibble</span><span style="font-weight: bold;">): ──</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 20</span></span></span>
-<span><span class="co">#&gt;   ID     TIME    DV      PRED    RES   WRES IPRED   IRES  IWRES    CPRED   CRES</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74 -<span style="color: #BB0000;">1.78</span><span style="color: #949494;">e</span><span style="color: #BB0000;">-15</span>  0.740  1.06   0     0.74   1.06  5.64<span style="color: #949494;">e</span><span style="color: #BB0000;">-16</span>  0.740</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84  3.27<span style="color: #949494;">e</span>+ 0 -<span style="color: #BB0000;">0.431</span> -<span style="color: #BB0000;">0.230</span>  3.85 -<span style="color: #BB0000;">1.01</span>  -<span style="color: #BB0000;">1.45</span>  3.23<span style="color: #949494;">e</span>+ 0 -<span style="color: #BB0000;">0.388</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57  5.84<span style="color: #949494;">e</span>+ 0  0.731  0.294  6.79 -<span style="color: #BB0000;">0.215</span> -<span style="color: #BB0000;">0.310</span> 5.78<span style="color: #949494;">e</span>+ 0  0.786</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 26</span></span></span>
+<span><span class="co">#&gt;   ID     TIME    DV  PRED    RES   WRES IPRED   IRES  IWRES CPRED   CRES  CWRES</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74  0     0.74   1.07   0     0.74   1.07   0     0.74   1.07 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84  3.26 -<span style="color: #BB0000;">0.423</span> -<span style="color: #BB0000;">0.511</span>  3.85 -<span style="color: #BB0000;">1.01</span>  -<span style="color: #BB0000;">1.45</span>   3.50 -<span style="color: #BB0000;">0.657</span> -<span style="color: #BB0000;">0.751</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57  5.83  0.738  0.691  6.78 -<span style="color: #BB0000;">0.215</span> -<span style="color: #BB0000;">0.310</span>  6.17  0.399  0.340</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 129 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 9 more variables: CWRES &lt;dbl&gt;, eta.ka &lt;dbl&gt;, eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;, tad &lt;dbl&gt;, dosenum &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 14 more variables: eta.ka &lt;dbl&gt;, eta.cl &lt;dbl&gt;, eta.v &lt;dbl&gt;, depot &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   central &lt;dbl&gt;, rx__sens_central_BY_p1 &lt;dbl&gt;, rx__sens_central_BY_v1 &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   rx__sens_central_BY_ka &lt;dbl&gt;, rx__sens_depot_BY_ka &lt;dbl&gt;, ka &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   cl &lt;dbl&gt;, v &lt;dbl&gt;, tad &lt;dbl&gt;, dosenum &lt;dbl&gt;</span></span></span></code></pre></div>
 <p>We can alternatively express the same model by ordinary differential
 equations (ODEs):</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">one.compartment</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="fu">ini</span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="va">tka</span> <span class="op">&lt;-</span> <span class="fl">0.45</span> <span class="co"># Log Ka</span></span>
 <span>    <span class="va">tcl</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="co"># Log Cl</span></span>
 <span>    <span class="va">tv</span> <span class="op">&lt;-</span> <span class="fl">3.45</span>    <span class="co"># Log V</span></span>
@@ -202,7 +215,7 @@ equations (ODEs):</p>
 <span>    <span class="va">eta.v</span> <span class="op">~</span> <span class="fl">0.1</span></span>
 <span>    <span class="va">add.sd</span> <span class="op">&lt;-</span> <span class="fl">0.7</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/model.html" class="external-link">model</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="fu">model</span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="va">ka</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">tka</span> <span class="op">+</span> <span class="va">eta.ka</span><span class="op">)</span></span>
 <span>    <span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">tcl</span> <span class="op">+</span> <span class="va">eta.cl</span><span class="op">)</span></span>
 <span>    <span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">tv</span> <span class="op">+</span> <span class="va">eta.v</span><span class="op">)</span></span>
@@ -215,9 +228,10 @@ equations (ODEs):</p>
 <p>We can try the Stochastic Approximation EM (SAEM) method to this
 model:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fit2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">one.compartment</span>, <span class="va">theo_sd</span>,  est<span class="op">=</span><span class="st">"saem"</span>,</span>
+<code class="sourceCode R"><span><span class="va">fit2</span> <span class="op">&lt;-</span> <span class="fu">nlmixr</span><span class="op">(</span><span class="va">one.compartment</span>, <span class="va">theo_sd</span>,  est<span class="op">=</span><span class="st">"saem"</span>,</span>
 <span>               control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====</span></span>
+<span><span class="co">#&gt; ==|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
@@ -233,7 +247,7 @@ model:</p>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;            setup covariance  saem table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.001729   0.008005 4.413 0.074    0.021 1.128266</span></span>
+<span><span class="co">#&gt; elapsed 0.002299   0.008005 4.578 0.081    0.021 1.873696</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -262,7 +276,7 @@ model:</p>
 <p>And if we wanted to, we could even apply the traditional R method
 nlme method to this model:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fitN</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">one.compartment</span>, <span class="va">theo_sd</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pnlsTol<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span>, est<span class="op">=</span><span class="st">"nlme"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">fitN</span> <span class="op">&lt;-</span> <span class="fu">nlmixr</span><span class="op">(</span><span class="va">one.compartment</span>, <span class="va">theo_sd</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pnlsTol<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span>, est<span class="op">=</span><span class="st">"nlme"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -302,7 +316,7 @@ nlme method to this model:</p>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;            setup table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.002051 0.074    0.006 2.805949</span></span>
+<span><span class="co">#&gt; elapsed 0.001713 0.078    0.005 3.149287</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -351,10 +365,10 @@ components. Let’s look at a very simple one-compartment model with no
 covariates.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span><span class="op">{</span>   <span class="co"># Initial conditions/variables</span></span>
+<span>  <span class="fu">ini</span><span class="op">(</span><span class="op">{</span>   <span class="co"># Initial conditions/variables</span></span>
 <span>    <span class="co"># are specified here</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/model.html" class="external-link">model</a></span><span class="op">(</span><span class="op">{</span> <span class="co"># The model is specified</span></span>
+<span>  <span class="fu">model</span><span class="op">(</span><span class="op">{</span> <span class="co"># The model is specified</span></span>
 <span>    <span class="co"># here</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
@@ -371,7 +385,7 @@ is analogous to <code>$THETA</code>, <code>$OMEGA</code> and
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span> <span class="co"># Note that arguments to the function are currently</span></span>
 <span>  <span class="co"># ignored by nlmixr</span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="fu">ini</span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="co"># Initial conditions for population parameters (sometimes</span></span>
 <span>    <span class="co"># called THETA parameters) are defined by either '&lt;-' or '='</span></span>
 <span>    <span class="va">lCl</span> <span class="op">&lt;-</span> <span class="fl">1.6</span>      <span class="co"># log Cl (L/hr)</span></span>
@@ -391,7 +405,7 @@ is analogous to <code>$THETA</code>, <code>$OMEGA</code> and
 <span>  <span class="op">}</span><span class="op">)</span></span>
 <span>  </span>
 <span>  <span class="co"># The model block will be discussed later</span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/model.html" class="external-link">model</a></span><span class="op">(</span><span class="op">{</span><span class="op">}</span><span class="op">)</span></span>
+<span>  <span class="fu">model</span><span class="op">(</span><span class="op">{</span><span class="op">}</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>As shown in the above example:</p>
 <ul>
@@ -416,7 +430,7 @@ Please note that:</p>
 Note that R does not allow variable starting with <code>_</code> to be
 assigned without quoting them.</li>
 <li>Naming variables that start with <code>rx</code> or
-<code>nlmixr</code> is not suggested, since <code><a href="https://nlmixr2.github.io/rxode2/reference/rxode2.html" class="external-link">rxode2()</a></code> and
+<code>nlmixr</code> is not suggested, since <code>rxode2()</code> and
 nlmixr use these prefixes internally for certain estimation routines and
 for calculating residuals.</li>
 <li>Variable names are case-sensitive, just like they are in R.
@@ -434,7 +448,7 @@ estimates from the population and residual error parameters.</p>
 the between-subject error distribution…</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="fu">ini</span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="va">lCl</span> <span class="op">&lt;-</span> <span class="fl">1.6</span>      ; <span class="fu">label</span><span class="op">(</span><span class="st">"log Cl (L/hr)"</span><span class="op">)</span></span>
 <span>    <span class="va">lVc</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">90</span><span class="op">)</span>   ; <span class="fu">label</span><span class="op">(</span><span class="st">"log V (L)"</span><span class="op">)</span></span>
 <span>    <span class="va">lKa</span> <span class="op">&lt;-</span> <span class="fl">1</span>        ; <span class="fu">label</span><span class="op">(</span><span class="st">"log Ka (1/hr)"</span><span class="op">)</span></span>
@@ -457,7 +471,7 @@ the between-subject error distribution…</p>
 <span>  <span class="op">}</span><span class="op">)</span></span>
 <span>  </span>
 <span>  <span class="co"># The model block will be discussed later</span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/model.html" class="external-link">model</a></span><span class="op">(</span><span class="op">{</span><span class="op">}</span><span class="op">)</span></span>
+<span>  <span class="fu">model</span><span class="op">(</span><span class="op">{</span><span class="op">}</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>As shown in the above example:</p>
 <ul>
@@ -482,14 +496,14 @@ the <code>$PK</code>, <code>$PRED</code> and <code>$ERROR</code> blocks
 in NONMEM.</p>
 <p>Once the initialization block has been defined, you can define a
 model in terms of the variables defined in the <code>ini</code> block.
-You can also mix <code><a href="https://nlmixr2.github.io/rxode2/reference/rxode2.html" class="external-link">rxode2()</a></code> blocks into the model if
+You can also mix <code>rxode2()</code> blocks into the model if
 needed.</p>
 <p>The current method of defining a nlmixr model is to specify the
-parameters, and then any required <code><a href="https://nlmixr2.github.io/rxode2/reference/rxode2.html" class="external-link">rxode2()</a></code> lines.
+parameters, and then any required <code>rxode2()</code> lines.
 Continuing the annotated example:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="fu">ini</span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="va">lCl</span> <span class="op">&lt;-</span> <span class="fl">1.6</span>       <span class="co"># log Cl (L/hr)</span></span>
 <span>    <span class="va">lVc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">90</span><span class="op">)</span>   <span class="co"># log Vc (L)</span></span>
 <span>    <span class="va">lKA</span> <span class="op">&lt;-</span> <span class="fl">0.1</span>       <span class="co"># log Ka (1/hr)</span></span>
@@ -499,7 +513,7 @@ Continuing the annotated example:</p>
 <span>    <span class="va">eta.Vc</span> <span class="op">~</span> <span class="fl">0.1</span>     <span class="co"># BSV Vc</span></span>
 <span>    <span class="va">eta.KA</span> <span class="op">~</span> <span class="fl">0.1</span>     <span class="co"># BSV Ka</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/model.html" class="external-link">model</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="fu">model</span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="co"># Parameters are defined in terms of the previously-defined</span></span>
 <span>    <span class="co"># parameter names:</span></span>
 <span>    <span class="va">Cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">lCl</span> <span class="op">+</span> <span class="va">eta.Cl</span><span class="op">)</span></span>
@@ -556,15 +570,15 @@ modeling dataset for the model to run.</li>
 </h3>
 <p>Models can be fitted several ways, including via the [magrittr]
 forward-pipe operator.</p>
-<pre><code><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">one.compartment</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">theo_sd</span>, est <span class="op">=</span> <span class="st">"saem"</span><span class="op">)</span></span></code></pre>
-<pre><code><span><span class="va">fit2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">one.compartment</span>, data <span class="op">=</span> <span class="va">theo_sd</span>, est <span class="op">=</span> <span class="st">"saem"</span><span class="op">)</span></span></code></pre>
-<pre><code><span><span class="va">fit3</span> <span class="op">&lt;-</span> <span class="va">one.compartment</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">theo_sd</span>, est <span class="op">=</span> <span class="st">"saem"</span><span class="op">)</span></span></code></pre>
+<pre><code><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">nlmixr</span><span class="op">(</span><span class="va">one.compartment</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">nlmixr</span><span class="op">(</span>data <span class="op">=</span> <span class="va">theo_sd</span>, est <span class="op">=</span> <span class="st">"saem"</span><span class="op">)</span></span></code></pre>
+<pre><code><span><span class="va">fit2</span> <span class="op">&lt;-</span> <span class="fu">nlmixr</span><span class="op">(</span><span class="va">one.compartment</span>, data <span class="op">=</span> <span class="va">theo_sd</span>, est <span class="op">=</span> <span class="st">"saem"</span><span class="op">)</span></span></code></pre>
+<pre><code><span><span class="va">fit3</span> <span class="op">&lt;-</span> <span class="va">one.compartment</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">nlmixr</span><span class="op">(</span>data <span class="op">=</span> <span class="va">theo_sd</span>, est <span class="op">=</span> <span class="st">"saem"</span><span class="op">)</span></span></code></pre>
 <p>Options to the estimation routines can be specified using nlmeControl
 for nlme estimation:</p>
-<pre><code><span><span class="va">fit4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">one.compartment</span>, <span class="va">theo_sd</span>, est <span class="op">=</span> <span class="st">"nlme"</span>, control <span class="op">=</span> <span class="fu"><a href="../reference/nlmeControl.html">nlmeControl</a></span><span class="op">(</span>pnlsTol <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<pre><code><span><span class="va">fit4</span> <span class="op">&lt;-</span> <span class="fu">nlmixr</span><span class="op">(</span><span class="va">one.compartment</span>, <span class="va">theo_sd</span>, est <span class="op">=</span> <span class="st">"nlme"</span>, control <span class="op">=</span> <span class="fu">nlmeControl</span><span class="op">(</span>pnlsTol <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 <p>where options are specified in the <code>nlme</code> documentation.
 Options for saem can be specified using <code>saemControl</code>:</p>
-<pre><code><span><span class="va">fit5</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">one.compartment</span>,<span class="va">theo_sd</span>,est<span class="op">=</span><span class="st">"saem"</span>,control<span class="op">=</span><span class="fu"><a href="../reference/saemControl.html">saemControl</a></span><span class="op">(</span>n.burn<span class="op">=</span><span class="fl">250</span>,n.em<span class="op">=</span><span class="fl">350</span>,print<span class="op">=</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<pre><code><span><span class="va">fit5</span> <span class="op">&lt;-</span> <span class="fu">nlmixr</span><span class="op">(</span><span class="va">one.compartment</span>,<span class="va">theo_sd</span>,est<span class="op">=</span><span class="st">"saem"</span>,control<span class="op">=</span><span class="fu">saemControl</span><span class="op">(</span>n.burn<span class="op">=</span><span class="fl">250</span>,n.em<span class="op">=</span><span class="fl">350</span>,print<span class="op">=</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 <p>this example specifies 250 burn-in iterations, 350 em iterations and
 a print progress every 50 runs.</p>
 </div>
@@ -576,7 +590,7 @@ a print progress every 50 runs.</p>
 below:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span><span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="fu">ini</span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="va">lCl</span> <span class="op">&lt;-</span> <span class="fl">1.6</span>      ; <span class="fu">label</span><span class="op">(</span><span class="st">"log Cl (L/hr)"</span><span class="op">)</span></span>
 <span>    <span class="va">lVc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">90</span><span class="op">)</span>  ; <span class="fu">label</span><span class="op">(</span><span class="st">"log Vc (L)"</span><span class="op">)</span></span>
 <span>    <span class="va">lKA</span> <span class="op">&lt;-</span> <span class="fl">0.1</span>      ; <span class="fu">label</span><span class="op">(</span><span class="st">"log Ka (1/hr)"</span><span class="op">)</span></span>
@@ -585,7 +599,7 @@ below:</p>
 <span>    <span class="va">eta.Vc</span> <span class="op">~</span> <span class="fl">0.1</span>   <span class="co"># BSV Vc</span></span>
 <span>    <span class="va">eta.KA</span> <span class="op">~</span> <span class="fl">0.1</span>   <span class="co"># BSV Ka</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/model.html" class="external-link">model</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="fu">model</span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="va">Cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">lCl</span> <span class="op">+</span> <span class="va">eta.Cl</span><span class="op">)</span></span>
 <span>    <span class="va">Vc</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">lVc</span> <span class="op">+</span> <span class="va">eta.Vc</span><span class="op">)</span></span>
 <span>    <span class="va">KA</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">lKA</span> <span class="op">+</span> <span class="va">eta.KA</span><span class="op">)</span></span>
@@ -622,47 +636,15 @@ documentation</a>.</p>
 interpreting it correctly by using the nlmixr function on it. Using the
 above function we can get:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">rxode2-based solved PK 1-compartment model with first-order absorption</span> <span style="color: #00BBBB;">──────</span> </span></span>
-<span><span class="co">#&gt;  ── <span style="font-weight: bold;">Initalization:</span> ──  </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">Fixed Effects</span> (<span style="color: #0000BB; font-weight: bold;">$theta</span>): </span></span>
-<span><span class="co">#&gt;      lCl      lVc      lKA prop.err </span></span>
-<span><span class="co">#&gt;  1.60000  4.49981  0.10000  0.20000 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">Omega</span> (<span style="color: #0000BB; font-weight: bold;">$omega</span>): </span></span>
-<span><span class="co">#&gt;        eta.Cl eta.Vc eta.KA</span></span>
-<span><span class="co">#&gt; eta.Cl    0.1    0.0    0.0</span></span>
-<span><span class="co">#&gt; eta.Vc    0.0    0.1    0.0</span></span>
-<span><span class="co">#&gt; eta.KA    0.0    0.0    0.1</span></span>
-<span><span class="co">#&gt;  ── <span style="font-weight: bold;">μ-referencing (</span><span style="color: #0000BB; font-weight: bold;">$muRefTable</span><span style="font-weight: bold;">):</span> ──  </span></span>
-<span><span class="co">#&gt;   theta    eta level</span></span>
-<span><span class="co">#&gt; 1   lCl eta.Cl    id</span></span>
-<span><span class="co">#&gt; 2   lVc eta.Vc    id</span></span>
-<span><span class="co">#&gt; 3   lKA eta.KA    id</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;  ── <span style="font-weight: bold;">Model (Normalized Syntax):</span> ── </span></span>
-<span><span class="co">#&gt; function() {</span></span>
-<span><span class="co">#&gt;     ini({</span></span>
-<span><span class="co">#&gt;         lCl &lt;- 1.6</span></span>
-<span><span class="co">#&gt;         label("log Cl (L/hr)")</span></span>
-<span><span class="co">#&gt;         lVc &lt;- 4.49980967033027</span></span>
-<span><span class="co">#&gt;         label("log Vc (L)")</span></span>
-<span><span class="co">#&gt;         lKA &lt;- 0.1</span></span>
-<span><span class="co">#&gt;         label("log Ka (1/hr)")</span></span>
-<span><span class="co">#&gt;         prop.err &lt;- c(0, 0.2, 1)</span></span>
-<span><span class="co">#&gt;         eta.Cl ~ 0.1</span></span>
-<span><span class="co">#&gt;         eta.Vc ~ 0.1</span></span>
-<span><span class="co">#&gt;         eta.KA ~ 0.1</span></span>
-<span><span class="co">#&gt;     })</span></span>
-<span><span class="co">#&gt;     model({</span></span>
-<span><span class="co">#&gt;         Cl &lt;- exp(lCl + eta.Cl)</span></span>
-<span><span class="co">#&gt;         Vc = exp(lVc + eta.Vc)</span></span>
-<span><span class="co">#&gt;         KA &lt;- exp(lKA + eta.KA)</span></span>
-<span><span class="co">#&gt;         linCmt() ~ prop(prop.err)</span></span>
-<span><span class="co">#&gt;     })</span></span>
-<span><span class="co">#&gt; }</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">nlmixr</span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></code></pre></div>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right"><mi>C</mi><mi>l</mi></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mrow><mi>l</mi><mi>C</mi><mi>l</mi></mrow><mo>+</mo><mrow><mi>e</mi><mi>t</mi><mi>a</mi><mi>.</mi><mi>C</mi><mi>l</mi></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mi>V</mi><mi>c</mi></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mrow><mi>l</mi><mi>V</mi><mi>c</mi></mrow><mo>+</mo><mrow><mi>e</mi><mi>t</mi><mi>a</mi><mi>.</mi><mi>V</mi><mi>c</mi></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mi>K</mi><mi>A</mi></mtd><mtd columnalign="left" style="text-align: left"><mo>=</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mrow><mi>l</mi><mi>K</mi><mi>A</mi></mrow><mo>+</mo><mrow><mi>e</mi><mi>t</mi><mi>a</mi><mi>.</mi><mi>K</mi><mi>A</mi></mrow><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right"><mi>l</mi><mi>i</mi><mi>n</mi><mi>C</mi><mi>m</mi><mi>t</mi><mrow><mo stretchy="true" form="prefix">(</mo><mo stretchy="true" form="postfix">)</mo></mrow></mtd><mtd columnalign="left" style="text-align: left"><mo>∼</mo><mi>p</mi><mi>r</mi><mi>o</mi><mi>p</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>p</mi><mi>r</mi><mi>o</mi><mi>p</mi><mi>.</mi><mi>e</mi><mi>r</mi><mi>r</mi><mo stretchy="true" form="postfix">)</mo></mrow></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+{Cl} &amp; = \exp\left({lCl}+{eta.Cl}\right) \\
+{Vc} &amp; = \exp\left({lVc}+{eta.Vc}\right) \\
+{KA} &amp; = \exp\left({lKA}+{eta.KA}\right) \\
+linCmt() &amp; \sim prop({prop.err})
+\end{align*}</annotation></semantics></math></p>
 <p>In general this gives you information about the model (what type of
-solved system/<code><a href="https://nlmixr2.github.io/rxode2/reference/rxode2.html" class="external-link">rxode2()</a></code>), initial estimates as well as the
+solved system/<code>rxode2()</code>), initial estimates as well as the
 code for the model block.</p>
 </div>
 </div>

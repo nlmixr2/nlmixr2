@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">nlmixr2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,7 +84,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Random Effect Covariances</h1>
             
-            <h4 data-toc-skip class="date">2025-07-01</h4>
+            <h4 data-toc-skip class="date">2025-07-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/main/vignettes/addingCovariances.Rmd" class="external-link"><code>vignettes/addingCovariances.Rmd</code></a></small>
       <div class="d-none name"><code>addingCovariances.Rmd</code></div>
@@ -111,7 +111,7 @@ triangular matrix of the fit with <code><a href="https://rdrr.io/r/base/c.html" 
 </h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pheno</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="fu">ini</span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="va">tcl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">0.008</span><span class="op">)</span> <span class="co"># typical value of clearance</span></span>
 <span>    <span class="va">tv</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">0.6</span><span class="op">)</span>   <span class="co"># typical value of volume</span></span>
 <span>    <span class="co">## var(eta.cl)</span></span>
@@ -120,7 +120,7 @@ triangular matrix of the fit with <code><a href="https://rdrr.io/r/base/c.html" 
 <span>                      <span class="co"># interindividual variability on clearance and volume</span></span>
 <span>    <span class="va">add.err</span> <span class="op">&lt;-</span> <span class="fl">0.1</span>    <span class="co"># residual variability</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/model.html" class="external-link">model</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="fu">model</span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">tcl</span> <span class="op">+</span> <span class="va">eta.cl</span><span class="op">)</span> <span class="co"># individual value of clearance</span></span>
 <span>    <span class="va">v</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">tv</span> <span class="op">+</span> <span class="va">eta.v</span><span class="op">)</span>    <span class="co"># individual value of volume</span></span>
 <span>    <span class="va">ke</span> <span class="op">&lt;-</span> <span class="va">cl</span> <span class="op">/</span> <span class="va">v</span>            <span class="co"># elimination rate constant</span></span>
@@ -134,7 +134,7 @@ triangular matrix of the fit with <code><a href="https://rdrr.io/r/base/c.html" 
 <h3 id="fit-with-saem">Fit with SAEM<a class="anchor" aria-label="anchor" href="#fit-with-saem"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">pheno</span>, <span class="va">pheno_sd</span>, <span class="st">"saem"</span>,</span>
+<code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">nlmixr</span><span class="op">(</span><span class="va">pheno</span>, <span class="va">pheno_sd</span>, <span class="st">"saem"</span>,</span>
 <span>              control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>, </span>
 <span>              table<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cwres<span class="op">=</span><span class="cn">TRUE</span>, npde<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
@@ -181,7 +181,7 @@ triangular matrix of the fit with <code><a href="https://rdrr.io/r/base/c.html" 
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;            setup optimize covariance   saem table compress</span></span>
-<span><span class="co">#&gt; elapsed 0.003596    5e-06   0.016006 12.466 3.556    0.026</span></span>
+<span><span class="co">#&gt; elapsed 0.003348    1e-05   0.035011 11.925  4.02    0.031</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -221,7 +221,7 @@ triangular matrix of the fit with <code><a href="https://rdrr.io/r/base/c.html" 
 <p>Those individual plots are not that great, it would be better to see
 the actual curves; You can with <code>augPred</code></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/nlme/man/augPred.html" class="external-link">augPred</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">augPred</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="addingCovariances_files/figure-html/unnamed-chunk-6-1.png" width="100%"><img src="addingCovariances_files/figure-html/unnamed-chunk-6-2.png" width="100%"><img src="addingCovariances_files/figure-html/unnamed-chunk-6-3.png" width="100%"><img src="addingCovariances_files/figure-html/unnamed-chunk-6-4.png" width="100%"></p>
 </div>
 <div class="section level3">
@@ -229,12 +229,12 @@ the actual curves; You can with <code>augPred</code></p>
 </h3>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/vpcPlot.html">vpcPlot</a></span><span class="op">(</span><span class="va">fit</span>, show<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>obs_dv<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>;</span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu">vpcPlot</span><span class="op">(</span><span class="va">fit</span>, show<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>obs_dv<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>;</span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="va">p1</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Concentrations"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## A prediction-corrected VPC</span></span>
-<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/vpcPlot.html">vpcPlot</a></span><span class="op">(</span><span class="va">fit</span>, pred_corr <span class="op">=</span> <span class="cn">TRUE</span>, show<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>obs_dv<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu">vpcPlot</span><span class="op">(</span><span class="va">fit</span>, pred_corr <span class="op">=</span> <span class="cn">TRUE</span>, show<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>obs_dv<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="va">p2</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Prediction-Corrected Concentrations"</span><span class="op">)</span></span>
 <span></span>

@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">nlmixr2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">4.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -86,7 +86,7 @@
                         <h4 data-toc-skip class="author">Mirjam
 Trame</h4>
             
-            <h4 data-toc-skip class="date">2025-07-01</h4>
+            <h4 data-toc-skip class="date">2025-07-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/main/vignettes/nimo.Rmd" class="external-link"><code>vignettes/nimo.Rmd</code></a></small>
       <div class="d-none name"><code>nimo.Rmd</code></div>
@@ -114,7 +114,7 @@ nimotuzumab is illustrated (Rodríguez-Vera et al. 2015).</p>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">nimo</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="fu">ini</span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="co">## Note that the UI can take expressions</span></span>
 <span>    <span class="co">## Also note that these initial estimates should be provided on the log-scale</span></span>
 <span>    <span class="va">tcl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">0.001</span><span class="op">)</span></span>
@@ -132,7 +132,7 @@ nimotuzumab is illustrated (Rodríguez-Vera et al. 2015).</p>
 <span>    <span class="co">##  Also true for additive error (also ignored in SAEM)</span></span>
 <span>    <span class="va">add.err</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
-<span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/model.html" class="external-link">model</a></span><span class="op">(</span><span class="op">{</span></span>
+<span>  <span class="fu">model</span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">tcl</span> <span class="op">+</span> <span class="va">eta.cl</span><span class="op">)</span></span>
 <span>    <span class="va">v1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">tv1</span> <span class="op">+</span> <span class="va">eta.v1</span><span class="op">)</span></span>
 <span>    <span class="va">Q</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">tQ</span><span class="op">)</span></span>
@@ -165,7 +165,7 @@ nimotuzumab is illustrated (Rodríguez-Vera et al. 2015).</p>
 <h2 id="fit">Fit<a class="anchor" aria-label="anchor" href="#fit"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">nimo</span>, <span class="va">nimoData</span>, est<span class="op">=</span><span class="st">"saem"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">nlmixr</span><span class="op">(</span><span class="va">nimo</span>, <span class="va">nimoData</span>, est<span class="op">=</span><span class="st">"saem"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; 001: -6.914482   0.016474    -5.493299   3.953329    2.781526    -1.308564   -0.246181   2.169817    1.900000    1.900000    2.449522    1.484619    </span></span>
@@ -680,7 +680,7 @@ nimotuzumab is illustrated (Rodríguez-Vera et al. 2015).</p>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Add cwres/npde after fit</span></span>
-<span><span class="va">fit</span>  <span class="op">&lt;-</span> <span class="va">fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/addCwres.html">addCwres</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="../reference/addNpde.html">addNpde</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">fit</span>  <span class="op">&lt;-</span> <span class="va">fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">addCwres</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">addNpde</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:02</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:03</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
@@ -761,13 +761,13 @@ nimotuzumab is illustrated (Rodríguez-Vera et al. 2015).</p>
 <span><span class="co">################################################################################</span></span>
 <span><span class="co">##Visual Predictive Checks</span></span>
 <span><span class="co">################################################################################</span></span>
-<span><span class="fu"><a href="../reference/vpcPlot.html">vpcPlot</a></span><span class="op">(</span><span class="va">fit</span>,n<span class="op">=</span><span class="fl">500</span>,stratify<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DOS"</span><span class="op">)</span>, show<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>obs_dv<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,</span>
+<span><span class="fu">vpcPlot</span><span class="op">(</span><span class="va">fit</span>,n<span class="op">=</span><span class="fl">500</span>,stratify<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DOS"</span><span class="op">)</span>, show<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>obs_dv<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,</span>
 <span>       bins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.5</span>,<span class="fl">0</span>,<span class="fl">25</span>,<span class="fl">75</span>,<span class="fl">100</span>,<span class="fl">200</span>,<span class="fl">400</span>,<span class="fl">600</span>,<span class="fl">750</span>,<span class="fl">900</span>,<span class="fl">1100</span>,<span class="fl">1200</span>,<span class="fl">1400</span>,<span class="fl">1600</span>,<span class="fl">1900</span>,<span class="fl">2150</span>,<span class="fl">2300</span><span class="op">)</span>,</span>
 <span>       ylab <span class="op">=</span> <span class="st">"Nimotuzumab Concentrations (ug/mL)"</span>, xlab <span class="op">=</span> <span class="st">"Time (h)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="nimo_files/figure-html/unnamed-chunk-3-78.png" width="100%"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="../reference/vpcPlot.html">vpcPlot</a></span><span class="op">(</span><span class="va">fit</span>,n<span class="op">=</span><span class="fl">500</span>, show<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>obs_dv<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,</span>
+<span><span class="fu">vpcPlot</span><span class="op">(</span><span class="va">fit</span>,n<span class="op">=</span><span class="fl">500</span>, show<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>obs_dv<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,</span>
 <span>       bins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.5</span>,<span class="fl">0</span>,<span class="fl">25</span>,<span class="fl">75</span>,<span class="fl">100</span>,<span class="fl">200</span>,<span class="fl">400</span>,<span class="fl">600</span>,<span class="fl">750</span>,<span class="fl">900</span>,<span class="fl">1100</span>,<span class="fl">1200</span>,<span class="fl">1400</span>,<span class="fl">1600</span>,<span class="fl">1900</span>,<span class="fl">2150</span>,<span class="fl">2300</span><span class="op">)</span>,</span>
 <span>       ylab <span class="op">=</span> <span class="st">"Nimotuzumab Concentrations (ug/mL)"</span>, xlab <span class="op">=</span> <span class="st">"Time (h)"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="nimo_files/figure-html/unnamed-chunk-3-79.png" width="100%"></p>
