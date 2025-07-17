@@ -1,3 +1,7 @@
+# nlmixr2 4.0
+
+* Change to a `verse` style package.
+
 # nlmixr2 3.0.2
 
 * Change saemControl() and other options to reflect the `nlmixr2est`
