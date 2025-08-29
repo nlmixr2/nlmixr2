@@ -34,8 +34,7 @@ Imports:
     lotri (>= 0.4.3),
     nlmixr2plot (>= 2.0.8),
     tibble,
-    magrittr,
-    crayon
+    magrittr
 Suggests:
     rmarkdown,
     knitr,
