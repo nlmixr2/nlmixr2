@@ -14,6 +14,7 @@
   "nlmixr2lib",
   "nlmixr2rpt",
   "nonmem2rx",
+  "posologyr",
   "shinyMixR",
   "xpose.nlmixr2"
 )

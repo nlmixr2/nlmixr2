@@ -1,3 +1,7 @@
+# nlmixr2 4.0.1
+
+* Added `posologyr` to the optional packages
+
 # nlmixr2 4.0
 
 * Change to a `verse` style package.
