@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.1.3
+pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   addingCovariances: addingCovariances.html
@@ -15,7 +15,7 @@ articles:
   running_nlmixr: running_nlmixr.html
   wbc: wbc.html
   xgxr-nlmixr-ggpmx: xgxr-nlmixr-ggpmx.html
-last_built: 2025-11-04T06:09Z
+last_built: 2025-11-11T05:49Z
 urls:
   reference: https://nlmixr2.github.io/nlmixr2/reference
   article: https://nlmixr2.github.io/nlmixr2/articles
