@@ -63,26 +63,21 @@ fit <- nlmixr(one.compartment, theo_sd, est="focei",
 print(fit)
 #> ── nlmixr² FOCEi (outer: nlminb) ──
 #> 
-#>           OBJF      AIC     BIC Log-likelihood Condition#(Cov) Condition#(Cor)
-#> FOCEi 116.8346 373.4344 393.614      -179.7172        214.0002        4.968035
+#>           OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)
+#> FOCEi 116.8083 373.4081 393.5877      -179.7041         80.1397        12.43841
 #> 
 #> ── Time (sec $time): ──
 #> 
 #>            setup optimize covariance table compress    other
-#> elapsed 0.002045 0.530095   0.530096 0.842    0.011 6.287764
+#> elapsed 0.002094 0.437556   0.437557 0.821    0.011 7.005793
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
-#>        Parameter  Est.     SE  %RSE Back-transformed(95%CI) BSV(CV%)
-#> tka           Ka 0.476  0.204  42.8        1.61 (1.08, 2.4)     69.8
-#> tcl           Cl  1.01  0.177  17.5       2.75 (1.94, 3.89)     26.4
-#> tv             V  3.46 0.0188 0.542         31.8 (30.7, 33)     14.6
-#> add.sd           0.695                                0.695         
-#>        Shrink(SD)%
-#> tka         1.14% 
-#> tcl         3.91% 
-#> tv          12.1% 
-#> add.sd            
+#>        Parameter  Est.     SE %RSE Back-transformed(95%CI) BSV(CV%) Shrink(SD)%
+#> tka           Ka 0.467  0.208 44.5         1.6 (1.06, 2.4)     69.8      1.23% 
+#> tcl           Cl  1.01 0.0624 6.18        2.75 (2.43, 3.1)     26.5      3.35% 
+#> tv             V  3.46 0.0548 1.58       31.9 (28.6, 35.5)     14.0      10.4% 
+#> add.sd           0.694                               0.694                     
 #>  
 #>   Covariance Type ($covMethod): r,s
 #>   No correlations in between subject variability (BSV) matrix
@@ -106,9 +101,9 @@ print(fit)
 #> # A tibble: 132 × 28
 #>   ID     TIME    DV EPRED   ERES   NPDE    NPD    PDE    PD  PRED    RES   WRES
 #>   <fct> <dbl> <dbl> <dbl>  <dbl>  <dbl>  <dbl>  <dbl> <dbl> <dbl>  <dbl>  <dbl>
-#> 1 1      0     0.74 0.109  0.631  0.449  0.878 0.673  0.81   0     0.74   1.06 
-#> 2 1      0.25  2.84 3.64  -0.804 -0.496 -0.394 0.31   0.347  3.29 -0.452 -0.240
-#> 3 1      0.57  6.57 5.95   0.617 -1.79   0.323 0.0367 0.627  5.87  0.703  0.282
+#> 1 1      0     0.74 0.109  0.631  0.449  0.890 0.673  0.813  0     0.74   1.07 
+#> 2 1      0.25  2.84 3.61  -0.775 -0.505 -0.394 0.307  0.347  3.26 -0.424 -0.227
+#> 3 1      0.57  6.57 5.92   0.652 -1.79   0.332 0.0367 0.63   5.83  0.741  0.299
 #> # ℹ 129 more rows
 #> # ℹ 16 more variables: IPRED <dbl>, IRES <dbl>, IWRES <dbl>, CPRED <dbl>,
 #> #   CRES <dbl>, CWRES <dbl>, eta.ka <dbl>, eta.cl <dbl>, eta.v <dbl>,
@@ -172,25 +167,25 @@ one.ka.0.5 <- fit %>%
 print(one.ka.0.5)
 #> ── nlmixr² FOCEi (outer: nlminb) ──
 #> 
-#>           OBJF     AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)
-#> FOCEi 116.8652 371.465 388.7618      -179.7325        14.86323        7.504417
+#>          OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)
+#> FOCEi 116.842 371.4417 388.7385      -179.7209        10.41933        6.499085
 #> 
 #> ── Time (sec $time): ──
 #> 
 #>            setup optimize covariance table compress    other
-#> elapsed 0.002387 0.274245   0.274246 0.854    0.021 4.098122
+#> elapsed 0.002115 0.242998   0.242999 0.798    0.011 4.832888
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
 #>        Parameter  Est.     SE  %RSE Back-transformed(95%CI) BSV(CV%)
-#> tka           Ka   0.5  FIXED FIXED                     0.5     69.8
-#> tcl           Cl  1.01 0.0825  8.15       2.75 (2.34, 3.23)     26.4
-#> tv             V  3.46 0.0376  1.09       31.8 (29.6, 34.3)     14.6
+#> tka           Ka   0.5  FIXED FIXED                     0.5     69.9
+#> tcl           Cl  1.01 0.0759   7.5       2.75 (2.37, 3.19)     26.5
+#> tv             V  3.46 0.0406  1.17       31.8 (29.4, 34.5)     14.0
 #> add.sd           0.695                                0.695         
 #>        Shrink(SD)%
-#> tka         1.07% 
-#> tcl         3.93% 
-#> tv          12.0% 
+#> tka         1.22% 
+#> tcl         3.39% 
+#> tv          10.3% 
 #> add.sd            
 #>  
 #>   Covariance Type ($covMethod): r,s
@@ -213,11 +208,11 @@ print(one.ka.0.5)
 #> 
 #> ── Fit Data (object is a modified tibble): ──
 #> # A tibble: 132 × 28
-#>   ID     TIME    DV EPRED   ERES   NPDE    NPD    PDE    PD  PRED    RES   WRES
-#>   <fct> <dbl> <dbl> <dbl>  <dbl>  <dbl>  <dbl>  <dbl> <dbl> <dbl>  <dbl>  <dbl>
-#> 1 1      0     0.74 0.109  0.631  0.440  0.878 0.67   0.81   0     0.74   1.06 
-#> 2 1      0.25  2.84 3.71  -0.866 -0.477 -0.412 0.317  0.34   3.36 -0.515 -0.270
-#> 3 1      0.57  6.57 6.02   0.546 -1.79   0.271 0.0367 0.607  5.95  0.619  0.248
+#>   ID     TIME    DV EPRED   ERES   NPDE    NPD   PDE    PD  PRED    RES   WRES
+#>   <fct> <dbl> <dbl> <dbl>  <dbl>  <dbl>  <dbl> <dbl> <dbl> <dbl>  <dbl>  <dbl>
+#> 1 1      0     0.74 0.109  0.631  0.440  0.878 0.67  0.81   0     0.74   1.06 
+#> 2 1      0.25  2.84 3.71  -0.867 -0.477 -0.422 0.317 0.337  3.36 -0.517 -0.272
+#> 3 1      0.57  6.57 6.03   0.545 -1.75   0.253 0.04  0.6    5.95  0.616  0.247
 #> # ℹ 129 more rows
 #> # ℹ 16 more variables: IPRED <dbl>, IRES <dbl>, IWRES <dbl>, CPRED <dbl>,
 #> #   CRES <dbl>, CWRES <dbl>, eta.ka <dbl>, eta.cl <dbl>, eta.v <dbl>,
@@ -252,83 +247,21 @@ one.ka.0.5 <- fit %>%
 print(one.ka.0.5)
 #> ── nlmixr² FOCEi (outer: nlminb) ──
 #> 
-#>           OBJF      AIC     BIC Log-likelihood Condition#(Cov) Condition#(Cor)
-#> FOCEi 116.8354 371.4352 388.732      -179.7176        15.81358        11.88774
+#>          OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)
+#> FOCEi 116.808 371.4078 388.7046      -179.7039        5.346379        5.226783
 #> 
 #> ── Time (sec $time): ──
 #> 
 #>            setup optimize covariance table compress    other
-#> elapsed 0.002221 0.275775   0.275777 0.853    0.011 3.757227
+#> elapsed 0.002101 0.251486   0.251487 0.833     0.01 3.408926
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
 #>        Parameter  Est.    SE  %RSE Back-transformed(95%CI) BSV(CV%) Shrink(SD)%
-#> tka           Ka 0.476 FIXED FIXED                   0.476     69.9      1.21% 
-#> tcl           Cl  1.01 0.304  30.1       2.75 (1.51, 4.99)     26.4      3.89% 
-#> tv             V  3.46 0.183   5.3       31.8 (22.2, 45.6)     14.6      12.1% 
+#> tka           Ka 0.467 FIXED FIXED                   0.467     69.8      1.18% 
+#> tcl           Cl  1.01 0.104  10.3       2.75 (2.24, 3.37)     26.5      3.33% 
+#> tv             V  3.46 0.092  2.66       31.8 (26.5, 38.1)     14.0      10.5% 
 #> add.sd           0.695                               0.695                     
-#>  
-#>   Covariance Type ($covMethod): s
-#>   No correlations in between subject variability (BSV) matrix
-#>   Full BSV covariance ($omega) or correlation ($omegaR; diagonals=SDs) 
-#>   Distribution stats (mean/skewness/kurtosis/p-value) available in $shrink 
-#>   Information about run found ($runInfo):
-#>    • gradient problems with initial estimate and covariance; see $scaleInfo 
-#>    • using S matrix to calculate covariance, can check sandwich or R matrix with $covRS and $covR 
-#>    • last objective function was not at minimum, possible problems in optimization 
-#>    • ETAs were reset to zero during optimization; (Can control by foceiControl(resetEtaP=.)) 
-#>    • initial ETAs were nudged; (can control by foceiControl(etaNudge=., etaNudge2=)) 
-#>   Censoring ($censInformation): No censoring
-#>   Minimization message ($message):  
-#>     false convergence (8) 
-#>   In an ODE system, false convergence may mean "useless" evaluations were performed.
-#>   See https://tinyurl.com/yyrrwkce
-#>   It could also mean the convergence is poor, check results before accepting fit
-#>   You may also try a good derivative free optimization:
-#>     nlmixr2(...,control=list(outerOpt="bobyqa"))
-#> 
-#> ── Fit Data (object is a modified tibble): ──
-#> # A tibble: 132 × 28
-#>   ID     TIME    DV EPRED   ERES   NPDE    NPD    PDE    PD  PRED    RES   WRES
-#>   <fct> <dbl> <dbl> <dbl>  <dbl>  <dbl>  <dbl>  <dbl> <dbl> <dbl>  <dbl>  <dbl>
-#> 1 1      0     0.74 0.109  0.631  0.449  0.878 0.673  0.81   0     0.74   1.06 
-#> 2 1      0.25  2.84 3.65  -0.808 -0.496 -0.394 0.31   0.347  3.29 -0.455 -0.241
-#> 3 1      0.57  6.57 5.96   0.611 -1.79   0.314 0.0367 0.623  5.87  0.697  0.280
-#> # ℹ 129 more rows
-#> # ℹ 16 more variables: IPRED <dbl>, IRES <dbl>, IWRES <dbl>, CPRED <dbl>,
-#> #   CRES <dbl>, CWRES <dbl>, eta.ka <dbl>, eta.cl <dbl>, eta.v <dbl>,
-#> #   depot <dbl>, center <dbl>, ka <dbl>, cl <dbl>, v <dbl>, tad <dbl>,
-#> #   dosenum <dbl>
-```
-
-``` r
-## Example 4 -- Change tka to 0.7 in orginal model function and then estimate
-one.ka.0.7 <- one.compartment %>%
-    ini(tka=0.7) %>%
-    nlmixr(theo_sd, est="focei", control=list(print=0),
-           table=list(cwres=TRUE, npde=TRUE))
-#> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> done
-
-print(one.ka.0.7)
-#> ── nlmixr² FOCEi (outer: nlminb) ──
-#> 
-#>           OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)
-#> FOCEi 116.9169 373.5166 393.6963      -179.7583        123.6119        26.02286
-#> 
-#> ── Time (sec $time): ──
-#> 
-#>            setup optimize covariance table compress    other
-#> elapsed 0.001927 0.461728   0.461729 0.376     0.01 1.997616
-#> 
-#> ── Population Parameters ($parFixed or $parFixedDf): ──
-#> 
-#>        Parameter  Est.    SE %RSE Back-transformed(95%CI) BSV(CV%) Shrink(SD)%
-#> tka           Ka 0.491 0.498  101      1.63 (0.616, 4.33)     70.4      1.65% 
-#> tcl           Cl  1.01 0.163 16.2       2.75 (1.99, 3.78)     25.8      3.06% 
-#> tv             V  3.46 0.632 18.2        31.9 (9.26, 110)     15.1      13.3% 
-#> add.sd           0.698                              0.698                     
 #>  
 #>   Covariance Type ($covMethod): r,s
 #>   No correlations in between subject variability (BSV) matrix
@@ -352,9 +285,70 @@ print(one.ka.0.7)
 #> # A tibble: 132 × 28
 #>   ID     TIME    DV EPRED   ERES   NPDE    NPD    PDE    PD  PRED    RES   WRES
 #>   <fct> <dbl> <dbl> <dbl>  <dbl>  <dbl>  <dbl>  <dbl> <dbl> <dbl>  <dbl>  <dbl>
-#> 1 1      0     0.74 0.109  0.631  0.458  0.878 0.677  0.81   0     0.74   1.06 
-#> 2 1      0.25  2.84 3.68  -0.836 -0.477 -0.394 0.317  0.347  3.32 -0.481 -0.252
-#> 3 1      0.57  6.57 5.98   0.588 -1.79   0.297 0.0367 0.617  5.90  0.668  0.266
+#> 1 1      0     0.74 0.109  0.631  0.440  0.890 0.67   0.813  0     0.74   1.07 
+#> 2 1      0.25  2.84 3.63  -0.785 -0.505 -0.394 0.307  0.347  3.27 -0.434 -0.232
+#> 3 1      0.57  6.57 5.93   0.635 -1.79   0.332 0.0367 0.63   5.85  0.724  0.292
+#> # ℹ 129 more rows
+#> # ℹ 16 more variables: IPRED <dbl>, IRES <dbl>, IWRES <dbl>, CPRED <dbl>,
+#> #   CRES <dbl>, CWRES <dbl>, eta.ka <dbl>, eta.cl <dbl>, eta.v <dbl>,
+#> #   depot <dbl>, center <dbl>, ka <dbl>, cl <dbl>, v <dbl>, tad <dbl>,
+#> #   dosenum <dbl>
+```
+
+``` r
+## Example 4 -- Change tka to 0.7 in orginal model function and then estimate
+one.ka.0.7 <- one.compartment %>%
+    ini(tka=0.7) %>%
+    nlmixr(theo_sd, est="focei", control=list(print=0),
+           table=list(cwres=TRUE, npde=TRUE))
+#> calculating covariance matrix
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
+#> done
+
+print(one.ka.0.7)
+#> ── nlmixr² FOCEi (outer: nlminb) ──
+#> 
+#>           OBJF     AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)
+#> FOCEi 116.8242 373.424 393.6036       -179.712         33.3521        7.996146
+#> 
+#> ── Time (sec $time): ──
+#> 
+#>            setup optimize covariance table compress    other
+#> elapsed 0.001871 0.423253   0.423254 0.357     0.01 1.934622
+#> 
+#> ── Population Parameters ($parFixed or $parFixedDf): ──
+#> 
+#>        Parameter  Est.     SE %RSE Back-transformed(95%CI) BSV(CV%) Shrink(SD)%
+#> tka           Ka 0.483  0.147 30.5       1.62 (1.21, 2.16)     70.6      1.87% 
+#> tcl           Cl  1.01 0.0984 9.74       2.75 (2.27, 3.33)     26.3      3.32% 
+#> tv             V  3.46 0.0432 1.25       31.9 (29.3, 34.7)     14.3      11.1% 
+#> add.sd           0.696                               0.696                     
+#>  
+#>   Covariance Type ($covMethod): r,s
+#>   No correlations in between subject variability (BSV) matrix
+#>   Full BSV covariance ($omega) or correlation ($omegaR; diagonals=SDs) 
+#>   Distribution stats (mean/skewness/kurtosis/p-value) available in $shrink 
+#>   Information about run found ($runInfo):
+#>    • gradient problems with initial estimate and covariance; see $scaleInfo 
+#>    • last objective function was not at minimum, possible problems in optimization 
+#>    • ETAs were reset to zero during optimization; (Can control by foceiControl(resetEtaP=.)) 
+#>    • initial ETAs were nudged; (can control by foceiControl(etaNudge=., etaNudge2=)) 
+#>   Censoring ($censInformation): No censoring
+#>   Minimization message ($message):  
+#>     false convergence (8) 
+#>   In an ODE system, false convergence may mean "useless" evaluations were performed.
+#>   See https://tinyurl.com/yyrrwkce
+#>   It could also mean the convergence is poor, check results before accepting fit
+#>   You may also try a good derivative free optimization:
+#>     nlmixr2(...,control=list(outerOpt="bobyqa"))
+#> 
+#> ── Fit Data (object is a modified tibble): ──
+#> # A tibble: 132 × 28
+#>   ID     TIME    DV EPRED   ERES   NPDE    NPD    PDE    PD  PRED    RES   WRES
+#>   <fct> <dbl> <dbl> <dbl>  <dbl>  <dbl>  <dbl>  <dbl> <dbl> <dbl>  <dbl>  <dbl>
+#> 1 1      0     0.74 0.109  0.631  0.440  0.878 0.67   0.81   0     0.74   1.06 
+#> 2 1      0.25  2.84 3.66  -0.825 -0.496 -0.394 0.31   0.347  3.31 -0.469 -0.247
+#> 3 1      0.57  6.57 5.97   0.599 -1.79   0.288 0.0367 0.613  5.89  0.680  0.271
 #> # ℹ 129 more rows
 #> # ℹ 16 more variables: IPRED <dbl>, IRES <dbl>, IWRES <dbl>, CPRED <dbl>,
 #> #   CRES <dbl>, CWRES <dbl>, eta.ka <dbl>, eta.cl <dbl>, eta.v <dbl>,
@@ -463,19 +457,19 @@ print(noEta)
 #> ── nlmixr² FOCEi (outer: nlminb) ──
 #> 
 #>           OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)
-#> FOCEi 176.5806 431.1804 448.4772      -209.5902        34.62689        7.136017
+#> FOCEi 176.5786 431.1784 448.4752      -209.5892        34.35318        7.143069
 #> 
 #> ── Time (sec $time): ──
 #> 
 #>            setup optimize covariance table compress    other
-#> elapsed 0.002361  0.30228   0.302282 0.862     0.01 4.288077
+#> elapsed 0.002078 0.268105   0.268106 0.788    0.011 3.629711
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
 #>        Parameter  Est.     SE %RSE Back-transformed(95%CI) BSV(CV%) Shrink(SD)%
-#> tka           Ka 0.432  0.169   39       1.54 (1.11, 2.14)                     
-#> tcl           Cl 0.988  0.076 7.69       2.69 (2.32, 3.12)     30.8      8.66% 
-#> tv             V  3.48 0.0475 1.36       32.5 (29.6, 35.6)     15.3      6.89% 
+#> tka           Ka 0.436  0.169 38.8       1.55 (1.11, 2.15)                     
+#> tcl           Cl 0.991 0.0759 7.66       2.69 (2.32, 3.12)     30.1      7.47% 
+#> tv             V  3.48  0.048 1.38       32.5 (29.6, 35.7)     15.3      6.95% 
 #> add.sd            1.02                                1.02                     
 #>  
 #>   Covariance Type ($covMethod): r,s
@@ -495,8 +489,8 @@ print(noEta)
 #>   ID     TIME    DV EPRED   ERES    NPDE    NPD    PDE    PD  PRED    RES   WRES
 #>   <fct> <dbl> <dbl> <dbl>  <dbl>   <dbl>  <dbl>  <dbl> <dbl> <dbl>  <dbl>  <dbl>
 #> 1 1      0     0.74 0.160  0.580  0.0753  0.486 0.53   0.687  0     0.74   0.725
-#> 2 1      0.25  2.84 3.17  -0.331 -1.38   -0.245 0.0833 0.403  3.12 -0.275 -0.245
-#> 3 1      0.57  6.57 5.67   0.904 -0.515   0.685 0.303  0.753  5.61  0.964  0.733
+#> 2 1      0.25  2.84 3.18  -0.341 -1.38   -0.245 0.0833 0.403  3.12 -0.284 -0.253
+#> 3 1      0.57  6.57 5.68   0.891 -0.524   0.674 0.3    0.75   5.62  0.952  0.722
 #> # ℹ 129 more rows
 #> # ℹ 15 more variables: IPRED <dbl>, IRES <dbl>, IWRES <dbl>, CPRED <dbl>,
 #> #   CRES <dbl>, CWRES <dbl>, eta.cl <dbl>, eta.v <dbl>, depot <dbl>,
@@ -532,21 +526,26 @@ addBackKa <- noEta %>%
 print(addBackKa)
 #> ── nlmixr² FOCEi (outer: nlminb) ──
 #> 
-#>           OBJF     AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)
-#> FOCEi 116.9593 373.559 393.7387      -179.7795        55.36797        6.117935
+#>           OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)
+#> FOCEi 116.8435 373.4432 393.6229      -179.7216        73.84612        6.153534
 #> 
 #> ── Time (sec $time): ──
 #> 
 #>            setup optimize covariance table compress    other
-#> elapsed 0.002264 0.471725   0.471726 0.862    0.011 6.562285
+#> elapsed 0.002316 0.421887   0.421888 0.805     0.01 5.074909
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
-#>        Parameter  Est.     SE %RSE Back-transformed(95%CI) BSV(CV%) Shrink(SD)%
-#> tka           Ka 0.488  0.231 47.3       1.63 (1.04, 2.56)     65.8     -2.82% 
-#> tcl           Cl  1.02  0.281 27.5        2.77 (1.6, 4.81)     27.4      6.24% 
-#> tv             V  3.46 0.0553  1.6       31.8 (28.5, 35.4)     14.8      13.4% 
-#> add.sd           0.695                               0.695                     
+#>        Parameter  Est.     SE  %RSE Back-transformed(95%CI) BSV(CV%)
+#> tka           Ka 0.468  0.192  41.1         1.6 (1.1, 2.33)     67.5
+#> tcl           Cl  1.01 0.0662  6.53       2.75 (2.42, 3.13)     26.4
+#> tv             V  3.46  0.034 0.981         31.8 (29.8, 34)     14.4
+#> add.sd           0.695                                0.695         
+#>        Shrink(SD)%
+#> tka        -1.06% 
+#> tcl         3.46% 
+#> tv          11.6% 
+#> add.sd            
 #>  
 #>   Covariance Type ($covMethod): r,s
 #>   No correlations in between subject variability (BSV) matrix
@@ -571,8 +570,8 @@ print(addBackKa)
 #>   ID     TIME    DV EPRED   ERES   NPDE    NPD   PDE    PD  PRED    RES   WRES
 #>   <fct> <dbl> <dbl> <dbl>  <dbl>  <dbl>  <dbl> <dbl> <dbl> <dbl>  <dbl>  <dbl>
 #> 1 1      0     0.74 0.109  0.631  0.431  0.878 0.667 0.81   0     0.74   1.06 
-#> 2 1      0.25  2.84 3.72  -0.882 -0.915 -0.314 0.18  0.377  3.33 -0.489 -0.268
-#> 3 1      0.57  6.57 6.05   0.516 -1.28   0.279 0.1   0.61   5.92  0.653  0.272
+#> 2 1      0.25  2.84 3.67  -0.833 -0.954 -0.297 0.17  0.383  3.27 -0.432 -0.236
+#> 3 1      0.57  6.57 5.98   0.587 -1.26   0.297 0.103 0.617  5.84  0.729  0.300
 #> # ℹ 129 more rows
 #> # ℹ 16 more variables: IPRED <dbl>, IRES <dbl>, IWRES <dbl>, CPRED <dbl>,
 #> #   CRES <dbl>, CWRES <dbl>, eta.cl <dbl>, eta.v <dbl>, bsv.ka <dbl>,
@@ -584,10 +583,10 @@ You can see the name change by examining the `omega` matrix:
 
 ``` r
 addBackKa$omega
-#>            eta.cl      eta.v    bsv.ka
-#> eta.cl 0.07247903 0.00000000 0.0000000
-#> eta.v  0.00000000 0.02155343 0.0000000
-#> bsv.ka 0.00000000 0.00000000 0.3599338
+#>           eta.cl     eta.v    bsv.ka
+#> eta.cl 0.0671624 0.0000000 0.0000000
+#> eta.v  0.0000000 0.0204582 0.0000000
+#> bsv.ka 0.0000000 0.0000000 0.3751437
 ```
 
 Note that new between subject variability parameters are distinguished
@@ -635,26 +634,26 @@ wt70 <- fit %>%
 print(wt70)
 #> ── nlmixr² FOCEi (outer: nlminb) ──
 #> 
-#>           OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)
-#> FOCEi 116.2568 370.8565 388.1534      -179.4283         2.74697        2.743088
+#>          OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)
+#> FOCEi 116.199 370.7987 388.0956      -179.3994        38.31823        1.292621
 #> 
 #> ── Time (sec $time): ──
 #> 
 #>            setup optimize covariance table compress    other
-#> elapsed 0.002191  0.30919   0.309191 0.896    0.011 4.134428
+#> elapsed 0.002279 0.263498   0.263499 0.826    0.011 3.857724
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
 #>          Parameter  Est.     SE  %RSE Back-transformed(95%CI) BSV(CV%)
-#> tka             Ka   0.5  FIXED FIXED                     0.5     70.5
-#> tcl             Cl  1.03 0.0689  6.72       2.79 (2.44, 3.19)     26.4
-#> tv               V  3.46 0.0707  2.04       31.7 (27.6, 36.4)     14.5
-#> add.sd             0.693                                0.693         
+#> tka             Ka   0.5  FIXED FIXED                     0.5     69.2
+#> tcl             Cl  1.02   0.28  27.6        2.76 (1.6, 4.79)     26.3
+#> tv               V  3.46 0.0457  1.32       31.8 (29.1, 34.8)     14.0
+#> add.sd             0.696                                0.696         
 #> covWtPow            0.75  FIXED FIXED                    0.75         
 #>          Shrink(SD)%
-#> tka           2.11% 
-#> tcl           6.23% 
-#> tv            14.1% 
+#> tka           1.12% 
+#> tcl           5.73% 
+#> tv            12.3% 
 #> add.sd              
 #> covWtPow            
 #>  
@@ -680,9 +679,9 @@ print(wt70)
 #> # A tibble: 132 × 29
 #>   ID     TIME    DV EPRED   ERES   NPDE    NPD    PDE    PD  PRED    RES   WRES
 #>   <fct> <dbl> <dbl> <dbl>  <dbl>  <dbl>  <dbl>  <dbl> <dbl> <dbl>  <dbl>  <dbl>
-#> 1 1      0     0.74 0.109  0.631  0.394  0.890 0.653  0.813  0     0.74   1.07 
-#> 2 1      0.25  2.84 3.72  -0.884 -0.332 -0.431 0.37   0.333  3.37 -0.529 -0.275
-#> 3 1      0.57  6.57 6.03   0.537 -1.79   0.262 0.0367 0.603  5.96  0.608  0.242
+#> 1 1      0     0.74 0.109  0.631  0.403  0.878 0.657  0.81   0     0.74   1.06 
+#> 2 1      0.25  2.84 3.70  -0.864 -0.440 -0.422 0.33   0.337  3.36 -0.518 -0.274
+#> 3 1      0.57  6.57 6.01   0.555 -1.79   0.271 0.0367 0.607  5.95  0.624  0.253
 #> # ℹ 129 more rows
 #> # ℹ 17 more variables: IPRED <dbl>, IRES <dbl>, IWRES <dbl>, CPRED <dbl>,
 #> #   CRES <dbl>, CWRES <dbl>, eta.ka <dbl>, eta.cl <dbl>, eta.v <dbl>,
@@ -729,25 +728,25 @@ print(addPropModel)
 #> ── nlmixr² FOCEi (outer: nlminb) ──
 #> 
 #>           OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)
-#> FOCEi 104.4951 363.0949 386.1573      -173.5474        61.98699        8.664907
+#> FOCEi 104.3596 362.9593 386.0217      -173.4797        59.54252        8.632435
 #> 
 #> ── Time (sec $time): ──
 #> 
 #>           setup optimize covariance table compress    other
-#> elapsed 0.00223  0.49127   0.491272  0.86    0.011 6.452228
+#> elapsed 0.00215  0.42595   0.425951 0.832    0.011 6.960949
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
 #>          Parameter  Est.     SE %RSE Back-transformed(95%CI) BSV(CV%)
-#> tka             Ka 0.407  0.233 57.4       1.5 (0.951, 2.37)     69.5
-#> tcl             Cl  1.02 0.0472 4.61       2.78 (2.54, 3.05)     26.5
-#> tv               V  3.46 0.0737 2.13         32 (27.7, 36.9)     13.9
-#> add.err            0.287                               0.287         
-#> prop.err           0.129                               0.129         
+#> tka             Ka 0.397  0.198 49.8       1.49 (1.01, 2.19)     69.5
+#> tcl             Cl  1.02 0.0745 7.27       2.79 (2.41, 3.22)     25.7
+#> tv               V  3.47 0.0461 1.33           32 (29.2, 35)     13.0
+#> add.err            0.274                               0.274         
+#> prop.err           0.134                               0.134         
 #>          Shrink(SD)%
-#> tka           1.88% 
-#> tcl           3.17% 
-#> tv            17.3% 
+#> tka           2.38% 
+#> tcl           1.11% 
+#> tv            16.4% 
 #> add.err             
 #> prop.err            
 #>  
@@ -773,9 +772,9 @@ print(addPropModel)
 #> # A tibble: 132 × 28
 #>   ID     TIME    DV  EPRED   ERES   NPDE    NPD   PDE    PD  PRED    RES   WRES
 #>   <fct> <dbl> <dbl>  <dbl>  <dbl>  <dbl>  <dbl> <dbl> <dbl> <dbl>  <dbl>  <dbl>
-#> 1 1      0     0.74 0.0451  0.695  0.866  2.33  0.807 0.99   0     0.74   2.58 
-#> 2 1      0.25  2.84 3.42   -0.582 -0.654 -0.271 0.257 0.393  3.10 -0.258 -0.149
-#> 3 1      0.57  6.57 5.73    0.844 -0.341  0.385 0.367 0.65   5.60  0.973  0.395
+#> 1 1      0     0.74 0.0431  0.697  0.994  2.71  0.84  0.997  0     0.74   2.70 
+#> 2 1      0.25  2.84 3.39   -0.552 -0.674 -0.271 0.25  0.393  3.07 -0.230 -0.135
+#> 3 1      0.57  6.57 5.69    0.881 -0.297  0.403 0.383 0.657  5.56  1.01   0.414
 #> # ℹ 129 more rows
 #> # ℹ 16 more variables: IPRED <dbl>, IRES <dbl>, IWRES <dbl>, CPRED <dbl>,
 #> #   CRES <dbl>, CWRES <dbl>, eta.ka <dbl>, eta.cl <dbl>, eta.v <dbl>,
