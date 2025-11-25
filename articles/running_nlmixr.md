@@ -77,21 +77,21 @@ fit <- nlmixr(one.cmt, theo_sd, est="focei",
 print(fit)
 #> ── nlmixr² FOCEi (outer: nlminb) ──
 #> 
-#>           OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)
-#> FOCEi 116.8044 373.4042 393.5838      -179.7021         68.7787        9.398479
+#>          OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)
+#> FOCEi 116.812 373.4118 393.5914      -179.7059        68.29718        9.353349
 #> 
 #> ── Time (sec $time): ──
 #> 
 #>            setup optimize covariance table compress    other
-#> elapsed 0.002142 0.298718   0.298719 0.066     0.01 5.213421
+#> elapsed 0.002061 0.345238   0.345239 0.067     0.01 5.691462
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
 #>        Parameter  Est.     SE %RSE Back-transformed(95%CI) BSV(CV%) Shrink(SD)%
-#> tka              0.464  0.195 42.1       1.59 (1.08, 2.33)     70.6      1.94% 
-#> tcl               1.01 0.0751 7.42       2.75 (2.38, 3.19)     26.8      3.96% 
-#> tv         log V  3.46 0.0435 1.26       31.8 (29.2, 34.6)     13.9      10.3% 
-#> add.sd           0.693                               0.693                     
+#> tka              0.461  0.195 42.4       1.59 (1.08, 2.32)     70.3      1.59% 
+#> tcl               1.01 0.0751 7.42       2.75 (2.37, 3.19)     26.7      4.03% 
+#> tv         log V  3.46 0.0436 1.26       31.8 (29.2, 34.6)     14.2      11.0% 
+#> add.sd           0.692                               0.692                     
 #>  
 #>   Covariance Type ($covMethod): r,s
 #>   No correlations in between subject variability (BSV) matrix
@@ -110,8 +110,8 @@ print(fit)
 #>   ID     TIME    DV  PRED    RES   WRES IPRED   IRES  IWRES CPRED   CRES  CWRES
 #>   <fct> <dbl> <dbl> <dbl>  <dbl>  <dbl> <dbl>  <dbl>  <dbl> <dbl>  <dbl>  <dbl>
 #> 1 1      0     0.74  0     0.74   1.07   0     0.74   1.07   0     0.74   1.07 
-#> 2 1      0.25  2.84  3.26 -0.424 -0.513  3.85 -1.01  -1.45   3.50 -0.657 -0.752
-#> 3 1      0.57  6.57  5.83  0.738  0.694  6.79 -0.215 -0.310  6.17  0.400  0.343
+#> 2 1      0.25  2.84  3.26 -0.417 -0.502  3.84 -1.00  -1.45   3.50 -0.656 -0.746
+#> 3 1      0.57  6.57  5.82  0.746  0.695  6.78 -0.215 -0.311  6.17  0.401  0.340
 #> # ℹ 129 more rows
 #> # ℹ 10 more variables: eta.ka <dbl>, eta.cl <dbl>, eta.v <dbl>, depot <dbl>,
 #> #   central <dbl>, ka <dbl>, cl <dbl>, v <dbl>, tad <dbl>, dosenum <dbl>
@@ -165,7 +165,7 @@ print(fit2)
 #> ── Time (sec $time): ──
 #> 
 #>            setup covariance  saem table compress    other
-#> elapsed 0.001977   0.008012 4.617 0.089    0.014 1.777011
+#> elapsed 0.002143   0.008013 4.899 0.103    0.014 1.889844
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -207,45 +207,45 @@ fitN <- nlmixr(one.compartment, theo_sd, list(pnlsTol=0.5), est="nlme")
 #>       ID1       ID2       ID3 
 #> 0.2195819 0.9924330 1.6502972 
 #>  Beginning PNLS step: ..  completed fit_nlme() step.
-#> PNLS step: RSS =  64.99503 
-#>  fixed effects: 0.4599482  1.034609  3.451128  
+#> PNLS step: RSS =  64.59841 
+#>  fixed effects: 0.4443024  1.038584  3.449959  
 #>  iterations: 3 
 #> Convergence crit. (must all become <= tolerance = 1e-05):
 #>      fixed   reStruct 
-#> 0.03345135 0.52961889 
+#> 0.03715048 0.91006943 
 #> 
 #> **Iteration 2
-#> LME step: Loglik: -182.0885, nlminb iterations: 1
+#> LME step: Loglik: -182.0743, nlminb iterations: 1
 #> reStruct  parameters:
 #>       ID1       ID2       ID3 
-#> 0.1435534 0.9710439 1.6552366 
+#> 0.1149602 0.9686071 1.6508466 
 #>  Beginning PNLS step: ..  completed fit_nlme() step.
-#> PNLS step: RSS =  64.99506 
-#>  fixed effects: 0.4599482  1.034609  3.451128  
+#> PNLS step: RSS =  64.59843 
+#>  fixed effects: 0.4443024  1.038584  3.449959  
 #>  iterations: 1 
 #> Convergence crit. (must all become <= tolerance = 1e-05):
 #>        fixed     reStruct 
-#> 0.000000e+00 6.630493e-06
+#> 0.000000e+00 5.047516e-06
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 print(fitN)
 #> ── nlmixr² nlme by maximum likelihood ──
 #> 
 #>          OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)
-#> nlme 121.5772 378.1769 398.3565      -182.0885        12.71443               1
+#> nlme 121.5489 378.1487 398.3283      -182.0743        18.17386               1
 #> 
 #> ── Time (sec $time): ──
 #> 
 #>            setup table compress    other
-#> elapsed 0.001753 0.096    0.006 2.930247
+#> elapsed 0.001754 0.097    0.005 3.103246
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
 #>          Est.      SE  %RSE Back-transformed(95%CI) BSV(CV%) Shrink(SD)%
-#> tka    0.4599  0.1488 32.35     1.584 (1.183, 2.12)     66.6     -6.38% 
-#> tcl     1.035 0.08491 8.207    2.814 (2.383, 3.324)     27.0      7.81% 
-#> tv      3.451 0.04173 1.209    31.54 (29.06, 34.22)     13.4      6.88% 
-#> add.sd 0.6994                                0.6994                     
+#> tka    0.4443  0.1916 43.12     1.559 (1.071, 2.27)     68.7     -3.49% 
+#> tcl     1.039 0.08335 8.026    2.825 (2.399, 3.327)     27.0      7.85% 
+#> tv       3.45 0.04494 1.303      31.5 (28.84, 34.4)     13.5      7.29% 
+#> add.sd 0.6979                                0.6979                     
 #>  
 #>   Covariance Type ($covMethod): nlme
 #>   No correlations in between subject variability (BSV) matrix
@@ -257,9 +257,9 @@ print(fitN)
 #> # A tibble: 132 × 19
 #>   ID     TIME    DV  PRED    RES IPRED   IRES  IWRES eta.ka eta.cl   eta.v    cp
 #>   <fct> <dbl> <dbl> <dbl>  <dbl> <dbl>  <dbl>  <dbl>  <dbl>  <dbl>   <dbl> <dbl>
-#> 1 1      0     0.74  0     0.74   0     0.74   1.06  0.0614 -0.480 -0.0903  0   
-#> 2 1      0.25  2.84  3.28 -0.439  3.79 -0.946 -1.35  0.0614 -0.480 -0.0903  3.79
-#> 3 1      0.57  6.57  5.86  0.710  6.72 -0.149 -0.213 0.0614 -0.480 -0.0903  6.72
+#> 1 1      0     0.74  0     0.74   0     0.74   1.06  0.0756 -0.483 -0.0896  0   
+#> 2 1      0.25  2.84  3.24 -0.401  3.78 -0.943 -1.35  0.0756 -0.483 -0.0896  3.78
+#> 3 1      0.57  6.57  5.81  0.760  6.72 -0.146 -0.210 0.0756 -0.483 -0.0896  6.72
 #> # ℹ 129 more rows
 #> # ℹ 7 more variables: depot <dbl>, center <dbl>, ka <dbl>, cl <dbl>, v <dbl>,
 #> #   tad <dbl>, dosenum <dbl>

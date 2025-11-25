@@ -387,38 +387,38 @@ print(fit.TOS)
 #> ── nlmixr² SAEM OBJF by FOCEi approximation ──
 #> 
 #>           OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)
-#> FOCEi 1384.304 2309.999 2389.419      -1135.999        3888.244        22.06544
+#> FOCEi 1384.332 2310.026 2389.447      -1136.013        3858.333        21.90437
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>            setup optimize covariance   saem  table compress
-#> elapsed 0.003566    4e-06   0.038015 80.908 16.526    0.046
+#>            setup optimize covariance    saem  table compress
+#> elapsed 0.003017    7e-06   0.047013 115.995 15.383    0.042
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
-#>             Est.     SE  %RSE Back-transformed(95%CI) BSV(CV% or SD)
-#> tktr        0.44  0.529   120       1.55 (0.55, 4.38)           110.
-#> tka       -0.261  0.269   103       0.77 (0.455, 1.3)           13.5
-#> tcl        -1.97 0.0515  2.62     0.14 (0.126, 0.155)           26.8
-#> tv          2.01 0.0484  2.41       7.43 (6.76, 8.17)           21.8
-#> prop.err    0.12                                 0.12               
-#> pkadd.err  0.805                                0.805               
-#> temax       3.44  0.696  20.2    0.969 (0.888, 0.992)          0.251
-#> tec50     -0.094  0.146   155      0.91 (0.684, 1.21)           45.9
-#> tkout      -2.94 0.0384  1.31 0.0531 (0.0492, 0.0572)           5.99
-#> te0         4.57 0.0115 0.253       96.6 (94.4, 98.8)           5.29
-#> pdadd.err    3.6                                  3.6               
+#>              Est.     SE  %RSE Back-transformed(95%CI) BSV(CV% or SD)
+#> tktr        0.439  0.557   127      1.55 (0.521, 4.62)           110.
+#> tka        -0.262  0.279   107      0.77 (0.445, 1.33)           13.4
+#> tcl         -1.97 0.0515  2.62     0.14 (0.126, 0.155)           26.8
+#> tv           2.01 0.0483  2.41       7.43 (6.76, 8.17)           21.7
+#> prop.err     0.12                                 0.12               
+#> pkadd.err   0.805                                0.805               
+#> temax        3.44  0.694  20.2    0.969 (0.889, 0.992)          0.251
+#> tec50     -0.0938  0.146   155      0.91 (0.684, 1.21)           45.9
+#> tkout       -2.94 0.0384  1.31 0.0531 (0.0492, 0.0572)           5.97
+#> te0          4.57 0.0116 0.253       96.6 (94.4, 98.8)           5.29
+#> pdadd.err     3.6                                  3.6               
 #>           Shrink(SD)%
-#> tktr           44.4% 
-#> tka            81.5% 
-#> tcl            6.80% 
+#> tktr           44.2% 
+#> tka            81.7% 
+#> tcl            6.72% 
 #> tv             15.9% 
 #> prop.err             
 #> pkadd.err            
-#> temax          81.1% 
-#> tec50          9.86% 
-#> tkout          45.4% 
-#> te0            17.0% 
+#> temax          81.3% 
+#> tec50          9.87% 
+#> tkout          45.6% 
+#> te0            17.1% 
 #> pdadd.err            
 #>  
 #>   Covariance Type ($covMethod): linFim
@@ -480,7 +480,7 @@ v2s
 fit.TOF <- nlmixr(pk.turnover.emax3, warfarin, "focei", control=list(print=0),
                   table=list(cwres=TRUE, npde=TRUE))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:01:05 
+#> [====|====|====|====|====|====|====|====|====|====] 0:01:22 
 #> done
 ```
 
@@ -491,46 +491,47 @@ print(fit.TOF)
 #> ── nlmixr² FOCEi (outer: nlminb) ──
 #> 
 #>           OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)
-#> FOCEi 1374.783 2300.478 2379.898      -1131.239        100298.2        872.8198
+#> FOCEi 1409.421 2335.116 2414.536      -1148.558        32318.05        93.02754
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>          setup optimize covariance table compress    other
-#> elapsed 0.0027 65.92983   65.92984 1.425    0.009 324.4816
+#>            setup optimize covariance table compress    other
+#> elapsed 0.002455 82.71319    82.7132 1.807    0.395 40.54716
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
-#>              Est.     SE  %RSE Back-transformed(95%CI) BSV(CV% or SD)
-#> tktr        0.168  0.136  80.9      1.18 (0.906, 1.54)           107.
-#> tka       -0.0713  0.149   209     0.931 (0.695, 1.25)           91.5
-#> tcl         -2.01 0.0328  1.63    0.134 (0.125, 0.142)           26.9
-#> tv           2.07 0.0234  1.13       7.96 (7.61, 8.34)           22.2
-#> prop.err    0.135                                0.135               
-#> pkadd.err    0.22                                 0.22               
-#> temax        5.42  0.587  10.8    0.996 (0.986, 0.999)          0.644
-#> tec50       0.144 0.0541  37.5       1.16 (1.04, 1.28)           45.5
-#> tkout       -2.94 0.0285  0.97  0.0529 (0.0501, 0.056)           10.6
-#> te0          4.57 0.0166 0.363       96.6 (93.5, 99.8)           7.08
-#> pdadd.err    3.78                                 3.78               
+#>            Est.     SE     %RSE Back-transformed(95%CI) BSV(CV% or SD)
+#> tktr      0.104    2.2 2.11e+03      1.11 (0.015, 82.2)           101.
+#> tka       0.302   2.18      723       1.35 (0.0188, 97)           120.
+#> tcl       -2.04  0.109     5.36     0.13 (0.105, 0.162)           27.3
+#> tv         2.06 0.0916     4.44       7.87 (6.57, 9.42)           22.4
+#> prop.err  0.148                                   0.148               
+#> pkadd.err 0.172                                   0.172               
+#> temax      4.75    6.2      130     0.991 (0.000614, 1)          0.590
+#> tec50     0.157  0.229      146      1.17 (0.747, 1.83)           47.7
+#> tkout     -2.93  0.128     4.36 0.0534 (0.0416, 0.0686)           15.4
+#> te0        4.57 0.0399    0.874          96.3 (89, 104)           10.3
+#> pdadd.err  3.76                                    3.76               
 #>           Shrink(SD)%
-#> tktr           60.3% 
-#> tka            61.3% 
-#> tcl           -2.84% 
-#> tv             6.29% 
+#> tktr           62.3% 
+#> tka            60.6% 
+#> tcl         -0.0757% 
+#> tv             10.3% 
 #> prop.err             
 #> pkadd.err            
-#> temax          96.9% 
-#> tec50          3.27% 
-#> tkout          28.8% 
-#> te0            25.5% 
+#> temax          95.1% 
+#> tec50          5.19% 
+#> tkout          32.3% 
+#> te0            39.6% 
 #> pdadd.err            
 #>  
-#>   Covariance Type ($covMethod): r,s
+#>   Covariance Type ($covMethod): s
 #>   No correlations in between subject variability (BSV) matrix
 #>   Full BSV covariance ($omega) or correlation ($omegaR; diagonals=SDs) 
 #>   Distribution stats (mean/skewness/kurtosis/p-value) available in $shrink 
 #>   Information about run found ($runInfo):
 #>    • gradient problems with initial estimate and covariance; see $scaleInfo 
+#>    • using S matrix to calculate covariance, can check sandwich or R matrix with $covRS and $covR 
 #>    • last objective function was not at minimum, possible problems in optimization 
 #>    • ETAs were reset to zero during optimization; (Can control by foceiControl(resetEtaP=.)) 
 #>    • initial ETAs were nudged; (can control by foceiControl(etaNudge=., etaNudge2=)) 
@@ -545,11 +546,11 @@ print(fit.TOF)
 #> 
 #> ── Fit Data (object is a modified tibble): ──
 #> # A tibble: 483 × 44
-#>   ID     TIME CMT      DV EPRED  ERES  NPDE    NPD   PDE    PD  PRED   RES
-#>   <fct> <dbl> <fct> <dbl> <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl>
-#> 1 1       0.5 cp      0    1.76 -1.76 -1.64 -2.05  0.05  0.02   1.22 -1.22
-#> 2 1       1   cp      1.9  3.93 -2.03  1.99 -0.643 0.977 0.26   3.51 -1.61
-#> 3 1       2   cp      3.3  7.16 -3.86 -2.33 -1.07  0.01  0.143  7.63 -4.33
+#>   ID     TIME CMT      DV EPRED  ERES  NPDE    NPD    PDE    PD  PRED   RES
+#>   <fct> <dbl> <fct> <dbl> <dbl> <dbl> <dbl>  <dbl>  <dbl> <dbl> <dbl> <dbl>
+#> 1 1       0.5 cp      0    2.22 -2.22 -1.48 -2.33  0.07   0.01   1.59 -1.59
+#> 2 1       1   cp      1.9  4.67 -2.77  1.88 -0.795 0.97   0.213  4.36 -2.46
+#> 3 1       2   cp      3.3  7.92 -4.62 -2.13 -1.19  0.0167 0.117  8.76 -5.46
 #> # ℹ 480 more rows
 #> # ℹ 32 more variables: WRES <dbl>, IPRED <dbl>, IRES <dbl>, IWRES <dbl>,
 #> #   CPRED <dbl>, CRES <dbl>, CWRES <dbl>, eta.ktr <dbl>, eta.ka <dbl>,
