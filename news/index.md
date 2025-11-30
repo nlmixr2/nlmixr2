@@ -1,5 +1,11 @@
 # Changelog
 
+## nlmixr2 5.0.0
+
+CRAN release: 2025-11-30
+
+- Import everything with the nlmixr2 5.0 file format
+
 ## nlmixr2 4.0.1
 
 CRAN release: 2025-08-29

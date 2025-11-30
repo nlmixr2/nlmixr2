@@ -2,12 +2,12 @@
 
 ``` r
 library(nlmixr2)
-#> ── Attaching packages ───────────────────────────────────────── nlmixr2 4.0.1 ──
-#> ✔ lotri         1.0.2          ✔ nlmixr2plot   3.0.3     
-#> ✔ nlmixr2data   2.0.9          ✔ rxode2        4.1.1.9000
-#> ✔ nlmixr2est    4.1.1          ✔ ggPMX         1.3.2     
-#> ✔ nlmixr2extra  3.0.3          ✔ xpose.nlmixr2 0.4.1
-#> ── Optional Packages Loaded/Ignored ─────────────────────────── nlmixr2 4.0.1 ──
+#> ── Attaching packages ───────────────────────────────────────── nlmixr2 5.0.0 ──
+#> ✔ lotri         1.0.2     ✔ nlmixr2plot   5.0.0
+#> ✔ nlmixr2data   2.0.9     ✔ rxode2        5.0.0
+#> ✔ nlmixr2est    5.0.0     ✔ ggPMX         1.3.2
+#> ✔ nlmixr2extra  5.0.0     ✔ xpose.nlmixr2 0.4.1
+#> ── Optional Packages Loaded/Ignored ─────────────────────────── nlmixr2 5.0.0 ──
 #> ✔ ggPMX             ✖ nlmixr2rpt
 #> ✔ xpose.nlmixr2     ✖ nonmem2rx
 #> ✖ babelmixr2     ✖ posologyr

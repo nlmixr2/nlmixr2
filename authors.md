@@ -35,12 +35,12 @@ Source:
 [`inst/CITATION`](https://github.com/nlmixr2/nlmixr2/blob/main/inst/CITATION)
 
 Fidler M (????). *nlmixr2: Nonlinear Mixed Effects Models in Population
-PK/PD*. R package version 4.0.1, <https://nlmixr2.org/>.
+PK/PD*. R package version 5.0.0, <https://nlmixr2.org/>.
 
     @Manual{,
       title = {nlmixr2: Nonlinear Mixed Effects Models in Population PK/PD},
       author = {Matthew Fidler},
-      note = {R package version 4.0.1},
+      note = {R package version 5.0.0},
       url = {https://nlmixr2.org/},
     }
 
