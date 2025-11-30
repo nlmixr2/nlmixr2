@@ -1,3 +1,7 @@
+# nlmixr2 5.0.0
+
+* Import everything with the nlmixr2 5.0 file format
+
 # nlmixr2 4.0.1
 
 * Added `posologyr` to the optional packages
