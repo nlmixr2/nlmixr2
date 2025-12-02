@@ -32,7 +32,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/nlmixr2/nlmixr2/blob/v5.0.0/inst/CITATION)
+[`inst/CITATION`](https://github.com/nlmixr2/nlmixr2/blob/main/inst/CITATION)
 
 Fidler M (????). *nlmixr2: Nonlinear Mixed Effects Models in Population
 PK/PD*. R package version 5.0.0, <https://nlmixr2.org/>.
