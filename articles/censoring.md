@@ -4,7 +4,7 @@
 library(nlmixr2)
 #> ── Attaching packages ───────────────────────────────────────── nlmixr2 5.0.0 ──
 #> ✔ lotri         1.0.2     ✔ nlmixr2plot   5.0.0
-#> ✔ nlmixr2data   2.0.9     ✔ rxode2        5.0.0
+#> ✔ nlmixr2data   2.0.9     ✔ rxode2        5.0.1
 #> ✔ nlmixr2est    5.0.0     ✔ ggPMX         1.3.2
 #> ✔ nlmixr2extra  5.0.0     ✔ xpose.nlmixr2 0.4.1
 #> ── Optional Packages Loaded/Ignored ─────────────────────────── nlmixr2 5.0.0 ──

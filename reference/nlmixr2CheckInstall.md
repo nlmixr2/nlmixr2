@@ -21,7 +21,7 @@ nlmixr2CheckInstall()
 #> License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 #> This is free software: you are free to change and redistribute it.
 #> There is NO WARRANTY, to the extent permitted by law.
-#> ✔ The package 'rxode2' is installed and seems to be up to date, version 5.0.0
+#> ✔ The package 'rxode2' is installed and seems to be up to date, version 5.0.1
 #> ✔ The package 'rxode2ll' is installed and seems to be up to date, version 2.0.13
 #> ✔ The package 'lotri' is installed and seems to be up to date, version 1.0.2
 #> ✔ The package 'nlmixr2' is installed and seems to be up to date, version 5.0.0
