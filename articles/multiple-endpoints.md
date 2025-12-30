@@ -392,7 +392,7 @@ print(fit.TOS)
 #> ── Time (sec $time): ──
 #> 
 #>            setup optimize covariance    saem  table compress
-#> elapsed 0.002575    6e-06   0.048012 118.317 15.787    0.001
+#> elapsed 0.002832    7e-06   0.055016 136.427 15.953    0.001
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -496,7 +496,7 @@ print(fit.TOF)
 #> ── Time (sec $time): ──
 #> 
 #>            setup optimize covariance table compress    other
-#> elapsed 0.002467  81.8443    81.8443 1.809    0.001 39.63193
+#> elapsed 0.002803 81.93433   81.93433 1.923    0.001 40.78554
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
