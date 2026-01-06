@@ -392,7 +392,7 @@ print(fit.TOS)
 #> ── Time (sec $time): ──
 #> 
 #>            setup optimize covariance    saem  table compress
-#> elapsed 0.002832    7e-06   0.055016 136.427 15.953    0.001
+#> elapsed 0.002835    7e-06   0.055016 136.978 16.696    0.001
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -480,7 +480,7 @@ v2s
 fit.TOF <- nlmixr(pk.turnover.emax3, warfarin, "focei", control=list(print=0),
                   table=list(cwres=TRUE, npde=TRUE))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:01:21 
+#> [====|====|====|====|====|====|====|====|====|====] 0:01:26 
 #> done
 ```
 
@@ -495,8 +495,8 @@ print(fit.TOF)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>            setup optimize covariance table compress    other
-#> elapsed 0.002803 81.93433   81.93433 1.923    0.001 40.78554
+#>            setup optimize covariance table    other
+#> elapsed 0.002911 86.88076   86.88076     2 42.52857
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
