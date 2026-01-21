@@ -1,6 +1,6 @@
 ---
 title: "nlmixr2 Citations"
-date: "2024-02-09"
+date: "2026-01-21"
 output: html_document
 ---
 
@@ -60,6 +60,8 @@ Voulgarelis D, Bulusu KC, Yates JWT. **Comparison of classical tumour growth mod
 
 #### 2023
 
+Usman M, Khadka S, Saleem M, Rasheed H, Kunwar B, Ali M. **Pharmacometrics: A New Era of Pharmacotherapy and Drug Development in Low- and Middle-Income Countries.** Advances in Pharmacological and Pharmaceutical Sciences. 2023;2023(1):3081422. [10.1155/2023/3081422](https://doi.org/10.1155/2023/3081422)
+
 Mak WY, Ooi QX, Cruz CV, Looi I, Yuen KH, Standing JF. **Assessment of the nlmixr R package for population pharmacokinetic modeling: A metformin case study.** British Journal of Clinical Pharmacology. 2023;89(1):330–9. [10.1111/bcp.15496](https://onlinelibrary.wiley.com/doi/abs/10.1111/bcp.15496)
 
 Mehta K, Guo T, van der Graaf PH, van Hasselt JGC. **Predictions of Bedaquiline and Pretomanid Target Attainment in Lung Lesions of Tuberculosis Patients using Translational Minimal Physiologically Based Pharmacokinetic Modeling.** Clin Pharmacokinet. 2023 Mar 1;62(3):519–32. [10.1007/s40262-023-01217-7](https://doi.org/10.1007/s40262-023-01217-7)
@@ -72,13 +74,77 @@ Zhang S, Agyeman AA, Hadjichrysanthou C, Standing JF. **SARS-CoV-2 viral dynamic
 
 Barrett JS, Betourne A, Walls RL, Lasater K, Russell S, Borens A, et al. **The future of rare disease drug development: the rare disease cures accelerator data analytics platform (RDCA-DAP).** J Pharmacokinet Pharmacodyn. 2023 Dec 1;50(6):507–19. [10.1007/s10928-023-09859-7](https://doi.org/10.1007/s10928-023-09859-7)
 
+
 #### 2024
 
 Kovács L, Ferenci T, Gombos B, Füredi A, Rudas I, Szakács G, et al. **Positive Impulsive Control of Tumor Therapy—A Cyber-Medical Approach.** IEEE Transactions on Systems, Man, and Cybernetics: Systems. 2024 Jan;54(1):597–608. [10.1109/TSMC.2023.3315637](https://ieeexplore.ieee.org/abstract/document/10255720)
 
+Higazy D, Pham AD, van Hasselt C, Høiby N, Jelsbak L, Moser C, et al. **In vivo evolution of antimicrobial resistance in a biofilm model of Pseudomonas aeruginosa lung infection.** ISME J. 2024 Jan 1;18(1):wrae036.[10.1093/ismejo/wrae036](https://doi.org/10.1093/ismejo/wrae036)
+
 Lepak AJ, VanScoy B, Rubino C, Ambrose PG, Andes DR. **In vivo pharmacodynamic characterization of a next-generation polyene, SF001, in the invasive pulmonary aspergillosis mouse model.** Antimicrobial Agents and Chemotherapy. 2024 Feb 6;0(0):e01631-23. [10.1128/aac.01631-23](https://journals.asm.org/doi/10.1128/aac.01631-23)
 
+Bonate PL, Barrett JS, Ait-Oudhia S, Brundage R, Corrigan B, Duffull S, et al. **Training the next generation of pharmacometric modelers: a multisector perspective.** J Pharmacokinet Pharmacodyn. 2024 Feb 1;51(1):5–31. [10.1007/s10928-023-09878-4](https://doi.org/10.1007/s10928-023-09878-4)
+
 Standing JF, Buggiotti L, Guerra-Assuncao JA, Woodall M, Ellis S, Agyeman AA, et al. **Randomized controlled trial of molnupiravir SARS-CoV-2 viral and antibody response in at-risk adult outpatients.** Nat Commun. 2024 Feb 23;15(1):1652. [10.1038/s41467-024-45641-0](https://doi.org/10.1038/s41467-024-45641-0)
+
+Duong A, Marsot A. **Nlmixr2 Versus NONMEM: An Evaluation of Maximum A Posteriori Bayesian Estimates Following External Evaluation of Gentamicin and Tobramycin Population Pharmacokinetic Models.** Clinical Pharmacology in Drug Development. 2024;13(7):739–47. [10.1002/cpdd.1395](https://doi.org/10.1002/cpdd.1395)
+
+Herrero SS, Calvet L. **Generative Artificial Intelligence Models in Pharmacokinetics: A Study on a Two-Compartment Population Model.** Research Square; 2024. [10.21203/rs.3.rs-4693613/v1](https://doi.org/10.21203/rs.3.rs-4693613/v1)
+
+Methaneethorn J. Factors Influencing Quetiapine Pharmacokinetic Variability: A Review of Population Pharmacokinetics. Current Psychiatry Research and Reviews. 2024 May 1;20(2):94–105. [10.2174/2666082219666230111145821](https://doi.org/10.2174/2666082219666230111145821)
+
+Ribba B, Simuni T, Marek K, Siderowf A, Diack C, Pierrillas PB, et al. **Modeling of Parkinson’s Disease Progression and Implications for Detection of Disease Modification in Treatment Trials.** Journal of Parkinson’s Disease. 2024 Sept 3;14(6):1225–35. [10.3233/JPD-230446](https://doi.org/10.3233/JPD-230446)
+
+Hughes MSA, Hughes JH, Endicott J, Langton M, Ahern JW, Keizer RJ. **Developing Parametric and Nonparametric Models for Model-Informed Precision Dosing: A Quality Improvement Effort in Vancomycin for Patients With Obesity.** Therapeutic Drug Monitoring. 2024 Oct;46(5):575. [10.1097/FTD.0000000000001214](https://doi.org/10.1097/FTD.0000000000001214)
+
+Drexler DA, Dömény MF, Ferenci T, Gergics B, Kisbenedek L, Puskás M, et al. Cyber-Medical Systems in Chemotherapy Treatment Optimization. In: Kovács L, Haidegger T, Szakál A, editors. **Recent Advances in Intelligent Engineering.** Cham: Springer Nature Switzerland; 2024 p. 245–69.  [10.1007/978-3-031-58257-8_13](https://doi.org/10.1007/978-3-031-58257-8_13)
+
+Pokludová L. Selecting Antimicrobial Drugs and Dosing Schedule Optimisation Using PK/PD Characteristics. In: Pokludová L, editor. **Antimicrobials in Livestock 2: Choices of Prevention and Treatment: A European Perspective.** Cham: Springer Nature Switzerland; 2024. p. 1–78. [10.1007/978-3-031-60807-0_1)](https://doi.org/10.1007/978-3-031-60807-0_1)
+
+#### 2025
+
+
+Uittenboogaard A, Mageto S, Mohamed SKE, Pourroy B, Mwesige B, Chitedze AC, et al. **Investigator-Initiated Clinical Pharmacokinetic Studies in Resource-Limited Settings: Minimal Requirements and Practical Guidance.** The Journal of Clinical Pharmacology. 2025;65(6):675–87. [10.1002/jcph.6184](https://doi.org/10.1002/jcph.6184)
+
+Stine AE, Parmar J, Smith AK, Cummins Z, Pillalamarri NR, Bender RJ. **Simulation of clinical trials of oral treprostinil in pulmonary arterial hypertension using a virtual population.** npj Syst Biol Appl. 2025 Jan 15;11(1):9. [10.1038/s41540-024-00481-y](https://doi.org/10.1038/s41540-024-00481-y)
+
+Foong KW, Loh PS, Chaw SH, Lo YL. **Population Pharmacokinetics of IV Lidocaine and its Metabolites in Adult Surgical Patients.** Pharm Res. 2025 Mar 1;42(3):451–73. [10.1007/s11095-025-03835-1](https://doi.org/10.1007/s11095-025-03835-1)
+
+Nivia D, Vivas JD, Briceño W, Parra D, Mena M, Jaimes D, et al. **Vancomycin Population Pharmacokinetic Models in Non-Critically Ill Adults Patients: a scoping review.** [Preprint]. F1000Research; 2025.  [10.12688/f1000research.128260.2](https://f1000research.com/articles/11-1513)
+
+Vuong ML, Verbeke G, Dreesen E. **A Multiple Imputation Workflow for Handling Missing Covariate Data in Pharmacometrics Modeling.** CPT: Pharmacometrics & Systems Pharmacology. 2025;14(6):991–1005. [10.1002/psp4.70039](https://doi.org/10.1002/psp4.70039)
+
+Aziz S, Harun SN, Sheikh Ghadzi SM. **Disease Progression Modeling of Estimated Glomerular Filtration Rate (eGFR): A Pharmacometrics Approach.** Journal of Diabetes. 2025;17(6):e70104. [10.1111/1753-0407.70104](https://doi.org/10.1111/1753-0407.70104)
+
+Sokolov V, Peskov K, Helmlinger G. A Framework for Quantitative Systems Pharmacology Model Execution. In: Bradshaw EL, Spilker ME, editors. **Quantitative Systems Pharmacology**. Cham: Springer Nature Switzerland; 2025 p. 75–120. [10.1007/164_2024_738](https://doi.org/10.1007/164_2024_738)
+
+Berezowska M, Hayden IS, Brandon AM, Zats A, Patel M, Barnett S, et al. **Recommended approaches for integration of population pharmacokinetic modelling with precision dosing in clinical practice.** British Journal of Clinical Pharmacology. 2025;91(4):1064–79. [10.1111/bcp.16335](https://doi.org/10.1111/bcp.16335)
+
+Jost F, Giegerich C, Grebner C, Matter H, Cordes H. **Machine Learning Meets Pharmacokinetics: A Comparative Analysis of Predictive Models for Plasma Concentration-Time Profiles.** [Preprint.] bioRxiv; 2025. p. 2025.05.05.652167. [10.1101/2025.05.05.652167v1](https://www.biorxiv.org/content/10.1101/2025.05.05.652167v1)
+
+Hong S, Park K. **Multi-physiology modeling of the immune system in the era of precision immunotherapy.** Front Immunol. 2025 May 29;16. [10.3389/fimmu.2025.1548768](https://doi.org/10.3389/fimmu.2025.1548768)
+
+Rowland T, FitzGerald R, Challenger E, Dickinson L, Else LJ, Walker L, et al. **Optimal dose and safety of intravenous favipiravir in hospitalised patients with SARS-CoV-2 infection: a Phase Ib, open-label, dose-escalating, randomised controlled study.** [Preprint]. medRxiv; 2025 p. 2025.06.09.25329141. [10.1101/2025.06.09.25329141v1](https://www.medrxiv.org/content/10.1101/2025.06.09.25329141v1)
+
+Assafiri O, Hong Q, Morales S, Lin YW, Chan HK. **A semi-mechanistic pharmacokinetic/pharmacodynamic model for quantifying phage-antibiotic synergy against Pseudomonas aeruginosa.** Expert Opinion on Drug Delivery. 2025 Sept 2;22(9):1431–40. [10.1080/17425247.2025.2520963](https://doi.org/10.1080/17425247.2025.2520963)
+
+Zwart TC, Eleftheriou D, Jansen SJ, van der Beek MT, Moes DJAR, Völler S, et al. **Evaluation of amoxicillin and benzylpenicillin therapy in early-onset neonatal sepsis: a pharmacometric external validation and simulation study.** J Antimicrob Chemother. 2025 Aug 1;80(8):2214–25. [10.1093/jac/dkaf191](https://doi.org/10.1093/jac/dkaf191)
+
+Surendran HP, Karikadan Chathoth A, Dutta D, Gutjahr G, Unnikrishnan MK, Kavalagunta S, et al. **Optimizing memantine dose, by TDM, for preserving cognitive function in brain metastatic patients undergoing radiotherapy CTRI/2024/04/066217.** European Journal of Pharmacology. 2025 Sept 5;1002:177778. [10.1016/j.ejphar.2025.177778](https://doi.org/10.1016/j.ejphar.2025.177778)
+
+Armeni M, Cardilin T, Fristedt R, Karlsson T, Jenkins CO, Nordin E, et al. **Avenanthramides and avenacosides as biomarkers of oat intake: a pharmacokinetic study of solid and liquid oat consumption under single and repeated dose conditions.** Nutr J. 2025 Sept 9;24(1):136. [10.1186/s12937-025-01204-7](https://doi.org/10.1186/s12937-025-01204-7)
+
+Aziz S, Harun SN, Ghadzi SMS. **Pharmacometrics disease progression modelling of glycated haemoglobin (HbA1c) among type 2 diabetes mellitus patients, with and without diabetic nephropathy.** Int J Diabetes Dev Ctries. 2025 Sept 12 [10.1007/s13410-025-01550-6](https://doi.org/10.1007/s13410-025-01550-6)
+
+Huang Z, Fidler M, Lan M, Cheng IL, Kloprogge F, Standing JF. An automated pipeline to generate initial estimates for population Pharmacokinetic base models. J Pharmacokinet Pharmacodyn. 2025 Nov 6;52(6):60. [10.1007/s10928-025-10000-z](https://doi.org/10.1007/s10928-025-10000-z)
+
+DeBonis J, Davis AE, Wang Z, Fell C, Diehl M, Igoshin OA, et al. **Factors influencing monoclonal antibody pharmacokinetics across varying immune perturbations.** Journal of Controlled Release. 2025 Nov 10;387:114191. [10.1016/j.jconrel.2025.114191](https://doi.org/10.1016/j.jconrel.2025.114191)
+
+Clark HD, Aghlara-Fotovat S, Schladenhauffen J, Debonis J, Amador-Molina JC, Nash A, et al. **First-In-Human Trial of Encapsulated Cell-Based Protein Producers for Localized IL-2 in Patients with High-Grade Serous Ovarian Carcinoma.** [Preprint]. medRxiv; 2025. p. 2025.11.07.25339137. [10.1101/2025.11.07.25339137v1](https://www.medrxiv.org/content/10.1101/2025.11.07.25339137v1)
+
+Li R, Vasa D, Roy MC, Chang C. **A Novel Colon PBPK Model: Navigating the Rational Drug Design for Small-Molecule Colon-Selective Therapies.** J Med Chem. 2025 Dec 25;68(24):26348–64. [10.1021/acs.jmedchem.5c02469](https://doi.org/10.1021/acs.jmedchem.5c02469)
+
+Puskás M, Gombos B, Kovács L, Drexler D. **Mixed-effects Model Fitting Based on in vivo Data from Animal Experiments.** Acta Polytechnica Hungarica. 2025;22:47-64. [10.12700/APH.22.10.2025.10.4](https://doi.org/10.12700/APH.22.10.2025.10.4) 
 
 
 ### Conference Proceedings
@@ -153,9 +219,13 @@ Nordgren R, Belin S, Chen X, Borg J, Huang Z, Qutishat O, Shi K, Liu X, Wang S, 
 
 Xu C, Yu J, Cao W, Lu H, Yao Z, Sun X, Zhang K, Luo J, Zheng Q, Zheng H. **PyMaS: population pharmacometric modeling in Python**. PAGE 2023 (A Coruña, Spain): [Abstr 10676](https://www.page-meeting.org/default.asp?abstract=10676)
 
+#### 2024
 
+Liu X, Hanrahan KC, Avedissian S, Franco EJ, van Hasselt JGC, Brown AN, Märtson AG. **Viral dynamic modeling of nirmatrelvir against SARS-CoV-2 in an in vitro infection model**. PAGE 2024 (Rome, Italy): [Abstr 11227](https://www.page-meeting.org/default.asp?abstract=11227)
 
+Thomas CM, Tsakok T, Barker J, Warren RB, Norton S, Arkir Z, Arenas-Hernandez M, Smith CH, Standing JF, Mahil SK. **Pharmacokinetic-Pharmacodynamic Modelling of Risankizumab in Plaque Psoriasis Real World Data**. PAGE 2024 (Rome, Italy): [Abstr 11146](https://www.page-meeting.org/default.asp?abstract=11146)
 
+Courlet P, Ryman J, Santulli A, Van Wart S, Venkatakrishnan K, Gao W. **Unlocking efficiency in dose selection based on pharmacokinetic-pharmacodynamic modeling of tumor size data: Insights from Clinical Trial Simulations**. PAGE 2024 (Rome, Italy): [Abstr 10929](https://www.page-meeting.org/default.asp?abstract=10929)
 
-
+Fidler M, Denney W, Harrold J, Hooijmaijers R, Papathanasiou T, Schoemaker R, Taubert M, Trame M, Wilkins J. **babelmixr2 and PopED: Quick Conversion of NONMEM, Monolix and nlmixr2/rxode2 Models to PopED Optimal Design Analysis**. ACoP 2024 (Phoenix, Arizona, USA): [M-033](https://acop2024.eventscribe.net/fsPopup.asp?PresenterID=1708379&mode=posterPresenterInfo)
 
