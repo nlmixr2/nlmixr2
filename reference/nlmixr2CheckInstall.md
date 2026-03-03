@@ -12,7 +12,7 @@ nlmixr2CheckInstall()
 
 ``` r
 nlmixr2CheckInstall()
-#> ℹ Operating system: Linux 6.11.0-1018-azure #18~24.04.1-Ubuntu SMP Sat Jun 28 04:46:03 UTC 2025
+#> ℹ Operating system: Linux 6.14.0-1017-azure #17~24.04.1-Ubuntu SMP Mon Dec  1 20:10:50 UTC 2025
 #> Loading required namespace: devtools
 #> ✔ The 'make' command was found:  /usr/bin/make
 #> ℹ GNU Make 4.3
@@ -22,13 +22,13 @@ nlmixr2CheckInstall()
 #> This is free software: you are free to change and redistribute it.
 #> There is NO WARRANTY, to the extent permitted by law.
 #> ✔ The package 'rxode2' is installed and seems to be up to date, version 5.0.1.9000
-#> ✔ The package 'rxode2ll' is installed and seems to be up to date, version 2.0.13
-#> ✔ The package 'lotri' is installed and seems to be up to date, version 1.0.2
+#> ✔ The package 'rxode2ll' is installed and seems to be up to date, version 2.0.14
+#> ✔ The package 'lotri' is installed and seems to be up to date, version 1.0.3
 #> ✔ The package 'nlmixr2' is installed and seems to be up to date, version 5.0.0
-#> ✖ The package 'nlmixr2est' is installed but is not the current version, installed version: 5.0.0, current version: 5.0.2
+#> ✔ The package 'nlmixr2est' is installed and seems to be up to date, version 5.0.2.9000
 #> ✔ The package 'nlmixr2data' is installed and seems to be up to date, version 2.0.9
 #> ✔ The package 'nlmixr2extra' is installed and seems to be up to date, version 5.0.0
-#> ✔ The package 'nlmixr2plot' is installed and seems to be up to date, version 5.0.0
+#> ✔ The package 'nlmixr2plot' is installed and seems to be up to date, version 5.0.1
 #> ✖ The package 'babelmixr2' is not installed (it is optional for all rxode2/nlmixr2 work)
 #> ✔ The package 'ggPMX' is installed and seems to be up to date, version 1.3.2
 #> ✖ The package 'monolix2rx' is not installed (it is optional for all rxode2/nlmixr2 work)

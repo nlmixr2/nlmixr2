@@ -82,8 +82,8 @@ print(fit)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>           setup optimize covariance table compress    other
-#> elapsed 0.00209 0.357423   0.357424 0.073    0.001 5.909063
+#>            setup optimize covariance table compress   other
+#> elapsed 0.001898  0.35043   0.350432 0.065    0.001 4.64224
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -149,7 +149,6 @@ We can try the Stochastic Approximation EM (SAEM) method to this model:
 fit2 <- nlmixr(one.compartment, theo_sd,  est="saem",
                control=list(print=0))
 #> [====|====|====|====|====|====|====|====|====|====
-#> ==|====|====|====|====|====|====|====|====|====] 0:00:00
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
@@ -164,8 +163,8 @@ print(fit2)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>            setup covariance  saem table    other
-#> elapsed 0.002234   0.009014 5.624 0.109 1.986752
+#>            setup covariance  saem table compress    other
+#> elapsed 0.002341   0.011014 4.726 0.092    0.048 1.025645
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -237,7 +236,7 @@ print(fitN)
 #> ── Time (sec $time): ──
 #> 
 #>            setup table compress    other
-#> elapsed 0.001832 0.096    0.001 3.259168
+#> elapsed 0.001827  0.09    0.006 2.245173
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
