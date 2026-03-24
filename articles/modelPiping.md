@@ -69,7 +69,7 @@ print(fit)
 #> ── Time (sec $time): ──
 #> 
 #>            setup optimize covariance table compress    other
-#> elapsed 0.002618 0.517397   0.517399 0.821    0.001 5.413586
+#> elapsed 0.002621 0.538249   0.538251 0.819    0.001 5.533879
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -177,8 +177,8 @@ print(one.ka.0.5)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>          setup optimize covariance table compress    other
-#> elapsed 0.0025 0.297889    0.29789 0.906    0.001 2.579721
+#>            setup optimize covariance table compress    other
+#> elapsed 0.002454 0.307933   0.307935 0.819    0.001 2.678678
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -258,7 +258,7 @@ print(one.ka.0.5)
 #> ── Time (sec $time): ──
 #> 
 #>            setup optimize covariance table compress    other
-#> elapsed 0.002547  0.30199   0.301992 0.822    0.002 2.537471
+#> elapsed 0.002541   0.3123   0.312302 0.818    0.001 2.515857
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -320,7 +320,7 @@ print(one.ka.0.7)
 #> ── Time (sec $time): ──
 #> 
 #>            setup optimize covariance table compress    other
-#> elapsed 0.001929 0.495195   0.495197 0.307    0.001 1.998679
+#> elapsed 0.001937 0.518083   0.518084 0.318    0.001 2.079896
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -467,8 +467,8 @@ print(noEta)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>            setup optimize covariance table compress    other
-#> elapsed 0.002592 0.321182   0.321184 0.803    0.001 3.107042
+#>            setup optimize covariance table compress   other
+#> elapsed 0.003067 0.335146   0.335147 0.822    0.001 3.14664
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -538,7 +538,7 @@ print(addBackKa)
 #> ── Time (sec $time): ──
 #> 
 #>            setup optimize covariance table compress    other
-#> elapsed 0.002524 0.504116   0.504118 0.806    0.001 5.568242
+#> elapsed 0.002335 0.530744   0.530746 0.821    0.001 5.723175
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -641,7 +641,7 @@ print(wt70)
 #> ── Time (sec $time): ──
 #> 
 #>            setup optimize covariance table compress    other
-#> elapsed 0.002609  0.31367   0.313672  0.84    0.002 2.881049
+#> elapsed 0.002441 0.328628    0.32863 0.843    0.001 2.867301
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -734,7 +734,7 @@ print(addPropModel)
 #> ── Time (sec $time): ──
 #> 
 #>            setup optimize covariance table compress    other
-#> elapsed 0.002359 0.529144   0.529146 0.822    0.001 5.129351
+#> elapsed 0.002695 0.550846   0.550848 0.827    0.001 5.230611
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
