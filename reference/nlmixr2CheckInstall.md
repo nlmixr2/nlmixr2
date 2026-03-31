@@ -12,7 +12,7 @@ nlmixr2CheckInstall()
 
 ``` r
 nlmixr2CheckInstall()
-#> ℹ Operating system: Linux 6.14.0-1017-azure #17~24.04.1-Ubuntu SMP Mon Dec  1 20:10:50 UTC 2025
+#> ℹ Operating system: Linux 6.17.0-1008-azure #8~24.04.1-Ubuntu SMP Mon Jan 26 18:35:40 UTC 2026
 #> Loading required namespace: devtools
 #> ✔ The 'make' command was found:  /usr/bin/make
 #> ℹ GNU Make 4.3
