@@ -322,7 +322,7 @@ fit.lnorm.F <- fit.addProp.F %>%
            control=list(print=0),
            table=list(cwres=TRUE, npde=TRUE));
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:14 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:15 
 #> done
 ## In this model pipline we are changing the fit method to focei.
 

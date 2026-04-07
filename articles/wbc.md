@@ -215,7 +215,7 @@ vpcPlot(fit.S, n=500, bins = c(0,170,300,350,500,600,900,3000,4580),
 ``` r
 fit.F <- nlmixr(wbc, d3, est="focei", list(print=0), table=list(cwres=TRUE, npde=TRUE))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:27 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:28 
 #> done
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:03
 ```
@@ -316,7 +316,7 @@ vpcPlot(fit.F, n=500, n_bins = 10, show=list(obs_dv=TRUE),
 vpcPlot(fit.F, n=500, bins = c(0, 170, 300, 350, 500, 600, 900, 3000, 4580),
         show=list(obs_dv=TRUE),
         ylab = "Neutrophil Count (10^9/L)", xlab = "Time (h)")
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:05
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:06
 ```
 
 ![](wbc_files/figure-html/foceiGof-83.png)
