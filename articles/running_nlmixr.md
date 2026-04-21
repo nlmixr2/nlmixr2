@@ -83,7 +83,7 @@ print(fit)
 #> ── Time (sec $time): ──
 #> 
 #>            setup optimize covariance table compress    other
-#> elapsed 0.002086  0.31808   0.318081 0.064    0.001 3.875753
+#> elapsed 0.001634 0.246641   0.246642 0.049    0.001 3.387083
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -110,8 +110,8 @@ print(fit)
 #>   ID     TIME    DV  PRED    RES   WRES IPRED   IRES  IWRES CPRED   CRES  CWRES
 #>   <fct> <dbl> <dbl> <dbl>  <dbl>  <dbl> <dbl>  <dbl>  <dbl> <dbl>  <dbl>  <dbl>
 #> 1 1      0     0.74  0     0.74   1.07   0     0.74   1.07   0     0.74   1.07 
-#> 2 1      0.25  2.84  3.26 -0.424 -0.513  3.85 -1.01  -1.45   3.50 -0.657 -0.752
-#> 3 1      0.57  6.57  5.83  0.738  0.694  6.79 -0.215 -0.310  6.17  0.400  0.343
+#> 2 1      0.25  2.84  3.26 -0.424 -0.226  3.85 -1.01  -1.45   3.22 -0.380 -0.178
+#> 3 1      0.57  6.57  5.83  0.738  0.296  6.79 -0.215 -0.310  5.78  0.793  0.286
 #> # ℹ 129 more rows
 #> # ℹ 10 more variables: eta.ka <dbl>, eta.cl <dbl>, eta.v <dbl>, depot <dbl>,
 #> #   central <dbl>, ka <dbl>, cl <dbl>, v <dbl>, tad <dbl>, dosenum <dbl>
@@ -164,7 +164,7 @@ print(fit2)
 #> ── Time (sec $time): ──
 #> 
 #>            setup covariance  saem table compress    other
-#> elapsed 0.002249   0.011013 4.844 0.075    0.052 0.945738
+#> elapsed 0.002052   0.010011 3.613 0.064    0.043 0.767937
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -236,7 +236,7 @@ print(fitN)
 #> ── Time (sec $time): ──
 #> 
 #>            setup table compress    other
-#> elapsed 0.002059  0.07    0.006 1.797941
+#> elapsed 0.001625 0.057    0.005 1.516375
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
