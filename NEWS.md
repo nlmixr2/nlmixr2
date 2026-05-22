@@ -1,3 +1,9 @@
+# nlmixr2 6.0.0
+
+* Optionally import more packages to support nlmixr2 ecosystem
+
+* Do not show the packages that were optionally included in the secondary list of packages, instead show them being imported with an open circle. Required packages are shown with a star.
+
 # nlmixr2 5.0.0
 
 * Import everything with the nlmixr2 5.0 file format
