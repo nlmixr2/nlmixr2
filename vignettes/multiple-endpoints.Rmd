@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
   warning = FALSE,
   out.width = "100%"
   )
-
+source("cache.R")
 ```
 ![nlmixr](logo.png)
 
@@ -318,8 +318,10 @@ pk.turnover.emax3 <- function() {
 ```
 ## Run the models with SAEM
 ```{r}
-fit.TOS <- nlmixr(pk.turnover.emax3, warfarin, "saem", control=list(print=0),
-                  table=list(cwres=TRUE, npde=TRUE))
+fit.TOS <- cacheFit("multiple-endpoints-fit.TOS", {
+  nlmixr(pk.turnover.emax3, warfarin, "saem", control=list(print=0),
+         table=list(cwres=TRUE, npde=TRUE))
+})
 
 print(fit.TOS)
 ```
@@ -344,8 +346,10 @@ v2s
 
 ```{r}
 ## FOCEi fit/vpcs
-fit.TOF <- nlmixr(pk.turnover.emax3, warfarin, "focei", control=list(print=0),
-                  table=list(cwres=TRUE, npde=TRUE))
+fit.TOF <- cacheFit("multiple-endpoints-fit.TOF", {
+  nlmixr(pk.turnover.emax3, warfarin, "focei", control=list(print=0),
+         table=list(cwres=TRUE, npde=TRUE))
+})
 ```
 
 ### FOCEi Diagnostic Plots

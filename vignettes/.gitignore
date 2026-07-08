@@ -1,2 +1,5 @@
 *.html
 *.R
+# keep the fit-cache helper and its populate script (see cache/README.md)
+!cache.R
+!precompute.R

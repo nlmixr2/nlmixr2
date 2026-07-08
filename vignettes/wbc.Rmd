@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
   warning = FALSE,
   out.width = "100%"
   )
+source("cache.R")
 ```
 
 ```{r setup}
@@ -86,7 +87,9 @@ wbc <- function() {
 ```{r saem}
 d3 <- read.csv("Simulated_WBC_pacl_ddmore_samePK_nlmixr.csv", na.strings = ".")
 
-fit.S <- nlmixr(wbc, d3, est="saem", list(print=0), table=list(cwres=TRUE, npde=TRUE))
+fit.S <- cacheFit("wbc-fit.S", {
+  nlmixr(wbc, d3, est="saem", list(print=0), table=list(cwres=TRUE, npde=TRUE))
+})
 
 library(xpose.nlmixr2)
 
@@ -138,7 +141,9 @@ vpcPlot(fit.S, n=500, bins = c(0,170,300,350,500,600,900,3000,4580),
 # Fit model using FOCEi
 
 ```{r focei}
-fit.F <- nlmixr(wbc, d3, est="focei", list(print=0), table=list(cwres=TRUE, npde=TRUE))
+fit.F <- cacheFit("wbc-fit.F", {
+  nlmixr(wbc, d3, est="focei", list(print=0), table=list(cwres=TRUE, npde=TRUE))
+})
 ```
 
 ## FOCEi goodness of fit plots

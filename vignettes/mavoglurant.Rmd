@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
   warning = FALSE,
   out.width = "100%"
   )
+source("cache.R")
 ```
 
 ![nlmixr](logo.png)
@@ -204,8 +205,10 @@ gofs <- function(fit){
 ## Fit add+prop SAEM
 
 ```{r saem}
-fit.addProp.S <- nlmixr(pbpk, dat, est="saem", control=list(print=0),
-                        table=list(cwres=TRUE, npde=TRUE))
+fit.addProp.S <- cacheFit("mavoglurant-fit.addProp.S", {
+  nlmixr(pbpk, dat, est="saem", control=list(print=0),
+         table=list(cwres=TRUE, npde=TRUE))
+})
 
 gofs(fit.addProp.S)
 ```
@@ -213,11 +216,13 @@ gofs(fit.addProp.S)
 ## Change error to lognormal
 
 ```{r saemLogNormal}
-fit.lnorm.S <- pbpk %>%
+fit.lnorm.S <- cacheFit("mavoglurant-fit.lnorm.S", {
+  pbpk %>%
     model({C15 ~ lnorm(lnorm.err)}) %>% # Change C15 to be log-normally distributed
     ## Requires data since piping from pbpk model
     nlmixr(dat,est="saem", control=list(print=0),
            table=list(cwres=TRUE, npde=TRUE))
+})
 ```
 **NOTE:** lognormal distribution AIC/loglik/etc is on normal scale.
 Therefore, you can compare the AICs between fit.lnorm and
@@ -237,10 +242,12 @@ estimation methods.
 
 ## Additive + Proportional
 ```{r focei}
-fit.addProp.F <- fit.addProp.S %>%
+fit.addProp.F <- cacheFit("mavoglurant-fit.addProp.F", {
+  fit.addProp.S %>%
     nlmixr(est="focei",
            control=list(print=0),
            table=list(cwres=TRUE, npde=TRUE))
+})
 ## Since this was a model pipline, the data
 ## remains the same as the last fit.
 
@@ -249,11 +256,13 @@ gofs(fit.addProp.F)
 
 ## Log-normal
 ```{r logNormalFocei}
-fit.lnorm.F <- fit.addProp.F %>%
+fit.lnorm.F <- cacheFit("mavoglurant-fit.lnorm.F", {
+  fit.addProp.F %>%
     model({C15 ~ lnorm(lnorm.err)}) %>%
     nlmixr(est="focei",
            control=list(print=0),
-           table=list(cwres=TRUE, npde=TRUE));
+           table=list(cwres=TRUE, npde=TRUE))
+});
 ## In this model pipline we are changing the fit method to focei.
 
 gofs(fit.lnorm.F);
@@ -367,10 +376,12 @@ pbpkL <- function() {
   })
 }
 
-fit.lnorm.trans <- pbpkL %>%
+fit.lnorm.trans <- cacheFit("mavoglurant-fit.lnorm.trans", {
+  pbpkL %>%
     nlmixr(datL,est="saem",
            control=list(print=0),
            table=list(npde=TRUE, cwres=TRUE))
+})
 ```
 
 **NOTE:** the estimates are the same but the AIC is different since it

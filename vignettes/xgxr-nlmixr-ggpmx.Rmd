@@ -20,6 +20,7 @@ knitr::opts_chunk$set(
   warning = FALSE,
   out.width = "100%"
   )
+source("cache.R")
 ```
 
 This shows an example of integrated workflow between `xgxr` `nlmixr` and
@@ -278,35 +279,45 @@ few models:
 
 ```{r model-fit-2cmt}
 ## First try log-normal (since the variability seemed proportional to concentration)
-cmt2fit.logn <-
+cmt2fit.logn <- cacheFit("xgxr-cmt2fit.logn", {
   nlmixr(
     cmt2m, data = dat2,
     est = "saem",
-    control=list(print=0), 
+    control=list(print=0),
     table=tableControl(cwres=TRUE, npde=TRUE)
   )
+})
 
 ## Now try proportional
-cmt2fit.prop <-
+cmt2fit.prop <- cacheFit("xgxr-cmt2fit.prop", {
   cmt2fit.logn %>%
   update(linCmt() ~ prop(prop.sd)) %>%
   nlmixr(
     est="saem", control=list(print=0),
     table=tableControl(npde=TRUE, cwres=TRUE)
   )
+})
+```
 
+We can also try an add+prop error. NOTE: this fit is currently disabled
+(`eval=FALSE`): on the development build its additive term collapses to zero and
+the covariance step aborts (a hard C++ error that cannot be trapped). Re-enable
+it once that core nlmixr2 issue is fixed.
+
+```{r model-fit-2cmt-addprop, eval=FALSE}
 ## now try add+prop
-cmt2fit.add.prop <-
+cmt2fit.add.prop <- cacheFit("xgxr-cmt2fit.add.prop", {
   cmt2fit.prop %>%
   update(linCmt() ~ prop(prop.sd) + add(add.sd)) %>%
   nlmixr(
-    est="saem", control=list(print=0), 
+    est="saem", control=list(print=0),
     table=tableControl(npde=TRUE, cwres=TRUE)
   )
+})
 ```
 
-Now that we have run 3 different estimation methods, we can compare the
-results side-by-side
+Now that we have run the estimation methods, we can compare the
+results side-by-side (add+prop omitted while the fit above is disabled).
 
 ```{r model-compare}
 library(huxtable)
@@ -314,7 +325,6 @@ library(huxtable)
 huxreg(
   "lognormal"=cmt2fit.logn,
   "proportional"=cmt2fit.prop,
-  "add+prop"=cmt2fit.add.prop,
   statistics=c(N="nobs", "logLik", "AIC"),
   stars = NULL
 )
