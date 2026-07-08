@@ -224,12 +224,12 @@ dat <-
   filter(TRTACT != "Placebo")
 ```
 
-Next, for the purpose of this demonstration we will subset to 7 patients
-per dose group):
+For this demonstration we use all of the available subjects per dose
+group (30 each):
 
 ```{r model-data-filter}
 doses <- unique(dat$DOSE)
-nid <- 20 # 7 ids per dose group
+nid <- 30 # subjects per dose group (all that are available)
 dat2 <-
   dat %>%
   group_by(DOSE) %>%
@@ -237,10 +237,9 @@ dat2 <-
   ungroup()
 ```
 
-This approach is not only good for demonstration, but allows a variety
-of structural models to be applied more quickly while developing a base
-model. The full dataset can then be applied to the selected model to
-make sure it makes sense with all the data.
+While developing a base model you can subset to fewer subjects per dose
+group (reduce `nid`) so a variety of structural models can be tried more
+quickly, then apply the full dataset to the selected model.
 
 Next create a 2 compartment model:
 
@@ -248,16 +247,18 @@ Next create a 2 compartment model:
 ## Use 2 compartment model
 cmt2 <- function() {
   ini({
-    lka <- log(0.1); label("Ka")
-    lv <- log(10); label("Vc")
-    lcl <- log(4); label("Cl")
+    ## doses are in mg and concentrations in ng/mL, so the volumes are on
+    ## the order of tens-to-hundreds of L; start there so the fit is stable
+    lka <- log(0.5); label("Ka")
+    lv <- log(50); label("Vc")
+    lcl <- log(10); label("Cl")
     lq <- log(10); label("Q")
-    lvp <- log(20); label("Vp")
+    lvp <- log(100); label("Vp")
 
-    eta.ka ~ 0.01
+    eta.ka ~ 0.1
     eta.v ~ 0.1
     eta.cl ~ 0.1
-    logn.sd = 10
+    logn.sd = 1
   })
   model({
     ka <- exp(lka + eta.ka)
@@ -299,25 +300,25 @@ cmt2fit.prop <- cacheFit("xgxr-cmt2fit.prop", {
 })
 ```
 
-We can also try an add+prop error. NOTE: this fit is currently disabled
-(`eval=FALSE`): on the development build its additive term collapses to zero and
-the covariance step aborts (a hard C++ error that cannot be trapped). Re-enable
-it once that core nlmixr2 issue is fixed.
+You could also try a combined additive-plus-proportional error, shown
+below.  It is not run here (`eval=FALSE`): for this data the additive
+component collapses toward zero (the data is well described by a
+proportional error alone), so the combined model is over-parameterized
+and its covariance step does not produce a usable result.
 
 ```{r model-fit-2cmt-addprop, eval=FALSE}
-## now try add+prop
-cmt2fit.add.prop <- cacheFit("xgxr-cmt2fit.add.prop", {
+## add+prop is over-parameterized here (additive component -> 0)
+cmt2fit.add.prop <-
   cmt2fit.prop %>%
   update(linCmt() ~ prop(prop.sd) + add(add.sd)) %>%
   nlmixr(
     est="saem", control=list(print=0),
     table=tableControl(npde=TRUE, cwres=TRUE)
   )
-})
 ```
 
-Now that we have run the estimation methods, we can compare the
-results side-by-side (add+prop omitted while the fit above is disabled).
+Now that we have run the log-normal and proportional models, we can
+compare the results side-by-side:
 
 ```{r model-compare}
 library(huxtable)
@@ -330,11 +331,10 @@ huxreg(
 )
 ```
 
-Note that the additive and proportional model has the additive component
-approach zero. When comparing the objective functions of log-normal and
+When comparing the objective functions of the log-normal and
 proportional models, the proportional model has the lowest objective
 function value. (Since we modeled log-normal without data transformation
-it is appropriate to compare the AIC/Objective function values)
+it is appropriate to compare the AIC/Objective function values.)
 
 # Model Diagnostics with ggPMX
 
