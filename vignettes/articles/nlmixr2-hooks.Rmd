@@ -1,0 +1,408 @@
+---
+title: "Developer Guide: Adding Hooks to nlmixr2 Fits"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Developer Guide: Adding Hooks to nlmixr2 Fits}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Overview
+
+`nlmixr2est` provides a hook system that allows external packages (such as
+`babelmixr2`) or user code to extend the estimation pipeline without modifying
+the core package.  There are three stages at which you can insert custom logic:
+
+| Hook type | When it runs | What it can change |
+|---|---|---|
+| `preProcessHooks` | Before estimation begins | `ui`, `est`, `data`, `control` |
+| `preFinalParTableHooks` | After estimation, before the parameter table is built | `theta`, `thetaNames`, `cov`, `ui` (via `env`) |
+| `postFinalObjectHooks` | After the complete fit object is assembled | The full `nlmixr2FitData` return object |
+
+All three families share a consistent interface:
+
+* **Add** — `*HooksAdd(name, fun)` registers a hook.
+* **Remove** — `*HooksRm(name)` unregisters a hook.
+* **List / retrieve** — `*Hooks(name = NULL)` lists all registered names, or
+  returns the function for a specific `name`.
+
+Hook names follow R object-name rules and may begin with a dot (`.`).  By
+convention, hooks added by internal `nlmixr2est` code start with a dot to
+signal that they are package-private.
+
+---
+
+## 1. Pre-processing hooks (`preProcessHooks`)
+
+### When they run
+
+Pre-processing hooks run at the very start of `nlmixr2()`, before any
+estimation takes place.  They are called in registration order, and each hook
+sees the (possibly modified) outputs of the previous hook.
+
+### Function signature
+
+```r
+myHook <- function(ui, est, data, control) {
+  # ...
+  list(ui = newUi)   # return only what changed
+}
+```
+
+| Argument | Type | Description |
+|---|---|---|
+| `ui` | rxode2 UI | The model object |
+| `est` | character | Estimation method name, e.g. `"focei"` |
+| `data` | data.frame | The observed data |
+| `control` | list | The control object for the estimation method |
+
+**Return value**
+
+* Return `NULL` or an empty list to leave everything unchanged.
+* Return a named list containing any combination of `"ui"`, `"est"`,
+  `"data"`, and/or `"control"` to replace those components for all
+  subsequent hooks and for the estimation itself.
+
+If the returned list contains any name other than those four, an error is
+thrown.
+
+### Registering and removing
+
+```r
+# Add a hook (error if the name is already registered)
+preProcessHooksAdd("myPkg.myHook", myHook)
+
+# Remove a hook (warning if the name is not registered)
+preProcessHooksRm("myPkg.myHook")
+
+# List all registered hook names
+preProcessHooks()
+
+# Retrieve the function for a specific hook
+preProcessHooks("myPkg.myHook")
+```
+
+### Example: modifying the model before estimation
+
+The following hook is a simplified version of the one used in
+`preProcessZeroOmega.R`.  It detects fixed-zero variance parameters and
+removes them from the model so the estimator is not asked to estimate them.
+
+```r
+.myRemoveZeroEtas <- function(ui, est, data, control) {
+  zeroEtas <- getZeroEtaNames(ui)   # hypothetical helper
+  if (length(zeroEtas) == 0L) return(NULL)
+  newUi <- dropEtas(ui, zeroEtas)   # hypothetical helper
+  list(ui = newUi)
+}
+preProcessHooksAdd(".myRemoveZeroEtas", .myRemoveZeroEtas)
+```
+
+### Checking estimation-method attributes
+
+Pre-processing hooks often need to behave differently depending on the
+estimation method.  You can query attributes set on the `nlmixr2Est.<method>`
+S3 generic to make these decisions without hard-coding method names:
+
+```r
+.isMyFeatureSupported <- function(est, control = NULL) {
+  method <- paste0("nlmixr2Est.", est)
+  if (method %in% as.character(utils::methods("nlmixr2Est"))) {
+    val <- attr(utils::getS3method("nlmixr2Est", est), "myFeature")
+    if (is.null(val)) return(FALSE)
+    if (is.function(val)) return(isTRUE(val(control)))
+    return(isTRUE(val))
+  }
+  FALSE
+}
+```
+
+When you implement a new estimation method in an external package, set the
+appropriate attributes on your `nlmixr2Est.<method>` function so that hooks
+can detect your method's capabilities:
+
+```r
+nlmixr2Est.myMethod <- function(env, ...) {
+  # ... estimation code ...
+}
+attr(nlmixr2Est.myMethod, "covPresent") <- TRUE   # data must have covariates
+attr(nlmixr2Est.myMethod, "unbounded")  <- FALSE  # handles bounds natively
+attr(nlmixr2Est.myMethod, "iov")        <- TRUE   # supports IOV
+attr(nlmixr2Est.myMethod, "mu")         <- FALSE  # not a mu-referencing method
+```
+
+---
+
+## 2. Pre-final parameter-table hooks (`preFinalParTableHooks`)
+
+### When they run
+
+These hooks run after the optimizer has converged but *before* the final
+parameter table (`parFixedDf`, theta data frames, covariance matrix, etc.) is
+assembled.  Specifically, they are called inside `foceiFinalizeTables` via the
+internal `.preFinalParTableHooksRun()` function.
+
+This is the right place to back-transform internal parameter values to their
+natural scale, apply Jacobian corrections to the covariance matrix, or rename
+parameters.
+
+### Function signature
+
+```r
+myParTableHook <- function(env) {
+  # modify env by side effects
+  invisible(NULL)
+}
+```
+
+`env` is the internal fit environment.  Relevant components you may read or
+modify include:
+
+| `env` component | Type | Description |
+|---|---|---|
+| `env$theta` | data.frame | Rows = estimated thetas; columns `lower`, `theta`, `upper`, `fixed` |
+| `env$thetaNames` | character | Names corresponding to rows of `env$theta` |
+| `env$cov` | matrix | Covariance matrix of the estimated thetas |
+| `env$thetaDf` | data.frame | Extended theta information |
+| `env$etaObf` | data.frame | Eta / OBF table (if present) |
+| `env$ui` | rxode2 UI | Model object used during estimation |
+| `env$skipCov` | logical | Which thetas are excluded from `cov` |
+
+The hook **must** modify `env` by side effects and return `invisible(NULL)`.
+It does not return a new value.
+
+### Registering and removing
+
+```r
+preFinalParTableHooksAdd("myPkg.myParTableHook", myParTableHook)
+preFinalParTableHooksRm("myPkg.myParTableHook")
+preFinalParTableHooks()          # list all hooks
+preFinalParTableHooks("myPkg.myParTableHook")   # get the function
+```
+
+### Example: renaming an internal parameter
+
+```r
+.myRenameParam <- function(env) {
+  if (is.null(env$thetaNames)) return(invisible(NULL))
+  w <- which(env$thetaNames == "internalParamName")
+  if (length(w) == 1L) {
+    env$thetaNames[w] <- "userParamName"
+    rownames(env$theta)[w] <- "userParamName"
+  }
+  invisible(NULL)
+}
+preFinalParTableHooksAdd(".myRenameParam", .myRenameParam)
+```
+
+---
+
+## 3. Post-final-object hooks (`postFinalObjectHooks`)
+
+### When they run
+
+Post-final-object hooks run after `focei` (and related methods) have assembled
+the complete `nlmixr2FitData` return object, just before it is handed back to
+the user.  They are called by the internal `.postFinalObjectHooksRun()` at the
+end of `.foceiFamilyReturn()`.
+
+Use this stage to:
+
+* Swap out the internal model with the user-facing model (e.g., undo model
+  transformations applied in a pre-process hook).
+* Add, remove, or rename columns in the data frame part of the fit.
+* Attach additional components to the fit (e.g., IOV tables).
+
+### Function signature
+
+```r
+myFinalHook <- function(ret) {
+  # inspect and possibly modify ret
+  ret   # MUST return ret (possibly modified)
+}
+```
+
+`ret` is the full `nlmixr2FitData` / `nlmixr2FitCore` object.  It is both a
+data frame (observed and predicted values) and has a list-like interface.
+Key components:
+
+| Component | Access | Description |
+|---|---|---|
+| Model UI | `ret$ui` | The rxode2 UI object |
+| Fit environment | `ret$env` | Internal environment (thetas, etas, omega, etc.) |
+| Parameter table | `ret$parFixedDf` | Fixed-effect parameter table |
+| Random effects | `ret$env$ranef` | Individual random-effect estimates |
+| Shrinkage | `ret$env$shrink` | Eta/epsilon shrinkage |
+
+The hook **must** return `ret` (modified or unmodified).
+
+### Registering and removing
+
+```r
+postFinalObjectHooksAdd("myPkg.myFinalHook", myFinalHook)
+postFinalObjectHooksRm("myPkg.myFinalHook")
+postFinalObjectHooks()                    # list all hooks
+postFinalObjectHooks("myPkg.myFinalHook") # get the function
+```
+
+### Example: restoring the original model
+
+A common pattern is for a pre-process hook to transform the model, and a
+post-final-object hook to restore the original so the user sees clean output.
+
+```r
+# Pre-process hook stores the original UI and transforms the model
+.myPreProcess <- function(ui, est, data, control) {
+  if (!needsTransform(ui, est)) return(NULL)
+  myPkgEnv$origUi <- ui          # save for later
+  newUi <- applyTransform(ui)
+  list(ui = newUi)
+}
+preProcessHooksAdd(".myPreProcess", .myPreProcess)
+
+# Post-final hook restores the original UI
+.myPostFinal <- function(ret) {
+  if (is.null(myPkgEnv$origUi)) return(ret)
+  assign("ui", myPkgEnv$origUi, envir = ret$env)
+  myPkgEnv$origUi <- NULL
+  ret
+}
+postFinalObjectHooksAdd(".myPostFinal", .myPostFinal)
+```
+
+---
+
+## 4. Complete workflow example
+
+Below is a minimal but complete example that shows all three hook types working
+together. The hypothetical transformation logs a parameter internally for
+numerical reasons, then restores the natural-scale value in the output.
+
+```r
+library(nlmixr2est)
+
+myPkgEnv <- new.env(parent = emptyenv())
+
+# ---- 1. Pre-process: log-transform "tlag" before estimation ----
+.logTransformTlag <- function(ui, est, data, control) {
+  iniDf <- ui$iniDf
+  w <- which(iniDf$name == "tlag" & is.na(iniDf$neta1))
+  if (length(w) != 1L) return(NULL)
+
+  iniDf$name[w] <- "log_tlag"
+  iniDf$est[w]  <- log(iniDf$est[w])
+
+  # Rebuild the UI from the modified iniDf (see .getUiFunFromIniAndModel
+  # in preProcessZeroOmega.R for the full pattern)
+  ini <- as.expression(lotri::as.lotri(iniDf))
+  ini[[1]] <- quote(`ini`)
+  newUi <- .getUiFunFromIniAndModel(ui, ini, rxode2::as.model(ui))()
+
+  list(ui = newUi)
+}
+preProcessHooksAdd("myPkg.logTransformTlag", .logTransformTlag)
+
+# ---- 2. Pre-final par-table: exponentiate back before table is built ----
+.expTransformTlag <- function(env) {
+  if (is.null(env$thetaNames)) return(invisible(NULL))
+  w <- which(env$thetaNames == "log_tlag")
+  if (length(w) != 1L) return(invisible(NULL))
+  env$theta$theta[w] <- exp(env$theta$theta[w])
+  env$thetaNames[w] <- "tlag"
+  rownames(env$theta)[w] <- "tlag"
+  invisible(NULL)
+}
+preFinalParTableHooksAdd("myPkg.expTransformTlag", .expTransformTlag)
+
+# ---- 3. Post-final-object: restore original UI ----
+.restoreOrigUi <- function(ret) {
+  if (!is.null(myPkgEnv$origUi)) {
+    assign("ui", myPkgEnv$origUi, envir = ret$env)
+    myPkgEnv$origUi <- NULL
+  }
+  ret
+}
+postFinalObjectHooksAdd("myPkg.restoreOrigUi", .restoreOrigUi)
+```
+
+---
+
+## 5. Hook naming conventions
+
+* **Use a package prefix** — hooks live in a global environment inside
+  `nlmixr2est`, so collisions are possible. Prefix your hook names with your
+  package name, e.g. `"babelmixr2.myHook"`.
+* **Dots for internal hooks** — hooks that are part of `nlmixr2est` itself
+  start with a leading dot, e.g. `".preProcessZeroOmega"`.  External packages
+  should *not* start names with a dot.
+* **Valid R names** — names must match the regex
+  `^[.]*[a-zA-Z]+[a-zA-Z0-9._]*$`.
+
+---
+
+## 6. Hooks provided by `nlmixr2est`
+
+The following hooks are registered when the package is loaded:
+
+### preProcessHooks
+
+| Name | Source file | Purpose |
+|---|---|---|
+| `.nlmixr0preProcessCovariatesPresent` | `preProcessCovariatesPresent.R` | Validates and uppercases covariate column names in `data` |
+| `.preProcessDataUi` | `preProcessDataUi.R` | Re-compiles the UI if it uses data-dependent user-defined functions |
+| `.nlmixrPreprocessLiteralFix` | `preProcessLiteralFix.R` | Replaces fixed parameters with their literal values in the model |
+| `.preProcessZeroOmega` | `preProcessZeroOmega.R` | Removes ETAs whose initial variance estimate is zero |
+| `.uiApplyIov` | `iov.R` | Expands IOV random effects into per-occasion ETAs |
+| `.uiApplyMu2` | `mu2.R` | Substitutes mu2-referenced covariates into the model |
+| `.preProcessBoundedTransform` | `preProcessBoundedTransform.R` | Rewrites bounded parameters as unconstrained internal parameters for unbounded optimizers |
+
+### preFinalParTableHooks
+
+| Name | Source file | Purpose |
+|---|---|---|
+| `.postEstimationBoundedTransform` | `preProcessBoundedTransform.R` | Back-transforms bounded parameters to natural scale and applies Jacobian correction to the covariance matrix |
+
+### postFinalObjectHooks
+
+| Name | Source file | Purpose |
+|---|---|---|
+| `.uiFinalizeIov` | `iov.R` | Collapses per-occasion IOV ETAs back into variance parameters and attaches `iov` tables to the fit |
+| `.uiFinalizeMu2` | `mu2.R` | Restores the original mu2 model expressions and removes internal covariate columns from the data frame |
+
+---
+
+## 7. Tips and caveats
+
+* **Order matters.** Hooks are executed in the order they were registered.
+  `nlmixr2est`'s own hooks are registered at package load time, so they always
+  run before hooks added by user code at the R prompt, but before or after
+  hooks added by other packages depending on load order.
+
+* **Fail loudly.** If your hook cannot proceed safely, stop with a clear
+  error message. The estimation will be aborted, which is safer than silently
+  producing wrong results.
+
+* **Be idempotent where possible.** A hook that checks whether it needs to act
+  before acting makes it easier to reason about state (e.g., "was this hook
+  already applied?").
+
+* **Side effects across hooks.** If a pre-process hook and a post-final hook
+  need to share state (e.g., the original `ui`), use a package-level
+  environment (like `myPkgEnv` in the examples above) rather than global
+  variables.
+
+* **Respect the `control` option.** Where possible, provide a `control` flag
+  (e.g., `control$myFeature = FALSE`) that lets users opt out of your hook's
+  transformation.
+
+* **Testing.** Use `preProcessHooks()`, `preFinalParTableHooks()`, and
+  `postFinalObjectHooks()` (with no argument) to inspect which hooks are
+  currently registered.  In tests, you can add a hook, run a fit, assert on
+  the result, and then remove the hook with `*HooksRm()`.

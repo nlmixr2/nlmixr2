@@ -16,8 +16,14 @@
   "nonmem2rx",
   "posologyr",
   "shinyMixR",
+  "pmxNODE",
+  "FME",
+  "PopED",
+  "nlmixr2auto", 
+  "nlmixr2autoinit",
   "xpose.nlmixr2"
 )
+.verse$missing_optional <- character(0)
 
 core_loaded <- function() {
   search <- paste0("package:", .verse$core)
@@ -43,8 +49,19 @@ nlmixr2_attach <- function() {
   )
 
   versions <- vapply(to_load, package_version, character(1))
+  package_kind <- vapply(
+    to_load,
+    function(pkg) {
+      if (pkg %in% .verse$optional) {
+        crayon::yellow(clisymbols::symbol$circle)
+      } else {
+        crayon::green(clisymbols::symbol$star)
+      }
+    },
+    character(1)
+  )
   packages <- paste0(
-    crayon::green(cli::symbol$tick), " ", crayon::blue(format(to_load)), " ",
+    package_kind, " ", crayon::blue(format(to_load)), " ",
     crayon::col_align(versions, max(crayon::col_nchar(versions)))
   )
 
@@ -56,14 +73,25 @@ nlmixr2_attach <- function() {
 
   msg(paste(info, collapse = "\n"), startup = TRUE)
 
-  msg(
-    cli::rule(
-      left = crayon::bold("Optional Packages Loaded/Ignored"),
-      right = paste0("nlmixr2 ", package_version("nlmixr2"))
-    ),
-    startup = TRUE
-  )
-  msg(.verse$extra, startup=TRUE)
+  if (length(.verse$missing_optional) > 0) {
+    msg(
+      cli::rule(
+        left = crayon::bold("Optional Packages Not Installed"),
+        right = paste0("nlmixr2 ", package_version("nlmixr2"))
+      ),
+      startup = TRUE
+    )
+    packages <- paste0(
+      crayon::red(clisymbols::symbol$cross), " ",
+      crayon::red(.verse$missing_optional)
+    )
+    if (length(packages) %% 2 == 1) {
+      packages <- append(packages, "")
+    }
+    col1 <- seq_len(length(packages) / 2)
+    info <- paste0(packages[col1], "     ", packages[-col1])
+    msg(paste(info, collapse = "\n"), startup = TRUE)
+  }
 
   suppressPackageStartupMessages(
     lapply(to_load, library, character.only = TRUE, warn.conflicts = FALSE)
@@ -289,7 +317,7 @@ style_grey <- function(level, ...) {
 }
 #' This updates the "required" packages by adding available optional packages
 #'
-#' This also updates `.verse$extra` with the loaded optional packages
+#' This also updates `.verse$missing_optional` with optional packages not installed
 #'
 #' @param exclude is a character vector of excluded optional packages
 #'
@@ -297,33 +325,16 @@ style_grey <- function(level, ...) {
 #' @noRd
 #' @author Matthew L. Fidler
 .updatePackageCore <- function(exclude=character()) {
-  .extra <- vapply(.verse$optional,
-                   function(p) {
-                     if (p %in% exclude) return(FALSE)
-                     requireNamespace(p, quietly = TRUE)
-                   }, logical(1))
-  added <- .verse$optional[.extra]
-  ignored <- .verse$optional[!.extra]
+  excluded <- .verse$optional %in% exclude
+  available <- vapply(
+    .verse$optional,
+    function(p) requireNamespace(p, quietly = TRUE),
+    logical(1)
+  )
+  added <- .verse$optional[available & !excluded]
+  ignored <- .verse$optional[!available & !excluded]
   .verse$core <- c(.verse$core, added)
-  packages <- NULL
-  if (length(added) > 0) {
-    packages <- paste0(
-      crayon::green(cli::symbol$tick), " ", crayon::blue(format(added)))
-  }
-  if (length(ignored) > 0) {
-    packages <- c(packages,
-                  paste0(crayon::red(cli::symbol$cross), " ", crayon::red(ignored)))
-  }
-
-
-
-  if (length(packages) %% 2 == 1) {
-    packages <- append(packages, "")
-  }
-  col1 <- seq_len(length(packages) / 2)
-  info <- paste0(packages[col1], "     ", packages[-col1])
-
-  .verse$extra <- paste(info, collapse = "\n")
+  .verse$missing_optional <- ignored
 }
 #' Load nlmixr2 stack
 #'
