@@ -28,6 +28,7 @@ rscript <- file.path(R.home("bin"), "Rscript")
 vignettes <- c(
   "addingCovariances.Rmd",
   "broom.Rmd",
+  "delays.Rmd",
   "mavoglurant.Rmd",
   "modelPiping.Rmd",
   "multiple-endpoints.Rmd",

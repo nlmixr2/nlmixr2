@@ -51,6 +51,8 @@ navbar:
           href: articles/mavoglurant.html
         - text: "PKPD -- Myelosuppression model"
           href: articles/wbc.html
+        - text: "DDEs -- Lifespan and delayed-response models"
+          href: articles/delays.html
   - text: "Cheat Sheet"
     icon: fa-scroll fa-lg
     href: https://github.com/nlmixr2/nlmixr2/raw/main/CheatSheet_nlmixr_220621.pdf
