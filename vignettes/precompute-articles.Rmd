@@ -1,0 +1,183 @@
+---
+title: "Contributing a long-running example (precompute + cache)"
+output:
+  rmarkdown::html_vignette:
+    self_contained: no
+vignette: >
+  %\VignetteIndexEntry{Contributing a long-running example (precompute + cache)}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE            # this is documentation; nothing here is run
+)
+```
+
+This article is for **contributors**. It explains how to add a pkgdown article
+whose model fits are too slow to run on every website build — a full FOCEi or
+SAEM estimation, a PBPK model, a delay differential equation — without timing
+the build out.
+
+If you are writing a *user*-facing tutorial, read this once and then follow the
+pattern; the mechanics are three lines of boilerplate.
+
+# The problem
+
+The articles under `vignettes/` are `.Rbuildignore`d, so they are built **only
+for the website** (`pkgdown`), never during `R CMD check` or on CRAN. That is
+deliberate: it lets an article run a real estimation.
+
+But a real estimation is slow. When several articles each re-fit a SAEM or FOCEi
+model on every site build, the pkgdown runner times out (it exits 143 after its
+wall-clock limit). The larger models — the PBPK mavoglurant fit, the
+myelosuppression model, the DDE examples — are minutes each.
+
+We do **not** want to fake the fits, and we do **not** want to hand-maintain a
+copy of the numbers separately from the code that produces them. So we cache.
+
+# The pattern: `cacheFit()`
+
+Every article that fits a model starts by sourcing the cache helper:
+
+```{r}
+source("cache.R")
+```
+
+Then each expensive estimation call is wrapped in `cacheFit(name, expr)`:
+
+```{r}
+fit <- cacheFit("wbc-fit.S", {
+  nlmixr(wbc, d3, est = "saem", list(print = 0),
+         table = list(cwres = TRUE, npde = TRUE))
+})
+```
+
+`cacheFit()` does exactly one thing:
+
+- if `vignettes/cache/<name>.rds` **exists**, it loads and returns that fit —
+  the `expr` is never evaluated (it is an ordinary lazy argument), so the site
+  build does no fitting;
+- if it does **not** exist, it evaluates `expr`, saves the result to
+  `cache/<name>.rds` (xz-compressed), and returns it.
+
+The `.rds` files are committed to the repository. On the website the fit always
+comes from the cache; the estimation code in the `.Rmd` is the single source of
+truth for how that cache was produced.
+
+## Naming
+
+Give each cached fit a unique, article-prefixed name, e.g. `"wbc-fit.S"`,
+`"delays-ex6-ifoceif"`, `"mavoglurant-fit.lnorm.S"`. Two articles must not share
+a cache name.
+
+# Adding a new article: the checklist
+
+Suppose you are adding `mymodel.Rmd`.
+
+**1. Source the cache and wrap every fit.**
+
+```{r}
+# top of mymodel.Rmd, in a setup chunk
+source("cache.R")
+```
+
+```{r}
+fit <- cacheFit("mymodel-mainfit", {
+  nlmixr2(model, data, est = "focei")
+})
+```
+
+**2. Register the article in `precompute.R`.** Add its file name to the
+`vignettes` vector so the cache-populating script knows to render it:
+
+```{r}
+vignettes <- c(
+  "addingCovariances.Rmd",
+  "broom.Rmd",
+  "delays.Rmd",
+  "mymodel.Rmd",          # <- add here
+  "mavoglurant.Rmd",
+  # ...
+)
+```
+
+**3. Populate the cache.** From the `vignettes/` directory:
+
+```sh
+cd vignettes
+Rscript precompute.R          # fits only what is missing from cache/
+```
+
+`precompute.R` renders each registered article to a throwaway location. Because
+rendering runs the article's real code, the `cacheFit()` calls inside it do the
+fitting and write the `.rds` files. Each article is rendered in its **own fresh
+R subprocess** — building many rxode2 models in one long-lived session
+accumulates loaded model DLLs and eventually fails with "error building model",
+so isolating each render keeps precompute reliable.
+
+**4. Commit the cache.** Add the new `.rds` file(s) alongside your `.Rmd`:
+
+```sh
+git add vignettes/mymodel.Rmd vignettes/cache/mymodel-mainfit.rds
+```
+
+**5. Add it to the pkgdown navbar** in `_pkgdown.yml` (under `articles`) so it
+appears on the site.
+
+# Refreshing the cache
+
+When you change a cached model or its data, the stored fit is stale. Refit
+everything from scratch:
+
+```sh
+cd vignettes
+Rscript precompute.R --clean   # clears cache/ first, then refits all articles
+```
+
+`--clean` calls `cacheClean()`, which deletes every `.rds` under `cache/`. A
+plain `Rscript precompute.R` (no `--clean`) only fills in what is missing, which
+is what you want after adding a single new article.
+
+# Verifying the site loads from cache (does not refit)
+
+pkgdown renders quietly, so it is easy to *think* the cache is being used when
+it is silently refitting. To check, point `NLMIXR_VIGNETTE_CACHE_TRACE` at a
+file before building; `cacheFit()` writes one line per call recording whether it
+was a `hit` or a `miss`:
+
+```sh
+NLMIXR_VIGNETTE_CACHE_TRACE=/tmp/cache-trace.tsv Rscript -e \
+  'pkgdown::build_article("wbc")'
+cat /tmp/cache-trace.tsv     # every line should say "hit"
+```
+
+A `miss` during a website build means the committed `.rds` is missing or its
+name does not match the `cacheFit()` call.
+
+The cache directory itself can be redirected with `NLMIXR_VIGNETTE_CACHE`
+(default `cache`), which is occasionally useful for testing.
+
+# When a fit needs settings that only matter for the demo
+
+A cached fit is computed once, so it is fine — and often clearer — to use
+control settings that make the *demonstration* fast and robust rather than
+production-grade. For example, the DDE article skips the standard-error step
+(`covMethod = ""`) and common-subexpression optimization
+(`optExpression = FALSE`) because the point is parameter recovery, not
+precision, and those settings keep a delay-model fit tractable. Put such choices
+in the `.Rmd` (the source of truth) and note *why* in the prose, so the next
+person understands the fit they are looking at.
+
+# Summary
+
+- Articles in `vignettes/` build for the website only; they may run real fits.
+- Wrap every expensive fit in `cacheFit("unique-name", { ... })`.
+- Register the article in `precompute.R`, run `Rscript precompute.R`, and commit
+  the resulting `cache/*.rds`.
+- The website loads the committed cache and never refits; the `.Rmd` stays the
+  single source of truth.
+- `precompute.R --clean` refreshes everything when a model changes.

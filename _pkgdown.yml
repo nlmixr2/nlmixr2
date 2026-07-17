@@ -35,6 +35,10 @@ navbar:
         - text: "Integrated development with xgxr/nlmixr/ggPMX"
           href: articles/xgxr-nlmixr-ggpmx.html
         - text: "--------------------------"
+        - text: "For contributors"
+        - text: "Contributing a long-running example (precompute + cache)"
+          href: articles/precompute-articles.html
+        - text: "--------------------------"
         - text: "Citations of nlmixr2"
           href: articles/citations.html
         - text: "Who we are"
