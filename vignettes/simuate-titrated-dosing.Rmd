@@ -1,0 +1,156 @@
+---
+title: "Simulations with individually-titrated dosing"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Simulations with individually-titrated dosing}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(nlmixr2)
+library(ggplot2)
+```
+
+# Simuations with individually-titrated dosing
+
+In some cases, parameters must be adjusted during a simulation in a
+way that cannot be handled with a dataset.  To perform these
+simulations, you can use the fact that the parameter is `NA` until
+assigned.
+
+## Setup an initial simulation
+
+A normal, one-compartment PK model will be used for the initial simulation.  It
+is setup below.
+
+```{r model-setup-nottitrated}
+one.compartment <- function() {
+  ini({
+    tka <- log(1.57); label("Ka")
+    tcl <- log(2.72); label("Cl")
+    tv <- log(31.5); label("V")
+    eta.ka ~ 0.6
+    eta.cl ~ 0.3
+    eta.v ~ 0.1
+    add.sd <- 0.7
+  })
+  model({
+    ka <- exp(tka + eta.ka)
+    cl <- exp(tcl + eta.cl)
+    v <- exp(tv + eta.v)
+    d/dt(depot) <- -ka * depot
+    d/dt(center) <- ka * depot - cl / v * center
+    cp <- center / v
+    cp ~ add(add.sd)
+  })
+}
+
+# Setup simulation data (the 'CheckAE' column will be used later)
+dSimObserved <-
+  merge(
+    data.frame(ID = 1:10, CMT = "center", EVID = 0, AMT = 0),
+    data.frame(TIME = 0:72)
+  )
+dSimDose <-
+  merge(
+    data.frame(ID = 1:10, CMT = "depot", EVID = 1, AMT = 300),
+    data.frame(TIME = c(0, 24, 48))
+  )
+dSimPrep <- rbind(dSimObserved, dSimDose)
+# CheckAE at times 24 and 48
+dSimPrep$CheckAE <- ifelse(dSimPrep$TIME %in% c(24, 48), 1, 0)
+# Sort for simulation
+dSimPrep <- dSimPrep[order(dSimPrep$ID, dSimPrep$TIME), ]
+
+dSim <- nlmixr2(one.compartment, dSimPrep, est="rxSolve")
+```
+
+The simulated results are shown below.
+
+```{r fig-sim-nottitrated}
+library(ggplot2)
+plot(dSim, ipredSim) + xlab("Time (hr)") + ylab("PK")
+```
+
+## Modify the model to adjust doses based on a theoretical adverse event
+
+An important part of the model below is that the value must be reassigned to
+itself to have the value persist.  In the model below, it is done with the line
+`hasAE <- hasAE`.
+
+If the model has an infusion for the dose, then the adjustment of
+bioavailability will change the amount and the duration.  (That method of
+changing bioavailablity is standard for `rxode2` models, not specific to this
+example.)
+
+```{r model-setup-titrated}
+one.compartment.titrated <- function() {
+  ini({
+    tka <- log(1.57); label("Ka")
+    tcl <- log(2.72); label("Cl")
+    tv <- log(31.5); label("V")
+    eta.ka ~ 0.6
+    eta.cl ~ 0.3
+    eta.v ~ 0.1
+    add.sd <- 0.7
+  })
+  model({
+    ka <- exp(tka + eta.ka)
+    cl <- exp(tcl + eta.cl)
+    v <- exp(tv + eta.v)
+    d/dt(depot) <- -ka * depot
+    d/dt(center) <- ka * depot - cl / v * center
+    cp <- center / v
+    # when variables have not been assigned a value they are NA
+    if (is.na(hasAE)) { 
+      # All subjects start with an AE
+      hasAE <- 1
+    } else if (CheckAE == 1) {
+      hasAE <- cp > 0.5
+    } else {
+      # Assign the current value to itself, otherwise the initial value assigned
+      # will remain assigned.
+      hasAE <- hasAE
+    }
+    # A subject gets half a dose if they are having an AE
+    fDepot <- 1 - hasAE * 0.5
+    f(depot) <- fDepot
+    cp ~ add(add.sd)
+  })
+}
+
+dSimTitrated <- nlmixr2(one.compartment.titrated, dSimPrep, est="rxSolve")
+```
+
+The simulated results are shown below.
+
+```{r fig-sim-titrated}
+ggplot(dSimTitrated, aes(x = time, y = ipredSim, group = id, col=factor(hasAE, labels = c("No", "Yes")))) +
+  geom_line(alpha=0.5) +
+  geom_hline(yintercept = 0.5) +
+  labs(
+    colour = "Has AE?"
+  )
+```
+
+The results are clearer when just the subjects who had no AE at some time are
+shown.
+
+```{r fig-sim-titrated-subset}
+dSimTitratedAEChange <- dSimTitrated[dSimTitrated$id %in% dSimTitrated$id[dSimTitrated$hasAE == 0], ]
+
+ggplot(dSimTitratedAEChange, aes(x = time, y = ipredSim, group = id, col=factor(hasAE, labels = c("No", "Yes")))) +
+  geom_line(alpha=0.5) +
+  geom_hline(yintercept = 0.5) +
+  labs(
+    colour = "Has AE?"
+  )
+```
