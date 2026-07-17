@@ -19,7 +19,10 @@ knitr::opts_chunk$set(
   warning = FALSE,
   out.width = "100%"
   )
-source("cache.R")
+library(nlmixr2save)
+options(nlmixr2save.dir = "cache",
+        nlmixr2save.prefix = "nimo-",
+        nlmixr2save.check = FALSE)
 ```
 
 ![nlmixr](logo.png)
@@ -91,9 +94,7 @@ nimo <- function() {
 
 # Fit
 ```{r}
-fit <- cacheFit("nimo-fit", {
-  nlmixr(nimo, nimoData, est="saem")
-})
+fit := nlmixr(nimo, nimoData, est="saem")
 ```
 
 #  Goodness of fit Plots

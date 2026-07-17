@@ -18,7 +18,10 @@ knitr::opts_chunk$set(
   warning = FALSE,
   out.width = "100%"
   )
-source("cache.R")
+library(nlmixr2save)
+options(nlmixr2save.dir = "cache",
+        nlmixr2save.prefix = "addingCovariances-",
+        nlmixr2save.check = FALSE)
 ```
 
 ![nlmixr](logo.png)
@@ -62,11 +65,9 @@ pheno <- function() {
 ```
 ## Fit with SAEM
 ```{r}
-fit <- cacheFit("addingCovariances-fit", {
-  nlmixr(pheno, pheno_sd, "saem",
-         control=list(print=0),
-         table=list(cwres=TRUE, npde=TRUE))
-})
+fit := nlmixr(pheno, pheno_sd, "saem",
+              control=list(print=0),
+              table=list(cwres=TRUE, npde=TRUE))
 
 print(fit)
 ```

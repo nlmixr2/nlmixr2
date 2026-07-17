@@ -17,7 +17,10 @@ knitr::opts_chunk$set(
   warning = FALSE,
   out.width = "100%"
   )
-source("cache.R")
+library(nlmixr2save)
+options(nlmixr2save.dir = "cache",
+        nlmixr2save.prefix = "broom-",
+        nlmixr2save.check = FALSE)
 ```
 ![nlmixr](logo.png)
 
@@ -59,16 +62,12 @@ pheno <- function() {
 }
 
 ## We will run it two ways to allow comparisons
-fit.s <- cacheFit("broom-fit.s", {
-  nlmixr(pheno, pheno_sd, "saem", control=list(logLik=TRUE, print=0),
-         table=list(cwres=TRUE, npde=TRUE))
-})
+fit.s := nlmixr(pheno, pheno_sd, "saem", control=list(logLik=TRUE, print=0),
+                table=list(cwres=TRUE, npde=TRUE))
 
-fit.f <- cacheFit("broom-fit.f", {
-  nlmixr(pheno, pheno_sd, "focei",
-         control=list(print=0),
-         table=list(cwres=TRUE, npde=TRUE))
-})
+fit.f := nlmixr(pheno, pheno_sd, "focei",
+                control=list(print=0),
+                table=list(cwres=TRUE, npde=TRUE))
 ```
 # Glancing at the goodness of fit metrics
 

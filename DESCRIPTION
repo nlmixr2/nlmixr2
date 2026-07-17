@@ -42,6 +42,9 @@ Suggests:
     ggplot2,
     testthat,
     n1qn1,
-    withr
+    withr,
+    nlmixr2save
+Remotes:
+    nlmixr2/nlmixr2save
 BugReports: https://github.com/nlmixr2/nlmixr2/issues/
 URL: https://nlmixr2.org/, https://github.com/nlmixr2/nlmixr2/

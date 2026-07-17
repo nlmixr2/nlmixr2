@@ -20,7 +20,10 @@ knitr::opts_chunk$set(
   warning = FALSE,
   out.width = "100%"
   )
-source("cache.R")
+library(nlmixr2save)
+options(nlmixr2save.dir = "cache",
+        nlmixr2save.prefix = "xgxr-",
+        nlmixr2save.check = FALSE)
 ```
 
 This shows an example of integrated workflow between `xgxr` `nlmixr` and
@@ -280,24 +283,20 @@ few models:
 
 ```{r model-fit-2cmt}
 ## First try log-normal (since the variability seemed proportional to concentration)
-cmt2fit.logn <- cacheFit("xgxr-cmt2fit.logn", {
-  nlmixr(
-    cmt2m, data = dat2,
-    est = "saem",
-    control=list(print=0),
-    table=tableControl(cwres=TRUE, npde=TRUE)
-  )
-})
+cmt2fit.logn := nlmixr(
+  cmt2m, data = dat2,
+  est = "saem",
+  control=list(print=0),
+  table=tableControl(cwres=TRUE, npde=TRUE)
+)
 
 ## Now try proportional
-cmt2fit.prop <- cacheFit("xgxr-cmt2fit.prop", {
-  cmt2fit.logn %>%
-  update(linCmt() ~ prop(prop.sd)) %>%
-  nlmixr(
-    est="saem", control=list(print=0),
-    table=tableControl(npde=TRUE, cwres=TRUE)
-  )
-})
+cmt2fit.prop.mod <- cmt2fit.logn %>% update(linCmt() ~ prop(prop.sd))
+cmt2fit.prop := nlmixr(
+  cmt2fit.prop.mod, dat2,
+  est="saem", control=list(print=0),
+  table=tableControl(npde=TRUE, cwres=TRUE)
+)
 ```
 
 You could also try a combined additive-plus-proportional error, shown

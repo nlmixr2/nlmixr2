@@ -17,15 +17,13 @@ knitr::opts_chunk$set(
   warning = FALSE,
   out.width = "100%"
   )
-source("cache.R")
-
-## These options cache the models and the model simulations in R
-## To run the actual models on your system, take the save options off.
-## nlmixrVersion <- as.character(packageVersion("nlmixr2"));
-## options(nlmixr.save=TRUE,
-##         nlmixr.save.dir=file.path(system.file(package="nlmixr2"), nlmixrVersion));
-## if (!dir.exists(getOption("nlmixr.save.dir")))
-    ## dir.create(getOption("nlmixr.save.dir"))
+library(nlmixr2save)
+## Cache each fit with the `:=` operator (nlmixr2save): fits are stored under
+## vignettes/cache/ with a per-article prefix and loaded as-is on the website
+## build.  See the "Contributing a long-running example" article.
+options(nlmixr2save.dir = "cache",
+        nlmixr2save.prefix = "modelPiping-",
+        nlmixr2save.check = FALSE)
 ```
 
 ![nlmixr](logo.png)
@@ -66,11 +64,9 @@ We can try the First-Order Conditional Estimation with Interaction
 (FOCEi) method to find a good solution:
 
 ```{r model-fit}
-fit <- cacheFit("modelPiping-fit", {
-  nlmixr(one.compartment, theo_sd, est="focei",
-         control=list(print=0),
-         table=list(npde=TRUE, cwres=TRUE))
-})
+fit := nlmixr2(one.compartment, theo_sd, est="focei",
+               control=list(print=0),
+               table=list(npde=TRUE, cwres=TRUE))
 
 print(fit)
 ```
@@ -106,36 +102,30 @@ print(one.ka.0.5)
 
 ```{r fix-tka-specific-0.5}
 ## Example 2 -- Fix tka to 0.5 and re-estimate.
-one.ka.0.5 <- cacheFit("modelPiping-one.ka.0.5-fix", {
-  fit %>%
-    ini(tka=fix(0.5)) %>%
-    nlmixr(est="focei", control=list(print=0),
-           table=list(cwres=TRUE, npde=TRUE))
-})
+one.ka.0.5.fix.mod <- fit %>% ini(tka=fix(0.5))
+one.ka.0.5.fix := nlmixr2(one.ka.0.5.fix.mod, theo_sd, est="focei",
+                          control=list(print=0),
+                          table=list(cwres=TRUE, npde=TRUE))
 
-print(one.ka.0.5)
+print(one.ka.0.5.fix)
 ```
 
 ```{r fix-tka-estimate}
 ## Example 3 -- Fix tka to model estimated value and re-estimate.
-one.ka.0.5 <- cacheFit("modelPiping-one.ka.0.5-fixEst", {
-  fit %>%
-    ini(tka=fix) %>%
-    nlmixr(est="focei", control=list(print=0),
-           table=list(cwres=TRUE, npde=TRUE))
-})
+one.ka.0.5.fixEst.mod <- fit %>% ini(tka=fix)
+one.ka.0.5.fixEst := nlmixr2(one.ka.0.5.fixEst.mod, theo_sd, est="focei",
+                             control=list(print=0),
+                             table=list(cwres=TRUE, npde=TRUE))
 
-print(one.ka.0.5)
+print(one.ka.0.5.fixEst)
 ```
 
 ```{r fix-tka-specific-0.7}
 ## Example 4 -- Change tka to 0.7 in orginal model function and then estimate
-one.ka.0.7 <- cacheFit("modelPiping-one.ka.0.7", {
-  one.compartment %>%
-    ini(tka=0.7) %>%
-    nlmixr(theo_sd, est="focei", control=list(print=0),
-           table=list(cwres=TRUE, npde=TRUE))
-})
+one.ka.0.7.mod <- one.compartment %>% ini(tka=0.7)
+one.ka.0.7 := nlmixr2(one.ka.0.7.mod, theo_sd, est="focei",
+                      control=list(print=0),
+                      table=list(cwres=TRUE, npde=TRUE))
 
 print(one.ka.0.7)
 ```
@@ -193,12 +183,10 @@ then re-estimate by piping it to the `nlmixr` function again.
 
 ```{r remove-eta.ka}
 ## Remove eta.ka on ka
-noEta <- cacheFit("modelPiping-noEta", {
-  fit %>%
-    model(ka <- exp(tka)) %>%
-    nlmixr(est="focei", control=list(print=0),
-           table=list(cwres=TRUE, npde=TRUE))
-})
+noEta.mod <- fit %>% model(ka <- exp(tka))
+noEta := nlmixr2(noEta.mod, theo_sd, est="focei",
+                 control=list(print=0),
+                 table=list(cwres=TRUE, npde=TRUE))
 
 print(noEta)
 ```
@@ -206,13 +194,12 @@ print(noEta)
 Of course you could also add an eta on a parameter in the same way;
 
 ```{r add-bsv.ka}
-addBackKa <- cacheFit("modelPiping-addBackKa", {
-  noEta %>%
-    model({ka <- exp(tka + bsv.ka)}) %>%
-    ini(bsv.ka=0.1) %>%
-    nlmixr(est="focei", control=list(print=0),
-           table=list(cwres=TRUE, npde=TRUE))
-})
+addBackKa.mod <- noEta %>%
+  model({ka <- exp(tka + bsv.ka)}) %>%
+  ini(bsv.ka=0.1)
+addBackKa := nlmixr2(addBackKa.mod, theo_sd, est="focei",
+                     control=list(print=0),
+                     table=list(cwres=TRUE, npde=TRUE))
 
 print(addBackKa)
 ```
@@ -242,14 +229,13 @@ parameters:
 ```{r add-cov-wt70}
 ## Note currently cov is needed as a prefix so nlmixr knows this is an
 ## estimated parameter not a parameter
-wt70 <- cacheFit("modelPiping-wt70", {
-  fit %>%
-    model({cl <- exp(tcl + eta.cl)*(WT/70)^covWtPow}) %>%
-    ini(covWtPow=fix(0.75)) %>%
-    ini(tka=fix(0.5)) %>%
-    nlmixr(est="focei", control=list(print=0),
-           table=list(cwres=TRUE, npde=TRUE))
-})
+wt70.mod <- fit %>%
+  model({cl <- exp(tcl + eta.cl)*(WT/70)^covWtPow}) %>%
+  ini(covWtPow=fix(0.75)) %>%
+  ini(tka=fix(0.5))
+wt70 := nlmixr2(wt70.mod, theo_sd, est="focei",
+                control=list(print=0),
+                table=list(cwres=TRUE, npde=TRUE))
 
 print(wt70)
 ```
@@ -265,14 +251,12 @@ specifying the error you wish to change:
 d <- theo_sd
 d$DV[d$EVID == 0 & d$DV == 0] <- 0.0150
 
-addPropModel <- cacheFit("modelPiping-addPropModel", {
-  fit %>%
-    model({cp ~ add(add.err)+prop(prop.err)}) %>%
-    ini(prop.err=0.1) %>%
-    nlmixr(d,est="focei",
-           control=list(print=0),
-           table=list(cwres=TRUE, npde=TRUE))
-})
+addPropModel.mod <- fit %>%
+  model({cp ~ add(add.err)+prop(prop.err)}) %>%
+  ini(prop.err=0.1)
+addPropModel := nlmixr2(addPropModel.mod, d, est="focei",
+                        control=list(print=0),
+                        table=list(cwres=TRUE, npde=TRUE))
 
 print(addPropModel)
 ```

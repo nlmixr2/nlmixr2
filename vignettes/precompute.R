@@ -7,10 +7,11 @@
 ##   cd vignettes && Rscript precompute.R           # fit only what is missing
 ##   cd vignettes && Rscript precompute.R --clean    # refit everything
 ##
-## It renders each article that uses cacheFit() to a throwaway location; the
-## cacheFit() calls inside the vignettes do the actual fitting and save the
-## fits into cache/. Because rendering runs the real vignette code there is a
-## single source of truth (the .Rmd) and no risk of the cache drifting from it.
+## It renders each article to a throwaway location; the nlmixr2save `:=` calls
+## inside the vignettes do the actual fitting and save the fits/simulations into
+## cache/ (see the "Contributing a long-running example" article). Because
+## rendering runs the real vignette code there is a single source of truth (the
+## .Rmd) and no risk of the cache drifting from it.
 ##
 ## Each vignette is rendered in its OWN fresh R subprocess: building many
 ## rxode2 models in one long-lived session accumulates loaded model DLLs and
@@ -24,7 +25,7 @@ if (!requireNamespace("rmarkdown", quietly = TRUE)) {
 rscript <- file.path(R.home("bin"), "Rscript")
 
 ## Articles whose fits we cache. Add a vignette here once its estimation calls
-## are wrapped in cacheFit().
+## use the nlmixr2save `:=` operator.
 vignettes <- c(
   "addingCovariances.Rmd",
   "broom.Rmd",
@@ -39,8 +40,14 @@ vignettes <- c(
 
 args <- commandArgs(trailingOnly = TRUE)
 if ("--clean" %in% args) {
-  source("cache.R")
-  cacheClean()
+  ## Clear every cached fit/simulation so the next render refits.  The articles
+  ## cache with nlmixr2save's `:=` operator under cache/ ; nlmixr2saveInvalidate()
+  ## clears the entries for the active prefix, so clear all article prefixes.
+  if (requireNamespace("nlmixr2save", quietly = TRUE)) {
+    unlink(list.files("cache", full.names = TRUE))
+  } else {
+    unlink(list.files("cache", pattern = "\\.(rds|zip)$", full.names = TRUE))
+  }
   message("precompute.R: cleared cache/")
 }
 
@@ -65,7 +72,7 @@ for (v in vignettes) {
 }
 
 message("precompute.R: done. Cached fits:")
-print(list.files("cache", pattern = "\\.rds$"))
+print(list.files("cache", pattern = "\\.(zip|rds)$"))
 if (length(failed)) {
   message("precompute.R: vignettes that did NOT render cleanly: ",
           paste(failed, collapse = ", "))

@@ -17,7 +17,10 @@ knitr::opts_chunk$set(
   warning = FALSE,
   out.width = "100%"
   )
-source("cache.R")
+library(nlmixr2save)
+options(nlmixr2save.dir = "cache",
+        nlmixr2save.prefix = "delays-",
+        nlmixr2save.check = FALSE)
 ```
 
 ```{r setup}
@@ -234,10 +237,8 @@ which defeats the optimizer's model-splitting on a DDE and makes assembly slow.
 Turning it off skips that; the model solves fine without it.
 
 ```{r ex2-fit}
-fit2 <- cacheFit("delays-ex2-bobyqa", {
-  nlmixr2(mod2, dat2, est = "bobyqa",
-          control = bobyqaControl(optExpression = FALSE))
-})
+fit2 := nlmixr2(mod2, dat2, est = "bobyqa",
+                control = bobyqaControl(optExpression = FALSE))
 fit2
 ```
 
@@ -480,10 +481,8 @@ mod6 <- function() {
 ```
 
 ```{r ex6-fit}
-fit6 <- cacheFit("delays-ex6-ifoceif", {
-  nlmixr2(mod6, dat6, est = "ifoceif",
-          control = foceiControl(print = 0, covMethod = "", optExpression = FALSE))
-})
+fit6 := nlmixr2(mod6, dat6, est = "ifoceif",
+                control = foceiControl(print = 0, covMethod = "", optExpression = FALSE))
 fit6
 ```
 
