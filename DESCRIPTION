@@ -55,7 +55,6 @@ Suggests:
     testthat,
     withr,
     xpose.nlmixr2
-admixr2
 Remotes:
     nlmixr2/nlmixr2save
 BugReports: https://github.com/nlmixr2/nlmixr2/issues/
