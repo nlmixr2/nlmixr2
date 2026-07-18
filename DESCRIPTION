@@ -35,13 +35,27 @@ Imports:
     tibble,
     nlmixr2save
 Suggests:
-    rmarkdown,
-    knitr,
-    devtools,
+    admixr2,
+    babelmixr2,
+    ggPMX,
     ggplot2,
-    testthat,
+    knitr,
+    monolix2rx,
     n1qn1,
-    withr
+    nlmixr2auto,
+    nlmixr2autoinit,
+    nlmixr2lib,
+    nlmixr2rpt,
+    nlmixr2targets,
+    nonmem2rx,
+    pmxNODE,
+    posologyr,
+    rmarkdown,
+    shinyMixR,
+    testthat,
+    withr,
+    xpose.nlmixr2
+admixr2
 Remotes:
     nlmixr2/nlmixr2save
 BugReports: https://github.com/nlmixr2/nlmixr2/issues/

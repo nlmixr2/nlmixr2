@@ -2,18 +2,24 @@
 .verse$core <- c(
   "lotri",
   "nlmixr2data",
+  "nlmixr2save",
   "nlmixr2est",
   "nlmixr2extra",
   "nlmixr2plot",
   "rxode2"
 )
 .verse$optional <- c(
+  "admixr2",
   "babelmixr2",
   "ggPMX",
   "monolix2rx",
+  "nlmixr2auto",
+  "nlmixr2autoinit",
   "nlmixr2lib",
   "nlmixr2rpt",
+  "nlmixr2targets",
   "nonmem2rx",
+  "pmxNODE",
   "posologyr",
   "shinyMixR",
   "xpose.nlmixr2"
