@@ -1,0 +1,381 @@
+---
+title: "VAE-NLME -- neonatal weight growth with automatic covariate selection"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    self_contained: no
+vignette: >
+  %\VignetteIndexEntry{VAE-NLME -- neonatal weight growth with automatic covariate selection}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  message = FALSE,
+  warning = FALSE,
+  out.width = "100%"
+  )
+library(nlmixr2save)
+## this article lives in vignettes/articles/, so the shared cache and logo one
+## directory up (vignettes/) are referenced with "../"
+options(nlmixr2save.dir = "../cache",
+        nlmixr2save.prefix = "vaeNeonatal-",
+        nlmixr2save.check = FALSE)
+```
+
+![nlmixr](../logo.png)
+
+# The variational autoencoder estimation method (`est = "vae"`)
+
+`nlmixr2` includes a variational-autoencoder estimator for nonlinear
+mixed-effects models, `est = "vae"`. It is a native reimplementation of the
+VAE-NLME method of Rohleff et al. (2025), which performs **simultaneous
+population-parameter estimation and covariate selection** in a single training
+run. Instead of an outer optimizer over the population parameters, an
+amortized encoder learns each subject's individual parameters directly from
+that subject's observations, and the population parameters are refreshed by a
+stochastic-approximation M-step that also decides -- automatically -- which
+covariates belong in the model.
+
+This article reproduces **Case Study 2** from that paper: a neonatal
+weight-growth model fit to 189 neonates, where the method is expected to
+discover that **gestational age (GA) drives birth weight**.
+
+# The data
+
+The `neonatal_wt` data set (from `nlmixr2data`) holds serial weight
+measurements on 189 neonates together with five candidate
+subject-level covariates: sex, delivery mode (`DelM`), gestational age
+(`GA`), maternal age (`Mage`) and parity (`Para2`).  This data was
+included in the original python implementation and is an open source
+simulated dataset.
+
+```{r}
+library(nlmixr2)
+
+neonatal <- nlmixr2data::neonatal_wt
+head(neonatal)
+```
+
+`DV` is body weight (grams) over `TIME` (days). The covariates are constant
+within a subject, so the VAE treats them as candidate predictors of the
+individual growth parameters.
+
+# The model
+
+The growth of weight `W` follows a turnover model: a logistic-gated production
+term `kprod` and a saturable elimination term `kelim`, with the birth weight
+`W0` as the initial condition. There are five log-linked structural
+parameters (`W0`, `kin`, `TL`, `koutmax`, `T50`), each with a random effect,
+and a combined additive + proportional error model.
+
+```{r}
+neonatalModel <- function() {
+  ini({
+    lW0      <- log(3000)
+    lkin     <- log(30)
+    lTL      <- log(2)
+    lkoutmax <- log(0.05)
+    lT50     <- log(1)
+    eta.W0      ~ 0.001
+    eta.kin     ~ 0.01
+    eta.TL      ~ 0.05
+    eta.koutmax ~ 0.05
+    eta.T50     ~ 0.05
+    add.err  <- 30
+    prop.err <- 0.02
+  })
+  model({
+    W0      <- exp(lW0 + eta.W0)
+    kin     <- exp(lkin + eta.kin)
+    TL      <- exp(lTL + eta.TL)
+    koutmax <- exp(lkoutmax + eta.koutmax)
+    T50     <- exp(lT50 + eta.T50)
+    kprod   <- kin * expit(2 * (t - TL))
+    kelim   <- koutmax * (1 - t / (T50 + t))
+    d/dt(W) <- kprod - kelim * W
+    W(0)    <- W0
+    W ~ add(add.err) + prop(prop.err)
+  })
+}
+```
+
+We do **not** put any covariate on any parameter: `est = "vae"` searches the
+five candidate covariates against all five parameters on its own.
+
+# Fitting with `est = "vae"`
+
+The control settings below are deliberately small so the demonstration runs
+quickly (this is a cached example -- see *Contributing a long-running example*
+for how the `:=` cache works); production runs would use the defaults
+(`itersBurnIn = 100`, `iters = 300`). `sigma0` seeds the encoder's initial
+posterior standard deviations for the five parameters.
+
+```{r}
+ctl <- vaeControl(itersBurnIn = 60L, iters = 120L, klWarmup = 40L,
+                  gammaIter = 90L, nGradStep = 4L, print = 0L,
+                  covariateSelection = TRUE,
+                  sigma0 = c(1e-3, 1e-2, 1e-1, 1e-1, 1e-1))
+
+fit := nlmixr2(neonatalModel, neonatal, est = "vae", control = ctl)
+
+print(fit)
+```
+
+# The result: covariate selection
+
+The selected covariate effects are injected directly into the fitted model, so
+they appear in the parameter table just like any hand-specified effect. The
+canonical result for this case study is a **gestational-age effect on birth
+weight**, which shows up as a `beta_lW0_GA` coefficient on the `lW0` line.
+
+Printing the fitted model shows how the covariate enters: it is **centered** on
+the population value, so a continuous covariate is added as
+`beta * log(COV / center)` (categorical covariates enter as
+`beta * (COV - center)`). Centering keeps the intercept interpretable as the
+typical-subject value:
+
+```{r}
+# the fitted, covariate-augmented model -- note the centered log(GA/<center>) term
+print(fit$ui)
+
+# the fixed-effect table, including any selected covariate coefficients
+fit$parFixed
+```
+
+A positive `beta_lW0_GA` means heavier birth weights at higher gestational age
+-- the expected physiological relationship, recovered automatically without
+specifying it up front.
+
+# Goodness of fit
+
+Because a VAE fit assembles the standard `nlmixr2` fit object (objective
+function, EBEs, residuals, tables), the usual diagnostics are available:
+
+```{r, fig.width=6, fig.height=4}
+library(ggplot2)
+
+ggplot(fit, aes(TIME, DV)) +
+  geom_point(alpha = 0.3) +
+  geom_line(aes(y = IPRED, group = ID), colour = "red", alpha = 0.4) +
+  labs(x = "Time (days)", y = "Weight (g)",
+       title = "Neonatal weight: observations and individual predictions") +
+  theme_bw()
+```
+
+# How the method works
+
+A VAE-NLME fit alternates three pieces per iteration:
+
+1. **Encoder (LSTM).** A single-layer LSTM reads each subject's observation
+   sequence (and its covariates) and outputs a Gaussian posterior over that
+   subject's individual parameters -- a mean and a Cholesky factor. Individual
+   parameters are drawn by the reparameterization `z = mu + L eps`. In
+   `nlmixr2` the encoder and its exact backward pass are implemented natively
+   in C++ (Armadillo), validated against a Torch autograd oracle.
+
+2. **Decoder (the structural model).** The sampled individual parameters are
+   pushed through the ODE model to produce predictions. In `nlmixr2` the
+   decoder is your ordinary `rxode2` model, so any compartment structure, error
+   model, dosing or event handling is supported -- not just the hand-coded
+   growth ODE of the reference implementation.
+
+3. **Population M-step.** A stochastic-approximation update refreshes the
+   population means, the between-subject variances (`omega`) and the residual
+   error, and runs the covariate selection. Each latent parameter is regressed
+   on the candidate covariates under an L0 (BICc-style) penalty
+   `RSS/omega + log(N) * (number of covariates)`; `nlmixr2` solves this exactly
+   with a dependency-free branch-and-bound (the reference used a commercial
+   MIQP solver). The search order is configurable via
+   `vaeControl(bnbStrategy=)`, though the selected set is identical for every
+   strategy because the solver is exact.
+
+## How gradients reach the encoder: sensitivities vs. autodiff
+
+Both implementations need the decoder's Jacobian -- how each prediction changes
+with the individual parameters, `d(pred)/d(z)` -- to train the encoder, but they
+obtain it in fundamentally different ways.
+
+- **Reference (torchode): reverse-mode automatic differentiation through the
+  solver.** The Python prototype integrates the growth ODE with `torchode`
+  under `AutoDiffAdjoint`. Every internal solver step is a differentiable Torch
+  operation, so the ELBO gradient is back-propagated through the *entire
+  unrolled numerical integration* by the autodiff engine. The gradient is that
+  of the discretized solution ("discretize-then-differentiate"); its memory cost
+  grows with the number of solver steps (the whole step graph is retained), and
+  it needs a Torch-differentiable RHS.
+
+- **`nlmixr2` (rxode2): analytic forward sensitivities.** `rxode2` augments the
+  ODE system with **sensitivity equations** -- extra ODEs for `d(state)/d(param)`
+  built from symbolically derived Jacobians of the model right-hand side -- and
+  integrates them *alongside* the states in the same solve
+  ("differentiate-then-discretize"). The decoder Jacobian therefore comes out
+  analytically from the model equations rather than by tracing solver arithmetic;
+  its cost scales with the number of parameters (one extra sensitivity block
+  each), it is reused wholesale from the mature FOCEi machinery, and it needs no
+  autodiff graph. (`rxode2` can also supply these gradients by an adjoint solve, but it is slower;
+  the sensitivity method is chosen automatically.)
+
+Both routes deliver the same quantity -- the decoder gradient that informs the
+encoder update -- but one differentiates the numerical algorithm while the other
+differentiates the mathematical model.
+
+# Model features supported by `est = "vae"`
+
+Because the `nlmixr2` VAE runs the structural model through `rxode2` and reuses
+the FOCEi inner engine for the likelihood, it inherits most of the modeling
+features of the rest of the package -- many of which the single-purpose
+reference prototype does not have. The table below lists the notable ones, how
+`est = "vae"` handles each, and whether the original Python implementation had
+it.
+
+| Feature | How `est = "vae"` handles it | In the original? |
+|---|---|---|
+| Structural model | Any `rxode2` model -- ODEs, `linCmt()`, algebraic predictions, doses/events/resets/lag times -- compiled to C | No: closed-form or `torchode` ODE hand-coded per case study |
+| Error models | `add`, `prop`, `combined1/2`, `add+prop`, and transform-both-sides (Box-Cox / Yeo-Johnson); closed-form residual M-step | No: fixed `sigma = a + b*pred` only |
+| Censoring (BLQ) | M2 / M3 / M4 via the shared `censEst` partials in the inner likelihood | No |
+| Mixture models | `mix()` in the model block; the likelihood expands to `nMix x N` pseudo-subjects, each component gets its own MAP eta, and subjects are hard-assigned by argmax (`mixnum`), mirroring `inner.cpp` | No: single population |
+| Inter-occasion variability (IOV) | `iov ~ v \| occasion`; the IOV hook materializes per-occasion, fixed-variance random effects so that `theta + eta + iov` stays mu-referenced. The magnitude is held at its initial value (a deliberately simple treatment) | No |
+| Non-mu-referenced ("regressive") thetas | A structural population `theta` with **no** random effect. `vaeControl(nonMuTheta=)` selects the treatment: `"regress"` (default) re-estimates each such theta every M-step by a bounded `bobyqa` regression against the FOCEi inner likelihood (the analogue of SAEM's `nonMuTheta="regress"`); `"eta"`, `"fix"`, `"none"` are alternatives | Partly: the prototype's population-only branch does a GLS re-solve, but every latent parameter still carries a random effect -- there is no no-IIV structural parameter |
+| Parameter transforms | `log`, `logit`, `probit`, identity (the standard `nlmixr2` set) | No: `log` only (`h = exp`) |
+| Bounds | `lower`/`upper` on a parameter are enforced by clamping the M-step estimate to the active bound | No |
+| Fixed parameters | Fixed structural `theta` (via `literalFix`), fixed `omega`, and fixed residual parameters are respected and excluded from estimation | No |
+| Covariate selection | Exact, dependency-free branch-and-bound over subsets; search order configurable with `vaeControl(bnbStrategy=)` | Yes, but via a commercial MIQP solver (`cvxpy` + GUROBI) |
+| Multiple endpoints | Supported through the standard multiple-endpoint machinery | No: single endpoint |
+| Post-fit object | Full `nlmixr2FitData`: objective function, standard errors (`covMethod = "analytic"/"r,s"/...`), EBEs, CWRES/NPDE residuals, VPC, tables | No: prints and plots only |
+
+The three features most specific to mixed-effects modeling -- **mixtures**,
+**IOV** and **regressive (non-mu) thetas** -- are worth a note on mechanism:
+
+- **Mixtures** are handled entirely inside the likelihood, not by a separate
+  M-step: the model's `mix()` expands each subject into one pseudo-subject per
+  component, each optimized to its own MAP eta, and the component with the
+  largest posterior weight is chosen (hard assignment). This reuses the same
+  kernel FOCEi/SAEM use, so the mixture probabilities and per-component
+  parameters come out consistently with the other estimation methods.
+- **IOV** is realized by rewriting `iov ~ v | occ` into extra per-occasion
+  random effects with fixed unit variance, which keeps the parameter
+  `theta + eta + iov` mu-referenced and therefore visible to the encoder; the
+  occasion structure comes from the data, not from a bespoke encoder input.
+- **Regressive thetas** cover structural parameters that should have a typical
+  value but no between-subject variability. Rather than force a spurious random
+  effect, the default `nonMuTheta = "regress"` estimates each such theta by a
+  small bounded regression against the inner likelihood at every M-step, so it
+  converges to its population value without contaminating `omega`.
+
+# Appendix: full algorithmic comparison with the reference
+
+The two implementations follow the **same statistical algorithm** with matched
+default hyperparameters, but differ substantially in engineering. This appendix
+collects the technical differences.
+
+## Architecture at a glance
+
+| Aspect | Python reference (`vae_nlme`) | `nlmixr2` (`est = "vae"`) |
+|---|---|---|
+| Role | Research prototype | Production estimation method in the `nlmixr2` ecosystem |
+| Model definition | Hand-written per case study | Any `nlmixr2` UI model, auto-translated via the `rxode2` pipeline |
+| Encoder | PyTorch `nn.LSTM` + `nn.Linear`, autograd | Native Armadillo LSTM with **exact analytic BPTT**, validated vs a Torch oracle to ~1e-6 |
+| Decoder | Closed-form solution or `torchode` solve | `rxode2`-compiled C ODE solve (any model / error model) |
+| M-step / covariate selection | Cython class + **cvxpy + GUROBI MIQP** | C++ **exact branch-and-bound** (`bnbStrategy`), no external solver |
+| Inner likelihood / EBE | Hand-coded linearization + SciPy Nelder-Mead | Shared **FOCEi engine** (`n1qn1`, analytic Hessian, `covMethod`) |
+| Differentiation | PyTorch autograd throughout | Analytic gradients (encoder BPTT + `rxode2` sensitivities) |
+
+## Encoder -- essentially identical architecture
+
+Both are a **single-layer unidirectional LSTM** followed by a fully-connected
+head that emits, per subject, `mu` (`z_dim`), `log_sigma` (`z_dim` diagonal) and
+the strictly-lower-triangular entries of the posterior Cholesky factor `L`; both
+form `L = diag(exp(log_sigma)) + strictly_lower(...)`, reparameterize
+`z = mu + L eps`, and concatenate covariates to the final hidden state before
+the FC layer. The FC bias is initialized so the starting posterior mean / SD
+equal `mu0` / `sigma0`. The only real difference is the engine: the reference
+relies on Torch autograd, whereas `nlmixr2` hand-derives the full LSTM backward
+pass in Armadillo (removing the libtorch runtime dependency, at the cost of a
+fixture-tested analytic backward).
+
+## Decoder -- the biggest capability gap
+
+"Capability gap" means this is the single difference that most widens what each
+implementation *can model* -- and on that axis the `nlmixr2` / `rxode2` decoder is
+the better one. It is also the reason for almost every row of the feature table
+above: because the decoder *is* the structural model, whatever the decoder can
+represent is exactly what the method can fit.
+
+The reference hard-codes the decoder per case study -- an analytic
+one-compartment solution for theophylline, a superposition sum for multiple
+doses, a `torchode`-solved growth ODE for neonates. Each new structural model,
+dose regimen, or error model needs new decoder code. `nlmixr2` instead compiles
+whatever model you wrote to `rxode2` C and solves it generically. That one choice
+is what unlocks arbitrary compartment structures, dosing/events/resets, multiple
+endpoints, any residual-error model, censoring, and the mature stiff/non-stiff
+solver suite -- none of which the prototype supports without bespoke code. It
+also hands back the decoder Jacobian analytically from the FOCEi sensitivity
+machinery (see *How gradients reach the encoder*), so the same solve that
+produces predictions produces exact gradients, and the same solve is reused to
+build the final `nlmixr2` fit object (objective, residuals, tables). This is what
+makes `est = "vae"` a general estimation method rather than a per-model script.
+
+To be fair to the reference: its bespoke decoder is not *worse for the one model
+it targets*. A closed-form solution (theophylline) needs no ODE solve at all, so
+it is exact and fast for that case; the `rxode2` decoder is more expensive per
+prediction than a hand-written closed form. The trade-off is therefore
+generality and integration (the FOCEi engine, sensitivities, the whole
+feature table) against a small per-model speed edge -- and for a package that
+must fit *any* model the general decoder is decisively the right side of that
+trade.
+
+## M-step -- same idea, different smoothing point
+
+Both perform a **stochastic-approximation** update with a gain `gamma` that is 1
+during the EM phase and decays as `1/(iter - gamma_iter)` in the smoothing tail,
+and both solve the **same L0 objective per latent dimension**,
+`min ||y_k - X beta||^2 + penalty * (number of covariates)` with
+`penalty = alpha_pen * ln(N)`. The difference is *what is smoothed*:
+
+- The **reference** accumulates SAEM **sufficient statistics** (`s1..s4`: running
+  means of `mu`, `mu mu'`, `sum L L'`, and the residual sum of squares) and
+  derives `z_pop`, `omega`, `a` from the smoothed statistics -- the classic
+  Kuhn-Lavielle scheme.
+- `nlmixr2` regresses the **current** iteration's posterior means directly and
+  then EMA-smooths the resulting **estimates** (`omega`, `a`; the covariate
+  intercept is taken from the fit).
+
+Both converge to the same stationary point but with different per-iteration
+trajectories. For covariate selection the reference uses a commercial **MIQP**
+(binary indicators, big-M constraints); `nlmixr2` uses an **exact
+branch-and-bound** with an admissible RSS lower-bound prune -- provably the same
+selected subset, no GUROBI license, and a configurable search order.
+
+## Likelihood and EBE
+
+The reference computes an FOCE-style linearization objective and an
+importance-sampling objective at the end, with per-subject EBEs by SciPy
+Nelder-Mead. `nlmixr2` exposes these as `vaeControl(likelihood=, objf=,
+nIsSample=)` but routes them through the **shared FOCEi inner engine**
+(`likInner0`), so it inherits robust inner optimization, analytic covariance,
+censoring and IOV rather than a bespoke linearization.
+
+## Matched defaults
+
+The default schedule is deliberately identical: `itersBurnIn = 100`,
+`klWarmup = 50`, `gammaIter = 250`, `iters = 300`, `nGradStep = 5`,
+`hiddenDim = 25`, Adam with `burnInLearningRate = 8e-3` / `learningRate = 5e-3`,
+KL annealing `alpha` from 0.01 to 1 over `klWarmup` (burn-in weight `0.001`), and
+a covariate-penalty ramp `covSelectAlpha = 2` down to 1 over `klWarmup`. The
+iteration print labels the phases `Burn in -> KL anneal -> EM -> Smooth`.
+
+In short, the prototype is the concise reference for *what the algorithm is*;
+`est = "vae"` is the general-purpose, solver-free, ecosystem-integrated
+realization of it.
+
+# References
+
+- Rohleff J, et al. (2025). Variational autoencoders for nonlinear
+  mixed-effects models with automatic covariate selection.
+- The reference Python implementation this article reproduces is available at
+  <https://github.com/> (see the paper). The neonatal case study corresponds to
+  Case Study 2 in that work.

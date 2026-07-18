@@ -34,6 +34,7 @@ vignettes <- c(
   "modelPiping.Rmd",
   "multiple-endpoints.Rmd",
   "nimo.Rmd",
+  "articles/vaeNeonatal.Rmd",
   "wbc.Rmd",
   "xgxr-nlmixr-ggpmx.Rmd"
 )
