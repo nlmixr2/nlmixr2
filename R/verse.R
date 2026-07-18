@@ -117,14 +117,14 @@ nlmixr2_conflict_message <- function(x) {
     right = "nlmixr2conflicts()"
   )
 
-  pkgs <- x %>% purrr::map(~ gsub("^package:", "", .))
-  others <- pkgs %>% purrr::map(`[`, -1)
+  pkgs <- x |> purrr::map(~ gsub("^package:", "", .))
+  others <- pkgs |> purrr::map(`[`, -1)
   other_calls <- purrr::map2_chr(
     others, names(others),
     ~ paste0(crayon::blue(.x), "::", .y, "()", collapse = ", ")
   )
 
-  winner <- pkgs %>% purrr::map_chr(1)
+  winner <- pkgs |> purrr::map_chr(1)
   funs <- format(paste0(crayon::blue(winner), "::", crayon::green(paste0(names(x), "()"))))
   bullets <- paste0(
     crayon::red(cli::symbol$cross), " ", funs,
@@ -140,11 +140,11 @@ print.nlmixr2_conflicts <- function(x, ..., startup = FALSE) {
   cli::cat_line(nlmixr2_conflict_message(x))
 }
 
-#' @importFrom magrittr %>%
+#' @importFrom nlmixr2save :=
 confirm_conflict <- function(packages, name) {
   # Only look at functions
-  objs <- packages %>%
-    purrr::map(~ get(name, pos = .)) %>%
+  objs <- packages |>
+    purrr::map(~ get(name, pos = .)) |>
     purrr::keep(is.function)
 
   if (length(objs) <= 1)
@@ -229,8 +229,8 @@ nlmixr2deps <- function(recursive = FALSE) {
 
   tibble::tibble(
     package = pkg_deps,
-    cran = cran_version %>% purrr::map_chr(as.character),
-    local = local_version %>% purrr::map_chr(as.character),
+    cran = cran_version |> purrr::map_chr(as.character),
+    local = local_version |> purrr::map_chr(as.character),
     behind = behind
   )
 }

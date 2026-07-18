@@ -34,7 +34,7 @@ Imports:
     lotri (>= 0.4.3),
     nlmixr2plot (>= 5.0.0),
     tibble,
-    magrittr
+    nlmixr2save
 Suggests:
     rmarkdown,
     knitr,
@@ -42,8 +42,7 @@ Suggests:
     ggplot2,
     testthat,
     n1qn1,
-    withr,
-    nlmixr2save
+    withr
 Remotes:
     nlmixr2/nlmixr2save
 BugReports: https://github.com/nlmixr2/nlmixr2/issues/
