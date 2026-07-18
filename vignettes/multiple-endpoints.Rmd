@@ -18,7 +18,10 @@ knitr::opts_chunk$set(
   warning = FALSE,
   out.width = "100%"
   )
-
+library(nlmixr2save)
+options(nlmixr2save.dir = "cache",
+        nlmixr2save.prefix = "multiple-endpoints-",
+        nlmixr2save.check = FALSE)
 ```
 ![nlmixr](logo.png)
 
@@ -318,7 +321,7 @@ pk.turnover.emax3 <- function() {
 ```
 ## Run the models with SAEM
 ```{r}
-fit.TOS <- nlmixr(pk.turnover.emax3, warfarin, "saem", control=list(print=0),
+fit.TOS := nlmixr(pk.turnover.emax3, warfarin, "saem", control=list(print=0),
                   table=list(cwres=TRUE, npde=TRUE))
 
 print(fit.TOS)
@@ -344,7 +347,7 @@ v2s
 
 ```{r}
 ## FOCEi fit/vpcs
-fit.TOF <- nlmixr(pk.turnover.emax3, warfarin, "focei", control=list(print=0),
+fit.TOF := nlmixr(pk.turnover.emax3, warfarin, "focei", control=list(print=0),
                   table=list(cwres=TRUE, npde=TRUE))
 ```
 

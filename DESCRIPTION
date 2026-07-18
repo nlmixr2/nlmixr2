@@ -21,7 +21,6 @@ Description: Fit and compare nonlinear mixed-effects models in differential
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
 Imports:
     clisymbols,
     cli (>= 1.0.0),
@@ -35,14 +34,30 @@ Imports:
     lotri (>= 0.4.3),
     nlmixr2plot (>= 5.0.0),
     tibble,
-    magrittr
+    nlmixr2save
 Suggests:
-    rmarkdown,
-    knitr,
-    devtools,
+    admixr2,
+    babelmixr2,
+    ggPMX,
     ggplot2,
-    testthat,
+    knitr,
+    monolix2rx,
     n1qn1,
-    withr
+    nlmixr2auto,
+    nlmixr2autoinit,
+    nlmixr2lib,
+    nlmixr2rpt,
+    nlmixr2targets,
+    nonmem2rx,
+    pmxNODE,
+    posologyr,
+    rmarkdown,
+    shinyMixR,
+    testthat,
+    withr,
+    xpose.nlmixr2
+Remotes:
+    nlmixr2/nlmixr2save
 BugReports: https://github.com/nlmixr2/nlmixr2/issues/
 URL: https://nlmixr2.org/, https://github.com/nlmixr2/nlmixr2/
+Config/roxygen2/version: 8.0.0
