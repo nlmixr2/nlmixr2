@@ -21,6 +21,8 @@ Description: Fit and compare nonlinear mixed-effects models in differential
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
+Depends:
+    R (>= 4.1.0)
 Imports:
     clisymbols,
     cli (>= 1.0.0),
