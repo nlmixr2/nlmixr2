@@ -72,10 +72,10 @@ The first four are *mixed-effects* engines (they fit a model with random effects
 # A live example: a Bayesian population fit through FME
 
 NONMEM and Monolix cannot run inside a rendered article (they are external
-programs), so those examples below are shown but not executed. One external engine
-*does* run live here -- `FME`, which needs no outside installation. Take a
-naive-pooled one-compartment model (no random effects) and estimate its posterior
-by MCMC:
+programs), so those examples are shown but not executed. The R-package engines --
+`FME` here, and `saemix`/`nlmer` further below -- need no outside installation and
+*do* run live. Start with `FME`: take a naive-pooled one-compartment model (no
+random effects) and estimate its posterior by MCMC:
 
 ```{r fme}
 popModel <- function() {
@@ -143,28 +143,61 @@ run drops straight into the same `print`, `augPred`, VPC and parameter-table
 machinery as a native fit, and you can line them up parameter-for-parameter with
 an `est = "focei"` or `est = "saem"` run for validation.
 
-# The other mixed-effects engines: saemix and nlmer
+# The mixed-effects engines run here: saemix and nlmer
 
-Two more external engines fit models *with* random effects, useful as independent
-cross-checks of a native nlmixr2 fit:
+Two more external engines fit models *with* random effects, and -- unlike NONMEM
+and Monolix -- both run inside this article. That lets us do the cross-engine
+validation that motivates `babelmixr2`: fit the **same** model natively and
+through each engine, and check they agree. Take the one-compartment model with
+between-subject variability on `ka`, `cl` and `v`:
 
-```{r saemixnlmer, eval=FALSE}
-## saemix R package (Comets/Lavielle SAEM) -- cross-check est="saem"
-fitSaemix <- nlmixr2(theoModel, nlmixr2data::theo_sd, est = "saemix",
-                     control = saemixControl())
+```{r theomodel}
+theoModel <- function() {
+  ini({
+    tka <- 0.45; tcl <- 1; tv <- 3.45
+    eta.ka ~ 0.6; eta.cl ~ 0.3; eta.v ~ 0.1
+    add.sd <- 0.7
+  })
+  model({
+    ka <- exp(tka + eta.ka); cl <- exp(tcl + eta.cl); v <- exp(tv + eta.v)
+    d/dt(depot)  <- -ka * depot
+    d/dt(center) <-  ka * depot - cl / v * center
+    cp <- center / v
+    cp ~ add(add.sd)
+  })
+}
+```
 
-## lme4::nlmer (Laplace / adaptive Gauss-Hermite quadrature) -- cross-check the
-## conditional/quadrature ladder; typically used with a closed-form (linCmt) model
-fitNlmer  <- nlmixr2(theoModel, nlmixr2data::theo_sd, est = "nlmer",
+```{r saemixnlmer}
+## nlmixr2's own FOCEI, as the reference
+fitFocei  := nlmixr2(theoModel, nlmixr2data::theo_sd, est = "focei",
+                     control = foceiControl(print = 0L))
+## saemix R package (Comets/Lavielle SAEM)
+fitSaemix := nlmixr2(theoModel, nlmixr2data::theo_sd, est = "saemix",
+                     control = saemixControl(nbiter.saemix = c(200L, 100L)))
+## lme4::nlmer (Laplace / adaptive Gauss-Hermite quadrature)
+fitNlmer  := nlmixr2(theoModel, nlmixr2data::theo_sd, est = "nlmer",
                      control = nlmerControl())
+```
+
+The typical values agree across three completely independent implementations --
+nlmixr2's FOCEI, the `saemix` SAEM, and `lme4`'s Laplace:
+
+```{r saemixnlmerCompare}
+round(rbind(`nlmixr2 focei` = fitFocei$theta,
+            `saemix (SAEM)` = fitSaemix$theta,
+            `nlmer (lme4)`  = fitNlmer$theta), 3)
 ```
 
 `saemix` is a second implementation of the same SAEM algorithm as `est = "saem"`
 (see the [SAEM article](saem.html)); `nlmer` is `lme4`'s Laplace / adaptive
 Gauss-Hermite quadrature, a different implementation of the integral
-approximations in the [conditional-estimation ladder](linearized-quadrature-ladder.html).
-Agreement across these independent engines is strong evidence a fit is real and
-not an artifact of one implementation.
+approximations in the [conditional-estimation
+ladder](linearized-quadrature-ladder.html). (On sparse data `nlmer` tends to
+shrink the smaller between-subject variances toward zero, so lean on its typical
+values rather than its variance estimates.) Agreement across these independent
+engines is strong evidence a fit is real and not an artifact of one
+implementation.
 
 # The adjacent tools: pseudoOptim, PKNCA, PopED
 
