@@ -34,10 +34,13 @@ options(nlmixr2save.dir = "../cache",
 
 `nlmixr2` includes an **Automatic Differentiation Variational Inference**
 estimator, `est = "advi"`, following Kucukelbir et al. (2017) -- the same method
-that powers Stan's `vb()`. Instead of a point estimate (FOCEI, SAEM) or a full
-MCMC posterior (NUTS/Stan), ADVI **approximates the posterior** with a Gaussian
-in an unconstrained space and fits it by maximizing the evidence lower bound
-(ELBO) with stochastic gradient ascent.
+that powers Stan's `vb()`. (Stan can *also* sample the exact posterior with MCMC,
+its NUTS sampler; but `vb()`, like `est = "advi"`, runs ADVI -- it maximizes the
+ELBO, it does not run NUTS.) Where FOCEI and SAEM give point estimates and a full
+MCMC method such as NUTS samples the exact posterior, ADVI **approximates the
+posterior** with a Gaussian in an unconstrained space and fits it by maximizing
+the evidence lower bound (ELBO) with stochastic gradient ascent -- so it sits
+between a point estimate and a full MCMC posterior.
 
 The nlmixr2 implementation has three properties worth stating up front, because
 they are what make it useful in a pharmacometric workflow:
@@ -251,7 +254,7 @@ Reach for `est = "advi"` when:
 Stay with FOCEI when you want the fastest deterministic point estimate and are
 comfortable with the Laplace approximation; use SAEM when the likelihood is
 difficult (multi-modal, stiff, mixtures) and a robust stochastic EM is worth the
-cost; and step up to full MCMC (e.g. Stan/NUTS via `babelmixr2`) when you need an
+cost; and step up to a full MCMC sampler (such as Stan's NUTS) when you need an
 *exact* posterior and ADVI's Gaussian approximation is not accurate enough. For
 very large populations or automatic covariate selection, see the amortized
 [VAE method](vaeNeonatal.html).
