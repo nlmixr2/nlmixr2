@@ -60,6 +60,8 @@ navbar:
         - text: "--------------------------"
         - text: "VAE-NLME -- neonatal growth with covariate selection"
           href: articles/vaeNeonatal.html
+        - text: "Nonparametric NLME (npag/npb) vs Pmetrics"
+          href: articles/nonparametric-npag-npb.html
         - text: "Variational inference (ADVI) vs FOCEI/SAEM/Stan/VAE"
           href: articles/advi-variational-inference.html
   - text: "Cheat Sheet"
