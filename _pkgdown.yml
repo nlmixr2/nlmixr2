@@ -60,6 +60,8 @@ navbar:
         - text: "--------------------------"
         - text: "VAE-NLME -- neonatal growth with covariate selection"
           href: articles/vaeNeonatal.html
+        - text: "Importance-sampling EM (imp/impmap/qrpem) vs NONMEM/Phoenix"
+          href: articles/imp-impmap-qrpem.html
   - text: "Cheat Sheet"
     icon: fa-scroll fa-lg
     href: https://github.com/nlmixr2/nlmixr2/raw/main/CheatSheet_nlmixr_220621.pdf
