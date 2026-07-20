@@ -40,6 +40,7 @@ Imports:
 Suggests:
     admixr2,
     babelmixr2,
+    DiagrammeR,
     ggPMX,
     ggplot2,
     knitr,
