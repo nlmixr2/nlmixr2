@@ -1,0 +1,370 @@
+---
+title: "Variational inference for NLME in nlmixr2 (est = \"advi\") vs FOCEI, SAEM, Stan ADVI and VAE"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    self_contained: no
+vignette: >
+  %\VignetteIndexEntry{Variational inference for NLME in nlmixr2 (est = "advi") vs FOCEI, SAEM, Stan ADVI and VAE}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  message = FALSE,
+  warning = FALSE,
+  out.width = "100%"
+  )
+library(nlmixr2save)
+## this article lives in vignettes/articles/, so the shared cache and logo one
+## directory up (vignettes/) are referenced with "../".  The `:=` operator
+## (from nlmixr2save) runs each fit once and caches it under the prefix below, so
+## the article renders with live output without refitting on every build.
+options(nlmixr2save.dir = "../cache",
+        nlmixr2save.prefix = "advi-",
+        nlmixr2save.check = FALSE)
+```
+
+![nlmixr](../logo.png)
+
+# Variational inference (`est = "advi"`)
+
+`nlmixr2` includes an **Automatic Differentiation Variational Inference**
+estimator, `est = "advi"`, following Kucukelbir et al. (2017) -- the same method
+that powers Stan's `vb()`. Instead of a point estimate (FOCEI, SAEM) or a full
+MCMC posterior (NUTS/Stan), ADVI **approximates the posterior** with a Gaussian
+in an unconstrained space and fits it by maximizing the evidence lower bound
+(ELBO) with stochastic gradient ascent.
+
+The nlmixr2 implementation has three properties worth stating up front, because
+they are what make it useful in a pharmacometric workflow:
+
+* it is a **drop-in** `est = "advi"` on an ordinary nlmixr2 model -- no Stan code;
+* its default **point-estimate** mode reproduces the FOCEI/SAEM population
+  estimates, so the output slots into the usual tables and diagnostics, while
+  additionally giving an approximate **posterior over the individual random
+  effects** (with a `fullRank` family that captures their correlations);
+* it can switch to **full Bayes** (`pointEstimate = FALSE`) for population
+  credible intervals -- a fast, MCMC-free posterior -- and its gradients come from
+  the **FOCEI forward sensitivities**, not autodiff, so it reuses the same ODE and
+  sensitivity machinery as the rest of nlmixr2.
+
+The rest of this article leads with a worked example; the algorithm details and a
+five-way comparison with FOCEI, SAEM, Stan's ADVI and nlmixr2's
+[VAE](vaeNeonatal.html) come at the end.
+
+# Worked example: a drop-in estimator that also gives a posterior
+
+We use the classic theophylline data (`theo_sd`) and a one-compartment oral model
+with between-subject variability on `ka` and `cl`.
+
+```{r model}
+library(nlmixr2)
+
+theoModel <- function() {
+  ini({
+    tka <- 0.45; tcl <- 1; tv <- 3.45
+    eta.ka ~ 0.6; eta.cl ~ 0.3
+    add.sd <- 0.7
+  })
+  model({
+    ka <- exp(tka + eta.ka)
+    cl <- exp(tcl + eta.cl)
+    v  <- exp(tv)
+    d/dt(depot)  <- -ka * depot
+    d/dt(center) <-  ka * depot - cl / v * center
+    cp <- center / v
+    cp ~ add(add.sd)
+  })
+}
+```
+
+## It reproduces FOCEI and SAEM
+
+The only change from a FOCEI or SAEM run is `est = "advi"`:
+
+```{r fits}
+fitFocei := nlmixr2(theoModel, nlmixr2data::theo_sd, est = "focei",
+                    control = foceiControl(print = 0L))
+fitSaem  := nlmixr2(theoModel, nlmixr2data::theo_sd, est = "saem",
+                    control = saemControl(nBurn = 200L, nEm = 300L, print = 0L))
+fitAdvi  := nlmixr2(theoModel, nlmixr2data::theo_sd, est = "advi",
+                    control = adviControl(iters = 500L, print = 0L))
+```
+
+The population parameters agree across all three:
+
+```{r compare}
+round(rbind(FOCEI = fitFocei$theta, SAEM = fitSaem$theta, ADVI = fitAdvi$theta), 3)
+## between-subject variances (Omega diagonal)
+round(rbind(FOCEI = diag(fitFocei$omega), SAEM = diag(fitSaem$omega),
+            ADVI = diag(fitAdvi$omega)), 3)
+```
+
+`fitAdvi` is an ordinary `nlmixr2FitData`: it has `IPRED`, `CWRES`, a `parFixed`
+table with standard errors and confidence intervals, shrinkage, and everything
+else you expect. So far ADVI is simply a variational route to the same answer --
+useful as an independent check, and (as we will see) as a starting point for
+uncertainty quantification.
+
+## The extra it gives you 1: the ELBO trajectory
+
+Where FOCEI runs a Newton optimizer and SAEM a stochastic-approximation EM, ADVI
+maximizes the ELBO by stochastic gradient ascent. The ELBO trajectory is the
+natural convergence diagnostic (it should rise and flatten). Fitting with
+`returnAdvi = TRUE` exposes the raw optimization object, including the per-
+iteration ELBO:
+
+```{r elbo, fig.width=7, fig.height=4}
+library(ggplot2)
+
+adviFR := nlmixr2(theoModel, nlmixr2data::theo_sd, est = "advi",
+                  control = adviControl(iters = 500L, print = 0L,
+                                        returnAdvi = TRUE, adviFamily = "fullRank"))
+adviMF := nlmixr2(theoModel, nlmixr2data::theo_sd, est = "advi",
+                  control = adviControl(iters = 500L, print = 0L,
+                                        returnAdvi = TRUE, adviFamily = "meanField"))
+
+elboDf <- rbind(
+  data.frame(iter = seq_along(adviFR$elbo), elbo = adviFR$elbo, family = "fullRank"),
+  data.frame(iter = seq_along(adviMF$elbo), elbo = adviMF$elbo, family = "meanField"))
+elboDf <- elboDf[elboDf$iter >= 10, ]                 # drop the huge early transient
+ggplot(elboDf, aes(iter, elbo, colour = family)) +
+  geom_line(linewidth = 0.8) +
+  labs(x = "iteration", y = "ELBO", colour = NULL,
+       title = "ADVI convergence: the ELBO rises and flattens") +
+  theme_bw() + theme(legend.position = "top")
+```
+
+## The extra it gives you 2: a correlated posterior over individual parameters
+
+FOCEI summarizes each subject by a single EBE (a point) plus, implicitly, a
+Laplace covariance at the mode. SAEM does not retain a per-subject posterior at
+all. ADVI keeps an explicit Gaussian variational posterior `q(eta_i)` for every
+subject, and with `adviFamily = "fullRank"` that Gaussian has a **full covariance**
+-- it can represent the *correlation* between a subject's random effects, which
+the default `meanField` (diagonal) family forces to zero.
+
+Reconstruct one subject's posterior from the packed Cholesky factor
+(`adviFR$scale`, one row per subject, lower-triangle row-major) and draw the 95%
+covariance ellipse for both families:
+
+```{r ellipse, fig.width=7, fig.height=5}
+## pick the subject whose posterior correlation is strongest
+subjCov <- function(scale, i) {          # neta = 2 -> packed (L11, L21, L22)
+  L <- matrix(c(scale[i, 1], 0, scale[i, 2], scale[i, 3]), 2, 2, byrow = TRUE)
+  L %*% t(L)
+}
+corr1 <- sapply(seq_len(nrow(adviFR$scale)),
+                function(i) { S <- subjCov(adviFR$scale, i); S[1, 2] / sqrt(S[1, 1] * S[2, 2]) })
+i    <- which.max(abs(corr1))
+mu   <- adviFR$mu[i, ]
+covF <- subjCov(adviFR$scale, i)                 # fullRank: correlated
+covM <- diag(diag(covF))                         # mean-field: correlations removed
+
+ellipse <- function(mu, S, label, npt = 200) {
+  th <- seq(0, 2 * pi, length.out = npt)
+  circ <- rbind(cos(th), sin(th)) * sqrt(qchisq(0.95, 2))
+  xy <- t(chol(S)) %*% circ
+  data.frame(eta.ka = mu[1] + xy[1, ], eta.cl = mu[2] + xy[2, ], family = label)
+}
+ellDf <- rbind(ellipse(mu, covF, "fullRank (correlated)"),
+               ellipse(mu, covM, "mean-field (independent)"))
+ggplot(ellDf, aes(eta.ka, eta.cl, colour = family)) +
+  geom_path(linewidth = 0.9) +
+  geom_point(data = data.frame(eta.ka = mu[1], eta.cl = mu[2]),
+             aes(eta.ka, eta.cl), inherit.aes = FALSE, size = 2) +
+  labs(colour = NULL,
+       title = sprintf("Subject %d posterior: fullRank captures a %.2f correlation mean-field cannot",
+                       i, corr1[i])) +
+  theme_bw() + theme(legend.position = "top")
+```
+
+The `fullRank` ellipse is **tilted** -- this subject's `ka` and `cl` posteriors are
+correlated (a faster `ka` trades off against a higher `cl` to fit the same
+curve). The `meanField` ellipse is axis-aligned by construction, so it misstates
+the joint uncertainty. Whenever individual-parameter uncertainty feeds a
+downstream decision (precision dosing, exposure prediction), that correlation
+matters, and `fullRank` ADVI is the cheapest way in nlmixr2 to get it.
+
+## The extra it gives you 3: full-Bayes population credible intervals
+
+With `pointEstimate = FALSE`, the variational posterior additionally covers the
+population parameters (flat priors), turning ADVI into a fast, MCMC-free
+approximate Bayesian fit. The optimization then returns a posterior mean over the
+unconstrained population vector (`mPop`) and its covariance (`adviCov`), from
+which population **credible intervals** follow directly:
+
+```{r bayes}
+fitBayes := nlmixr2(theoModel, nlmixr2data::theo_sd, est = "advi",
+                    control = adviControl(iters = 800L, print = 0L,
+                                          returnAdvi = TRUE, pointEstimate = FALSE))
+
+## posterior mean + covariance over the unconstrained population vector
+## (log ka / cl / v are the first three entries); 95% credible intervals for the
+## typical structural values:
+m  <- fitBayes$mPop
+sd <- sqrt(diag(fitBayes$adviCov))
+data.frame(parameter = c("ka", "cl", "v"),
+           median = round(exp(m[1:3]), 2),
+           lower  = round(exp(m[1:3] - 1.96 * sd[1:3]), 2),
+           upper  = round(exp(m[1:3] + 1.96 * sd[1:3]), 2))
+```
+
+Because nlmixr2's ADVI and Stan's `vb()` optimize the *same* variational
+objective, the two agree on a model both can express. On a linear
+random-intercept model `y_ij = theta + eta_i + err`, the population posterior
+means from `est = "advi"` (full Bayes) match `rstan::vb()` within Monte-Carlo
+tolerance -- but without writing or compiling any Stan code:
+
+```{r stan, eval=FALSE}
+## illustrative cross-check (needs rstan + a toolchain; not run at build time)
+stanCode <- "
+data { int<lower=1> N; int<lower=1> J; int<lower=1,upper=J> id[N]; vector[N] y; }
+parameters { real theta; real<lower=0> omega; real<lower=0> sigma; vector[J] eta; }
+model { eta ~ normal(0, omega); y ~ normal(theta + eta[id], sigma); }"
+sm <- rstan::stan_model(model_code = stanCode)
+vb <- rstan::vb(sm, data = sdat, algorithm = "meanfield")
+## mean(rstan::extract(vb)$theta)  ~=  fitBayes$mPop[1]   (same variational objective)
+```
+
+# When to choose ADVI
+
+Reach for `est = "advi"` when:
+
+* you want **uncertainty on the individual parameters** -- a real posterior per
+  subject, with correlations (`fullRank`) -- not just an EBE point and a Laplace
+  standard error;
+* you want an **approximate Bayesian** fit (population credible intervals) but
+  full MCMC/NUTS is too slow, and you do not want to re-code the model in Stan --
+  ADVI is a single gradient-based run on the model you already have;
+* you want an **independent cross-check** of a FOCEI or SAEM fit from a different
+  estimation principle that nonetheless targets the same estimates;
+* you value a **reproducible, parallel, resumable** optimizer: the
+  reparameterization noise is drawn from a counter-based stream keyed by the
+  global iteration index, so results are identical regardless of core count and a
+  short run is a bit-for-bit prefix of a longer one (`resume =` continues it).
+
+Stay with FOCEI when you want the fastest deterministic point estimate and are
+comfortable with the Laplace approximation; use SAEM when the likelihood is
+difficult (multi-modal, stiff, mixtures) and a robust stochastic EM is worth the
+cost; and step up to full MCMC (e.g. Stan/NUTS via `babelmixr2`) when you need an
+*exact* posterior and ADVI's Gaussian approximation is not accurate enough. For
+very large populations or automatic covariate selection, see the amortized
+[VAE method](vaeNeonatal.html).
+
+---
+
+The remainder of this article is the algorithm reference: how ADVI works, the
+nlmixr2-specific choices, and the five-way comparison. Skip it unless you want
+the internals.
+
+# How ADVI works
+
+Variational inference replaces the intractable posterior `p(z | y)` with the
+closest member `q(z)` of a simple family, "closest" meaning smallest
+Kullback-Leibler divergence `KL(q || p)`. Minimizing that KL is equivalent to
+maximizing the **evidence lower bound**
+
+```
+ELBO(q) = E_q[ log p(y, z) ] - E_q[ log q(z) ]   <=  log p(y)
+```
+
+ADVI (Kucukelbir et al. 2017) makes this automatic in three moves:
+
+1. **Transform to unconstrained space.** Every latent variable is mapped to the
+   real line (log for a positive scale, logit for a bounded one, etc.), so a
+   single Gaussian family can be used everywhere; the change of variables adds a
+   log-Jacobian term to the objective.
+2. **Gaussian variational family.** `q` is a Gaussian in that unconstrained
+   space -- either **mean-field** (diagonal covariance, fully factorized) or
+   **full-rank** (a dense Cholesky factor, capturing correlations).
+3. **Stochastic gradient of the ELBO by the reparameterization trick.** Write
+   `z = mu + L * s` with `s ~ N(0, I)`; then the ELBO gradient is an expectation
+   over the *fixed* `s`, estimated with a few Monte-Carlo draws (`nMc`), and the
+   parameters `(mu, L)` are moved uphill with an adaptive step size.
+
+The loop:
+
+```{r adviCycle, echo=FALSE}
+DiagrammeR::mermaid("
+graph TD
+  I[\"Transform latent variables to unconstrained space\"] --> V[\"Initialize variational parameters mu and L\"]
+  V --> S[\"Draw standard-normal noise s\"]
+  S --> R[\"Reparameterize: z = mu + L s\"]
+  R --> G[\"Evaluate log-joint and its gradient via FOCEI sensitivities\"]
+  G --> E[\"Monte-Carlo estimate of the ELBO gradient\"]
+  E --> U[\"Adaptive step-size update of mu, L (and point-estimate thetas)\"]
+  U --> C{\"ELBO converged?\"}
+  C -- no --> S
+  C -- yes --> O[\"Posterior q = N(mu, L L^T); point estimates or full-Bayes CIs\"]
+")
+```
+
+# The nlmixr2 choices that make it an NLME method
+
+nlmixr2's ADVI is Stan's ADVI specialized to the mixed-effects setting, with a
+few deliberate differences:
+
+* **Gradients from FOCEI sensitivities, not autodiff.** The gradient of the
+  log-joint is assembled from the FOCEI inner per-subject eta gradient and the
+  outer population sensitivity contraction -- the same forward-sensitivity ODE
+  machinery FOCEI already uses. This avoids a second automatic-differentiation
+  stack and keeps the ODE handling, residual-error models, and event logic
+  identical to the rest of nlmixr2. (The `likelihood =` control chooses which
+  inner objective: `focei`, `foce`, `focep`, or `laplace`.)
+* **A block structure matched to the model.** `fullRank` is a *block* full-rank
+  family: a dense `neta x neta` Cholesky per subject (correlations *within* a
+  subject's random effects) plus a dense block over the population vector, with
+  mean-field *across* the blocks. This is the structure an NLME posterior
+  actually has, and it is far cheaper than a single dense covariance over every
+  latent variable.
+* **A point-estimate / full-Bayes switch.** `pointEstimate = TRUE` (default) is a
+  variational-EM hybrid: `q` covers the per-subject etas, while the population
+  thetas / omega / residual error are point estimates maximized by the same ADVI
+  gradient (stochastic maximum likelihood). The output then matches FOCEI/SAEM
+  semantics. `pointEstimate = FALSE` puts `q` over the population vector too
+  (flat priors) for a full-Bayes fit.
+* **Reproducible, parallel, resumable.** A counter-based RNG keyed by the global
+  iteration index makes the fit independent of the number of cores, a short run a
+  bit-for-bit prefix of a long one, and `resume =` an exact continuation.
+
+# ADVI among the estimators: FOCEI, SAEM, Stan ADVI, VAE
+
+| Aspect | FOCEI | SAEM | **nlmixr2 ADVI** | Stan ADVI (`vb`) | nlmixr2 VAE |
+|---|---|---|---|---|---|
+| **What you get** | Point ML: EBEs + Laplace SEs | Point ML via stochastic EM | Approx **posterior** over etas; point-estimate *or* full-Bayes population | Full approx posterior over **all** parameters | Approx posterior via an amortized encoder + covariate selection |
+| **Random-effect posterior** | Gaussian at the mode (Laplace), per subject | MCMC samples in the E-step (not retained) | Explicit Gaussian `q(eta_i)`; **fullRank = correlated** | Global mean-field / full-rank in unconstrained space | Encoder-parameterized Gaussian |
+| **Marginal-likelihood handling** | Laplace / first-order linearization | Exact E-step by MCMC (stochastic approximation) | ELBO (variational lower bound); Gaussian in unconstrained space | Same ELBO, same transform | ELBO |
+| **Gradient source** | Analytic / FD forward sensitivities | Simulation (no gradient of the marginal) | **FOCEI forward sensitivities** (no autodiff) | Reverse-mode autodiff | Backprop through the encoder + rxode2 sensitivities |
+| **Bayesian?** | No (frequentist) | No (frequentist) | **Optional** (`pointEstimate=FALSE`, flat priors) | Yes (with priors) | No (population point estimate) |
+| **Model specification** | rxode2 model | rxode2 model | rxode2 model | **Stan program** (hand-written) | rxode2 model |
+| **Correlated posterior** | Only via the Laplace Hessian | -- | **Yes** (`fullRank`) | Yes (full-rank) | Yes |
+| **Scales to large N / covariate search** | Standard | Standard | Per-subject params, O(N) | Per-latent params | **Amortized**; automatic covariate selection |
+| **Cost / character** | Fast, deterministic | Robust, stochastic, slower | One SGD run; reproducible, resumable | One SGD run; general-purpose | Training run; scales, selects covariates |
+
+The short version: **nlmixr2 ADVI is Stan's ADVI, brought inside nlmixr2.** It
+keeps the variational math but swaps autodiff for the FOCEI sensitivities,
+specializes the variational family to the per-subject block structure of an NLME
+model, and adds a point-estimate hybrid so it drops into an existing FOCEI/SAEM
+workflow -- while still offering a one-flag full-Bayes mode. Compared with FOCEI
+and SAEM it adds a genuine (approximate) posterior, especially the correlated
+`fullRank` per-subject posterior; compared with the [VAE](vaeNeonatal.html) it is
+simpler and more directly comparable to FOCEI, but does not amortize across
+subjects or select covariates.
+
+# References
+
+* Kucukelbir A, Tran D, Ranganath R, Gelman A, Blei DM. *Automatic
+  Differentiation Variational Inference.* Journal of Machine Learning Research,
+  2017.
+* Blei DM, Kucukelbir A, McAuliffe JD. *Variational Inference: A Review for
+  Statisticians.* Journal of the American Statistical Association, 2017.
+* Kingma DP, Welling M. *Auto-Encoding Variational Bayes.* ICLR, 2014 (the
+  reparameterization trick).
+* Carpenter B, et al. *Stan: A Probabilistic Programming Language.* J. Stat.
+  Soft., 2017 (`rstan::vb`).
+* nlmixr2 [VAE-NLME article](vaeNeonatal.html) for the amortized-encoder method.
