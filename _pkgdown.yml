@@ -60,6 +60,15 @@ navbar:
         - text: "--------------------------"
         - text: "VAE-NLME -- neonatal growth with covariate selection"
           href: articles/vaeNeonatal.html
+        - text: "--------------------------"
+        - text: "Estimation: conditional/quadrature ladder (fo...agq)"
+          href: articles/linearized-quadrature-ladder.html
+        - text: "Estimation: SAEM"
+          href: articles/saem.html
+        - text: "Estimation: NLM-family optimizers (population-only)"
+          href: articles/nlm-family-optimizers.html
+        - text: "Estimation: external engines via babelmixr2"
+          href: articles/babelmixr2-external-engines.html
         - text: "Importance-sampling EM (imp/impmap/qrpem) vs NONMEM/Phoenix"
           href: articles/imp-impmap-qrpem.html
         - text: "Nonparametric NLME (npag/npb) vs Pmetrics"

@@ -150,6 +150,35 @@ A positive `beta_lW0_GA` means heavier birth weights at higher gestational age
 -- the expected physiological relationship, recovered automatically without
 specifying it up front.
 
+# Pre-specified covariates (`covariateSelection = FALSE`)
+
+Automatic selection is the headline feature, but you may already know which
+covariate belongs on which parameter and simply want it *estimated*. Setting
+`covariateSelection = FALSE` skips the branch-and-bound search and fits only the
+covariate structure you wrote into the model. The coefficients are **estimated
+in place** -- both linear effects (`beta * GA`) and transformed ones written the
+same centered way selection uses (`beta * log(GA / center)`) -- rather than held
+at their `ini()` value:
+
+```{r, eval=FALSE}
+# gestational-age effect on birth weight, written by hand
+neonatalFixedCov <- neonatalModel |>
+  model(lW0 <- tlW0 + beta_lW0_GA * log(GA / 32) + eta.lW0)
+
+ctl0 <- vaeControl(itersBurnIn = 60L, iters = 120L, klWarmup = 40L,
+                   gammaIter = 90L, nGradStep = 4L, print = 0L,
+                   covariateSelection = FALSE,
+                   sigma0 = c(1e-3, 1e-2, 1e-1, 1e-1, 1e-1))
+
+fit0 <- nlmixr2(neonatalFixedCov, neonatal, est = "vae", control = ctl0)
+fit0$parFixed   # beta_lW0_GA is estimated, not frozen
+```
+
+The coefficients are fit by the same regress M-step that estimates the non-mu
+structural thetas, so this holds regardless of the `nonMuTheta` setting. A
+coefficient you deliberately pin with `ini(beta_lW0_GA ~ fix(...))` still stays
+fixed and is excluded from estimation.
+
 # Goodness of fit
 
 Because a VAE fit assembles the standard `nlmixr2` fit object (objective
