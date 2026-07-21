@@ -179,6 +179,62 @@ structural thetas, so this holds regardless of the `nonMuTheta` setting. A
 coefficient you deliberately pin with `ini(beta_lW0_GA ~ fix(...))` still stays
 fixed and is excluded from estimation.
 
+## Why the two paths do not give identical numbers
+
+A natural expectation is that if `covariateSelection = TRUE` chooses (say) a
+single `GA` effect on `lW0`, then re-running with `covariateSelection = FALSE`
+and that *same* effect written by hand should reproduce the estimates. It does
+not -- with the `theo_sd` example, and in general, the two fits differ, often
+noticeably. This is expected: the two paths use **different estimators for the
+covariate coefficient**, not just different bookkeeping.
+
+- **Selection path (`TRUE`).** The coefficient is obtained by an ordinary
+  least-squares regression of the encoder's latent posterior means on the
+  (centered) covariate matrix, in the **latent `z` space**, jointly with the
+  population intercept and `omega`, every M-step. Because the covariate is part
+  of that regression, the between-subject variance `omega` for that parameter is
+  computed from the covariate-*adjusted* residual, and the intercept is the
+  typical value *after* removing the covariate effect.
+- **Pre-specified path (`FALSE`).** The coefficient is instead estimated by a
+  bounded optimization against the FOCEi inner **likelihood** on the
+  **structural-theta scale**, decoupled from the population-mean update, and it
+  only switches on after the KL warmup. The intercept is updated by the plain
+  closed-form mean of the latent means, and `omega` for that parameter is formed
+  from the *unadjusted* spread of the latent means (the covariate is carried in
+  the theta regression instead).
+
+On top of that, a VAE fit is a stochastic, non-convex training run: the LSTM
+encoder, `omega`, the residual error, and the covariate effect all co-adapt over
+the Adam + EMA trajectory. The selection path also ramps an L0 penalty
+(`covSelectAlpha`) over the warmup. Two runs that end on the same covariate
+*set* still travel different trajectories to different local optima. So even
+setting the estimator differences aside, exact numerical agreement is not
+guaranteed.
+
+Finally, watch the **parameterization**. The selection path always centers a
+continuous covariate as `beta * log(COV / center)` with `center` equal to the
+covariate's population mean (categorical: `beta * (COV - center)`). If your
+hand-written effect uses a different center (or an un-transformed `beta * COV`),
+`beta` is on a different scale and is not comparable at all. `vaeCovariates()`
+reports the center the selection path would use.
+
+### Working around it
+
+- **Treat the selection fit as the reference.** If your goal is the automatic
+  result, use the `covariateSelection = TRUE` fit directly -- its
+  covariate-augmented model is already injected into `fit$ui`.
+- **Match the parameterization.** When you do pre-specify, write the effect the
+  same centered way selection does (`beta * log(COV / center)`, using the center
+  from `vaeCovariates()`) so the coefficient is at least on the same scale.
+- **Seed from the selection fit.** Pipe the selected model's `ini()` estimates
+  into the pre-specified model as starting values, and lengthen the smoothing
+  phase (`iters`, `gammaIter`) to reduce path dependence.
+- **Refit deterministically for a path-independent number.** Take the final
+  covariate-augmented model (from either path) and refit it with a classical
+  estimator, e.g. `est = "focei"`. That yields a well-defined maximum-likelihood
+  coefficient that does not depend on the stochastic VAE trajectory, which is the
+  most reproducible way to report a pre-specified covariate effect.
+
 # Goodness of fit
 
 Because a VAE fit assembles the standard `nlmixr2` fit object (objective
