@@ -58,7 +58,7 @@ library(babelmixr2)
 | `"nonmem"` | **NONMEM** (external) | Whatever the NONMEM method sets -- FOCEI, IMP, SAEM, ... |
 | `"monolix"` | **Monolix** (external, via `lixoftConnectors` or files) | SAEM population fit |
 | `"saemix"` | **`saemix`** R package | SAEM (independent implementation) |
-| `"nlmer"` | **`lme4::nlmer`** | Laplace / adaptive Gauss-Hermite quadrature |
+| `"nlmer"` | **`lme4::nlmer`** | `lme4`'s own Laplace approximation (inner predictions/gradients from nlmixr2's `nlm` C engine) |
 | `"fmeMcmc"` | **`FME::modMCMC`** | Bayesian posterior (population, MCMC) |
 | `"pseudoOptim"` | **`FME`** pseudo-random optimizer | Global (population) optimum |
 | `"pknca"` | **`PKNCA`** | Non-compartmental starting estimates |
@@ -175,7 +175,7 @@ fitFocei  := nlmixr2(theoModel, nlmixr2data::theo_sd, est = "focei",
 ## saemix R package (Comets/Lavielle SAEM)
 fitSaemix := nlmixr2(theoModel, nlmixr2data::theo_sd, est = "saemix",
                      control = saemixControl(nbiter.saemix = c(200L, 100L)))
-## lme4::nlmer (Laplace / adaptive Gauss-Hermite quadrature)
+## lme4::nlmer (lme4's own Laplace approximation; inner grads from nlmixr2's nlm engine)
 fitNlmer  := nlmixr2(theoModel, nlmixr2data::theo_sd, est = "nlmer",
                      control = nlmerControl())
 ```
@@ -190,14 +190,18 @@ round(rbind(`nlmixr2 focei` = fitFocei$theta,
 ```
 
 `saemix` is a second implementation of the same SAEM algorithm as `est = "saem"`
-(see the [SAEM article](saem.html)); `nlmer` is `lme4`'s Laplace / adaptive
-Gauss-Hermite quadrature, a different implementation of the integral
-approximations in the [conditional-estimation
-ladder](linearized-quadrature-ladder.html). (On sparse data `nlmer` tends to
+(see the [SAEM article](saem.html)). `nlmer` is **not** a re-implementation of
+FOCEI: it drives the fit with `lme4::nlmer`, whose objective is `lme4`'s own
+Laplace approximation (nlmer supports only `nAGQ = 1`), while babelmixr2 supplies
+the inner per-subject predictions and analytic gradients from nlmixr2's `nlm` C
+engine. That makes it a genuinely different objective function -- its OFV is not
+comparable to FOCEI's, and in machinery it is closer to `est = "nlm"` than to
+`est = "focei"`, so the fits can differ. (On sparse data `nlmer` also tends to
 shrink the smaller between-subject variances toward zero, so lean on its typical
-values rather than its variance estimates.) Agreement across these independent
-engines is strong evidence a fit is real and not an artifact of one
-implementation.
+values rather than its variance estimates.) That three independent engines --
+FOCEI, `saemix`'s SAEM, and `lme4`'s Laplace -- land on close *typical values*
+despite different objective functions is strong evidence a fit is real and not an
+artifact of one implementation.
 
 # The adjacent tools: pseudoOptim, PKNCA, PopED
 

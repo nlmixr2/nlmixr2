@@ -48,6 +48,7 @@ jobs:
             nlmixr2/nlmixr2extra
             nlmixr2/nlmixr2plot
             nlmixr2/nlmixr2save
+            nlmixr2/babelmixr2
             lixoftConnectors=?ignore
             dotwhisker=?ignore
             glmmADMB=?ignore

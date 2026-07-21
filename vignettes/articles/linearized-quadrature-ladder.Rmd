@@ -169,11 +169,17 @@ subject's own** conditional estimate.
   stabilizes. It is the deterministic counterpart of the Monte-Carlo
   [importance-sampling methods](imp-impmap-qrpem.html).
 
-`babelmixr2` adds one more member of this family through an external engine:
-`est = "nlmer"` runs `lme4::nlmer`, which fits nonlinear mixed-effects models by
-**Laplace or adaptive Gauss-Hermite quadrature** -- the same integral
-approximations, via a different implementation, useful as an independent
-cross-check.
+A related but *distinct* option is `babelmixr2`'s external engine
+`est = "nlmer"`, which drives the optimization with `lme4::nlmer`. `lme4` fits
+nonlinear mixed-effects models by its **own Laplace approximation** (nlmer
+supports only `nAGQ = 1`, so no true adaptive Gauss-Hermite), and `babelmixr2`
+feeds it per-subject predictions and analytic gradients from nlmixr2's `nlm` C
+engine. Because the outer objective is `lme4`'s Laplace deviance rather than
+nlmixr2's FOCEI/Laplace objective, its objective-function value is **not
+comparable** to the methods above and the fit will generally differ -- it is a
+genuinely independent implementation (closer to `est = "nlm"` in machinery than
+to `focei`), useful as an outside cross-check rather than a member of this same
+ladder.
 
 ---
 

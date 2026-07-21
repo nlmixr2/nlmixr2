@@ -58,7 +58,8 @@ Suggests:
     shinyMixR,
     testthat,
     withr,
-    xpose.nlmixr2
+    xpose.nlmixr2,
+    devtools
 Remotes:
     nlmixr2/nlmixr2save
 BugReports: https://github.com/nlmixr2/nlmixr2/issues/
