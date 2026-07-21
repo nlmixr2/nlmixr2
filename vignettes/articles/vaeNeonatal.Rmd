@@ -218,22 +218,80 @@ hand-written effect uses a different center (or an un-transformed `beta * COV`),
 `beta` is on a different scale and is not comparable at all. `vaeCovariates()`
 reports the center the selection path would use.
 
-### Working around it
+### Reconciling the two
 
-- **Treat the selection fit as the reference.** If your goal is the automatic
-  result, use the `covariateSelection = TRUE` fit directly -- its
-  covariate-augmented model is already injected into `fit$ui`.
-- **Match the parameterization.** When you do pre-specify, write the effect the
-  same centered way selection does (`beta * log(COV / center)`, using the center
-  from `vaeCovariates()`) so the coefficient is at least on the same scale.
-- **Seed from the selection fit.** Pipe the selected model's `ini()` estimates
-  into the pre-specified model as starting values, and lengthen the smoothing
-  phase (`iters`, `gammaIter`) to reduce path dependence.
-- **Refit deterministically for a path-independent number.** Take the final
-  covariate-augmented model (from either path) and refit it with a classical
-  estimator, e.g. `est = "focei"`. That yields a well-defined maximum-likelihood
-  coefficient that does not depend on the stochastic VAE trajectory, which is the
-  most reproducible way to report a pre-specified covariate effect.
+By default you do not have to choose between "search everything" and "estimate
+my covariates in place." When a model declares covariates, `pinCovariates = TRUE`
+(the default, described next) keeps the automatic search but restricts it to the
+covariates you wrote, so a pre-specified model is handled by the **same**
+selection machinery -- there is nothing to reconcile. Two tips still apply when
+you deliberately fall back to the regressor path (`pinCovariates = FALSE`, or
+`covariateSelection = FALSE`):
+
+- **Match the parameterization.** Write the effect the same centered way
+  selection does (`beta * log(COV / center)`, using the center from
+  `vaeCovariates()`) so the coefficient is on the same scale.
+- **Refit deterministically for a path-independent number.** Refit the final
+  covariate-augmented model with a classical estimator, e.g. `est = "focei"`,
+  for a well-defined maximum-likelihood coefficient that does not depend on the
+  stochastic VAE trajectory.
+
+# Pinning the search to your model (`pinCovariates`, the default)
+
+There is a third option that usually beats the plain pre-specified (regressor)
+path: keep the automatic search **on** but **pin** it to the covariate/parameter
+pairs you wrote. This is the default -- `vaeControl(pinCovariates = TRUE)` --
+and it activates whenever the model already declares covariate effects:
+
+```{r, eval=FALSE}
+# GA on birth weight written by hand, but let the method confirm or drop it
+neonatalPin <- neonatalModel |>
+  model(lW0 <- tlW0 + beta_lW0_GA * log(GA / 32) + eta.lW0)
+
+# pinCovariates = TRUE is the default; shown here for clarity
+fitp <- nlmixr2(neonatalPin, neonatal, est = "vae",
+                control = vaeControl(covariateSelection = TRUE, pinCovariates = TRUE))
+fitp$parFixed   # beta_lW0_GA is estimated if selected, or reported as 0 if dropped
+```
+
+The BICc branch-and-bound runs, but its candidate set is exactly the pairs you
+declared: `GA` is only ever tested on `lW0`, never on the other parameters, and
+no covariate you did **not** write can enter. The search may still **drop** a
+declared covariate whose support does not clear the `log(N)` penalty; when it
+does, the returned model keeps your term but sets its coefficient to `0`, so the
+model you get back is exactly the one you wrote, pruned by the data.
+
+## Why pinning is usually better than the regressor path
+
+The regressor path (`covariateSelection = FALSE`, or `pinCovariates = FALSE`
+when a model declares covariates) estimates every declared coefficient in place
+and **always keeps it**. Pinning instead reuses the automatic method's selection
+machinery, which gives it three advantages:
+
+- **Parsimony instead of force-fit.** The regressor path has no way to reject a
+  covariate -- a weak or spurious effect stays in the model with a non-zero,
+  noise-fitted coefficient. Pinning applies the same BICc penalty the automatic
+  search uses, so an unsupported effect is dropped to `0`. You are stating
+  hypotheses and letting the information criterion confirm or reject each, rather
+  than committing to all of them up front.
+- **Consistency with the automatic result.** Pinning estimates the slope the
+  same way the unconstrained search does -- the latent-space prior regression,
+  same objective and same penalty -- so a pinned fit lines up with what the full
+  search would have produced for those pairs. The regressor path uses a
+  different estimator (the likelihood `bobyqa` on the structural-theta scale,
+  decoupled from the population-mean update), which is exactly why its numbers
+  drift from the selection path (see above).
+- **Cheaper and more stable.** The pinned slope is a closed-form regression each
+  M-step; the regressor path runs a bounded optimization against the inner
+  likelihood every M-step, which is heavier and can overshoot on a wide interval.
+
+The regressor path is still the right tool in two cases, and pinning falls back
+to it **automatically** for the first: a declared covariate whose form the search
+cannot represent -- a **time-varying** covariate, or a raw-linear `beta * COV` on
+a continuous covariate (the search uses `log(COV / center)`) -- is estimated in
+place and noted in `$runInfo`. Use `pinCovariates = FALSE` explicitly when you
+want *every* declared covariate kept and estimated with no possibility of being
+dropped (e.g. an effect you include on mechanistic grounds).
 
 # Goodness of fit
 
