@@ -132,11 +132,14 @@ they appear in the parameter table just like any hand-specified effect. The
 canonical result for this case study is a **gestational-age effect on birth
 weight**, which shows up as a `beta_lW0_GA` coefficient on the `lW0` line.
 
-Printing the fitted model shows how the covariate enters: it is **centered** on
-the population value, so a continuous covariate is added as
-`beta * log(COV / center)` (categorical covariates enter as
-`beta * (COV - center)`). Centering keeps the intercept interpretable as the
-typical-subject value:
+Printing the fitted model shows how the covariate enters. A continuous covariate
+is **centered** on its population value and added as `beta * log(COV / center)`;
+a multi-level categorical covariate enters as `beta * (COV - center)`. Centering
+keeps the intercept interpretable as the typical-subject value. A `0`/`1`
+**indicator** covariate (such as `sex`, `DelM` or `Para2` here) is *not*
+centered -- it is already in its natural parameterization, so it enters bare as
+`beta * COV`, its coefficient is the level-1 shift, and the intercept stays the
+reference (`COV = 0`) value:
 
 ```{r}
 # the fitted, covariate-augmented model -- note the centered log(GA/<center>) term
@@ -211,12 +214,18 @@ the Adam + EMA trajectory. The selection path also ramps an L0 penalty
 setting the estimator differences aside, exact numerical agreement is not
 guaranteed.
 
-Finally, watch the **parameterization**. The selection path always centers a
-continuous covariate as `beta * log(COV / center)` with `center` equal to the
-covariate's population mean (categorical: `beta * (COV - center)`). If your
-hand-written effect uses a different center (or an un-transformed `beta * COV`),
-`beta` is on a different scale and is not comparable at all. `vaeCovariates()`
-reports the center the selection path would use.
+Finally, watch the **parameterization** -- but only when the covariate is *not*
+pinned. When it auto-discovers a covariate, the selection path centers a
+continuous one as `beta * log(COV / center)` with `center` the covariate's
+population mean (multi-level categorical: `beta * (COV - center)`; a `0`/`1`
+indicator is left bare). If a hand-written effect uses a different center, or an
+un-transformed `beta * COV`, `beta` is on a different scale and is not
+comparable. `vaeCovariates()` reports the center the search would use.
+
+This caveat does **not** apply to the pinned path (the default): a pinned
+covariate is searched at its *model* value, so the centering you wrote -- or the
+one mu2/mu3 referencing already applied -- is retained and the coefficient comes
+back on your scale.
 
 ### Reconciling the two
 
@@ -424,6 +433,7 @@ collects the technical differences.
 | Encoder | PyTorch `nn.LSTM` + `nn.Linear`, autograd | Native Armadillo LSTM with **exact analytic BPTT**, validated vs a Torch oracle to ~1e-6 |
 | Decoder | Closed-form solution or `torchode` solve | `rxode2`-compiled C ODE solve (any model / error model) |
 | M-step / covariate selection | Cython class + **cvxpy + GUROBI MIQP** | C++ **exact branch-and-bound** (`bnbStrategy`), no external solver |
+| `theta` with no `eta` | Not representable -- every population parameter carries a random effect | The **regressor**: bounded `bobyqa` against the inner likelihood (`nonMuTheta`) |
 | Inner likelihood / EBE | Hand-coded linearization + SciPy Nelder-Mead | Shared **FOCEi engine** (`n1qn1`, analytic Hessian, `covMethod`) |
 | Differentiation | PyTorch autograd throughout | Analytic gradients (encoder BPTT + `rxode2` sensitivities) |
 
@@ -492,6 +502,63 @@ trajectories. For covariate selection the reference uses a commercial **MIQP**
 (binary indicators, big-M constraints); `nlmixr2` uses an **exact
 branch-and-bound** with an admissible RSS lower-bound prune -- provably the same
 selected subset, no GUROBI license, and a configurable search order.
+
+## The regressor -- no counterpart in the reference
+
+The **regressor** -- the bounded `bobyqa` optimization against the FOCEi inner
+likelihood that shows up as `nonMuTheta = "regress"` and as the pre-specified
+covariate path -- is an `nlmixr2` addition. The reference has no equivalent
+estimator, and could not easily grow one.
+
+**In the reference, `theta` and `eta` are welded together one-to-one.** The
+latent dimension count `z_dim` is simultaneously the number of population
+parameters and the number of random effects: the design matrix starts with an
+identity block (`C[i, :, :z_dim] = I`), so every latent dimension contributes one
+typical value, and the closed-form M-step hands every latent dimension an
+`omega`. Two things follow:
+
+- **A parameter without between-subject variability cannot be written down.**
+  There is no slot for it. Everything the decoder consumes is a latent
+  coordinate, right down to the ODE initial condition in the neonatal case study.
+- **`omega` can never reach zero, so it cannot be faked either.** The update is
+  `omega_k = (1/N) sum_i [ (mu_ik - (C_i theta)_k)^2 + Sigma_i,kk ]`, whose second
+  term is the encoder's own posterior variance. Nothing drives that to zero, so a
+  parameter with no real random effect still comes back with a floor-level
+  `omega` -- and `1/omega` appears in the prior, in the covariate regression
+  weights and in the population-mean normal equations, so an exact zero is not
+  representable anyway.
+
+The only reference parameters that genuinely lack an `eta` are the covariate
+coefficients (estimated by the MIQP regression on latent means, above) and the
+additive residual `a` (closed form). The proportional residual term is hard-coded
+to zero in the published code and never estimated.
+
+**Why the reference cannot simply take a gradient for such a parameter.** Its
+encoder emits the *absolute* individual parameter, and `theta` enters only as the
+center of the KL prior. A change in `theta` is therefore absorbed exactly by the
+deviation `eta = z - theta`: the sampled individual parameter, and with it the
+decoder prediction and the data-fit term, are unchanged. The derivative of the
+data-fit term with respect to `theta` is identically zero, so training gradients
+reach the encoder alone. A population parameter is only ever moved by the M-step,
+and a parameter with no `eta` has no M-step to be moved by.
+
+`nlmixr2` fills that gap with an explicit estimator rather than a
+reparameterization: each such `theta` is re-optimized every M-step by a bounded
+`bobyqa` against the inner likelihood on the **structural-theta scale**, with
+bounds taken from `ini()`, gated to start after the KL warmup (once the encoder
+is informative) and blended with the same M-step gain `gamma`. That is what makes
+`nonMuTheta = "regress"` the default -- a no-random-effect population parameter
+is recovered without inventing a spurious random effect for it. The same
+machinery estimates model-declared covariate coefficients when selection is off,
+which is exactly why those coefficients differ from the ones the selection path
+produces (see *Why the two paths do not give identical numbers*): one is a
+likelihood optimization on the theta scale, the other a least-squares regression
+in latent space.
+
+The residual error model differs the same way. The reference has one closed-form
+additive update; `nlmixr2` solves add, proportional and combined forms in closed
+form and leaves anything outside that family at its current value, which is again
+a case the regressor covers.
 
 ## Likelihood and EBE
 
