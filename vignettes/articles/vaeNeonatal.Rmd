@@ -558,6 +558,59 @@ feature table) against a small per-model speed edge -- and for a package that
 must fit *any* model the general decoder is decisively the right side of that
 trade.
 
+## What has been done to align with the reference
+
+The implementation has been walked against the reference line by line.  Several
+differences turned out to be defects here rather than choices, and are fixed:
+
+- **The encoder was not conditioned on the covariates.**  The reference
+  concatenates them to the LSTM's final hidden state before the head that emits
+  the posterior; we passed none.  The posterior therefore could not express a
+  covariate relationship at all.  This was the largest single error -- fixing it
+  moved `kin ~ GA` from 2.45 to 3.51 against the reference's 3.45 and removed a
+  spurious effect.
+- **The smoothing gain was off by one iteration** (`1/(1 + iter - gammaIter)`
+  against `1/(iter - gammaIter)`); selectable now as `gammaSeries`.
+- **`omega` was smoothed twice** -- formed from EMA sufficient statistics and
+  then blended again; `omegaUpdate = "suffStat"` matches the reference (and
+  `nlmixr2`'s own SAEM).
+- **Encoder-input standardization** is computed across the padded observation
+  matrix by the reference and was computed over observed values here, a ~3x
+  difference in SD on this data; `inputScale` selects.
+- **The residual model** estimated a proportional term the reference fixes at
+  zero, on the variance scale where the reference is SD-additive.
+- **`sigma0`** initializes the posterior SD to `sigma0` here and to `sigma0`
+  SQUARED in the reference; `sigma0Interp` selects.
+- **Per-case-study settings** (`alpha = 5`, `L_iter = 10`, `h_dim = 50`) are the
+  neonatal script's, not the theophylline defaults this package ships.
+
+Two components were validated against the reference code directly rather than by
+reading it: the C++ LSTM reproduces the torch encoder's forward pass and analytic
+backward to 1e-5 (all six gradient tensors), and the `rxode2` decoder reproduces
+`Decoder_neonates`'s torchode solve to **1e-8** relative across all 1120
+observations of the shipped dataset.  Adam's constants, the L0 criterion and the
+covariate encoding all match.
+
+**What remains.**  The residual error still differs.  Against the reference's
+`a = 27.899` on the same simulated data:
+
+| residual estimator | a |
+|---|---|
+| closed-form moment | 34.892 |
+| two-stage ELS | 33.235 |
+| analytic outer gradient | 32.459 |
+
+Each refinement moves toward the reference and none arrives.  `lW0` agrees to
+~1e-3 on the log scale and `omega[W0]` to ~0.5%; the disagreement sits in the
+weakly-identified parameters (`T50`, `TL`).  This fit selects five covariates
+where the reference's own run selects eight, and the residual estimator does not
+change that -- selection is identical across all three rows.
+
+Since every isolable component now agrees, the working assumption is trajectory
+divergence: different RNG streams for the reparameterization noise, compounded
+over 3000 gradient steps in a non-convex problem.  That is a hypothesis, not a
+demonstrated cause.
+
 ## Objective -- a deliberate deviation from the reference
 
 This is the one place `nlmixr2` knowingly departs from the published method, so
@@ -665,6 +718,14 @@ value -- an estimate that was really just the starting guess:
 
 `vaeControl(residOptimize = "moment")` restores the closed-form estimator, which
 is exactly the optimum for a single additive error and cheaper there.
+
+`nonMuTheta = "grad"` takes a third route: the analytic outer gradient already
+carries a residual sigma and a transform-both-sides lambda as its own directions,
+so the residual parameters are stepped by the gradient through Adam and the
+two-stage path is not used at all. Whether that beats the ELS route is
+model-dependent -- on the neonatal case study it lands closest to the reference,
+while on a `theo_sd` Box-Cox fit the ELS route is much better (objective -29.2
+against 87.4).
 
 One implementation note worth stating, since it is a trap: a residual scale
 parameter is floored strictly above zero. The likelihood floors a zero variance
