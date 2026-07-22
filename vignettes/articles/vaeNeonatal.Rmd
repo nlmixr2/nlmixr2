@@ -153,6 +153,22 @@ A positive `beta_lW0_GA` means heavier birth weights at higher gestational age
 -- the expected physiological relationship, recovered automatically without
 specifying it up front.
 
+With the settings above the search keeps **three** effects, not just that one:
+
+| coefficient | estimate |
+|---|---|
+| `beta_lW0_GA` | 1.858 |
+| `beta_lkin_GA` | 1.880 |
+| `beta_lW0_SEX` | 0.090 |
+
+so gestational age is retained on birth weight *and* on the production rate
+`kin`, plus a small sex effect on birth weight.  The `lW0`/`GA` term is the
+headline result, but do not read the search as returning only that: it returns a
+covariate *set*, and every coefficient in it cleared the `log(N)` BICc penalty on
+this data.  The sex effect in particular is an order of magnitude smaller than
+the GA effects -- worth eyeing against a fit with more iterations before treating
+it as established, since these demonstration settings are deliberately short.
+
 # Pre-specified covariates (`covariateSelection = FALSE`)
 
 Automatic selection is the headline feature, but you may already know which
