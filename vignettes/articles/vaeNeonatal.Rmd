@@ -153,7 +153,9 @@ A positive `beta_lW0_GA` means heavier birth weights at higher gestational age
 -- the expected physiological relationship, recovered automatically without
 specifying it up front.
 
-With the settings above the search keeps **three** effects, not just that one:
+With the settings above the search keeps **three** effects, not just that one
+(see *Objective -- a deliberate deviation from the reference* in the appendix for
+why this differs from the paper):
 
 | coefficient | estimate |
 |---|---|
@@ -163,11 +165,14 @@ With the settings above the search keeps **three** effects, not just that one:
 
 so gestational age is retained on birth weight *and* on the production rate
 `kin`, plus a small sex effect on birth weight.  The `lW0`/`GA` term is the
-headline result, but do not read the search as returning only that: it returns a
-covariate *set*, and every coefficient in it cleared the `log(N)` BICc penalty on
-this data.  The sex effect in particular is an order of magnitude smaller than
-the GA effects -- worth eyeing against a fit with more iterations before treating
-it as established, since these demonstration settings are deliberately short.
+headline result -- the canonical finding, recovered as expected -- but do not
+read the search as returning only that: it returns a covariate *set*, and every
+coefficient in it cleared the `log(N)` BICc penalty under this objective.  The
+reference reports the single GA effect; `nlmixr2` scores selection against the
+full outer objective and is correspondingly less parsimonious.  The sex effect in
+particular is an order of magnitude smaller than the GA effects -- worth eyeing
+against a longer fit before treating it as established, since these demonstration
+settings are deliberately short.
 
 # Pre-specified covariates (`covariateSelection = FALSE`)
 
@@ -543,6 +548,37 @@ generality and integration (the FOCEi engine, sensitivities, the whole
 feature table) against a small per-model speed edge -- and for a package that
 must fit *any* model the general decoder is decisively the right side of that
 trade.
+
+## Objective -- a deliberate deviation from the reference
+
+This is the one place `nlmixr2` knowingly departs from the published method, so
+it is worth stating plainly.
+
+The reference trains on the plain variational bound,
+
+    elbo = p(x|z) + [ p(z) - q(z|x) ]
+
+with no Laplace/Hessian term anywhere in training, the M-step, or covariate
+selection -- the encoder entropy `q(z|x)` plays that role, which is the point of
+a variational method. (`slogdet` appears exactly once in the whole reference
+codebase, inside its FOCE-style linearization, computed only at the end to report
+the OFV/AIC/BIC.)
+
+`nlmixr2` instead scores the population M-step against the **full FOCEi outer
+objective** -- the Laplace determinant, `0.5*log|Omega^-1|` and the DV-transform
+Jacobian. That makes the M-step agree with the objective the rest of the
+ecosystem reports and with the analytic outer gradient used by
+`nonMuTheta = "grad"`, which differentiates the marginal likelihood: without it
+the two would optimise different functionals.
+
+**Consequence you should know about.** Covariate selection is scored by a
+BICc-ELBO criterion, so a different objective can select a different covariate
+*set*. On the neonatal case study the canonical gestational-age effect on birth
+weight is still selected, but additional effects (GA on `kin`, a small sex effect
+on birth weight) also clear the penalty where the reference reports the single
+effect. Neither result is "wrong" -- they are the same selection rule applied to
+different objectives -- but if you are reproducing the paper, expect the fuller
+objective to be less parsimonious.
 
 ## M-step -- same idea, different smoothing point
 
