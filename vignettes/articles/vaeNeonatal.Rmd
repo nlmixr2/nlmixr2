@@ -170,14 +170,43 @@ headline result -- the canonical finding, recovered as expected -- but do not
 read the search as returning only that: it returns a covariate *set*, and every
 coefficient in it cleared the `log(N)` BICc penalty.
 
-The reference reports the single GA effect.  The extra terms are **not**
-explained by the objective difference discussed in the appendix: every structural
-parameter in this model is mu-referenced, so that option has nothing to act on
-here and re-running under the reference objective reproduces this fit bit for
-bit.  The likelier explanation is simply that these demonstration settings are
-deliberately short.  The sex effect in particular is an order of magnitude
-smaller than the GA effects -- worth checking against a longer fit before
-treating it as established.
+The reference reports the single GA effect.  Two candidate explanations for the
+extra terms have been tested and **ruled out**:
+
+- *Not the objective.* Every structural parameter in this model is
+  mu-referenced, so `mStepObjective` (appendix) has nothing to act on here;
+  re-running under the reference objective reproduces this fit bit for bit.
+- *Not the short schedule.* Running the paper's full schedule selects **more**,
+  not fewer: five terms (adding GA on `kin` at 2.59, mother's age on `kin` at
+  -0.27 and parity on `kin` at 0.12).
+
+- *Not the selection regressand.*  The reference runs its L0 selection on the
+  SAEM sufficient statistic `s1`, an exponential moving average of the posterior
+  means (`s1 <- s1 + gamma*(mu - s1)`), where `nlmixr2` regressed the current
+  posterior means.  `covSelectSmooth = TRUE` (now the default) matches the
+  reference here, and it makes essentially no difference: the same five terms at
+  the full schedule, the same three short, coefficients agreeing to ~0.05.  The
+  reason is visible in the gain schedule -- `gamma` is exactly 1 until
+  `gammaIter` (250 of 300 iterations) in *both* implementations, so `s1` equals
+  the posterior mean for most of the run and is only mildly averaged over the
+  closing tail.
+
+- *Not the inner likelihood.*  The reference reports its final numbers through a
+  FOCE-style linearization, so `likelihood = "foce"` (and `"focep"`) is the
+  closer match to it than the `"focei"` default.  All four settings select the
+  same five terms, with coefficients differing by at most ~0.03.
+
+The selection criterion itself is identical on both sides
+(`RSS_S/omega + alpha*log(N)*|S|`, with the reference scaling `y` and `X` by
+`1/sqrt(omega)` to the same effect), so that is not the difference either.
+
+**The cause is currently unidentified.**  Four candidates have been tested and
+eliminated; the remaining possibilities we have not ruled out include the
+covariate matrix construction (centering/transformation of the candidate
+columns), the omega values in force at selection time, and the simple
+possibility that the published figure reports the headline effect rather than
+the complete selected set.  Treat the covariate set beyond the GA/`W0` effect
+with corresponding caution.
 
 # Pre-specified covariates (`covariateSelection = FALSE`)
 
@@ -600,9 +629,9 @@ being precise, because it is easy to over-attribute:
 - It follows that the covariate set reported above -- GA on birth weight plus GA
   on `kin` and a small sex effect, where the reference reports the single GA
   effect -- is **not** caused by the objective deviation. The objective is
-  demonstrably not the variable. The likelier explanation is the deliberately
-  shortened demonstration schedule used here; a longer fit is the thing to check
-  before treating the extra terms as established.
+  demonstrably not the variable, and neither is the schedule length (the full
+  paper schedule selects more terms, not fewer). See the results section for the
+  remaining candidate.
 - On a model that *does* carry a non-mu theta the two objectives do differ. On
   `theo_sd` with `tv` written without a random effect (FOCEi MLE `tv` = 3.4293),
   a short 80-iteration schedule gives `tv` = 3.4360 under `"outer"` and 3.4214
