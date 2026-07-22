@@ -287,11 +287,21 @@ effect, against a FOCEi maximum-likelihood value of `tv = 3.4293`:
 | `"regress"` | 3.4324 | 1.00x |
 | `"grad"` | **3.4294** | 1.13x-1.47x slower |
 
+`"grad"` is also the more natural fit for the method. Everything else in a VAE
+run is *learned*: the encoder weights are moved by Adam on a gradient, iteration
+by iteration. `"grad"` puts the non-mu theta on that same footing -- the analytic
+outer gradient is handed to the same Adam machinery, so the parameter is learned
+alongside the rest of the model on a shared schedule (the same gain `gamma`, the
+same KL warmup gate). `"regress"` instead pauses each M-step to run a separate
+derivative-free optimizer to convergence and adopts its answer, which works but
+sits outside the training loop rather than inside it.
+
 **`"grad"` is not a speed option** -- it is measurably slower, because one
 augmented solve costs more than a `bobyqa` sweep at this size. (The gap narrows
 as the number of such thetas grows, since `bobyqa`'s cost scales in that count
 and a single solve does not, but it does not close.) Choose it when you want the
-estimate closest to the maximum-likelihood value: an exact gradient beats a
+estimate closest to the maximum-likelihood value, or when you want the parameter
+learned by the same mechanism as everything else: an exact gradient beats a
 derivative-free search on the same objective.
 
 A model outside analytic scope -- an `ll()` endpoint, `linCmt()`, IOV -- falls
