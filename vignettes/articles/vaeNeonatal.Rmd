@@ -155,7 +155,8 @@ specifying it up front.
 
 With the settings above the search keeps **three** effects, not just that one
 (see *Objective -- a deliberate deviation from the reference* in the appendix for
-why this differs from the paper):
+the one place `nlmixr2` departs from the paper, and why it is not what drives
+this table):
 
 | coefficient | estimate |
 |---|---|
@@ -167,12 +168,16 @@ so gestational age is retained on birth weight *and* on the production rate
 `kin`, plus a small sex effect on birth weight.  The `lW0`/`GA` term is the
 headline result -- the canonical finding, recovered as expected -- but do not
 read the search as returning only that: it returns a covariate *set*, and every
-coefficient in it cleared the `log(N)` BICc penalty under this objective.  The
-reference reports the single GA effect; `nlmixr2` scores selection against the
-full outer objective and is correspondingly less parsimonious.  The sex effect in
-particular is an order of magnitude smaller than the GA effects -- worth eyeing
-against a longer fit before treating it as established, since these demonstration
-settings are deliberately short.
+coefficient in it cleared the `log(N)` BICc penalty.
+
+The reference reports the single GA effect.  The extra terms are **not**
+explained by the objective difference discussed in the appendix: every structural
+parameter in this model is mu-referenced, so that option has nothing to act on
+here and re-running under the reference objective reproduces this fit bit for
+bit.  The likelier explanation is simply that these demonstration settings are
+deliberately short.  The sex effect in particular is an order of magnitude
+smaller than the GA effects -- worth checking against a longer fit before
+treating it as established.
 
 # Pre-specified covariates (`covariateSelection = FALSE`)
 
@@ -552,7 +557,7 @@ trade.
 ## Objective -- a deliberate deviation from the reference
 
 This is the one place `nlmixr2` knowingly departs from the published method, so
-it is worth stating plainly.
+it is worth stating plainly -- and, just as importantly, bounding.
 
 The reference trains on the plain variational bound,
 
@@ -564,21 +569,44 @@ a variational method. (`slogdet` appears exactly once in the whole reference
 codebase, inside its FOCE-style linearization, computed only at the end to report
 the OFV/AIC/BIC.)
 
-`nlmixr2` instead scores the population M-step against the **full FOCEi outer
-objective** -- the Laplace determinant, `0.5*log|Omega^-1|` and the DV-transform
-Jacobian. That makes the M-step agree with the objective the rest of the
-ecosystem reports and with the analytic outer gradient used by
-`nonMuTheta = "grad"`, which differentiates the marginal likelihood: without it
-the two would optimise different functionals.
+`nlmixr2` follows that exactly for the encoder, the ELBO training step and the
+covariate branch-and-bound. It departs in **one** place: the M-step for a
+structural `theta` that has **no random effect** -- a parameter the encoder
+cannot reach, because it does not occupy the latent space. There, `nlmixr2`
+scores the regression against the **full FOCEi outer objective**: the frozen-eta
+joint likelihood *plus* the Laplace determinant, `0.5*log|Omega^-1|` and the
+DV-transform Jacobian.
 
-**Consequence you should know about.** Covariate selection is scored by a
-BICc-ELBO criterion, so a different objective can select a different covariate
-*set*. On the neonatal case study the canonical gestational-age effect on birth
-weight is still selected, but additional effects (GA on `kin`, a small sex effect
-on birth weight) also clear the penalty where the reference reports the single
-effect. Neither result is "wrong" -- they are the same selection rule applied to
-different objectives -- but if you are reproducing the paper, expect the fuller
-objective to be less parsimonious.
+The Laplace piece is not decoration. Those unmatched thetas are exactly the ones
+that have to be estimated *outside* the variational machinery, and the extra term
+is what makes a **gradient** available for them: the analytic outer gradient
+differentiates the marginal (Laplace) likelihood, so without the Laplace term
+there is nothing for `nonMuTheta = "grad"` to differentiate. Dropping the term
+does not merely change the target -- it removes the option.
+
+`vaeControl(mStepObjective = )` exposes both. `"outer"` (default) is the
+behavior above; `"elbo"` reproduces the reference's plain bound. Under `"elbo"`
+the analytic gradient no longer applies, so `nonMuTheta = "grad"` is downgraded
+to `"regress"` with a note in `$runInfo`.
+
+**What this does and does not affect.** The scope is narrow, and it is worth
+being precise, because it is easy to over-attribute:
+
+- A model whose structural parameters are **all** mu-referenced -- including the
+  neonatal model in this article -- has no non-mu theta at all, so the option is
+  a no-op. Running this case study under `mStepObjective = "elbo"` reproduces the
+  default run **bit for bit**: same `zPop`, same omegas, same residual error,
+  same selected covariate set. A regression test pins that identity.
+- It follows that the covariate set reported above -- GA on birth weight plus GA
+  on `kin` and a small sex effect, where the reference reports the single GA
+  effect -- is **not** caused by the objective deviation. The objective is
+  demonstrably not the variable. The likelier explanation is the deliberately
+  shortened demonstration schedule used here; a longer fit is the thing to check
+  before treating the extra terms as established.
+- On a model that *does* carry a non-mu theta the two objectives do differ. On
+  `theo_sd` with `tv` written without a random effect (FOCEi MLE `tv` = 3.4293),
+  a short 80-iteration schedule gives `tv` = 3.4360 under `"outer"` and 3.4214
+  under `"elbo"`, with `"outer"` plus the analytic gradient closest at 3.4286.
 
 ## M-step -- same idea, different smoothing point
 
