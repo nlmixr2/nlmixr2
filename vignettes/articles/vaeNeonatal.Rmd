@@ -198,13 +198,13 @@ covariate coefficient**, not just different bookkeeping.
   of that regression, the between-subject variance `omega` for that parameter is
   computed from the covariate-*adjusted* residual, and the intercept is the
   typical value *after* removing the covariate effect.
-- **Pre-specified path (`FALSE`).** The coefficient is instead estimated by a
-  bounded optimization against the FOCEi inner **likelihood** on the
-  **structural-theta scale**, decoupled from the population-mean update, and it
-  only switches on after the KL warmup. The intercept is updated by the plain
-  closed-form mean of the latent means, and `omega` for that parameter is formed
-  from the *unadjusted* spread of the latent means (the covariate is carried in
-  the theta regression instead).
+- **Pre-specified path (`FALSE`).** The coefficient is instead estimated in the
+  M-step against the **full FOCEi outer objective** -- the Laplace determinant,
+  `0.5*log|Omega^-1|` and the transform Jacobian -- with every mu-referenced
+  theta held at its current M-step value, and it only switches on after the KL
+  warmup. The intercept is updated by the plain closed-form mean of the latent
+  means, and `omega` for that parameter is formed from the *unadjusted* spread of
+  the latent means (the covariate is carried in the theta regression instead).
 
 On top of that, a VAE fit is a stochastic, non-convex training run: the LSTM
 encoder, `omega`, the residual error, and the covariate effect all co-adapt over
@@ -244,6 +244,42 @@ you deliberately fall back to the regressor path (`pinCovariates = FALSE`, or
   covariate-augmented model with a classical estimator, e.g. `est = "focei"`,
   for a well-defined maximum-likelihood coefficient that does not depend on the
   stochastic VAE trajectory.
+
+# Structural parameters with no random effect (`nonMuTheta`)
+
+`est = "vae"` estimates whatever occupies the latent space, so a structural
+`theta` with no random effect needs separate handling. `vaeControl(nonMuTheta=)`
+chooses it; the two estimating modes both optimize the **same** full FOCEi outer
+objective, holding every mu-referenced theta at its current M-step value, and
+differ only in the optimizer:
+
+* `"regress"` (default) -- a bounded `bobyqa` search each M-step.
+* `"grad"` -- the **exact analytic outer gradient** (the Almquist sensitivity
+  machinery behind `foceiControl(fast = TRUE)`): one augmented sensitivity solve
+  per M-step replaces the derivative-free sweep.
+
+```{r, eval=FALSE}
+fitg <- nlmixr2(model, data, est = "vae",
+                control = vaeControl(nonMuTheta = "grad"))
+```
+
+On a one-compartment `theo_sd` model whose `v <- exp(tv)` carries no random
+effect, against a FOCEi maximum-likelihood value of `tv = 3.4293`:
+
+| `nonMuTheta` | `tv` | wall time vs `"regress"` |
+|---|---|---|
+| `"regress"` | 3.4324 | 1.00x |
+| `"grad"` | **3.4294** | 1.13x-1.47x slower |
+
+**`"grad"` is not a speed option** -- it is measurably slower, because one
+augmented solve costs more than a `bobyqa` sweep at this size. (The gap narrows
+as the number of such thetas grows, since `bobyqa`'s cost scales in that count
+and a single solve does not, but it does not close.) Choose it when you want the
+estimate closest to the maximum-likelihood value: an exact gradient beats a
+derivative-free search on the same objective.
+
+A model outside analytic scope -- an `ll()` endpoint, `linCmt()`, IOV -- falls
+back to `"regress"` automatically and says so in `$runInfo`.
 
 # Pinning the search to your model (`pinCovariates`, the default)
 
@@ -287,9 +323,10 @@ machinery, which gives it three advantages:
   same way the unconstrained search does -- the latent-space prior regression,
   same objective and same penalty -- so a pinned fit lines up with what the full
   search would have produced for those pairs. The regressor path uses a
-  different estimator (the likelihood `bobyqa` on the structural-theta scale,
-  decoupled from the population-mean update), which is exactly why its numbers
-  drift from the selection path (see above).
+  different estimator (an M-step optimization of the full outer objective on the
+  structural-theta scale, rather than a least-squares regression in latent
+  space), which is why its numbers still differ from the selection path (see
+  above).
 - **Cheaper and more stable.** The pinned slope is a closed-form regression each
   M-step; the regressor path runs a bounded optimization against the inner
   likelihood every M-step, which is heavier and can overshoot on a wide interval.
