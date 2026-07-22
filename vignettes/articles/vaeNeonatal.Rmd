@@ -622,15 +622,61 @@ and both solve the **same L0 objective per latent dimension**,
   means of `mu`, `mu mu'`, `sum L L'`, and the residual sum of squares) and
   derives `z_pop`, `omega`, `a` from the smoothed statistics -- the classic
   Kuhn-Lavielle scheme.
-- `nlmixr2` regresses the **current** iteration's posterior means directly and
-  then EMA-smooths the resulting **estimates** (`omega`, `a`; the covariate
-  intercept is taken from the fit).
+- `nlmixr2` follows that for the latent parameters: `covSelectSmooth` regresses
+  the smoothed statistic and `omegaUpdate = "suffStat"` (both defaults) form
+  `omega` from the sufficient statistics and assign it, matching the reference
+  and `nlmixr2`'s own SAEM.
 
-Both converge to the same stationary point but with different per-iteration
-trajectories. For covariate selection the reference uses a commercial **MIQP**
-(binary indicators, big-M constraints); `nlmixr2` uses an **exact
-branch-and-bound** with an admissible RSS lower-bound prune -- provably the same
-selected subset, no GUROBI license, and a configurable search order.
+**The residual error is estimated differently, and deliberately so.** The
+reference carries an EMA on the residual sum of squares and takes the root
+afterwards (`a = sqrt(s4/nobs)`) -- a closed form that exists only because its
+residual model is a single scale parameter with the proportional term fixed at
+zero.
+
+`nlmixr2` cannot use that shortcut, because it supports residual models the
+reference does not have: `add + prop`, `pow`, `lnorm`, Box-Cox, Yeo-Johnson, and
+multiple endpoints each with their own error model. Several of those have no
+closed-form estimator at all. So `vaeControl(residOptimize = "twoStage")` (the
+default) estimates them by block coordinate descent, the way `npag` and SAEM do:
+
+1. the non-mu-referenced structural thetas, with the residual parameters held --
+   driven by `dv - f`;
+2. then those held, and the residual parameters optimized against the same
+   likelihood the fit reports, with the **ODE frozen**. Since step 1 fixes `f`,
+   only the residual variance `r` changes, so the solved states are pinned and
+   re-used -- no ODE re-solve, the same trick SAEM uses.
+
+Because that objective goes through the ordinary likelihood, `r` comes from the
+model itself: every error model works with no special-casing, multiple endpoints
+are summed across all their residual contributors, and a transform-both-sides
+model is transformed by the model rather than by hand.
+
+The practical difference is large for the models the closed form cannot reach.
+On `theo_sd`, the parameters below were previously returned at their `ini()`
+value -- an estimate that was really just the starting guess:
+
+| residual model | closed form | `"twoStage"` |
+|---|---|---|
+| `boxCox` | 181.6 | **-29.2** |
+| `lnorm` | 26163.2 | **685.5** |
+| `pow` | 154.4 | **134.5** |
+| `yeoJohnson` | 131.8 | **108.4** |
+| `add + prop` | 122.5 | **120.8** |
+
+`vaeControl(residOptimize = "moment")` restores the closed-form estimator, which
+is exactly the optimum for a single additive error and cheaper there.
+
+One implementation note worth stating, since it is a trap: a residual scale
+parameter is floored strictly above zero. The likelihood floors a zero variance
+(`r == 0` becomes `r = 1`) to stay finite, which makes a collapsed residual look
+*attractive* to an optimizer rather than forbidden -- a Box-Cox fit converged to
+`add.err = 0` before that bound existed, and still beat the closed form on
+objective value while doing it.
+
+For covariate selection the reference uses a commercial **MIQP** (binary
+indicators, big-M constraints); `nlmixr2` uses an **exact branch-and-bound** with
+an admissible RSS lower-bound prune -- provably the same selected subset, no
+GUROBI license, and a configurable search order.
 
 ## The regressor -- no counterpart in the reference
 
