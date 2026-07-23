@@ -153,6 +153,36 @@ A positive `beta_lW0_GA` means heavier birth weights at higher gestational age
 -- the expected physiological relationship, recovered automatically without
 specifying it up front.
 
+With the settings above the search keeps **three** effects, not just that one
+(see *Objective -- a deliberate deviation from the reference* in the appendix for
+the one place `nlmixr2` departs from the paper, and why it is not what drives
+this table):
+
+| coefficient | estimate |
+|---|---|
+| `beta_lW0_GA` | 1.858 |
+| `beta_lkin_GA` | 1.880 |
+| `beta_lW0_SEX` | 0.090 |
+
+so gestational age is retained on birth weight *and* on the production rate
+`kin`, plus a small sex effect on birth weight.  The `lW0`/`GA` term is the
+headline result -- the canonical finding, recovered as expected -- but do not
+read the search as returning only that: it returns a covariate *set*, and every
+coefficient in it cleared the `log(N)` BICc penalty.
+
+**The paper's covariate set is not a comparison target for this fit.**  The data
+used here -- `nlmixr2data::neonatal_wt` -- is the *simulated* 189-neonate dataset
+distributed with the reference implementation, which ships simulated data because
+the real cohort cannot be shared.  The published Case Study 2 results come from
+the real cohort of N = 2425.  Comparing a selected covariate set across those two
+datasets is not meaningful, so this article does not do it, and neither should
+you: the effects recovered here describe this simulated dataset.
+
+The `lW0`/`GA` term is the headline result and the one that reproduces the
+canonical finding.  The remaining terms cleared the `log(N)` BICc penalty on this
+data; treat them as a property of the simulated set rather than as a claim about
+neonatal physiology.
+
 # Pre-specified covariates (`covariateSelection = FALSE`)
 
 Automatic selection is the headline feature, but you may already know which
@@ -198,13 +228,13 @@ covariate coefficient**, not just different bookkeeping.
   of that regression, the between-subject variance `omega` for that parameter is
   computed from the covariate-*adjusted* residual, and the intercept is the
   typical value *after* removing the covariate effect.
-- **Pre-specified path (`FALSE`).** The coefficient is instead estimated by a
-  bounded optimization against the FOCEi inner **likelihood** on the
-  **structural-theta scale**, decoupled from the population-mean update, and it
-  only switches on after the KL warmup. The intercept is updated by the plain
-  closed-form mean of the latent means, and `omega` for that parameter is formed
-  from the *unadjusted* spread of the latent means (the covariate is carried in
-  the theta regression instead).
+- **Pre-specified path (`FALSE`).** The coefficient is instead estimated in the
+  M-step against the **full FOCEi outer objective** -- the Laplace determinant,
+  `0.5*log|Omega^-1|` and the transform Jacobian -- with every mu-referenced
+  theta held at its current M-step value, and it only switches on after the KL
+  warmup. The intercept is updated by the plain closed-form mean of the latent
+  means, and `omega` for that parameter is formed from the *unadjusted* spread of
+  the latent means (the covariate is carried in the theta regression instead).
 
 On top of that, a VAE fit is a stochastic, non-convex training run: the LSTM
 encoder, `omega`, the residual error, and the covariate effect all co-adapt over
@@ -244,6 +274,52 @@ you deliberately fall back to the regressor path (`pinCovariates = FALSE`, or
   covariate-augmented model with a classical estimator, e.g. `est = "focei"`,
   for a well-defined maximum-likelihood coefficient that does not depend on the
   stochastic VAE trajectory.
+
+# Structural parameters with no random effect (`nonMuTheta`)
+
+`est = "vae"` estimates whatever occupies the latent space, so a structural
+`theta` with no random effect needs separate handling. `vaeControl(nonMuTheta=)`
+chooses it; the two estimating modes both optimize the **same** full FOCEi outer
+objective, holding every mu-referenced theta at its current M-step value, and
+differ only in the optimizer:
+
+* `"regress"` (default) -- a bounded `bobyqa` search each M-step.
+* `"grad"` -- the **exact analytic outer gradient** (the Almquist sensitivity
+  machinery behind `foceiControl(fast = TRUE)`): one augmented sensitivity solve
+  per M-step replaces the derivative-free sweep.
+
+```{r, eval=FALSE}
+fitg <- nlmixr2(model, data, est = "vae",
+                control = vaeControl(nonMuTheta = "grad"))
+```
+
+On a one-compartment `theo_sd` model whose `v <- exp(tv)` carries no random
+effect, against a FOCEi maximum-likelihood value of `tv = 3.4293`:
+
+| `nonMuTheta` | `tv` | wall time vs `"regress"` |
+|---|---|---|
+| `"regress"` | 3.4324 | 1.00x |
+| `"grad"` | **3.4294** | 1.13x-1.47x slower |
+
+`"grad"` is also the more natural fit for the method. Everything else in a VAE
+run is *learned*: the encoder weights are moved by Adam on a gradient, iteration
+by iteration. `"grad"` puts the non-mu theta on that same footing -- the analytic
+outer gradient is handed to the same Adam machinery, so the parameter is learned
+alongside the rest of the model on a shared schedule (the same gain `gamma`, the
+same KL warmup gate). `"regress"` instead pauses each M-step to run a separate
+derivative-free optimizer to convergence and adopts its answer, which works but
+sits outside the training loop rather than inside it.
+
+**`"grad"` is not a speed option** -- it is measurably slower, because one
+augmented solve costs more than a `bobyqa` sweep at this size. (The gap narrows
+as the number of such thetas grows, since `bobyqa`'s cost scales in that count
+and a single solve does not, but it does not close.) Choose it when you want the
+estimate closest to the maximum-likelihood value, or when you want the parameter
+learned by the same mechanism as everything else: an exact gradient beats a
+derivative-free search on the same objective.
+
+A model outside analytic scope -- an `ll()` endpoint, `linCmt()`, IOV -- falls
+back to `"regress"` automatically and says so in `$runInfo`.
 
 # Pinning the search to your model (`pinCovariates`, the default)
 
@@ -287,9 +363,10 @@ machinery, which gives it three advantages:
   same way the unconstrained search does -- the latent-space prior regression,
   same objective and same penalty -- so a pinned fit lines up with what the full
   search would have produced for those pairs. The regressor path uses a
-  different estimator (the likelihood `bobyqa` on the structural-theta scale,
-  decoupled from the population-mean update), which is exactly why its numbers
-  drift from the selection path (see above).
+  different estimator (an M-step optimization of the full outer objective on the
+  structural-theta scale, rather than a least-squares regression in latent
+  space), which is why its numbers still differ from the selection path (see
+  above).
 - **Cheaper and more stable.** The pinned slope is a closed-form regression each
   M-step; the regressor path runs a bounded optimization against the inner
   likelihood every M-step, which is heavier and can overshoot on a wide interval.
@@ -481,6 +558,111 @@ feature table) against a small per-model speed edge -- and for a package that
 must fit *any* model the general decoder is decisively the right side of that
 trade.
 
+## What has been done to align with the reference
+
+The implementation has been walked against the reference line by line.  Several
+differences turned out to be defects here rather than choices, and are fixed:
+
+- **The encoder was not conditioned on the covariates.**  The reference
+  concatenates them to the LSTM's final hidden state before the head that emits
+  the posterior; we passed none.  The posterior therefore could not express a
+  covariate relationship at all.  This was the largest single error -- fixing it
+  moved `kin ~ GA` from 2.45 to 3.51 against the reference's 3.45 and removed a
+  spurious effect.
+- **The smoothing gain was off by one iteration** (`1/(1 + iter - gammaIter)`
+  against `1/(iter - gammaIter)`); selectable now as `gammaSeries`.
+- **`omega` was smoothed twice** -- formed from EMA sufficient statistics and
+  then blended again; `omegaUpdate = "suffStat"` matches the reference (and
+  `nlmixr2`'s own SAEM).
+- **Encoder-input standardization** is computed across the padded observation
+  matrix by the reference and was computed over observed values here, a ~3x
+  difference in SD on this data; `inputScale` selects.
+- **The residual model** estimated a proportional term the reference fixes at
+  zero, on the variance scale where the reference is SD-additive.
+- **`sigma0`** initializes the posterior SD to `sigma0` here and to `sigma0`
+  SQUARED in the reference; `sigma0Interp` selects.
+- **Per-case-study settings** (`alpha = 5`, `L_iter = 10`, `h_dim = 50`) are the
+  neonatal script's, not the theophylline defaults this package ships.
+
+Two components were validated against the reference code directly rather than by
+reading it: the C++ LSTM reproduces the torch encoder's forward pass and analytic
+backward to 1e-5 (all six gradient tensors), and the `rxode2` decoder reproduces
+`Decoder_neonates`'s torchode solve to **1e-8** relative across all 1120
+observations of the shipped dataset.  Adam's constants, the L0 criterion and the
+covariate encoding all match.
+
+**What remains.**  The residual error still differs.  Against the reference's
+`a = 27.899` on the same simulated data:
+
+| residual estimator | a |
+|---|---|
+| closed-form moment | 34.892 |
+| two-stage ELS | 33.235 |
+| analytic outer gradient | 32.459 |
+
+Each refinement moves toward the reference and none arrives.  `lW0` agrees to
+~1e-3 on the log scale and `omega[W0]` to ~0.5%; the disagreement sits in the
+weakly-identified parameters (`T50`, `TL`).  This fit selects five covariates
+where the reference's own run selects eight, and the residual estimator does not
+change that -- selection is identical across all three rows.
+
+Since every isolable component now agrees, the working assumption is trajectory
+divergence: different RNG streams for the reparameterization noise, compounded
+over 3000 gradient steps in a non-convex problem.  That is a hypothesis, not a
+demonstrated cause.
+
+## Objective -- a deliberate deviation from the reference
+
+This is the one place `nlmixr2` knowingly departs from the published method, so
+it is worth stating plainly -- and, just as importantly, bounding.
+
+The reference trains on the plain variational bound,
+
+    elbo = p(x|z) + [ p(z) - q(z|x) ]
+
+with no Laplace/Hessian term anywhere in training, the M-step, or covariate
+selection -- the encoder entropy `q(z|x)` plays that role, which is the point of
+a variational method. (`slogdet` appears exactly once in the whole reference
+codebase, inside its FOCE-style linearization, computed only at the end to report
+the OFV/AIC/BIC.)
+
+`nlmixr2` follows that exactly for the encoder, the ELBO training step and the
+covariate branch-and-bound. It departs in **one** place: the M-step for a
+structural `theta` that has **no random effect** -- a parameter the encoder
+cannot reach, because it does not occupy the latent space. There, `nlmixr2`
+scores the regression against the **full FOCEi outer objective**: the frozen-eta
+joint likelihood *plus* the Laplace determinant, `0.5*log|Omega^-1|` and the
+DV-transform Jacobian.
+
+The Laplace piece is not decoration. Those unmatched thetas are exactly the ones
+that have to be estimated *outside* the variational machinery, and the extra term
+is what makes a **gradient** available for them: the analytic outer gradient
+differentiates the marginal (Laplace) likelihood, so without the Laplace term
+there is nothing for `nonMuTheta = "grad"` to differentiate. Dropping the term
+does not merely change the target -- it removes the option.
+
+`vaeControl(mStepObjective = )` exposes both. `"outer"` (default) is the
+behavior above; `"elbo"` reproduces the reference's plain bound. Under `"elbo"`
+the analytic gradient no longer applies, so `nonMuTheta = "grad"` is downgraded
+to `"regress"` with a note in `$runInfo`.
+
+**What this does and does not affect.** The scope is narrow, and it is worth
+being precise, because it is easy to over-attribute:
+
+- A model whose structural parameters are **all** mu-referenced -- including the
+  neonatal model in this article -- has no non-mu theta at all, so the option is
+  a no-op. Running this case study under `mStepObjective = "elbo"` reproduces the
+  default run **bit for bit**: same `zPop`, same omegas, same residual error,
+  same selected covariate set. A regression test pins that identity.
+- The covariate set this article reports is **not** attributable to the objective
+  deviation, and in any case is not comparable to the published one: this fit
+  uses the simulated 189-neonate dataset shipped with the reference, while the
+  paper's Case Study 2 uses the real N = 2425 cohort.
+- On a model that *does* carry a non-mu theta the two objectives do differ. On
+  `theo_sd` with `tv` written without a random effect (FOCEi MLE `tv` = 3.4293),
+  a short 80-iteration schedule gives `tv` = 3.4360 under `"outer"` and 3.4214
+  under `"elbo"`, with `"outer"` plus the analytic gradient closest at 3.4286.
+
 ## M-step -- same idea, different smoothing point
 
 Both perform a **stochastic-approximation** update with a gain `gamma` that is 1
@@ -493,15 +675,69 @@ and both solve the **same L0 objective per latent dimension**,
   means of `mu`, `mu mu'`, `sum L L'`, and the residual sum of squares) and
   derives `z_pop`, `omega`, `a` from the smoothed statistics -- the classic
   Kuhn-Lavielle scheme.
-- `nlmixr2` regresses the **current** iteration's posterior means directly and
-  then EMA-smooths the resulting **estimates** (`omega`, `a`; the covariate
-  intercept is taken from the fit).
+- `nlmixr2` follows that for the latent parameters: `covSelectSmooth` regresses
+  the smoothed statistic and `omegaUpdate = "suffStat"` (both defaults) form
+  `omega` from the sufficient statistics and assign it, matching the reference
+  and `nlmixr2`'s own SAEM.
 
-Both converge to the same stationary point but with different per-iteration
-trajectories. For covariate selection the reference uses a commercial **MIQP**
-(binary indicators, big-M constraints); `nlmixr2` uses an **exact
-branch-and-bound** with an admissible RSS lower-bound prune -- provably the same
-selected subset, no GUROBI license, and a configurable search order.
+**The residual error is estimated differently, and deliberately so.** The
+reference carries an EMA on the residual sum of squares and takes the root
+afterwards (`a = sqrt(s4/nobs)`) -- a closed form that exists only because its
+residual model is a single scale parameter with the proportional term fixed at
+zero.
+
+`nlmixr2` cannot use that shortcut, because it supports residual models the
+reference does not have: `add + prop`, `pow`, `lnorm`, Box-Cox, Yeo-Johnson, and
+multiple endpoints each with their own error model. Several of those have no
+closed-form estimator at all. So `vaeControl(residOptimize = "twoStage")` (the
+default) estimates them by block coordinate descent, the way `npag` and SAEM do:
+
+1. the non-mu-referenced structural thetas, with the residual parameters held --
+   driven by `dv - f`;
+2. then those held, and the residual parameters optimized against the same
+   likelihood the fit reports, with the **ODE frozen**. Since step 1 fixes `f`,
+   only the residual variance `r` changes, so the solved states are pinned and
+   re-used -- no ODE re-solve, the same trick SAEM uses.
+
+Because that objective goes through the ordinary likelihood, `r` comes from the
+model itself: every error model works with no special-casing, multiple endpoints
+are summed across all their residual contributors, and a transform-both-sides
+model is transformed by the model rather than by hand.
+
+The practical difference is large for the models the closed form cannot reach.
+On `theo_sd`, the parameters below were previously returned at their `ini()`
+value -- an estimate that was really just the starting guess:
+
+| residual model | closed form | `"twoStage"` |
+|---|---|---|
+| `boxCox` | 181.6 | **-29.2** |
+| `lnorm` | 26163.2 | **685.5** |
+| `pow` | 154.4 | **134.5** |
+| `yeoJohnson` | 131.8 | **108.4** |
+| `add + prop` | 122.5 | **120.8** |
+
+`vaeControl(residOptimize = "moment")` restores the closed-form estimator, which
+is exactly the optimum for a single additive error and cheaper there.
+
+`nonMuTheta = "grad"` takes a third route: the analytic outer gradient already
+carries a residual sigma and a transform-both-sides lambda as its own directions,
+so the residual parameters are stepped by the gradient through Adam and the
+two-stage path is not used at all. Whether that beats the ELS route is
+model-dependent -- on the neonatal case study it lands closest to the reference,
+while on a `theo_sd` Box-Cox fit the ELS route is much better (objective -29.2
+against 87.4).
+
+One implementation note worth stating, since it is a trap: a residual scale
+parameter is floored strictly above zero. The likelihood floors a zero variance
+(`r == 0` becomes `r = 1`) to stay finite, which makes a collapsed residual look
+*attractive* to an optimizer rather than forbidden -- a Box-Cox fit converged to
+`add.err = 0` before that bound existed, and still beat the closed form on
+objective value while doing it.
+
+For covariate selection the reference uses a commercial **MIQP** (binary
+indicators, big-M constraints); `nlmixr2` uses an **exact branch-and-bound** with
+an admissible RSS lower-bound prune -- provably the same selected subset, no
+GUROBI license, and a configurable search order.
 
 ## The regressor -- no counterpart in the reference
 

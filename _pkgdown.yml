@@ -31,6 +31,8 @@ navbar:
           href: articles/broom.html
         - text: "Censoring in nlmixr2 (M3 and others)"
           href: articles/censoring.html
+        - text: "Simulations with individually-titrated dosing"
+          href: articles/simulate-titrated-dosing.html
         - text: "--------------------------"
         - text: "Integrated development with xgxr/nlmixr/ggPMX"
           href: articles/xgxr-nlmixr-ggpmx.html
