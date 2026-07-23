@@ -390,13 +390,22 @@ if (t == visit1) {
 }
 ```
 
-**But do not combine the two.** If `mtime()` names a time that is
-*already* in the event table, the solver visits that time twice, the
-condition is true both times, and the dose is pushed twice.  Use
-`mtime()` for decision times the sampling grid does not already cover,
-and the modulo/comparison guard when it does.  It is worth printing the
-pushed doses (as in the `depot` column above) to confirm you got what
-you expected.
+**But do not combine the two.** In a model function, if `mtime()` names
+a time that is *already* in the event table, the dose is pushed twice
+([rxode2#1152](https://github.com/nlmixr2/rxode2/issues/1152)).  Use
+`mtime()` only for decision times the sampling grid does not already
+cover, and a comparison guard like `isVisit` above when it does.
+
+This one is worth checking rather than trusting, because it is invisible
+in the solved concentrations -- the doubling only shows up in the state
+at the *next* time point.  `addDosing = TRUE` reports the pushed events
+directly:
+
+```{r snippet-adddosing, eval=FALSE}
+sim <- rxSolve(oneCompartmentTitrated, evTitrated, addDosing = TRUE)
+subset(as.data.frame(sim), !is.na(evid) & evid != 0,
+       select = c(id, time, evid, amt))
+```
 
 ### Guard against repeated firing
 
