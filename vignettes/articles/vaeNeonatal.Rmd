@@ -302,6 +302,49 @@ place and noted in `$runInfo`. Use `pinCovariates = FALSE` explicitly when you
 want *every* declared covariate kept and estimated with no possibility of being
 dropped (e.g. an effect you include on mechanistic grounds).
 
+# Scaling covariate selection to many covariates (`covSelectMethod`)
+
+The covariate M-step above solves an **exact** best-subset problem for every
+latent parameter, every iteration. That is the right thing at the five candidate
+covariates of this case study, but the branch-and-bound cost grows sharply with
+the number of candidates on a parameter -- a single 30-covariate parameter takes
+tens of seconds *per iteration*, and the M-step runs one search per parameter per
+iteration. Rohleff et al. hit the same wall and suggested switching solvers past
+roughly 25 covariates.
+
+`vaeControl(covSelectMethod=)` controls this:
+
+* `"auto"` (default) -- the exact branch-and-bound for a parameter with fewer than
+  `covSelectMaxExact` candidate covariates (default `17`, the measured wall-clock
+  crossover), and an L0Learn-accelerated path for one at or above it. The
+  threshold is the candidate count *after* `pinCovariates` trimming -- the size of
+  the search actually run.
+* `"bnb"` -- always the exact search.
+* `"l0learn"` -- always the accelerated path.
+
+**The accelerated path stays exact where it agrees.** The suggested `L0Learn`
+package only *proposes* candidate subsets (from its `L0` and `L0L2` regularization
+paths); `nlmixr2` then re-scores every proposal with the **same** exact objective
+`RSS/omega + log(N) * (number of covariates)`, the same regression and the same
+tie-break the branch-and-bound uses, and improves the winner by an add/drop/swap
+local search. So `L0Learn`'s own scaling and penalty grid cannot change *which*
+subset is selected -- they only decide which subsets are examined. Across a wide
+range of synthetic problems (including correlated covariate designs) the
+accelerated path reproduces the exact branch-and-bound optimum, at a fraction of
+the cost -- roughly 75x faster at 25 candidates on a parameter, and far more
+beyond that.
+
+`L0Learn` is a *suggested* dependency. When the exact search would be impractical
+but it is not installed, the fit stops with an error rather than run the slow
+search silently; install `L0Learn`, or set `covSelectMaxExact = Inf` to force the
+exact branch-and-bound everywhere. A fit that used the accelerated path records it
+in `fit$vae$covSelectMethodUsed` and notes it in `$runInfo`, so an approximate
+search is never silent.
+
+Nothing changes for a model below the threshold -- including the neonatal fit in
+this article, whose five candidates are well under it, so it runs the exact search
+exactly as before.
+
 # Goodness of fit
 
 Because a VAE fit assembles the standard `nlmixr2` fit object (objective
@@ -343,7 +386,11 @@ A VAE-NLME fit alternates three pieces per iteration:
    with a dependency-free branch-and-bound (the reference used a commercial
    MIQP solver). The search order is configurable via
    `vaeControl(bnbStrategy=)`, though the selected set is identical for every
-   strategy because the solver is exact.
+   strategy because the solver is exact. The exact search becomes impractical
+   once a single parameter has more than a couple of dozen candidate covariates;
+   for those wide problems `vaeControl(covSelectMethod=)` switches to an
+   L0Learn-accelerated path that keeps the *scoring* exact (see *Scaling
+   covariate selection to many covariates*).
 
 ## How gradients reach the encoder: sensitivities vs. autodiff
 
@@ -395,7 +442,7 @@ it.
 | Parameter transforms | `log`, `logit`, `probit`, identity (the standard `nlmixr2` set) | No: `log` only (`h = exp`) |
 | Bounds | `lower`/`upper` on a parameter are enforced by clamping the M-step estimate to the active bound | No |
 | Fixed parameters | Fixed structural `theta` (via `literalFix`), fixed `omega`, and fixed residual parameters are respected and excluded from estimation | No |
-| Covariate selection | Exact, dependency-free branch-and-bound over subsets; search order configurable with `vaeControl(bnbStrategy=)` | Yes, but via a commercial MIQP solver (`cvxpy` + GUROBI) |
+| Covariate selection | Exact, dependency-free branch-and-bound over subsets (`bnbStrategy`); an L0Learn-accelerated candidate path (`covSelectMethod`) keeps the scoring exact on wide covariate sets | Yes, but via a commercial MIQP solver (`cvxpy` + GUROBI) |
 | Multiple endpoints | Supported through the standard multiple-endpoint machinery | No: single endpoint |
 | Post-fit object | Full `nlmixr2FitData`: objective function, standard errors (`covMethod = "analytic"/"r,s"/...`), EBEs, CWRES/NPDE residuals, VPC, tables | No: prints and plots only |
 
@@ -432,7 +479,7 @@ collects the technical differences.
 | Model definition | Hand-written per case study | Any `nlmixr2` UI model, auto-translated via the `rxode2` pipeline |
 | Encoder | PyTorch `nn.LSTM` + `nn.Linear`, autograd | Native Armadillo LSTM with **exact analytic BPTT**, validated vs a Torch oracle to ~1e-6 |
 | Decoder | Closed-form solution or `torchode` solve | `rxode2`-compiled C ODE solve (any model / error model) |
-| M-step / covariate selection | Cython class + **cvxpy + GUROBI MIQP** | C++ **exact branch-and-bound** (`bnbStrategy`), no external solver |
+| M-step / covariate selection | Cython class + **cvxpy + GUROBI MIQP** | C++ **exact branch-and-bound**, plus an optional L0Learn candidate path for wide sets (`covSelectMethod`), no external solver |
 | `theta` with no `eta` | Not representable -- every population parameter carries a random effect | The **regressor**: bounded `bobyqa` against the inner likelihood (`nonMuTheta`) |
 | Inner likelihood / EBE | Hand-coded linearization + SciPy Nelder-Mead | Shared **FOCEi engine** (`n1qn1`, analytic Hessian, `covMethod`) |
 | Differentiation | PyTorch autograd throughout | Analytic gradients (encoder BPTT + `rxode2` sensitivities) |
@@ -501,7 +548,12 @@ Both converge to the same stationary point but with different per-iteration
 trajectories. For covariate selection the reference uses a commercial **MIQP**
 (binary indicators, big-M constraints); `nlmixr2` uses an **exact
 branch-and-bound** with an admissible RSS lower-bound prune -- provably the same
-selected subset, no GUROBI license, and a configurable search order.
+selected subset, no GUROBI license, and a configurable search order. Because the
+branch-and-bound cost grows quickly with the candidate count, a wide covariate set
+is instead handled by an L0Learn-backed candidate path (`covSelectMethod`) that
+scores every proposed subset with the same exact objective -- accelerating the
+search without giving up exact scoring (see *Scaling covariate selection to many
+covariates*).
 
 ## The regressor -- no counterpart in the reference
 
