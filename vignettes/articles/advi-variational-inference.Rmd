@@ -33,14 +33,38 @@ options(nlmixr2save.dir = "../cache",
 # Variational inference (`est = "advi"`)
 
 `nlmixr2` includes an **Automatic Differentiation Variational Inference**
-estimator, `est = "advi"`, following Kucukelbir et al. (2017) -- the same method
-that powers Stan's `vb()`. (Stan can *also* sample the exact posterior with MCMC,
-its NUTS sampler; but `vb()`, like `est = "advi"`, runs ADVI -- it maximizes the
-ELBO, it does not run NUTS.) Where FOCEI and SAEM give point estimates and a full
-MCMC method such as NUTS samples the exact posterior, ADVI **approximates the
-posterior** with a Gaussian in an unconstrained space and fits it by maximizing
-the evidence lower bound (ELBO) with stochastic gradient ascent -- so it sits
-between a point estimate and a full MCMC posterior.
+estimator, `est = "advi"`, in the style of Kucukelbir et al. (2017) -- the method
+that also powers Stan's `vb()`. (Stan can *also* sample the exact posterior with
+MCMC, its NUTS sampler; but `vb()`, like `est = "advi"`, runs ADVI -- it
+maximizes the ELBO, it does not run NUTS.) Where FOCEI and SAEM give point
+estimates and a full MCMC method such as NUTS samples the exact posterior, ADVI
+**approximates the posterior** with a Gaussian in an unconstrained space and fits
+it by maximizing the evidence lower bound (ELBO) with stochastic gradient ascent
+-- so it sits between a point estimate and a full MCMC posterior.
+
+**`est = "advi"` is a variation of the published algorithm rather than a
+reimplementation of it**, and the differences are worth stating before any
+numbers are compared with Stan:
+
+* **It is a variational-EM hybrid by default.** With `pointEstimate = TRUE` (the
+  default) the variational family covers only the per-subject random effects; the
+  population parameters -- thetas, `omega`, residual error -- are point estimates
+  updated by an M-step. Published ADVI places *every* parameter, covariance
+  parameters included, in the variational family, so a full-rank family there
+  produces a joint posterior covariance over the entire parameter vector.
+  `pointEstimate = FALSE` is the closer analogue: it adds the population vector to
+  the variational posterior under flat priors, though the between-subject `omega`
+  is carried as per-eta log-variances (plus any declared correlations) rather than
+  as a free covariance.
+* **The gradients are not from automatic differentiation.** They come from the
+  FOCEI forward sensitivities -- the inner per-subject eta gradient and the outer
+  population sensitivity contraction. "AD" here names the algorithm family, not
+  the derivative source.
+
+The practical consequence is that agreement with a Stan `vb()` fit should be
+expected where the two objectives genuinely coincide -- as in the single
+random-effect cross-check later in this article -- and not as a general
+guarantee.
 
 The nlmixr2 implementation has three properties worth stating up front, because
 they are what make it useful in a pharmacometric workflow:
@@ -331,6 +355,16 @@ few deliberate differences:
   gradient (stochastic maximum likelihood). The output then matches FOCEI/SAEM
   semantics. `pointEstimate = FALSE` puts `q` over the population vector too
   (flat priors) for a full-Bayes fit.
+* **Correlated random effects are estimated.** A declared block
+  (`eta.cl + eta.v ~ c(0.1, 0.01, 0.1)`) has its off-diagonals estimated, as in
+  `saem` and the `focei` family: the population M-step targets
+  `mean_i(mu_i mu_i')` under `meanField` and `mean_i(mu_i mu_i' + L_i L_i')`
+  under `fullRank`, where the per-subject `L_i L_i'` already carries the
+  within-subject cross-covariance. Only entries the model declares are estimated
+  (the second moment is masked to the model's structure, as `saem` does with
+  `covstruct1`), a `fixed()` covariance is held, and correlations are held at
+  zero for the first `perNoCor` (default 0.75) of the run so the variances settle
+  first -- `saem`'s `nb_correl` rule. A diagonal model is unaffected.
 * **Reproducible, parallel, resumable.** A counter-based RNG keyed by the global
   iteration index makes the fit independent of the number of cores, a short run a
   bit-for-bit prefix of a long one, and `resume =` an exact continuation.
