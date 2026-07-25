@@ -554,7 +554,13 @@ diagonal: the covariate regression whitens dimension `k` by the scalar
   0.75, the `saemControl()` default) of the EM phase only the variances move;
   the correlations are estimated afterwards. This is `saem`'s `nb_correl` rule
   and it exists for the same reason -- correlations estimated before the
-  variances have settled are noise that the later iterations must undo.
+  variances have settled are noise that the later iterations must undo. Note the
+  fraction is of the **EM phase** (`min(gammaIter, iters)`), not of the whole
+  run, which is what makes it safe: the gain is 1 for `it <= gammaIter`, so the
+  correlations are released while the gain is still 1 and are estimable the
+  moment they are unfrozen. (`est = "emvi"` has no comparable unit-gain phase,
+  so it has to restart the off-diagonal gain at release instead -- omitting that
+  is not a theoretical concern, it recovered `rho = 0.16` against a true 0.75.)
 - **The covariate regression is a GLS in the full `Omega`.** Per-dimension
   whitening by `1/sqrt(omega_k)` is the correct metric only when `Omega` is
   diagonal; with a block, residuals across dimensions are correlated and that
