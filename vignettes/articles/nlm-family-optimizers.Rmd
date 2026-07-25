@@ -189,7 +189,7 @@ move to the mixed-effects methods: the [conditional-estimation
 ladder](linearized-quadrature-ladder.html) (`focei` and relatives),
 [SAEM](saem.html), the [importance-sampling EM
 family](imp-impmap-qrpem.html), or the [nonparametric](nonparametric-npag-npb.html)
-and [variational](advi-variational-inference.html) methods. A common workflow is
+and [variational](variational-inference.html) methods. A common workflow is
 to nail down the structural model with a fast population-only optimizer first,
 then add random effects and switch to `focei` or `saem`.
 

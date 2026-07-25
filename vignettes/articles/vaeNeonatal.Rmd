@@ -558,8 +558,8 @@ diagonal: the covariate regression whitens dimension `k` by the scalar
   `1/P_kk = omega_k`, recovering the reference expression unchanged.
 
 A diagonal model is therefore unaffected in every respect; the machinery only
-engages when the model declares a block. `est = "advi"` gained the same
-treatment at the same time -- notably, with `adviFamily = "fullRank"` the
+engages when the model declares a block. `est = "emvi"` gained the same
+treatment at the same time -- notably, with `viFamily = "fullRank"` the
 per-subject variational posterior `L_i L_i'` already carried the cross-covariance
 and the population M-step had been discarding it.
 
