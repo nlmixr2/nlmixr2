@@ -351,10 +351,40 @@ few deliberate differences:
   latent variable.
 * **A point-estimate / full-Bayes switch.** `pointEstimate = TRUE` (default) is a
   variational-EM hybrid: `q` covers the per-subject etas, while the population
-  thetas / omega / residual error are point estimates maximized by the same ADVI
-  gradient (stochastic maximum likelihood). The output then matches FOCEI/SAEM
-  semantics. `pointEstimate = FALSE` puts `q` over the population vector too
-  (flat priors) for a full-Bayes fit.
+  thetas / omega / residual error are point estimates maximized by the same ELBO
+  gradient. The output then matches FOCEI/SAEM semantics. `pointEstimate = FALSE`
+  puts `q` over the population vector too (flat priors) for a full-Bayes fit.
+
+## A caveat worth stating: the ELBO is a bound, so the point estimates are biased
+
+The population point estimates maximize the **ELBO**, not the likelihood. Because
+
+`ELBO = log p(y | theta) - KL(q || p(eta | y, theta))`,
+
+any dependence of that KL divergence on `theta` moves the maximizer away from the
+MLE. This is *variational maximum likelihood*, and it is a property of the
+method, not an implementation shortcoming.
+
+For the **variance components the direction of the bias is known: downward.** The
+`omega` M-step is `Omega = mean_i(mu_i mu_i' + Sigma_i)`, so if the variational
+family understates the per-subject posterior spread `Sigma_i`, the estimated
+between-subject variability inherits that understatement. The effect is worst for
+`adviFamily = "meanField"`, which cannot represent within-subject posterior
+correlation at all -- that is exactly why `"fullRank"` is the default here, rather
+than the mean-field family that is usually the ADVI default elsewhere. Structural
+(typical-value) parameters are much less affected, which is why they line up with
+FOCEI and SAEM in the comparison above.
+
+Practical guidance: keep `adviFamily = "fullRank"`, and if the between-subject
+variances are themselves the quantity you care about, cross-check against
+`est = "focei"` or `est = "saem"` rather than reporting them from a variational
+fit alone.
+
+This is a different *kind* of approximation from FOCEI's, not simply a worse one:
+FOCEI uses a Laplace approximation to the marginal likelihood, which is not a
+bound and whose error has no guaranteed sign; the variational objective is a
+strict lower bound whose error is a KL divergence with a systematic consequence
+for variances.
 * **Correlated random effects are estimated.** A declared block
   (`eta.cl + eta.v ~ c(0.1, 0.01, 0.1)`) has its off-diagonals estimated, as in
   `saem` and the `focei` family: the population M-step targets
@@ -365,9 +395,70 @@ few deliberate differences:
   `covstruct1`), a `fixed()` covariance is held, and correlations are held at
   zero for the first `perNoCor` (default 0.75) of the run so the variances settle
   first -- `saem`'s `nb_correl` rule. A diagonal model is unaffected.
+* **A different default step-size grid.** `adaptEta` searches `etaCandidates`,
+  which defaults to `c(0.01, 0.025, 0.05, 0.1, 0.25)` where Stan searches
+  `c(100, 10, 1, 0.1, 0.01)`. The grid is a control, not a constant -- passing
+  `adviControl(etaCandidates = c(100, 10, 1, 0.1, 0.01))` reproduces Stan's
+  search exactly. The default differs because the gradients differ: ours come
+  from FOCEI sensitivities on the model's own scale rather than from AD through
+  a Stan program, so the useful step sizes sit lower.
 * **Reproducible, parallel, resumable.** A counter-based RNG keyed by the global
   iteration index makes the fit independent of the number of cores, a short run a
   bit-for-bit prefix of a long one, and `resume =` an exact continuation.
+* **Summaries, not draws.** Stan's `vb()` writes `output_samples` (1000 by
+  default) draws from the variational approximation; `est = "advi"` returns the
+  approximation itself -- the variational mean and its Cholesky factor, plus
+  `$env$adviCov` for the population block under full Bayes. See *Why no posterior
+  draws?* below.
+* **Optional prior tempering.** `adviControl(klWarmup =)` inflates the population
+  prior for a warm-up period, ramping back to 1. It is **off by default** and it
+  changes the objective function mid-run -- see *Prior tempering* below.
+
+## Why no posterior draws?
+
+The variational family **is** a Gaussian. The approximation is therefore
+completely characterized by its mean and covariance, both of which are returned;
+a sample drawn from it carries no information the parameters do not already
+carry, only Monte-Carlo noise and a dependence on the draw seed in numbers users
+would reasonably treat as the result.
+
+If you want draws, generate them from the returned summaries -- this is the whole
+of what Stan's `output_samples` does internally:
+
+```r
+## draws for subject i from the returned variational posterior
+L <- matrix(0, neta, neta); L[lower.tri(L, diag = TRUE)] <- fit$env$adviState$Lpack[i, ]
+draws <- t(fit$env$adviState$mu[i, ] + L %*% matrix(rnorm(neta * 1000), neta, 1000))
+```
+
+There is also nothing downstream that would consume them: `parFixed`, the
+covariance step, and simulation-based diagnostics (VPC, `augPred()`) all take
+point estimates plus a covariance matrix, not a draw matrix, and the individual
+random effects are already reported as EBEs. Emitting draws would add an output
+contract that nothing reads.
+
+## Prior tempering (`klWarmup`), and why it is off by default
+
+`adviControl(klWarmup = n)` inflates the population prior by a factor ramping
+geometrically from `temperInit` (default 10) down to 1 over `n` iterations. It
+guards against *posterior collapse* -- the per-subject variational scale
+shrinking so early that the gradient signal for the variational mean dies -- and
+it is the variational analogue of `saemControl()`'s `perSa` simulated-annealing
+phase. True simulated annealing does not transfer, because variational inference
+has no MCMC kernel that needs to be kept wide.
+
+**It changes the objective function mid-run**, which is why it is off by default
+and worth stating plainly. During the warm-up the algorithm maximizes a tempered
+surrogate, not the ELBO. Three consequences follow: the convergence theory for
+the ELBO does not cover the warm-up iterations; the reported ELBO trace is not
+comparable across the tempering boundary, so the trajectory plot will show a
+level shift there rather than a smooth approach; and the `tol` early-stopping
+test is suppressed until tempering finishes, since a moving objective cannot be
+tested for having stopped moving. The `adaptEta` step-size search likewise scores
+its candidates on the untempered objective.
+
+Turn it on for a model where the variational scale visibly collapses early; leave
+it off otherwise.
 
 # ADVI among the estimators: FOCEI, SAEM, Stan ADVI, VAE
 
