@@ -519,6 +519,7 @@ it.
 | Parameter transforms | `log`, `logit`, `probit`, identity (the standard `nlmixr2` set) | No: `log` only (`h = exp`) |
 | Bounds | `lower`/`upper` on a parameter are enforced by clamping the M-step estimate to the active bound | No |
 | Fixed parameters | Fixed structural `theta` (via `literalFix`), fixed `omega`, and fixed residual parameters are respected and excluded from estimation | No |
+| Correlated random effects | A declared block `eta.cl + eta.v ~ c(0.1, 0.01, 0.1)` has its off-diagonals estimated, held at zero for the first `perNoCor` of the run so the variances settle first (saem's rule). A `fixed()` covariance is honored throughout. See [Correlated random effects](#correlated-random-effects-omega-off-diagonals) | No: diagonal `omega` only |
 | Covariate selection | Exact, dependency-free branch-and-bound over subsets (`bnbStrategy`); an L0Learn-accelerated candidate path (`covSelectMethod`) keeps the scoring exact on wide covariate sets | Yes, but via a commercial MIQP solver (`cvxpy` + GUROBI) |
 | Multiple endpoints | Supported through the standard multiple-endpoint machinery | No: single endpoint |
 | Post-fit object | Full `nlmixr2FitData`: objective function, standard errors (`covMethod = "analytic"/"r,s"/...`), EBEs, CWRES/NPDE residuals, VPC, tables | No: prints and plots only |
@@ -725,7 +726,18 @@ and both solve the **same L0 objective per latent dimension**,
 - `nlmixr2` follows that for the latent parameters: `covSelectSmooth` regresses
   the smoothed statistic and `omegaUpdate = "suffStat"` (both defaults) form
   `omega` from the sufficient statistics and assign it, matching the reference
-  and `nlmixr2`'s own SAEM.
+  and `nlmixr2`'s own SAEM. `vaeControl(omegaUpdate = "blend")` selects the
+  historic `nlmixr2` path instead, regressing the **current** iteration's
+  posterior means and then EMA-smoothing the resulting **estimate** -- so it is
+  smoothed twice.
+
+The two `omega` updates converge to the same stationary point but with different
+per-iteration trajectories. In fact they are the *same* update while the gain is
+1, which it is for the whole burn-in and EM phase: assigning a value and blending
+it in with weight 1 are the same operation. They diverge only once `gammaIter`
+starts decaying the gain, so a short run at default settings shows no difference
+between them at all (measured: agreement to ~1e-13, separating to ~1e-5 once the
+gain decays).
 
 **The residual error is estimated differently, and deliberately so.** The
 reference carries an EMA on the residual sum of squares and takes the root
@@ -789,6 +801,147 @@ cost grows quickly with the candidate count, a wide covariate set is instead
 handled by an L0Learn-backed candidate path (`covSelectMethod`) that scores every
 proposed subset with the same exact objective -- accelerating the search without
 giving up exact scoring (see *Scaling covariate selection to many covariates*).
+
+## Correlated random effects -- `omega` off-diagonals
+
+**The reference estimates only the `omega` diagonal. `nlmixr2` estimates the
+off-diagonals of a declared block**, so a correlated model
+
+```r
+eta.cl + eta.v ~ c(0.1,
+                   0.01, 0.1)
+```
+
+is fitted the way `saem` and the `focei` family fit it, rather than silently
+returning the correlation you started from.
+
+This is not a case of the reference lacking the information. Its M-step
+accumulates the sufficient statistics as **full** `z_dim x z_dim` matrices --
+`s2` (an EMA of `sum_i mu_i mu_i'`), `s3` (an EMA of `sum_i L_i L_i'`) and the
+covariate cross terms -- assembles the complete between-subject covariance, and
+then discards everything off the diagonal in the closing line:
+
+```python
+omega_pop = 1/self.nbatch * (self.s2 + omega_pop + self.s3).diag()
+```
+
+`.diag()` on a 2-D tensor *extracts* the diagonal, so `omega_pop` leaves the
+M-step as a length-`z_dim` vector. Every consumer downstream then assumes a
+diagonal: the covariate regression whitens dimension `k` by the scalar
+`1/sqrt(omega_pop[k])`, and the fixed-effect GLS builds its precision as
+`(1/omega_pop).diag()`.
+
+`nlmixr2` keeps those off-diagonals, following its own SAEM in three respects:
+
+- **Only declared entries are estimated.** The full second moment is masked to
+  the model's structure, exactly as `saem` does with
+  `Gamma2_phi1 = Gamma2_phi1 %*% covstruct1` -- a correlation you did not write
+  is never introduced, and a `fixed()` covariance is held.
+- **Correlations are held at zero early.** For the first `perNoCor` (default
+  0.75, the `saemControl()` default) of the EM phase only the variances move;
+  the correlations are estimated afterwards. This is `saem`'s `nb_correl` rule
+  and it exists for the same reason -- correlations estimated before the
+  variances have settled are noise that the later iterations must undo. Note the
+  fraction is of the **EM phase** (`min(gammaIter, iters)`), not of the whole
+  run, which is what makes it safe: the gain is 1 for `it <= gammaIter`, so the
+  correlations are released while the gain is still 1 and are estimable the
+  moment they are unfrozen. (`est = "emvi"` has no comparable unit-gain phase,
+  so it has to restart the off-diagonal gain at release instead -- omitting that
+  is not a theoretical concern, it recovered `rho = 0.16` against a true 0.75.)
+- **The covariate regression is a GLS in the full `Omega`.** Per-dimension
+  whitening by `1/sqrt(omega_k)` is the correct metric only when `Omega` is
+  diagonal; with a block, residuals across dimensions are correlated and that
+  scoring is simply wrong. Each dimension keeps its own exact L0 search -- so a
+  selected covariate still belongs to one interpretable parameter -- but on an
+  offset response and its conditional variance,
+
+  `min sum_i (r_ik + c_ik)^2 / (1/P_kk)`, with `P = Omega^-1` and
+  `c_ik = (1/P_kk) sum_{j != k} P_kj r_ij`,
+
+  which is the exact joint objective `sum_i r_i' Omega^-1 r_i` solved by
+  coordinate descent over dimensions. For a diagonal `Omega`, `c_ik = 0` and
+  `1/P_kk = omega_k`, recovering the reference expression unchanged.
+
+### What this changes for covariate selection
+
+The GLS metric is not only a scoring detail -- it can change **which covariates
+are selected**, because the L0 objective it feeds is the thing being minimized
+over subsets.
+
+Concretely, with a declared block the response dimension `k` is regressed on is
+no longer the raw residual but the residual plus an offset carrying the *other*
+dimensions' information, and the penalty is compared against the conditional
+variance `1/P_kk` rather than the marginal `omega_k`. Two consequences:
+
+- A covariate that looks uninformative for `eta.cl` on its own can become
+  worth its penalty once `eta.v`'s correlated residual is accounted for, and
+  vice versa. The stronger the correlation, the larger the divergence; at
+  `rho = 0` the offset vanishes, `1/P_kk = omega_k`, and the selected subset is
+  identical to the diagonal case by construction.
+- Because `1/P_kk <= omega_k` always (conditioning cannot increase variance --
+  the Schur-complement result), the penalty is weighed against a smaller
+  denominator, so a correlated block is in general *more* willing to retain a
+  covariate than the same model fitted with the correlation ignored. The gap is
+  not marginal at realistic correlations: at `rho = 0.75` the conditional
+  variance is 0.44 times the marginal one.
+
+One implementation point worth stating, since getting it wrong would be invisible
+in the output: when `covSelectMethod` uses `L0Learn` to **propose** candidate
+supports, the proposals are generated from the same GLS-adjusted response the
+exact search then scores. Proposing under the diagonal metric and scoring under
+the GLS one would quietly bias the candidate pool -- the proposal step would be
+answering a different question than the selection step.
+
+This is also the reason the correlated-omega work touches covariate selection at
+all. The two are usually independent knobs; here the covariance structure enters
+the selection objective directly.
+
+A diagonal model is therefore unaffected in every respect; the machinery only
+engages when the model declares a block. `est = "emvi"` gained the same
+treatment at the same time -- notably, with `viFamily = "fullRank"` the
+per-subject variational posterior `L_i L_i'` already carried the cross-covariance
+and the population M-step had been discarding it.
+
+### Which omega M-step runs, and why there are two
+
+`est = "vae"` has **two** omega M-step branches, and the off-diagonals follow
+whichever one the diagonal takes. Which branch runs is decided by
+`covariateSelection`, *not* by the objective:
+
+| branch | when | diagonal | off-diagonal |
+|---|---|---|---|
+| covariate M-step | `covariateSelection = TRUE` | follows `omegaUpdate=` | follows `omegaUpdate=` |
+| plain closed-form | `covariateSelection = FALSE` | raw posterior moments, gain-blended | same |
+
+Within the covariate branch, `vaeControl(omegaUpdate=)` selects between:
+
+* `"suffStat"` (default, the reference behavior) -- `omega` is formed from the
+  EMA sufficient statistics and **assigned outright**. The off-diagonal
+  counterpart is `(s2M + cross + s3M)/N`, with
+  `cross = sum_i (-c_i s_i' - s_i c_i' + c_i c_i')` against the smoothed `s1`.
+* `"blend"` (historic) -- `omega` is formed from the **raw** posterior moments
+  `(1/N) sum_i [d_i d_i' + L_i L_i']` and blended with the previous value at the
+  M-step gain, so it is smoothed twice.
+
+The plain branch has no `omegaUpdate` switch: its diagonal never reads the
+sufficient statistics, so its off-diagonal is always the raw-moment, gain-blended
+form. **That pairing is the invariant that matters** -- estimating the diagonal
+from the EMA statistics while estimating the off-diagonal from raw moments would
+build one block out of two different estimators, and the result need not even be
+positive definite.
+
+(As noted under [M-step](#m-step-same-idea-different-smoothing-point), the two
+`omegaUpdate` paths are the same update while the gain is 1, so they only differ
+in the smoothing tail.)
+
+One more thing worth stating because it is natural to assume otherwise:
+**`mStepObjective` does not enter the omega update at all.** It selects what the
+non-mu *theta* M-step is scored against (the full FOCEi outer objective, or the
+reference's plain ELBO) and gates `nonMuTheta = "grad"`. Omega has a closed-form
+EM update from the variational posterior either way, so the outer objective only
+matters for the parameters that have no closed form. An ELBO-only fit and an
+outer-objective fit use identical omega machinery -- the branch above is chosen
+by `covariateSelection`, and the estimator within it by `omegaUpdate`.
 
 ## The regressor -- no counterpart in the reference
 
