@@ -563,6 +563,48 @@ treatment at the same time -- notably, with `viFamily = "fullRank"` the
 per-subject variational posterior `L_i L_i'` already carried the cross-covariance
 and the population M-step had been discarding it.
 
+### Which omega M-step runs, and why there are two
+
+`est = "vae"` has **two** omega M-step branches, and the off-diagonals follow
+whichever one the diagonal takes. Which branch runs is decided by
+`covariateSelection`, *not* by the objective:
+
+| branch | when | diagonal | off-diagonal |
+|---|---|---|---|
+| covariate M-step | `covariateSelection = TRUE` | follows `omegaUpdate=` | follows `omegaUpdate=` |
+| plain closed-form | `covariateSelection = FALSE` | raw posterior moments, gain-blended | same |
+
+Within the covariate branch, `vaeControl(omegaUpdate=)` selects between:
+
+* `"suffStat"` (default, the reference behavior) -- `omega` is formed from the
+  EMA sufficient statistics and **assigned outright**. The off-diagonal
+  counterpart is `(s2M + cross + s3M)/N`, with
+  `cross = sum_i (-c_i s_i' - s_i c_i' + c_i c_i')` against the smoothed `s1`.
+* `"blend"` (historic) -- `omega` is formed from the **raw** posterior moments
+  `(1/N) sum_i [d_i d_i' + L_i L_i']` and blended with the previous value at the
+  M-step gain, so it is smoothed twice.
+
+The plain branch has no `omegaUpdate` switch: its diagonal never reads the
+sufficient statistics, so its off-diagonal is always the raw-moment, gain-blended
+form. **That pairing is the invariant that matters** -- estimating the diagonal
+from the EMA statistics while estimating the off-diagonal from raw moments would
+build one block out of two different estimators, and the result need not even be
+positive definite.
+
+Two consequences worth knowing:
+
+* The two `omegaUpdate` paths **coincide while the gain is 1**, which it is for
+  the whole burn-in and until `gammaIter` starts decaying it -- assignment and
+  an EMA with weight 1 are the same operation. On short runs at default settings
+  they agree to floating-point noise (~1e-13); they separate only in the decay
+  phase, where the measured difference on a two-eta test model is ~1e-5.
+* `mStepObjective` does **not** enter the omega update at all. It selects what
+  the non-mu *theta* M-step is scored against (the full FOCEi outer objective, or
+  the reference's plain ELBO) and gates `nonMuTheta = "grad"`. Omega has a
+  closed-form EM update from the variational posterior either way, so the outer
+  objective only matters for the parameters that have no closed form. An
+  ELBO-only fit and an outer-objective fit use the same omega machinery.
+
 ## The regressor -- no counterpart in the reference
 
 The **regressor** -- the bounded `bobyqa` optimization against the FOCEi inner

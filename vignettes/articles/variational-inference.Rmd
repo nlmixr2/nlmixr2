@@ -52,7 +52,9 @@ The two methods differ only in what the variational posterior covers:
   the unconstrained population vector under flat priors, giving population
   credible intervals without MCMC.
 
-Both share one control, `viControl()`.
+They share one control: `emviControl()` carries the full argument list and
+`fbviControl()` is its thin wrapper setting `pointEstimate = FALSE`, the same
+shim shape `impControl()` has over `impmapControl()`.
 
 **Neither is the published ADVI algorithm, and neither is named for it.** These
 methods were briefly called `est = "advi"` during development; the name was wrong
@@ -125,7 +127,7 @@ fitFocei := nlmixr2(theoModel, nlmixr2data::theo_sd, est = "focei",
 fitSaem  := nlmixr2(theoModel, nlmixr2data::theo_sd, est = "saem",
                     control = saemControl(nBurn = 200L, nEm = 300L, print = 0L))
 fitEmvi  := nlmixr2(theoModel, nlmixr2data::theo_sd, est = "emvi",
-                    control = viControl(iters = 500L, print = 0L))
+                    control = emviControl(iters = 500L, print = 0L))
 ```
 
 The population parameters agree across all three:
@@ -155,10 +157,10 @@ iteration ELBO:
 library(ggplot2)
 
 viFR := nlmixr2(theoModel, nlmixr2data::theo_sd, est = "emvi",
-                  control = viControl(iters = 500L, print = 0L,
+                  control = emviControl(iters = 500L, print = 0L,
                                         returnVi = TRUE, viFamily = "fullRank"))
 viMF := nlmixr2(theoModel, nlmixr2data::theo_sd, est = "emvi",
-                  control = viControl(iters = 500L, print = 0L,
+                  control = emviControl(iters = 500L, print = 0L,
                                         returnVi = TRUE, viFamily = "meanField"))
 
 elboDf <- rbind(
@@ -234,7 +236,7 @@ which population **credible intervals** follow directly:
 
 ```{r bayes}
 fitBayes := nlmixr2(theoModel, nlmixr2data::theo_sd, est = "fbvi",
-                    control = viControl(iters = 800L, print = 0L, returnVi = TRUE))
+                    control = fbviControl(iters = 800L, print = 0L, returnVi = TRUE))
 
 ## posterior mean + covariance over the unconstrained population vector
 ## (log ka / cl / v are the first three entries); 95% credible intervals for the
@@ -408,7 +410,7 @@ for variances.
 * **A different default step-size grid.** `adaptEta` searches `etaCandidates`,
   which defaults to `c(0.01, 0.025, 0.05, 0.1, 0.25)` where Stan searches
   `c(100, 10, 1, 0.1, 0.01)`. The grid is a control, not a constant -- passing
-  `viControl(etaCandidates = c(100, 10, 1, 0.1, 0.01))` reproduces Stan's
+  `emviControl(etaCandidates = c(100, 10, 1, 0.1, 0.01))` reproduces Stan's
   search exactly. The default differs because the gradients differ: ours come
   from FOCEI sensitivities on the model's own scale rather than from AD through
   a Stan program, so the useful step sizes sit lower.
@@ -420,7 +422,7 @@ for variances.
   approximation itself -- the variational mean and its Cholesky factor, plus
   `$env$viCov` for the population block under full Bayes. See *Why no posterior
   draws?* below.
-* **Optional prior tempering.** `viControl(klWarmup =)` inflates the population
+* **Optional prior tempering.** `emviControl(klWarmup =)` inflates the population
   prior for a warm-up period, ramping back to 1. It is **off by default** and it
   changes the objective function mid-run -- see *Prior tempering* below.
 
@@ -449,7 +451,7 @@ contract that nothing reads.
 
 ## Prior tempering (`klWarmup`), and why it is off by default
 
-`viControl(klWarmup = n)` inflates the population prior by a factor ramping
+`emviControl(klWarmup = n)` inflates the population prior by a factor ramping
 geometrically from `temperInit` (default 10) down to 1 over `n` iterations. It
 guards against *posterior collapse* -- the per-subject variational scale
 shrinking so early that the gradient signal for the variational mean dies -- and
