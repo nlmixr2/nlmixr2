@@ -130,28 +130,151 @@ print(fit)
 The selected covariate effects are injected directly into the fitted model, so
 they appear in the parameter table just like any hand-specified effect. The
 canonical result for this case study is a **gestational-age effect on birth
-weight**, which shows up as a `beta_lW0_GA` coefficient on the `lW0` line.
+weight**, which shows up as a coefficient on the `lW0` line.
 
-Printing the fitted model shows how the covariate enters. A continuous covariate
-is **centered** on its population value and added as `beta * log(COV / center)`;
-a multi-level categorical covariate enters as `beta * (COV - center)`. Centering
-keeps the intercept interpretable as the typical-subject value. A `0`/`1`
-**indicator** covariate (such as `sex`, `DelM` or `Para2` here) is *not*
-centered -- it is already in its natural parameterization, so it enters bare as
-`beta * COV`, its coefficient is the level-1 shift, and the intercept stays the
-reference (`COV = 0`) value:
+Injected coefficients are named `beta.<parameter>.<COVARIATE>.<shape>`, so
+`beta.lW0.GA.power` is the `power`-shaped `GA` effect on `lW0`. The name tells
+you which parameter carries the effect, which data column it came from, and the
+functional form it was written in -- all three matter when you compare
+coefficients between runs.
 
 ```{r}
-# the fitted, covariate-augmented model -- note the centered log(GA/<center>) term
+# the fitted, covariate-augmented model -- note the centered covariate term
 print(fit$ui)
 
 # the fixed-effect table, including any selected covariate coefficients
 fit$parFixed
 ```
 
-A positive `beta_lW0_GA` means heavier birth weights at higher gestational age
--- the expected physiological relationship, recovered automatically without
+A positive `GA` coefficient means heavier birth weights at higher gestational
+age -- the expected physiological relationship, recovered automatically without
 specifying it up front.
+
+# How covariates are handled
+
+It is worth knowing what the search actually considers, because that determines
+both what it can find and what a coefficient means.
+
+## Which data columns become candidates
+
+Every column that is not a reserved one (`ID`, `TIME`, `DV`, `AMT`, `EVID` and
+friends) is examined, and a column qualifies only if it is
+
+- **subject-constant** -- the effect is absorbed as a subject-level shift, so a
+  time-varying column cannot be searched;
+- **complete and finite** for every subject -- the M-step is a least-squares fit
+  with no imputation, and the written model has no guard to carry an imputed
+  value to solve time; and
+- **not a single repeated value**, which would duplicate the intercept.
+
+Anything excluded is reported in `$runInfo` rather than dropped silently.
+`vaeCovariates()` shows the whole candidate set without running a fit:
+
+```{r}
+vaeCovariates(neonatal)
+```
+
+Each **row is one search column**, not one covariate. A continuous covariate
+contributes several columns -- one per functional form it is allowed to take --
+and a categorical one contributes an indicator per level.
+
+## The three kinds of covariate
+
+- **Continuous** (more than two distinct values) is **centered** on its
+  population value, which keeps the structural parameter interpretable as the
+  typical-subject value. The centering statistic is the **median** by default.
+- **Categorical** enters as one `0`/`1` indicator per level, with the *modal*
+  level as reference. A level held by fewer than `catCutoff` of the subjects is
+  lumped into the reference rather than given its own coefficient (it would be
+  fit on too few subjects); those are listed in `$runInfo`.
+- **A bare `0`/`1` indicator column** (such as `sex`, `DelM` or `Para2` here) is
+  already in its natural parameterization, so it is left alone -- it enters as
+  `beta * COV`, its coefficient is the level-1 shift, and the structural
+  parameter stays the reference (`COV = 0`) value.
+
+## Shapes: the functional forms a continuous covariate may take
+
+`shapes=` controls which parameterizations the search may try, using the same
+vocabulary as `nlmixr2scm::runSCM()`. With `ctr` the centering value:
+
+| shape | written as | reads as |
+|---|---|---|
+| `"power"` | `beta * log(COV/ctr)` | allometric; `beta` is the power on `COV` |
+| `"log"` | `beta * log(COV)` | same curve, uncentered |
+| `"lin"` | `beta * (COV - ctr)` | straight line; `beta` is change per unit |
+| `"identity"` | `beta * COV` | same line, uncentered |
+| `"center"` | `beta * (COV/ctr)` | same line, as a fraction of typical |
+| `"hockey"` | `beta.low * (COV < ctr) * (COV - ctr)`<br>`+ beta.hi * (COV >= ctr) * (COV - ctr)` | two slopes meeting at `ctr` |
+
+All six are searched by default.
+
+Two things follow from this table. First, the selection objective is a
+least-squares fit with a free intercept, so it only sees the **span** of a
+column: `"power"` and `"log"` describe the same model, as do `"lin"`,
+`"identity"` and `"center"`. Within such a group the shape decides only how an
+accepted effect is *written back*, and the one you list **first** in `shapes=`
+wins. Second, **at most one shape of a covariate may enter a given parameter** --
+you never get two competing parameterizations of the same covariate on one line.
+
+`"hockey"` is the exception to the first point: it spans a strictly larger model
+than the straight-line shapes, because its two arms bend at the knot instead of
+sharing one slope. It is **continuous** at the knot -- both arms vanish there,
+so the structural parameter still means the value at `ctr` -- and both arms
+enter or neither does. It costs two coefficients where a linear shape costs one,
+so the BICc penalty only takes it when the bend genuinely earns its keep; a
+covariate whose effect really is a straight line comes back as `"lin"`. If fewer
+than `catCutoff` of the subjects fall on one side of the knot, hockey is skipped
+for that covariate with a note in `$runInfo` -- normally unreachable, since the
+median splits the subjects in half by construction.
+
+## How a covariate is chosen
+
+Every candidate column is scored by an L0-penalized least-squares fit of the
+encoder's latent posterior means, with a `log(N)` (BICc) penalty **per
+coefficient**. A covariate therefore has to improve the fit by more than it
+costs, which is what lets the method reject a spurious effect instead of
+force-fitting it -- and what makes hockey's second coefficient a real hurdle
+rather than a free upgrade.
+
+## Changing the settings
+
+```{r, eval=FALSE}
+vaeControl(
+  # which shapes a continuous covariate may take
+  shapes = c("power", "lin", "log", "identity", "center", "hockey"),
+  # restrict per covariate, or per parameter/covariate pair:
+  # shapes = list(GA = c("power", "hockey"))
+  # shapes = list(list(var = "lW0", covar = "GA", shapes = "power"))
+
+  covCenterType = "median",   # or "mean"; computed over subjects, not rows
+  covCenter = NULL,           # override outright, e.g. c(GA = 32)
+  catCutoff = 0.05,           # min subject share for a level (and a hockey side)
+
+  covSelectMethod = "auto",   # "bnb" (exact), "l0learn", or "auto"
+  covSelectMaxExact = 17L     # search size, in bits, at which "auto" switches
+)
+```
+
+A few notes on the ones whose effect is not obvious from the name:
+
+- **`shapes`** also takes a list, so you can restrict one covariate
+  (`list(GA = "power")`) or a single parameter/covariate pair
+  (`list(list(var =, covar =, shapes =))`). Anything you do not name keeps the
+  full default set. It controls *parameterizations only* -- which covariates are
+  searched is `pinCovariates`, below.
+- **`covCenter`** is worth setting when a conventional reference exists (70 kg,
+  40 weeks) so coefficients are comparable across analyses. It is also the
+  **knot** for `"hockey"`, which is the one setting that changes where the bend
+  is allowed to occur.
+- **`covSelectMethod`** picks the engine, not the answer. `"bnb"` is an exact
+  branch-and-bound; past roughly `covSelectMaxExact` bits of search space it
+  becomes impractical and `"auto"` hands candidate subsets to `L0Learn` instead.
+  Those candidates are then re-scored and polished with the *same* exact
+  objective, so the proposer can never shift a selection on its own -- and a
+  non-exact search always says so in `$runInfo`.
+
+Turning the search off entirely, or restricting it to the effects you already
+wrote, is covered next.
 
 # Pre-specified covariates (`covariateSelection = FALSE`)
 
@@ -215,12 +338,12 @@ setting the estimator differences aside, exact numerical agreement is not
 guaranteed.
 
 Finally, watch the **parameterization** -- but only when the covariate is *not*
-pinned. When it auto-discovers a covariate, the selection path centers a
-continuous one as `beta * log(COV / center)` with `center` the covariate's
-population mean (multi-level categorical: `beta * (COV - center)`; a `0`/`1`
-indicator is left bare). If a hand-written effect uses a different center, or an
-un-transformed `beta * COV`, `beta` is on a different scale and is not
-comparable. `vaeCovariates()` reports the center the search would use.
+pinned. When it auto-discovers a covariate, the selection path picks both the
+shape and the centering value itself, so a hand-written effect using a different
+form, or a different center, puts `beta` on a different scale and it is not
+comparable. `vaeCovariates()` reports exactly which columns the search would
+build and the center it would use for each; the shape it settled on is in the
+coefficient's own name (`beta.lW0.GA.power`).
 
 This caveat does **not** apply to the pinned path (the default): a pinned
 covariate is searched at its *model* value, so the centering you wrote -- or the
@@ -237,9 +360,9 @@ selection machinery -- there is nothing to reconcile. Two tips still apply when
 you deliberately fall back to the regressor path (`pinCovariates = FALSE`, or
 `covariateSelection = FALSE`):
 
-- **Match the parameterization.** Write the effect the same centered way
-  selection does (`beta * log(COV / center)`, using the center from
-  `vaeCovariates()`) so the coefficient is on the same scale.
+- **Match the parameterization.** Write the effect in the same shape and at the
+  same center the search would use -- both are reported by `vaeCovariates()` --
+  so the coefficient is on the same scale.
 - **Refit deterministically for a path-independent number.** Refit the final
   covariate-augmented model with a classical estimator, e.g. `est = "focei"`,
   for a well-defined maximum-likelihood coefficient that does not depend on the
