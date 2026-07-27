@@ -403,8 +403,8 @@ A few more things that are easy to get wrong:
   `DelM` here is silently inert -- those enter as indicators, and `catCutoff`,
   not `shapes`, governs them.
 - **A rule cannot remove a covariate from the search**, only change how it may
-  be written; every rule must name at least one shape. Excluding a covariate is
-  `pinCovariates`.
+  be written; every rule must name at least one shape. Restricting *which*
+  pairs are searched is the next section.
 - **Order within a shape vector still decides write-back.** Rule 4 lists
   `c("hockey", "lin")`, which does not prefer hockey -- hockey is a separate
   family and competes on BICc like any other candidate. What the order settles
@@ -414,9 +414,19 @@ A few more things that are easy to get wrong:
   for `"power"` or `"log"` on a covariate with non-positive values and the
   covariate stays searchable through the fallback column that does exist, so
   the restriction does not quietly drop it from the search.
+- **Under pinning (next section) `shapes=` is ignored entirely.** A pinned cell
+  is an effect *you wrote*, and it is pinned to the shape you wrote it in;
+  intersecting that with a `shapes=` rule could empty the cell and delete a
+  declared effect, so the declaration wins outright.
 
-Turning the search off entirely, or restricting it to the effects you already
-wrote, is covered next.
+## Restricting *which* pairs are searched
+
+`shapes=` deliberately cannot do that: it says how a covariate may be written,
+never whether a given parameter may carry it. The mechanism for that is
+`pinCovariates`, and it is driven by the model rather than by a control
+argument -- writing an effect into the model is how you name the pairs the
+search is allowed to consider. It is the default, and it has its own section:
+*Pinning the search to your model*, below.
 
 # Pre-specified covariates (`covariateSelection = FALSE`)
 
@@ -431,7 +441,8 @@ at their `ini()` value:
 ```{r, eval=FALSE}
 # gestational-age effect on birth weight, written by hand
 neonatalFixedCov <- neonatalModel |>
-  model(lW0 <- tlW0 + beta_lW0_GA * log(GA / 32) + eta.lW0)
+  model(W0 <- exp(lW0 + beta.lW0.GA.power * log(GA / 40) + eta.W0)) |>
+  ini(beta.lW0.GA.power <- 1)
 
 ctl0 <- vaeControl(itersBurnIn = 60L, iters = 120L, klWarmup = 40L,
                    gammaIter = 90L, nGradStep = 4L, print = 0L,
@@ -439,13 +450,35 @@ ctl0 <- vaeControl(itersBurnIn = 60L, iters = 120L, klWarmup = 40L,
                    sigma0 = c(1e-3, 1e-2, 1e-1, 1e-1, 1e-1))
 
 fit0 <- nlmixr2(neonatalFixedCov, neonatal, est = "vae", control = ctl0)
-fit0$parFixed   # beta_lW0_GA is estimated, not frozen
+fit0$parFixed   # beta.lW0.GA.power is estimated, not frozen
 ```
 
 The coefficients are fit by the same regress M-step that estimates the non-mu
 structural thetas, so this holds regardless of the `nonMuTheta` setting. A
-coefficient you deliberately pin with `ini(beta_lW0_GA ~ fix(...))` still stays
-fixed and is excluded from estimation.
+coefficient you deliberately pin with `ini(beta.lW0.GA.power ~ fix(...))` still
+stays fixed and is excluded from estimation.
+
+## Do you actually need `covariateSelection = FALSE`?
+
+Often not, and it is worth being clear about why. **Writing covariate effects
+into the model already restricts the search to them** -- that is
+`pinCovariates = TRUE`, the default -- so `covariateSelection = FALSE` is *not*
+what makes the method respect the structure you wrote. Leaving it at `TRUE`
+does that on its own.
+
+What `covariateSelection = FALSE` adds is that a declared effect can no longer
+be **rejected**: the search is off, so every coefficient you wrote is estimated
+and kept, whatever the data says. Under the default the same pairs are the only
+ones considered, but each still has to clear the `log(N)` BICc penalty, and one
+that does not comes back as `0`.
+
+So use `covariateSelection = FALSE` when the model *is* the hypothesis and every
+term must survive -- a pre-specified analysis, a reference model being
+reproduced, a covariate kept for regulatory continuity. If instead you want the
+search confined to a shortlist you believe in, but still allowed to reject a
+member of it, change nothing and just write the effects. *Pinning the search to
+your model*, below, is that case in full; the estimator also differs between the
+two, which is the next section.
 
 ## Why the two paths do not give identical numbers
 
@@ -553,8 +586,12 @@ estimate closest to the maximum-likelihood value, or when you want the parameter
 learned by the same mechanism as everything else: an exact gradient beats a
 derivative-free search on the same objective.
 
-A model outside analytic scope -- an `ll()` endpoint, `linCmt()`, IOV -- falls
-back to `"regress"` automatically and says so in `$runInfo`.
+**A single `ll()` endpoint is in scope.** The analytic outer gradient now covers
+a generalized log-likelihood endpoint by differentiating the log-density
+directly, so `nonMuTheta = "grad"` applies to a conditionally Gaussian model and
+to a one-endpoint `ll()` model alike. A model genuinely outside analytic scope --
+a **multi-endpoint** or censored `ll()` model, IOV, `fo` -- falls back to
+`"regress"` automatically and says so in `$runInfo`.
 
 # Pinning the search to your model (`pinCovariates`, the default)
 
@@ -564,22 +601,61 @@ pairs you wrote. This is the default -- `vaeControl(pinCovariates = TRUE)` --
 and it activates whenever the model already declares covariate effects:
 
 ```{r, eval=FALSE}
-# GA on birth weight written by hand, but let the method confirm or drop it
+# GA on birth weight and on the production rate, written by hand -- but let the
+# method confirm or drop each one
 neonatalPin <- neonatalModel |>
-  model(lW0 <- tlW0 + beta_lW0_GA * log(GA / 32) + eta.lW0)
+  model(W0  <- exp(lW0  + beta.lW0.GA.power  * log(GA / 40) + eta.W0)) |>
+  model(kin <- exp(lkin + beta.lkin.GA.power * log(GA / 40) + eta.kin)) |>
+  ini(beta.lW0.GA.power  <- 1,
+      beta.lkin.GA.power <- 1)
 
 # pinCovariates = TRUE is the default; shown here for clarity
 fitp <- nlmixr2(neonatalPin, neonatal, est = "vae",
                 control = vaeControl(covariateSelection = TRUE, pinCovariates = TRUE))
-fitp$parFixed   # beta_lW0_GA is estimated if selected, or reported as 0 if dropped
+fitp$parFixed   # each beta is estimated if selected, or reported as 0 if dropped
 ```
 
 The BICc branch-and-bound runs, but its candidate set is exactly the pairs you
-declared: `GA` is only ever tested on `lW0`, never on the other parameters, and
-no covariate you did **not** write can enter. The search may still **drop** a
-declared covariate whose support does not clear the `log(N)` penalty; when it
-does, the returned model keeps your term but sets its coefficient to `0`, so the
-model you get back is exactly the one you wrote, pruned by the data.
+declared: `GA` is only ever tested on `lW0` and `lkin`, never on `lTL`,
+`lkoutmax` or `lT50`, and `Mage`, `Sex`, `DelM` and `Para2` cannot enter at all.
+`$runInfo` records it --
+
+```
+covariate selection pinned to model-specified covariates
+```
+
+-- and the model lines come back written exactly as you wrote them,
+`log(GA/40)` and all, because a pinned pair is allowed only the column matching
+its own shape. For the same reason **`shapes=` is ignored while pinning is
+active**: a pinned cell is an effect you wrote, and intersecting it with a
+`shapes=` rule could empty the cell and silently delete that effect, so the
+declaration wins outright.
+
+**This is how you restrict a covariate to certain parameters** -- there is no
+control argument for it, because the model already says it.
+
+Two things are easy to get wrong when writing the model:
+
+- **The `ini()` step is not optional.** A symbol that appears in a model line
+  but not in `ini()` is taken as a *data covariate*, not a coefficient. Piping
+  in `beta.lW0.GA.power` without promoting it to a population parameter declares
+  no effect at all -- and with nothing declared there is nothing to pin, so the
+  **full** search runs. Check that each coefficient lands in `$iniDf`.
+- **One covariate, one encoding.** If the same covariate is declared twice with
+  different centers (`log(GA/40)` on one parameter, `log(GA/38)` on another) the
+  two cannot share a search column: the first declaration claims it and the rest
+  are estimated in place by the regress M-step, noted in `$runInfo`.
+
+The search may still **drop** a declared covariate whose support does not clear
+the `log(N)` penalty; when it does, the returned model keeps your term but sets
+its coefficient to `0`:
+
+| declared effect | after a pinned fit |
+|---|---|
+| `beta.lW0.GA.power` | 0.0897 -- kept |
+| `beta.lT50.Mage.power` | 0 -- dropped by the search |
+
+So the model you get back is exactly the one you wrote, pruned by the data.
 
 ## Why pinning is usually better than the regressor path
 
@@ -608,9 +684,11 @@ machinery, which gives it three advantages:
 
 The regressor path is still the right tool in two cases, and pinning falls back
 to it **automatically** for the first: a declared covariate whose form the search
-cannot represent -- a **time-varying** covariate, or a raw-linear `beta * COV` on
-a continuous covariate (the search uses `log(COV / center)`) -- is estimated in
-place and noted in `$runInfo`. Use `pinCovariates = FALSE` explicitly when you
+cannot represent -- a **time-varying** covariate, or a written form outside the
+shape vocabulary, so that the estimated slope would not transfer -- is estimated
+in place and noted in `$runInfo`. (Any of `power`, `lin`, `log`, `identity` and
+`center` *is* recognized, so a plain `beta * COV` pins to the `identity` column
+rather than falling back.) Use `pinCovariates = FALSE` explicitly when you
 want *every* declared covariate kept and estimated with no possibility of being
 dropped (e.g. an effect you include on mechanistic grounds).
 
