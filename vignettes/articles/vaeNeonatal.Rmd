@@ -272,12 +272,10 @@ rather than a free upgrade.
 vaeControl(
   # which shapes a continuous covariate may take
   shapes = c("power", "lin", "log", "identity", "center", "hockey"),
-  # restrict per covariate, or per parameter/covariate pair:
-  # shapes = list(GA = c("power", "hockey"))
-  # shapes = list(list(var = "lW0", covar = "GA", shapes = "power"))
+  # ... or a per-covariate / per-pair rule set; see the next section
 
   covCenterType = "median",   # or "mean"; computed over subjects, not rows
-  covCenter = NULL,           # override outright, e.g. c(GA = 32)
+  covCenter = NULL,           # override outright, e.g. c(GA = 40, Mage = 30)
   catCutoff = 0.05,           # min subject share for a level (and a hockey side)
 
   covSelectMethod = "auto",   # "bnb" (exact), "l0learn", or "auto"
@@ -287,21 +285,135 @@ vaeControl(
 
 A few notes on the ones whose effect is not obvious from the name:
 
-- **`shapes`** also takes a list, so you can restrict one covariate
-  (`list(GA = "power")`) or a single parameter/covariate pair
-  (`list(list(var =, covar =, shapes =))`). Anything you do not name keeps the
-  full default set. It controls *parameterizations only* -- which covariates are
-  searched is `pinCovariates`, below.
-- **`covCenter`** is worth setting when a conventional reference exists (70 kg,
-  40 weeks) so coefficients are comparable across analyses. It is also the
+- **`shapes`** also takes a list, so different covariates can be searched on
+  different scales; that is involved enough to get its own section below. It
+  controls *parameterizations only* -- which covariates are searched is
+  `pinCovariates`, below.
+- **`covCenter`** takes a **named numeric vector**, so several covariates can be
+  pinned at once (`c(GA = 40, Mage = 30)`); names are matched
+  case-insensitively, and any covariate you leave out falls back to
+  `covCenterType`. It is worth setting when a conventional reference exists (70
+  kg, 40 weeks) so coefficients are comparable across analyses. It is also the
   **knot** for `"hockey"`, which is the one setting that changes where the bend
-  is allowed to occur.
+  is allowed to occur -- so a conventional value far into a tail can push one
+  arm below `catCutoff` and disable hockey for that covariate. Here `GA = 40`
+  still leaves 43% of the neonates above the knot, so the bend stays searchable.
 - **`covSelectMethod`** picks the engine, not the answer. `"bnb"` is an exact
   branch-and-bound; past roughly `covSelectMaxExact` bits of search space it
   becomes impractical and `"auto"` hands candidate subsets to `L0Learn` instead.
   Those candidates are then re-scored and polished with the *same* exact
   objective, so the proposer can never shift a selection on its own -- and a
   non-exact search always says so in `$runInfo`.
+
+## Giving different covariates different shapes
+
+A single character vector is the simple case: it applies to **every**
+parameter/covariate pair. Real analyses rarely want that -- gestational age has
+a conventional allometric reading, maternal age does not, and the parameter the
+covariate lands on can matter too. `shapes=` therefore also takes a **rule
+set**, in two forms.
+
+**Named by covariate.** The quick form: one entry per covariate, in the same
+`shapes` vocabulary.
+
+```{r, eval=FALSE}
+shapes = list(GA   = c("power", "hockey"),
+              Mage = c("lin", "center"))
+```
+
+Anything you do not name keeps the **full default set** -- a named list cannot
+change the default for everything else. Use the second form when it needs to.
+
+**Pair rules.** Every entry is itself a `list(var =, covar =, shapes =)`, in
+`nlmixr2scm::runSCM()`'s `pairsVec` style. Drop `var` for a rule that covers a
+covariate wherever it lands, drop `covar` for one that covers a parameter
+whatever the covariate, and drop both for a new global default:
+
+```{r, eval=FALSE}
+ctlShapes <- vaeControl(
+  shapes = list(
+    # 1. the default for any pair no rule below claims
+    list(shapes = c("power", "lin")),
+    # 2. GA reads allometrically, and is allowed to bend at the knot
+    list(covar = "GA", shapes = c("power", "hockey")),
+    # 3. ... except on birth weight, the canonical effect, where the
+    #    classical form is the plain power model and nothing else
+    list(var = "lW0", covar = "GA", shapes = "power"),
+    # 4. GA on the production rate: allow the bend, but if the fit comes
+    #    back straight, write it as `lin` rather than as a power
+    list(var = "lkin", covar = "GA", shapes = c("hockey", "lin"))
+  ),
+  # 40 weeks and 30 years are the conventional references -- and, for GA,
+  # the knot the hockey arms bend at
+  covCenter = c(GA = 40, Mage = 30)
+)
+```
+
+`Sex`, `DelM` and `Para2` are bare `0`/`1` indicators, so they take no shape at
+all and the rules above never touch them. That leaves ten searchable
+parameter/covariate pairs, and each rule claims a different slice of them:
+
+| parameter | `GA` | `Mage` |
+|---|---|---|
+| `lW0` | rule 3 -- `power` | rule 1 -- `power`, `lin` |
+| `lkin` | rule 4 -- `hockey`, `lin` | rule 1 -- `power`, `lin` |
+| `lTL` | rule 2 -- `power`, `hockey` | rule 1 -- `power`, `lin` |
+| `lkoutmax` | rule 2 -- `power`, `hockey` | rule 1 -- `power`, `lin` |
+| `lT50` | rule 2 -- `power`, `hockey` | rule 1 -- `power`, `lin` |
+
+### How the rules are resolved
+
+**The most specific rule wins**, on this ladder:
+
+| rule | beats |
+|---|---|
+| `var` **and** `covar` | everything below |
+| `covar` only | `var`-only and the global rule |
+| `var` only | the global rule |
+| neither (global) | -- |
+
+Ties at the same level go to the **last** rule listed, so order only matters
+between rules of equal specificity.
+
+The ladder has one consequence worth stating outright, because it is the usual
+surprise: **a `var`-only rule loses to any `covar` rule.** Adding
+
+```{r, eval=FALSE}
+list(var = "lT50", shapes = "identity")   # weaker than it looks
+```
+
+does **not** make `lT50` uniformly `identity`. It loses `GA` to rule 2, which
+names the covariate and is therefore more specific; all it actually changes is
+`lT50`/`Mage`, which no `covar` rule had claimed, from rule 1's `power, lin` to
+`identity`. A `var`-only rule reaches only the covariates nothing else names --
+to force a shape on a particular pair, name the pair.
+
+A few more things that are easy to get wrong:
+
+- **The two forms cannot be mixed.** Either every entry is a `list(var=,
+  covar=, shapes=)` item or every entry is named by covariate. A list holding
+  both, such as `list(GA = "power", list(var = "lW0", covar = "GA", shapes =
+  "power"))`, is an error rather than a merge.
+- **Covariate names are case-insensitive** (the search upper-cases data
+  columns), so `covar = "ga"` and `covar = "GA"` are the same rule.
+  **Parameter names are not**, but you may use any of the parameter's aliases:
+  the random-effect name (`eta.W0`), the mu-referenced theta (`lW0`) or the
+  bare name (`W0`) all select the same line.
+- **Shapes never apply to a categorical covariate.** A rule naming `Sex` or
+  `DelM` here is silently inert -- those enter as indicators, and `catCutoff`,
+  not `shapes`, governs them.
+- **A rule cannot remove a covariate from the search**, only change how it may
+  be written; every rule must name at least one shape. Excluding a covariate is
+  `pinCovariates`.
+- **Order within a shape vector still decides write-back.** Rule 4 lists
+  `c("hockey", "lin")`, which does not prefer hockey -- hockey is a separate
+  family and competes on BICc like any other candidate. What the order settles
+  is that a straight-line fit is written as `lin` rather than as `identity` or
+  `center`.
+- **A requested shape whose family the data cannot support is not fatal.** Ask
+  for `"power"` or `"log"` on a covariate with non-positive values and the
+  covariate stays searchable through the fallback column that does exist, so
+  the restriction does not quietly drop it from the search.
 
 Turning the search off entirely, or restricting it to the effects you already
 wrote, is covered next.
