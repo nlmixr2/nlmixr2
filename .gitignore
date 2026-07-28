@@ -3,3 +3,11 @@ docs
 /doc/
 /Meta/
 .Rhistory
+
+# Build artifacts (R CMD build/INSTALL/check output)
+*.Rcheck/
+*.tar.gz
+*.tgz
+.RData
+.Rhistory
+vignettes/*_files/
