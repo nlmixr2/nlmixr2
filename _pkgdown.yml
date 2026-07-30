@@ -71,7 +71,7 @@ navbar:
           href: articles/nlm-family-optimizers.html
         - text: "Estimation: external engines via babelmixr2"
           href: articles/babelmixr2-external-engines.html
-        - text: "Importance-sampling EM (imp/impmap/qrpem) vs NONMEM/Phoenix"
+        - text: "Estimation: importance-sampling EM (imp/impmap/qrpem)"
           href: articles/imp-impmap-qrpem.html
         - text: "Nonparametric NLME (npag/npb) vs Pmetrics"
           href: articles/nonparametric-npag-npb.html

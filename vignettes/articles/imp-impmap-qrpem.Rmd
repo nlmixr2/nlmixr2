@@ -1,11 +1,11 @@
 ---
-title: "Importance-sampling EM in nlmixr2 (imp / impmap / qrpem) vs NONMEM and Phoenix, FOCEI and SAEM"
+title: "Importance-sampling EM in nlmixr2: imp, impmap and qrpem"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
     self_contained: no
 vignette: >
-  %\VignetteIndexEntry{Importance-sampling EM in nlmixr2 (imp / impmap / qrpem) vs NONMEM and Phoenix, FOCEI and SAEM}
+  %\VignetteIndexEntry{Importance-sampling EM in nlmixr2: imp, impmap and qrpem}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -30,33 +30,78 @@ options(nlmixr2save.dir = "../cache",
 
 ![nlmixr](../logo.png)
 
-# The importance-sampling EM family (`imp`, `impmap`, `qrpem`)
+# The importance-sampling EM family
 
 `nlmixr2` provides three closely related **Monte-Carlo expectation-maximization**
 estimators, all built on one importance-sampling kernel and differing only in how
 the per-subject E-step is sampled:
 
 * `est = "imp"` -- importance sampling with the proposal centered at each
-  subject's running conditional mean, over-dispersed (`gamma * Omega`) for
-  robustness. This is **NONMEM's `METHOD=IMP`**.
+  subject's running **conditional mean**. This is **NONMEM's `METHOD=IMP`**.
 * `est = "impmap"` -- importance sampling with the proposal centered at each
-  subject's **MAP mode** with the inner (conditional) Hessian as covariance. This
-  is **NONMEM's `METHOD=IMPMAP`**.
+  subject's **MAP mode**, using the inner (conditional) Hessian as covariance.
+  This is **NONMEM's `METHOD=IMPMAP`**.
 * `est = "qrpem"` -- the same EM but with **Sobol quasi-random** importance
   samples and a SIR-accelerated M-step. This is the **quasi-random parametric EM**
   of Leary & Dunlavey (2012) -- the method **Phoenix NLME** made its flagship.
+  `qrpemControl()` is exactly `impmapControl(qr = TRUE, sir = TRUE)`.
 
-What unites them, and separates them from FOCEI, is that they estimate the
+What unites them, and separates them from FOCEI, is that they evaluate the
 **marginal likelihood by Monte-Carlo integration** rather than by a Laplace
-approximation. The population parameters then come out of a standard EM: an
-importance-sampling E-step that computes each subject's expected sufficient
-statistics (and its marginal likelihood), and an M-step that updates the typical
-values, `Omega`, and residual error.
+approximation. Each one draws samples for every subject from a *proposal*
+distribution aimed at that subject's posterior, then re-weights those samples to
+undo the aiming. The three differ only in how the proposal is aimed and how the
+samples are drawn.
 
-This article leads with a worked example; the algorithm and a comparison with
-NONMEM, Phoenix, FOCEI and SAEM come at the end.
+This article is ordered practically: **when to reach for these methods**, a
+**worked example**, and the **parameters worth knowing** come first. [How it
+works](#howitworks) explains the algorithm in plain terms afterwards, and
+[Appendix A](#appendix) walks step by step through NONMEM's `IMP`/`IMPMAP`,
+marking what is the same and what is different.
 
-# Worked example: the same answer, an exact likelihood, and less noise
+# When to use these methods
+
+Reach for `imp` / `impmap` / `qrpem` when:
+
+* you need a **trustworthy marginal likelihood** and do not trust FOCEI's
+  Laplace approximation -- strongly nonlinear models, sparse data, or non-normal
+  (categorical, count, ordered-categorical, time-to-event) endpoints, where the
+  posterior is genuinely non-Gaussian. These fits report the Laplace and the
+  Monte-Carlo likelihood side by side, so the gap between them tells you how much
+  the approximation was costing you ([see below](#twoobjectives));
+* you want a fit that is **methodologically comparable to NONMEM `IMP`/`IMPMAP`**
+  or to **Phoenix QRPEM**, e.g. to reproduce or cross-check a submission run;
+* you want **importance-sampling standard errors** (`covMethod = "imp"`, the
+  default) computed from the same Monte-Carlo likelihood rather than a Laplace
+  or sandwich estimator;
+* FOCEI is struggling to converge but you still want a likelihood-based fit;
+  the EM update is monotone in expectation and does not depend on an outer
+  quasi-Newton search.
+
+Which of the three (the proposals are compared in detail
+[further down](#whatchanges)):
+
+* **`impmap`** is the sensible default of the family. The MAP-centered proposal
+  is the best-aimed one, so it needs the fewest samples -- as long as the mode
+  search behaves.
+* **`imp`** when the per-iteration MAP search is unstable or expensive: flat or
+  multimodal individual posteriors, or a model where the inner problem is slow.
+  It is cheaper per iteration and more forgiving, at the cost of needing more
+  samples.
+* **`qrpem`** when Monte-Carlo noise is your binding constraint -- you want a
+  reproducible objective, or you want to cut `isample` hard on an expensive
+  model.
+
+Stay with **FOCEI** when the model is close to linear and you want the fastest
+deterministic fit. Use **SAEM** when the likelihood is difficult or multimodal
+and a robust MCMC E-step is worth the cost -- SAEM and the `imp` family are
+complementary, both EM, differing in how the E-step is done.
+
+Two current limits to know: the `imp` family requires mu-referencing
+(`muModel = "lin"`; this is what makes the M-step cheap), and IOV with
+correlated occasions is not supported.
+
+# Worked example
 
 We use the theophylline data (`theo_sd`) and a one-compartment oral model with
 between-subject variability on `ka`, `cl` and `v`.
@@ -82,8 +127,6 @@ impModel <- function() {
 }
 ```
 
-## They agree with FOCEI and SAEM -- but the objective is an exact likelihood
-
 Only `est =` changes across all five methods:
 
 ```{r fits}
@@ -103,41 +146,138 @@ fitQrpem  := nlmixr2(impModel, nlmixr2data::theo_sd, est = "qrpem",
 round(rbind(FOCEI  = fitFocei$theta,  SAEM   = fitSaem$theta,
             imp    = fitImp$theta,    impmap = fitImpmap$theta,
             qrpem  = fitQrpem$theta), 3)
-## objective function (-2LL)
-round(c(FOCEI = fitFocei$objf, SAEM = fitSaem$objf, imp = fitImp$objf,
-        impmap = fitImpmap$objf, qrpem = fitQrpem$objf), 2)
 ```
 
-All five recover the same parameters. Look at the objective values: FOCEI and the
-three importance-sampling fits agree to about `0.03` here -- because theophylline
-is nearly linear, so FOCEI's Laplace approximation to the marginal likelihood is
-accurate. The point is *what the number is*: FOCEI's objective is the **Laplace
-approximation** of the `-2LL`, while the `imp`/`impmap`/`qrpem` objective is a
-**Monte-Carlo estimate of the true marginal `-2LL`** -- the same quantity NONMEM's
-`IMP`/`IMPMAP` report, with the same constant convention, so it is directly
-comparable to FOCEI. When the Laplace approximation is *not* accurate (strongly
-nonlinear PK/PD, sparse data, or categorical/count/ordinal endpoints), the two
-numbers diverge and the importance-sampling likelihood is the trustworthy one.
+All five recover the same parameters -- theophylline is close to linear, so
+there is nothing here for a Monte-Carlo likelihood to rescue. The interesting
+part is the pair of objective functions each `imp` fit carries.
 
-(SAEM's reported objective uses a separate likelihood evaluation and a different
-constant, so it is not on the same footing -- compare SAEM to SAEM.)
+## Two objectives: which number is which {#twoobjectives}
+
+This trips people up, so it is worth being explicit. An `imp`/`impmap`/`qrpem`
+fit reports **two** different `-2LL` values:
+
+* **`fit$objf`** -- the value printed by `print(fit)` and used by `AIC()`/`BIC()`
+  -- is the **FOCEI (Laplace) objective evaluated at the converged EM
+  estimates**. It is labelled `FOCEi` in `fit$objDf`. This is what makes it
+  directly comparable to a `focei` fit of the same model.
+* **`fit$env$impObj`** is the **importance-sampling `-2LL`**: the Monte-Carlo
+  evaluation of the marginal likelihood, from the final E-step.
+
+```{r objfs}
+impObjTable <- function(fit, label) {
+  data.frame(method = label,
+             `FOCEi -2LL (fit$objf)` = round(fit$objf, 3),
+             `IS -2LL (impObj)`      = round(fit$env$impObj, 3),
+             check.names = FALSE)
+}
+rbind(impObjTable(fitImp,    "imp"),
+      impObjTable(fitImpmap, "impmap"),
+      impObjTable(fitQrpem,  "qrpem"),
+      data.frame(method = "focei", `FOCEi -2LL (fit$objf)` = round(fitFocei$objf, 3),
+                 `IS -2LL (impObj)` = NA_real_, check.names = FALSE))
+```
+
+The gap between the two columns is the **error in the Laplace approximation** for
+this model -- a diagnostic you cannot get from a FOCEI fit alone. Even on
+near-linear theophylline it is worth about 1.2 `-2LL` units, and the sign is
+informative: Laplace is optimistic here. The gap grows with the nonlinearity of the model, with
+sparse data, and with non-normal (categorical, count, ordered-categorical,
+time-to-event) endpoints -- and in those cases the importance-sampling column is
+the trustworthy one.
+
+Compare like with like: `fit$objf` against another `fit$objf`, or `impObj`
+against another `impObj`. (SAEM's objective uses a separate likelihood
+evaluation and a different constant again, so compare SAEM to SAEM.)
+
+## Watching the EM run
+
+Every `imp`-family fit stashes its per-iteration diagnostics on the fit
+environment. These are the first thing to look at when a fit misbehaves:
+
+```{r diag}
+impDiag <- function(fit, label) {
+  e <- fit$env
+  data.frame(method       = label,
+             iterations   = e$impIter,
+             converged    = e$impConverged,
+             `IS -2LL`    = round(e$impObj, 3),
+             `ESS frac`   = round(tail(e$impNeffFrac, 1), 3),
+             gamma        = e$impGammaUsed,
+             isample      = e$impNsample,
+             check.names  = FALSE)
+}
+rbind(impDiag(fitImp, "imp"), impDiag(fitImpmap, "impmap"),
+      impDiag(fitQrpem, "qrpem"))
+```
+
+The two that matter most:
+
+* **`ESS frac`** (`fit$env$impNeffFrac`) is the effective sample size as a
+  fraction of `isample` -- how many of your samples are actually doing work. At
+  `1.0` the proposal matches the posterior perfectly. Above roughly `0.4` the
+  E-step is healthy. If it collapses toward `0`, the proposal is missing the
+  posterior and the estimates are being driven by a handful of samples.
+* **`converged`** (`fit$env$impConverged`) is `TRUE` only if all three gates
+  are met simultaneously in a trailing window: the objective has stopped moving,
+  the parameters have stopped drifting, and `gamma` has settled. `FALSE` means
+  the fit ran out its `nIter` budget -- which, as below, is common at the
+  default settings and is *not* automatically a problem. Look at the trace
+  before reacting.
+
+```{r traces, fig.width=7, fig.height=5}
+library(ggplot2)
+
+traceOf <- function(fit, label) {
+  e <- fit$env
+  rbind(data.frame(method = label, iter = seq_along(e$impObjTrace),
+                   what = "importance-sampling -2LL", value = e$impObjTrace),
+        data.frame(method = label, iter = seq_along(e$impNeffFrac),
+                   what = "effective sample fraction", value = e$impNeffFrac))
+}
+traces <- rbind(traceOf(fitImp, "imp"), traceOf(fitImpmap, "impmap"),
+                traceOf(fitQrpem, "qrpem"))
+
+ggplot(traces, aes(iter, value, colour = method)) +
+  geom_line() +
+  facet_wrap(~ what, scales = "free_y", ncol = 1) +
+  labs(x = "EM iteration", y = NULL, colour = NULL,
+       title = "The E-step settles quickly; the residual wobble is Monte-Carlo noise") +
+  theme_bw()
+```
+
+Two features of that plot are worth naming.
+
+The **effective sample fraction starts near zero and climbs**. On iteration 1 the
+starting parameters are poor, so a proposal aimed with them lands badly and
+almost every sample is wasted; as the fit improves, the proposal starts matching
+the posterior and the fraction rises to near 1. A fit whose ESS fraction *never*
+climbs is a fit whose proposal is wrong.
+
+The **objective flattens fast and then wobbles**. That wobble is Monte-Carlo
+noise, not a failure to converge, and its size is set by `isample`. The default
+convergence test asks that the average absolute objective change over a
+10-iteration window be under `ctol` (`10^-sigdig`, so `1e-4` relative by
+default). At `isample = 300` the per-iteration noise on this model is roughly
+`0.1` in the `-2LL`, which is an order of magnitude larger than that gate, so
+the fit runs its full `nIter` budget and reports `converged = FALSE` while
+sitting on a perfectly good answer. If you want the flag to mean something,
+either raise `isample` (less noise) or relax `ctol` -- see the parameters
+section below.
 
 ## Why quasi-random (QRPEM): less Monte-Carlo noise for the same cost
 
-A Monte-Carlo E-step has Monte-Carlo error: with a finite number of importance
-samples, the converged estimate wobbles from one random seed to the next. This is
-the problem QRPEM solves. Pseudo-random samples fill the parameter space
-unevenly, so the integration error shrinks only as `1 / sqrt(N)`; **Sobol
-low-discrepancy (quasi-random) samples** fill it evenly, shrinking the error much
-faster. The payoff: for the *same* (small) number of importance samples, `qrpem`
-gives a far more reproducible objective than pseudo-random `imp`.
+That wobble is precisely the problem QRPEM attacks. Pseudo-random samples fill
+the parameter space unevenly -- clumps here, gaps there -- so the integration
+error shrinks only as `1 / sqrt(N)`. **Sobol low-discrepancy (quasi-random)**
+points fill it evenly by construction, shrinking the error much faster. The
+payoff: for the *same* (small) number of importance samples, `qrpem` gives a far
+more reproducible objective than pseudo-random `imp`.
 
 Fit both at a deliberately small `isample = 30` across several seeds and compare
 the spread of the converged objective:
 
 ```{r seeds, fig.width=7, fig.height=4}
-library(ggplot2)
-
 seedStudy := local({
   seeds <- 1:5
   do.call(rbind, lapply(c("imp", "qrpem"), function(m) {
@@ -164,114 +304,237 @@ ggplot(seedStudy, aes(method, objf, colour = method)) +
   theme_bw() + theme(legend.position = "none")
 ```
 
-The `qrpem` objectives cluster tightly; the `imp` objectives scatter several-fold
-wider for the *same* number of samples. In practice that means `qrpem` reaches a
-given precision with fewer importance samples -- the reason it is a popular
-production EM method. (At the default `isample = 300` both are already tight;
-quasi-random simply lets you use far fewer.)
+The `qrpem` objectives cluster tightly; the `imp` objectives scatter more than an
+order of magnitude wider for the *same* number of samples. In practice that means `qrpem` reaches a given
+precision with fewer importance samples -- the reason it is a popular production
+EM method. (At the default `isample = 300` both are already tight; quasi-random
+simply lets you use far fewer.)
 
-# When to choose the importance-sampling EM family
+# Key parameters
 
-Reach for `imp` / `impmap` / `qrpem` when:
+All three methods share one control, `impmapControl()`; `impControl()` and
+`qrpemControl()` are thin wrappers over it. It also accepts every
+`foceiControl()` argument, since the MAP inner problem is the FOCEI one.
 
-* you need a **trustworthy objective function** for model comparison and you do
-  not trust FOCEI's Laplace approximation -- strongly nonlinear models, sparse
-  data, or non-normal (categorical, count, ordered-categorical, time-to-event)
-  endpoints, where the marginal likelihood is genuinely non-Gaussian;
-* you want a fit that is **numerically comparable to NONMEM `IMP`/`IMPMAP`** or to
-  **Phoenix QRPEM**, e.g. to reproduce or cross-check a regulatory submission run;
-* you want **importance-sampling standard errors** (`covMethod = "imp"`, the
-  default) computed from the same Monte-Carlo likelihood rather than a Laplace or
-  sandwich estimator;
-* (`qrpem`) you want the **lowest Monte-Carlo noise per sample** -- the
-  quasi-random E-step is the most sample-efficient of the three.
+## The ones you will actually change
 
-Use `impmap` when a good MAP-centered proposal is available (it usually needs
-fewer samples than `imp`); use `imp` when the MAP search is unstable and the
-robust over-dispersed proposal is safer. Stay with **FOCEI** when the model is
-close to linear and you want the fastest deterministic fit; use **SAEM** when the
-likelihood is difficult or multimodal and a robust MCMC E-step is worth the cost
-(SAEM and the IMP family are complementary -- both are EM, differing in how the
-E-step is done).
+**`isample`** (default `300`) -- importance samples per subject per iteration,
+NONMEM's `ISAMPLE`. This is the master dial: it sets both the Monte-Carlo noise
+in the objective (as `1/sqrt(isample)`, or better under `qr = TRUE`) and
+essentially all the runtime, which is linear in it. Raise it when the objective
+trace is noisy, when the ESS fraction is low, or when you need a precise
+likelihood for model comparison. Lower it (with `qr = TRUE`) when iterating on
+an expensive model.
+
+**`nIter`** (default `100`) -- the maximum number of EM iterations. This is a
+*budget*, not a target; hitting it is normal at default settings. Raise it if
+the objective trace is still trending rather than wobbling.
+
+**`ctol`** (default `NULL`, i.e. `10^-sigdig` = `1e-4`) and **`nConvWindow`**
+(default `10`) -- the convergence test. `ctol` is compared against the mean
+absolute objective change over the trailing `nConvWindow` iterations, relative
+to the objective. Because that quantity is floored by Monte-Carlo noise, `ctol`
+and `isample` have to be chosen together: a tight `ctol` with a small `isample`
+can never converge. If you want `converged = TRUE` to be meaningful, either push
+`isample` up or set `ctol` to something comparable to the noise you can see in
+the trace.
+
+**`covMethod`** (default `"imp"`) -- how standard errors are computed.
+`"imp"` takes a finite-difference Hessian of the importance-sampling objective
+over a *fixed* sample set (common random numbers), which keeps the
+finite-differencing well behaved. Alternatives `"analytic"`, `"r,s"`, `"r"`,
+`"s"` compute the ordinary FOCEI covariance post-fit at the converged estimates;
+`""` skips the covariance step entirely. One documented caveat: with
+`covMethod = "imp"` the variance of a tightly-determined random effect (an
+`Omega` diagonal) can be over-estimated, because the fixed samples barely span
+its prior variation -- the theta standard errors match the Hessian-based FOCEI
+covariance. If the `Omega` standard errors look large, refit with
+`covMethod = "analytic"` to check.
+
+**`impSeed`** (default `42`) -- base seed for the per-subject RNG streams.
+Results are reproducible *and independent of the number of threads*, which is
+worth knowing: you can change `cores` without changing the answer. Vary this to
+measure your own Monte-Carlo noise, as the seed study above does.
+
+## Proposal tuning (rarely needed)
+
+**`gamma`** (default `1.0`, NONMEM's `ISCALE`) inflates the proposal covariance.
+`gamma = 1` means "use the Laplace covariance as-is", which is optimal when the
+posterior really is Gaussian; values above 1 widen the proposal so it covers
+heavier tails. **`iaccept`** (default `0.4`, NONMEM's `IACCEPT`) is treated as a
+*floor* on the mean effective-sample fraction, not a target: `gamma` is left
+alone while coverage is healthy and inflated (by at most 25% per iteration,
+clamped to **`iscaleMin`**/**`iscaleMax`**, defaults `0.1`/`10`) only when
+coverage drops below the floor. Since `gamma` only ever moves up from its
+efficient starting value, `iscaleMax` is the bound that can bind in practice.
+The importance weights correct for `gamma`, so changing it moves the variance of
+the estimates, never their expectation.
+
+Raise `gamma` (or `iscaleMax`) if the ESS fraction is stuck low and you suspect
+heavy-tailed individual posteriors.
+
+## Sampling scheme (what `qrpem` turns on)
+
+**`qr`** (default `FALSE`; `TRUE` under `qrpemControl()`) switches the draws to a
+Sobol quasi-random point set. **`qrShift`** (default `TRUE`) applies a random
+Cranley-Patterson shift per (iteration, subject), and **`qrRefresh`** (default
+`TRUE`) redraws that shift each iteration so residual quasi-random error averages
+out over the EM. Setting `qrShift = FALSE` gives a fully deterministic E-step
+with no RNG in the draw at all; `qrRefresh = FALSE` gives one shift per subject
+for the whole fit, which makes each EM iteration a deterministic map and
+produces the smoothest objective trace.
+
+**`sir`** (default `FALSE`; `TRUE` under `qrpemControl()`) accelerates the
+non-mu / residual-error M-step by sampling-importance-resampling: the
+sensitivity Newton step uses **`sirSample`** equal-weight resampled points per
+subject (default `max(25, isample/10)`) instead of all `isample` weighted ones.
+This cuts the most expensive part of the M-step by roughly a factor of ten at
+essentially no cost in accuracy, because the resampled set already carries the
+weight information.
+
+## Not a knob
+
+**`mapIter`** appears in `impmapControl()` and is set to `0` by `impControl()`,
+but the kernel selects the proposal from `est=` rather than from this field.
+Choose the behaviour with `est = "imp"` versus `est = "impmap"`, not by setting
+`mapIter`.
 
 ---
 
-The remainder of this article is the algorithm reference: how importance-sampling
-EM works, how the three proposals differ, and how it maps onto NONMEM, Phoenix,
-FOCEI and SAEM. Skip it unless you want the internals.
+# How it works, in plain terms {#howitworks}
 
-# How importance-sampling EM works
+Everything above is enough to run these methods well. The rest of the article is
+the reference half: what the algorithm actually does, how it lines up with FOCEI
+and SAEM, and a step-by-step comparison with NONMEM.
 
-The marginal likelihood of subject `i` integrates the individual random effects
-out of the joint model:
+## The integral that has to be done
+
+Every population model has one hard quantity in it. For subject `i`, the
+likelihood of that subject's data requires averaging over all the values their
+random effects `eta` could have taken:
 
 ```
-p(y_i) = integral  p(y_i | eta) p(eta) d(eta)
+p(y_i) = integral  p(y_i | eta) * p(eta)  d(eta)
 ```
 
-FOCEI approximates this integral by a Laplace expansion around the mode -- fast,
-deterministic, but biased when the integrand is not close to Gaussian. EM instead
-maximizes the likelihood by iterating an **E-step** (expected complete-data
-log-likelihood given the current parameters) and an **M-step** (maximize it). For
-NLME the E-step needs each subject's posterior expectations, and the
-importance-sampling family computes them by Monte-Carlo:
+There is no closed form for this once the model is nonlinear, so every
+estimation method is really a strategy for handling this integral:
 
-1. **Proposal.** Pick an easy-to-sample Gaussian `q_i(eta)` close to the
-   posterior `p(eta | y_i)` (the choice is what distinguishes the three methods).
-2. **Sample and weight.** Draw `isample` points `eta^(s) ~ q_i`, and weight each
-   by the importance ratio `w^(s) = p(y_i | eta^(s)) p(eta^(s)) / q_i(eta^(s))`.
-3. **E-step estimates.** The weighted samples give an (unbiased) Monte-Carlo
-   estimate of the marginal likelihood `p(y_i)` *and* of the posterior moments
-   `E[eta_i | y_i]`, `E[eta_i eta_i^T | y_i]` -- the sufficient statistics.
-4. **M-step.** Update the population parameters from the pooled sufficient
-   statistics: the typical values (through the mu-referenced linear model),
-   `Omega` as the mean posterior second moment, and the residual-error terms.
+* **FOCEI** replaces the integrand with the Gaussian that best matches it at its
+  peak, and uses that Gaussian's known area -- the *Laplace approximation*. Fast
+  and deterministic, but wrong by an unknown amount when the true integrand is
+  skewed or heavy-tailed.
+* **SAEM** never evaluates the integral; it walks an MCMC chain through the
+  posterior and averages parameter updates over iterations.
+* **The `imp` family** evaluates the integral numerically, by sampling.
 
-Repeat to convergence. Because the samples are independent, the E-step is
-**embarrassingly parallel** across subjects and samples, and the marginal
-likelihood falls out every iteration for free.
+## Importance sampling, without the equations
+
+The naive way to evaluate that integral by sampling would be to draw `eta`
+values from the population distribution `p(eta)` and average `p(y_i | eta)` over
+them. That works, but it is hopelessly wasteful: almost every draw lands
+somewhere the subject's data says is implausible, contributing essentially
+nothing to the average. (NONMEM offers this as `METHOD=DIRECT` and notes it can
+need 10,000-300,000 samples per subject.)
+
+**Importance sampling** fixes the waste with one idea: *draw from a distribution
+that already looks like the answer, then correct for having done so.*
+
+One way to picture it: suppose you are estimating the average depth of a lake by
+dropping a probe at random points. Dropping uniformly over the whole map wastes
+most probes on the shallow edges. Instead, deliberately concentrate the probes
+where you believe the lake is deep -- then, when averaging, **down-weight** each
+probe by how much more likely you were to drop it there. The bias you introduced
+by aiming is exactly cancelled by the weights, and you learn far more per probe.
+
+The "where you believe it is deep" distribution is the **proposal**, `q_i(eta)`.
+The correction is the **importance weight**
+
+```
+w = p(y_i | eta) p(eta) / q_i(eta)      [ what we want / what we sampled from ]
+```
+
+Two things fall out of the weighted samples at once, and this is the whole
+appeal of the method:
+
+* the **average weight** is an unbiased estimate of the integral `p(y_i)` -- the
+  subject's marginal likelihood;
+* the **weighted average of the samples** is the subject's conditional mean
+  `E[eta_i | y_i]`, and the weighted spread is the conditional variance -- the
+  quantities the EM update needs.
+
+## The EM loop
+
+Each iteration does an E-step (compute expectations, with the parameters held
+fixed) and an M-step (update the parameters, with the expectations held fixed):
+
+1. **Build a proposal.** For each subject, form a multivariate normal `q_i`
+   aimed at that subject's posterior. `impmap` finds the MAP mode and uses the
+   inner Hessian as its covariance; `imp` re-uses the conditional mean and
+   variance from the previous iteration. Both then inflate the covariance by a
+   factor `gamma` so the proposal is a little *wider* than the posterior --
+   deliberately over-dispersed, which keeps the weights from being dominated by
+   a single lucky sample.
+2. **Draw `isample` points** from `q_i`, independently for each subject.
+   `qrpem` replaces the pseudo-random draw with a Sobol quasi-random point set.
+3. **Weight** each point by the importance ratio above, and normalise the
+   weights within the subject so they sum to 1.
+4. **Read off the E-step quantities**: the subject's marginal `-2LL` from the
+   mean weight, and the conditional mean and variance from the normalised
+   weighted samples.
+5. **M-step, part 1 -- the mu-referenced fixed effects.** For a plain
+   `tcl`-plus-`eta.cl` parameter the EM update is just a mean shift: move `tcl`
+   by the average conditional `eta.cl` and re-center the etas on zero. Where a
+   covariate group is present, the group is updated by regression instead.
+6. **M-step, part 2 -- everything else.** Structural and residual-error
+   parameters that are not mu-referenced are updated by a Newton step built from
+   the importance-weighted score, using **analytic** `d(f)/d(theta)` and
+   `d(V)/d(theta)` sensitivities from the rxode2 sensitivity model.
+7. **M-step, part 3 -- `Omega`.** The new `Omega` is the average, over subjects,
+   of `eta_i eta_i' + V_i`: the spread of the individual estimates *plus* the
+   average uncertainty in each. Elements not in the model are masked out and
+   `fix()`ed variances are restored.
+
+Repeat until the objective and the estimates stop moving. Because the samples
+are independent across subjects, the E-step is embarrassingly parallel, and the
+marginal likelihood comes out every iteration for free.
 
 ```{r impCycle, echo=FALSE}
 DiagrammeR::mermaid("
 graph TD
-  P[\"Build the per-subject proposal q_i (imp: conditional mean; impmap: MAP mode + Hessian)\"] --> S[\"Draw isample importance points (imp/impmap: pseudo-random; qrpem: Sobol quasi-random)\"]
-  S --> W[\"Weight by the importance ratio p(y|eta)p(eta)/q(eta)\"]
-  W --> E[\"E-step: Monte-Carlo marginal likelihood and posterior moments\"]
-  E --> M[\"M-step: update typical values, Omega, residual error (qrpem: SIR-accelerated)\"]
-  M --> C{\"Converged?\"}
+  P[\"1. Proposal q_i: imp = conditional mean + gamma*V_i; impmap = MAP mode + gamma*H_i^-1\"] --> S[\"2. Draw isample points (imp/impmap: pseudo-random; qrpem: Sobol quasi-random)\"]
+  S --> W[\"3. Weight by p(y|eta)p(eta)/q(eta), normalise within subject\"]
+  W --> E[\"4. E-step: marginal -2LL, conditional mean and variance per subject\"]
+  E --> M1[\"5. M-step: mu-referenced thetas by mean shift / regression\"]
+  M1 --> M2[\"6. M-step: non-mu thetas + residual error by analytic-sensitivity Newton step\"]
+  M2 --> M3[\"7. M-step: Omega = mean(eta eta' + V)\"]
+  M3 --> C{\"Objective, parameters and gamma all settled?\"}
   C -- no --> P
-  C -- yes --> O[\"Population estimates + importance-sampling -2LL and covariance\"]
+  C -- yes --> O[\"Estimates + importance-sampling -2LL + covariance\"]
 ")
 ```
 
-## What the three proposals change
+## What `imp` and `impmap` actually change {#whatchanges}
 
-* **`imp` (NONMEM `METHOD=IMP`).** The proposal is centered at the subject's
-  running conditional mean with covariance `gamma * Omega` -- deliberately
-  *over-dispersed* so the importance weights stay well behaved even when the
-  proposal is off. No per-iteration mode search, so each iteration is cheap and
-  robust, at the cost of needing more samples.
-* **`impmap` (NONMEM `METHOD=IMPMAP`).** Each iteration first finds the subject's
-  MAP mode and uses the inner conditional Hessian as the proposal covariance -- a
-  much tighter fit to the posterior, so fewer samples are needed, provided the
-  mode search is stable.
-* **`qrpem` (Phoenix-style QRPEM).** Replaces the pseudo-random draws with a
-  **Sobol quasi-random** sequence (lower integration error per sample) and adds a
-  **SIR (sampling-importance-resampling)** acceleration of the non-mu / residual
-  M-step. `qrpemControl()` is exactly `impmapControl(qr = TRUE, sir = TRUE)`.
+Only step 1 differs, and it is a trade between cost and aim:
 
-The number of importance samples (`isample`, default 300), the proposal
-over-dispersion (`gamma`), and the importance-sampling covariance
-(`covMethod = "imp"`) are shared knobs across all three.
+| | `imp` | `impmap` |
+|---|---|---|
+| Proposal center | the subject's conditional mean, carried over from the previous E-step | the subject's MAP mode, re-found every iteration |
+| Proposal covariance | `gamma` x the previous conditional variance (`gamma` x `Omega` on the first iteration) | `gamma` x the inverse inner Hessian at the mode |
+| Cost per iteration | cheap -- no mode search | a MAP search plus a Hessian per subject, every iteration |
+| Aim | looser; needs more samples for the same precision | tighter; usually the more sample-efficient of the two |
+| Fails when | the running mean has drifted somewhere unhelpful | the mode search is unstable (flat or multimodal posteriors) |
+
+Note that `imp` is *not* the same as sampling from the population distribution.
+It still aims at each subject individually; it just re-uses last iteration's aim
+rather than paying for a fresh mode search. This is exactly the distinction
+NONMEM draws between `METHOD=IMP` and `METHOD=IMPMAP`.
 
 # How it maps onto other tools
 
 **NONMEM.** `imp` and `impmap` are nlmixr2's implementations of `METHOD=IMP` and
-`METHOD=IMPMAP`: the same importance-sampling EM, the same over-dispersed vs
-MAP-centered proposal distinction, and the same Monte-Carlo `-2LL` (`covMethod =
-"imp"` mirrors NONMEM's importance-sampling covariance step). This makes an
-nlmixr2 `imp`/`impmap` objective directly comparable to a NONMEM `IMP`/`IMPMAP`
-one.
+`METHOD=IMPMAP`. See [Appendix A](#appendix) for the step-by-step comparison.
 
 **Phoenix NLME (Certara).** QRPEM is Phoenix's flagship EM method, from Leary &
 Dunlavey. nlmixr2's `qrpem` implements the **published** quasi-random parametric
@@ -280,41 +543,270 @@ details are not public, so the two are not guaranteed identical, but they share
 the defining ideas (Sobol importance samples, SIR-accelerated convergence).
 
 **FOCEI.** FOCEI is a *deterministic Laplace approximation* of the marginal
-likelihood; the IMP family is a *Monte-Carlo evaluation* of the same likelihood.
-They agree when the posterior is near-Gaussian and diverge when it is not -- which
-is precisely when you want the importance-sampling number. FOCEI is faster and
-noise-free; the IMP family is (asymptotically) unbiased.
+likelihood; the `imp` family is a *Monte-Carlo evaluation* of the same
+likelihood. They agree when the posterior is near-Gaussian and diverge when it
+is not -- which is precisely when you want the importance-sampling number. FOCEI
+is faster and noise-free; the `imp` family is (asymptotically) unbiased, and
+reports both numbers so you can see the difference.
 
 **SAEM.** SAEM is also an EM, but its E-step is an **MCMC** chain with
 stochastic-approximation (Robbins-Monro) averaging across iterations, and it does
-not produce the marginal likelihood directly (a separate importance-sampling or
-quadrature step is needed for the `-2LL`). The IMP family's E-step uses
+not produce the marginal likelihood directly. The `imp` family's E-step uses
 **independent importance samples** and yields the likelihood every iteration.
-SAEM is exceptionally robust for difficult or multimodal problems; the IMP family
-is efficient and self-certifying on the likelihood when a good proposal exists.
+SAEM is exceptionally robust for difficult or multimodal problems; the `imp`
+family is efficient and self-certifying on the likelihood when a good proposal
+exists.
 
 | Aspect | FOCEI | SAEM | **imp / impmap / qrpem** |
 |---|---|---|---|
-| Marginal likelihood | Laplace approximation | Not direct (separate step) | **Monte-Carlo importance sampling (near-exact)** |
+| Marginal likelihood | Laplace approximation | Not direct (separate step) | **Monte-Carlo importance sampling** |
 | E-step | Analytic conditional step | MCMC + stochastic approximation | Importance sampling (independent draws) |
-| Objective for model comparison | Laplace `-2LL` | Own convention | **Exact `-2LL`; matches NONMEM IMP** |
+| Reported objective | Laplace `-2LL` | Own convention | FOCEi `-2LL` (`objf`) **plus** the IS `-2LL` (`impObj`) |
 | Character | Deterministic, fast | Stochastic, very robust | Stochastic, unbiased, parallel |
 | Non-normal / nonlinear posteriors | Biased | Handles well | **Handles well** |
 | External equivalents | NONMEM FOCEI; Phoenix FOCE | NONMEM SAEM; Monolix | NONMEM IMP/IMPMAP; **Phoenix QRPEM** |
-| Sampling efficiency (this family) | -- | -- | `qrpem` (quasi-random) > `impmap` > `imp` |
+| Sampling efficiency (this family) | -- | -- | `qrpem` > `impmap` > `imp` |
 
-The short version: `imp`/`impmap`/`qrpem` bring NONMEM's importance-sampling EM
-and Phoenix's QRPEM into nlmixr2, as a Monte-Carlo *exact-likelihood* complement
-to FOCEI's Laplace approximation and SAEM's MCMC EM -- most valuable when you need
-an objective you can trust for a model FOCEI's Laplace step cannot approximate
-well, or a fit that lines up numerically with a NONMEM or Phoenix run.
+# Appendix A: nlmixr2 vs NONMEM, step by step {#appendix}
+
+Equation numbers below refer to the *NONMEM 7 Technical Guide* (R.J. Bauer),
+section "Evaluating the Expectation step: Importance Sampling". The derivation
+there is the reference implementation both tools are following, so the
+similarities run deep -- the differences are mostly about *how* each step is
+executed rather than *what* it computes.
+
+## Step 1 -- Build the proposal density
+
+**NONMEM.** For `IMPMAP` the proposal is centered at the MAP mode `phi_hat_i`
+with covariance `gamma * (Omega^-1 + S_i^-1)^-1` -- the inverse of the joint
+information at the mode (eqs. 1.67, 1.71). For `IMP` it is centered instead at
+the previous iteration's conditional mean `mu_pi` with covariance
+`gamma_i * Sigma_pi`, the previous conditional variance (eq. 1.90). Whether a
+MAP estimation happens on a given iteration is governed by `MAPITER` and
+`MAPINTER`.
+
+**nlmixr2.** Identical in structure. `impmap` takes the mode and the inner
+Hessian `H_i` from the mu-referenced FOCEI inner problem and uses
+`gamma * H_i^-1`; `imp` takes the running conditional mean and the previous
+E-step's conditional variance `V_i`, using `gamma * V_i`, falling back to
+`gamma * Omega` on the first iteration where no `V_i` exists yet.
+
+**Same:** the two proposals and the reason for each; the over-dispersion factor
+`gamma`.
+**Different:** nlmixr2 has no `MAPITER`/`MAPINTER` schedule. The choice is
+binary and made by `est=`: `impmap` re-MAPs on *every* iteration, `imp` on none
+(beyond the initial pass). The mode and Hessian come from nlmixr2's FOCEI inner
+optimizer, so `impmap` inherits FOCEI's inner tolerances and its handling of
+censored data.
+
+## Step 2 -- Draw the samples
+
+**NONMEM.** `ISAMPLE` pseudo-random multivariate normal draws per subject per
+iteration (`r` in the guide).
+
+**nlmixr2.** `isample` draws, default 300, from a per-subject threefry stream
+seeded off `impSeed` and offset per (iteration, subject).
+
+**Same:** the count and its role.
+**Different:** (a) nlmixr2 optionally draws a **Sobol quasi-random** point set
+instead (`qr = TRUE`, i.e. `qrpem`), optionally with a Cranley-Patterson shift;
+the technical-guide derivation of `IMP`/`IMPMAP` is entirely pseudo-random.
+(b) nlmixr2's stream is indexed per (iteration, subject) rather than drawn from
+one global stream, which makes a fit **bit-identical regardless of thread
+count**. (c) A proposal sample whose ODE solve fails is given weight zero and
+dropped from the weighted moments rather than aborting the subject.
+
+## Step 3 -- Form the importance weights
+
+**NONMEM.** `q_(k)i = log p(y_i | phi_k) - 0.5 (phi_k - mu_i)' Omega^-1 (phi_k -
+mu_i) - 0.5 log|Omega| + 0.5 (phi_k - mu_si)' (gamma Sigma_si)^-1 (phi_k -
+mu_si) + 0.5 log|gamma Sigma_si|`, then `u_(k)i = exp(q_(k)i)` (eqs. 1.77-1.78).
+
+**nlmixr2.** The same log-ratio, computed with the constant terms factored out
+of the per-sample loop: the per-sample part is `-(negative log joint density) +
+(1/(2 gamma)) d' H_i d`, and the constants `-0.5 log|Omega| + (n_eta/2) log gamma
+- 0.5 log|H_i|` are added once. Weights are formed with a max-subtraction
+(`exp(q - max q)`) for numerical stability.
+
+**Same:** the quantity, exactly.
+**Different:** only the arrangement and the log-sum-exp stabilisation.
+
+## Step 4 -- Individual likelihood and effective sample size
+
+**NONMEM.** `xi_i = mean(u_(k)i)` (eq. 1.79), `L_i = -log(xi_i)` (eq. 1.80),
+objective `L = sum_i L_i` (eq. 1.81). The reported `Neff.` is
+`(r/m) sum_i F_i xi_i` (eq. 1.94), where `F_i` corrects for a proposal centered
+at the conditional mean rather than the mode, and is fixed at 1 for `IMPMAP`.
+
+**nlmixr2.** `L_i = -(logMeanExp + C_i)` with the same constants, and the
+importance-sampling objective is `sum_i 2 L_i`, stashed as `fit$env$impObj`.
+The effective sample size is the **Kish** ESS, `1 / sum_k z_k^2`, reported as a
+fraction of `isample` in `fit$env$impNeffFrac`.
+
+**Same:** the individual likelihood and the summed objective.
+**Different:** (a) the ESS definitions differ -- Kish ESS versus NONMEM's
+`F_i`-corrected mean weight. Both equal `isample` when proposal and posterior
+coincide, and both are read the same way (higher is better), but the numbers are
+not interchangeable. nlmixr2 does not compute NONMEM's "fitness" statistic
+(eq. 1.96). (b) **What gets reported as the fit's objective differs.** NONMEM
+reports the importance-sampling objective. nlmixr2 reports the FOCEi objective
+at the converged EM estimates as `fit$objf` and keeps the importance-sampling
+value in `fit$env$impObj`; compare `impObj` against a NONMEM `IMP` objective,
+not `objf` -- and check the constant convention on both sides before reading
+anything into a small difference.
+
+## Step 5 -- Conditional moments
+
+**NONMEM.** Normalised weights `z_(k)i = u_(k)i / sum_k u_(k)i` (eq. 1.82),
+conditional mean `mu_i = sum_k z_(k)i phi_(k)i` (eq. 1.84), conditional variance
+`B_i = sum_k z_(k)i (phi_(k)i - mu_i)(phi_(k)i - mu_i)'` (eq. 1.85).
+
+**nlmixr2.** Identical.
+
+**Same:** everything.
+
+## Step 6 -- M-step for the mu-referenced fixed effects
+
+**NONMEM.** A Gauss-Newton step on `theta` from the score `g_theta = sum_i
+(d mu_i / d theta)' Omega^-1 (phi_bar_i - mu_i)` and information
+`H_theta = sum_i (d mu_i/d theta)' Omega^-1 (d mu_i/d theta)`, giving
+`theta_hat = theta + lambda H_theta^-1 g_theta` (eqs. 1.86-1.88).
+
+**nlmixr2.** Split by structure. A *simple* mu-referenced intercept (a theta
+that is the population mean of an eta, no covariates) is updated by its exact EM
+fixed point -- shift the theta by the mean conditional eta and re-center the etas
+-- rather than by a Newton step. Covariate mu-groups go through a regression
+update.
+
+**Same:** the fixed point being sought.
+**Different:** the route to it. For the no-covariate case the mean shift *is*
+the solution of NONMEM's Newton system in one step, so this is a simplification
+rather than a different answer.
+
+## Step 7 -- M-step for non-mu and residual parameters
+
+**NONMEM.** Finite differences on the whole individual likelihood, one extra
+likelihood evaluation per non-mu theta per sample (eqs. 1.97-1.99); the Hessian
+is the outer product of the per-subject gradients (eq. 1.102). SIGMA parameters
+get a shortcut that avoids re-solving the ODE, and a THETA that affects only the
+residual variance can be flagged `S` in `GRD=` to get the same shortcut;
+otherwise the guide's advice is to mu-model whatever you can, because each
+non-mu parameter costs `n_theta * r` extra likelihood evaluations.
+
+**nlmixr2.** An importance-weighted Newton step built from **analytic symbolic
+sensitivities** -- `d(f)/d(theta)` and `d(V)/d(theta)` from the rxode2
+sensitivity model, including exact partials for censored (M2/M3/M4) points --
+with a Gauss-Newton information matrix.
+
+**Same:** the target (a Newton step on the IS-weighted score for the non-mu
+block).
+**Different:** this is the largest algorithmic difference. nlmixr2 does no
+finite differencing here, so there is no `GRD=`-style annotation to get right, no
+step-size sensitivity, and no `n_theta`-fold multiplication of the solve cost.
+`qrpem`'s `sir = TRUE` shrinks this step further by resampling to `sirSample`
+equal-weight points -- an acceleration with no NONMEM `IMP`/`IMPMAP`
+counterpart.
+
+## Step 8 -- M-step for Omega
+
+**NONMEM.** `Omega_hat = (1/m) sum_i sum_k z_(k)i (phi_(k)i - mu_i)(phi_(k)i -
+mu_i)'`, equivalently the sample variance of the conditional means plus the mean
+conditional variance (eqs. 1.66, 1.89).
+
+**nlmixr2.** The same: `Omega = (1/m) sum_i (eta_i eta_i' + V_i)` over the
+re-centered etas, then masked to the elements actually estimated in the model,
+with `fix()`ed rows and columns restored to their starting values.
+
+**Same:** the estimator.
+**Different:** the structural mask and `fix()` handling are nlmixr2-side
+bookkeeping for its `ini({})` block; NONMEM does the equivalent through
+`$OMEGA ... FIX` and the block structure.
+
+## Step 9 -- Adapting the proposal scale
+
+**NONMEM.** `gamma` is *continually adjusted so that `xi_i` approximates
+`IACCEPT`*, bounded by `ISCALE_MIN` and `ISCALE_MAX`. The subscript in eq. 1.90
+(`gamma_i`) indicates this is done per subject.
+
+**nlmixr2.** One **global** `gamma`, adapted as a **floor rather than a target**:
+it is left at its efficient starting value (`1.0`) while the mean ESS fraction
+stays at or above `iaccept`, and inflated only when coverage drops below that
+floor -- by at most a factor of 1.25 per iteration, clamped to
+`[iscaleMin, iscaleMax]`.
+
+**Same:** the role of `gamma`, the names and meaning of `IACCEPT`/`ISCALE_MIN`/
+`ISCALE_MAX`, and the fact that the weights correct for `gamma` so it affects
+variance and not expectation.
+**Different:** global versus per-subject, and floor versus target. The rationale
+for the floor is that effective sample size is maximised near `gamma = 1` when
+the posterior is close to Gaussian, so forcing the acceptance fraction *down* to
+`IACCEPT` would only add Monte-Carlo noise.
+
+## Step 10 -- Convergence
+
+**NONMEM.** A statistical test over trailing iterations, configured through the
+`CTYPE` family of `$EST` options.
+
+**nlmixr2.** A windowed test over the last `nConvWindow` iterations requiring
+**three** conditions simultaneously: the mean absolute relative objective change
+is below `ctol`; no parameter has drifted by more than 2% in net relative terms
+across the window; and `gamma` has stopped adapting. Missing any one leaves
+`fit$env$impConverged` at `FALSE` and the fit runs to `nIter`.
+
+**Same:** windowed rather than single-iteration testing, and the recognition
+that a Monte-Carlo objective needs averaging before it can be tested.
+**Different:** the specific gates. In particular the parameter-drift and
+`gamma`-stability gates have no direct NONMEM analogue, and, as shown above, the
+default `ctol` is tight relative to the Monte-Carlo noise at `isample = 300`, so
+`converged = FALSE` is common and benign.
+
+## Step 11 -- Standard errors
+
+**NONMEM.** A separate `$COV` step after estimation, with its own method
+options.
+
+**nlmixr2.** `covMethod = "imp"` (the default) computes a Monte-Carlo observed
+information: at the converged estimates it redraws one **fixed** sample set and
+takes a finite-difference Hessian of the importance-sampling `-2LL` over the
+thetas and the parameterized `Omega` elements. Because the same samples are
+reused for every perturbation (common random numbers) the reweighted objective is
+a smooth deterministic function of the parameters, so the finite differences are
+well behaved. Alternatively the ordinary FOCEI covariance can be computed
+post-fit (`covMethod = "analytic"`, `"r,s"`, `"r"`, `"s"`).
+
+**Same:** the idea of an importance-sampling-based covariance for an
+importance-sampling fit.
+**Different:** the common-random-number FD Hessian is nlmixr2's construction,
+and it comes with the documented caveat that a tightly-determined `Omega`
+diagonal can have its variance over-estimated. Falling back to the FOCEI
+covariance is a one-argument change.
+
+## Other differences worth knowing
+
+* **Mixture models.** Both support mixtures, but the M-step for the mixing
+  proportions differs: nlmixr2 uses the mean-posterior EM update (the
+  proportions become the average responsibilities), because a full Newton step
+  on NONMEM's Gauss-Newton score for the proportions overshoots to the simplex
+  boundary and collapses a component.
+* **Mu-referencing.** NONMEM strongly recommends mu-modeling for efficiency but
+  permits non-mu thetas at a documented cost. nlmixr2 *requires* mu-referencing
+  for the `imp` family (`muModel = "lin"`), and handles non-mu structural and
+  residual parameters through the analytic-sensitivity step of Step 7 rather
+  than through finite differences.
+* **Parallelism.** NONMEM parallelises across subjects via MPI/`$PARALLEL`.
+  nlmixr2 parallelises the E-step and the sensitivity half of the M-step with
+  OpenMP over subjects, and, as noted, guarantees the result does not depend on
+  the thread count. The score accumulation is deliberately kept serial so the
+  sum is bit-identical run to run.
 
 # References
 
-* Leary R, Dunlavey M. *QRPEM -- A Quasi-Random Parametric EM Method.* PAGE 2012;
-  and Certara Phoenix NLME documentation.
+* Bauer RJ. *NONMEM 7 Technical Guide*, section "Evaluating the Expectation
+  step: Importance Sampling" (eqs. 1.65-1.104).
 * Bauer RJ. *NONMEM Tutorial Part II: Estimation Methods and Advanced Examples.*
   CPT: Pharmacometrics & Systems Pharmacology, 2019 (IMP / IMPMAP).
+* Leary R, Dunlavey M. *QRPEM -- A Quasi-Random Parametric EM Method.* PAGE 2012;
+  and Certara Phoenix NLME documentation.
 * Kuhn E, Lavielle M. *Maximum likelihood estimation in nonlinear mixed effects
   models.* Computational Statistics & Data Analysis, 2005 (SAEM).
 * Wang Y. *Derivation of various NONMEM estimation methods.* J. Pharmacokinet.
