@@ -37,14 +37,15 @@ estimators, all built on one importance-sampling kernel and differing only in ho
 the per-subject E-step is sampled:
 
 * `est = "imp"` -- importance sampling with the proposal centered at each
-  subject's running **conditional mean**. This is **NONMEM's `METHOD=IMP`**.
+  subject's running **conditional mean**. This is similar to **NONMEM's `METHOD=IMP`**.
 * `est = "impmap"` -- importance sampling with the proposal centered at each
   subject's **MAP mode**, using the inner (conditional) Hessian as covariance.
-  This is **NONMEM's `METHOD=IMPMAP`**.
-* `est = "qrpem"` -- the same EM but with **Sobol quasi-random** importance
-  samples and a SIR-accelerated M-step. This is the **quasi-random parametric EM**
-  of Leary & Dunlavey (2012) -- the method **Phoenix NLME** made its flagship.
-  `qrpemControl()` is exactly `impmapControl(qr = TRUE, sir = TRUE)`.
+  This is similar to **NONMEM's `METHOD=IMPMAP`**.
+* `est = "qrpem"` -- the same EM but with **Sobol quasi-random**
+  importance samples and a SIR-accelerated M-step. This is similar to
+  the **quasi-random parametric EM** of Leary & Dunlavey (2012) -- the
+  method **Phoenix NLME** made its flagship.  `qrpemControl()` is
+  exactly `impmapControl(qr = TRUE, sir = TRUE)`.
 
 What unites them, and separates them from FOCEI, is that they evaluate the
 **marginal likelihood by Monte-Carlo integration** rather than by a Laplace
@@ -70,7 +71,7 @@ Reach for `imp` / `impmap` / `qrpem` when:
   Monte-Carlo likelihood side by side, so the gap between them tells you how much
   the approximation was costing you ([see below](#twoobjectives));
 * you want a fit that is **methodologically comparable to NONMEM `IMP`/`IMPMAP`**
-  or to **Phoenix QRPEM**, e.g. to reproduce or cross-check a submission run;
+  or to **Phoenix QRPEM**, e.g. to cross-check a submission run;
 * you want **importance-sampling standard errors** (`covMethod = "imp"`, the
   default) computed from the same Monte-Carlo likelihood rather than a Laplace
   or sandwich estimator;
@@ -97,9 +98,9 @@ deterministic fit. Use **SAEM** when the likelihood is difficult or multimodal
 and a robust MCMC E-step is worth the cost -- SAEM and the `imp` family are
 complementary, both EM, differing in how the E-step is done.
 
-Two current limits to know: the `imp` family requires mu-referencing
-(`muModel = "lin"`; this is what makes the M-step cheap), and IOV with
-correlated occasions is not supported.
+Two current limits to know: the `imp` family leans into mu-referencing
+(`muModel = "lin"`; this is what makes the M-step cheap), but allows
+non mu-referenced parameters at a cost.
 
 # Worked example
 
@@ -178,13 +179,14 @@ rbind(impObjTable(fitImp,    "imp"),
                  `IS -2LL (impObj)` = NA_real_, check.names = FALSE))
 ```
 
-The gap between the two columns is the **error in the Laplace approximation** for
-this model -- a diagnostic you cannot get from a FOCEI fit alone. Even on
-near-linear theophylline it is worth about 1.2 `-2LL` units, and the sign is
-informative: Laplace is optimistic here. The gap grows with the nonlinearity of the model, with
-sparse data, and with non-normal (categorical, count, ordered-categorical,
-time-to-event) endpoints -- and in those cases the importance-sampling column is
-the trustworthy one.
+The gap between the two columns is the **error in the Laplace
+approximation** for this model -- a diagnostic you cannot get from a
+FOCEI fit alone. Even on near-linear theophylline it is worth about
+1.2 `-2LL` units, and the sign is informative: Laplace is optimistic
+here. The gap grows with the nonlinearity of the model, with sparse
+data, and with non-normal (categorical, count, ordered-categorical,
+time-to-event) endpoints -- and in those cases the importance-sampling
+column is the trustworthy one.
 
 Compare like with like: `fit$objf` against another `fit$objf`, or `impObj`
 against another `impObj`. (SAEM's objective uses a separate likelihood
@@ -218,6 +220,7 @@ The two that matter most:
   `1.0` the proposal matches the posterior perfectly. Above roughly `0.4` the
   E-step is healthy. If it collapses toward `0`, the proposal is missing the
   posterior and the estimates are being driven by a handful of samples.
+
 * **`converged`** (`fit$env$impConverged`) is `TRUE` only if all three gates
   are met simultaneously in a trailing window: the objective has stopped moving,
   the parameters have stopped drifting, and `gamma` has settled. `FALSE` means
