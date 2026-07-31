@@ -70,11 +70,14 @@ Reach for `imp` / `impmap` / `qrpem` when:
   posterior is genuinely non-Gaussian. These fits report the Laplace and the
   Monte-Carlo likelihood side by side, so the gap between them tells you how much
   the approximation was costing you ([see below](#twoobjectives));
+
 * you want a fit that is **methodologically comparable to NONMEM `IMP`/`IMPMAP`**
   or to **Phoenix QRPEM**, e.g. to cross-check a submission run;
+
 * you want **importance-sampling standard errors** (`covMethod = "imp"`, the
   default) computed from the same Monte-Carlo likelihood rather than a Laplace
   or sandwich estimator;
+
 * FOCEI is struggling to converge but you still want a likelihood-based fit;
   the EM update is monotone in expectation and does not depend on an outer
   quasi-Newton search.
@@ -85,10 +88,12 @@ Which of the three (the proposals are compared in detail
 * **`impmap`** is the sensible default of the family. The MAP-centered proposal
   is the best-aimed one, so it needs the fewest samples -- as long as the mode
   search behaves.
+
 * **`imp`** when the per-iteration MAP search is unstable or expensive: flat or
   multimodal individual posteriors, or a model where the inner problem is slow.
   It is cheaper per iteration and more forgiving, at the cost of needing more
   samples.
+
 * **`qrpem`** when Monte-Carlo noise is your binding constraint -- you want a
   reproducible objective, or you want to cut `isample` hard on an expensive
   model.
@@ -112,8 +117,12 @@ library(nlmixr2)
 
 impModel <- function() {
   ini({
-    tka <- 0.45; tcl <- 1; tv <- 3.45
-    eta.ka ~ 0.6; eta.cl ~ 0.3; eta.v ~ 0.1
+    tka <- 0.45
+    tcl <- 1
+    tv <- 3.45
+    eta.ka ~ 0.6
+    eta.cl ~ 0.3
+    eta.v ~ 0.1
     add.sd <- 0.7
   })
   model({
@@ -162,8 +171,48 @@ fit reports **two** different `-2LL` values:
   -- is the **FOCEI (Laplace) objective evaluated at the converged EM
   estimates**. It is labelled `FOCEi` in `fit$objDf`. This is what makes it
   directly comparable to a `focei` fit of the same model.
-* **`fit$env$impObj`** is the **importance-sampling `-2LL`**: the Monte-Carlo
-  evaluation of the marginal likelihood, from the final E-step.
+
+* **`fit$env$impObj`** is the **importance-sampling `-2LL`**: the
+  Monte-Carlo evaluation of the marginal likelihood, from the final
+  E-step.
+
+### Why the same machinery gives two different numbers
+
+The obvious objection is that `impmap` *is* built on FOCEI, so how can it
+disagree with FOCEI? The answer is that they share the **integrand**, not the
+**integration**.
+
+What `impmap` borrows from `focei` is the entire *inner* problem: the
+per-subject conditional-mode search, the inner Hessian at that mode, and the
+routine that evaluates the joint density `p(y_i | eta) p(eta)` at an arbitrary
+`eta`. These are literally the same functions `est = "focei"` calls -- which is
+why `impmap` inherits FOCEI's inner tolerances, its handling of censored
+(M2/M3/M4) data, and its mu-referencing machinery.
+
+What the two do *with* that machinery is where they part company:
+
+| | uses mode + Hessian to... | so the objective is |
+|---|---|---|
+| **FOCEI** | substitute into the closed-form Gaussian integral | the **Laplace approximation** of `-2LL` |
+| **imp family** | **aim a proposal** to draw samples from | a **Monte-Carlo estimate** of the same `-2LL` |
+
+FOCEI treats the mode and Hessian as *the answer* -- it assumes the integrand
+is Gaussian and uses that Gaussian's known area. The `imp` family treats them
+only as *a good guess at where the mass is*, draws from that guess, and then
+lets the importance weights correct for however wrong the guess was.
+
+Two consequences worth being clear about:
+
+* **They are on the same scale.** Both carry the same normalizing constants
+  (the `-0.5 log|Omega|` prior term and the rest), so both are estimates of the
+  same quantity, in the same units. The difference between them is not an
+  offset or a convention -- it is the error the Laplace step is making.
+* **They are evaluated at the same parameters.** After the EM converges,
+  nlmixr2 runs one final FOCEI MAP pass at the converged estimates to produce
+  `fit$objf`. So the two numbers differ *only* in how the integral was done --
+  same model, same data, same `theta`, same `Omega`, same modes. That is what
+  makes their gap interpretable as the approximation error rather than as two
+  methods disagreeing about where the optimum is.
 
 ```{r objfs}
 impObjTable <- function(fit, label) {
@@ -189,8 +238,17 @@ time-to-event) endpoints -- and in those cases the importance-sampling
 column is the trustworthy one.
 
 Compare like with like: `fit$objf` against another `fit$objf`, or `impObj`
-against another `impObj`. (SAEM's objective uses a separate likelihood
-evaluation and a different constant again, so compare SAEM to SAEM.)
+against another `impObj`. Not because the two are in different units -- as
+above, they are estimates of the same quantity on the same scale -- but because
+mixing them mixes two *estimators*. Across a pair of nested models the Laplace
+error is often similar in both fits and largely cancels in the difference, so a
+`objf`-vs-`objf` comparison can be sound even when each number is individually
+biased; pit one against an `impObj` and you are reading that bias as if it were
+signal. Within a single fit, the gap between them is exactly the diagnostic
+described above.
+
+(SAEM's objective uses a separate likelihood evaluation and a different constant
+again, so compare SAEM to SAEM.)
 
 ## Watching the EM run
 
@@ -307,11 +365,12 @@ ggplot(seedStudy, aes(method, objf, colour = method)) +
   theme_bw() + theme(legend.position = "none")
 ```
 
-The `qrpem` objectives cluster tightly; the `imp` objectives scatter more than an
-order of magnitude wider for the *same* number of samples. In practice that means `qrpem` reaches a given
-precision with fewer importance samples -- the reason it is a popular production
-EM method. (At the default `isample = 300` both are already tight; quasi-random
-simply lets you use far fewer.)
+The `qrpem` objectives cluster tightly; the `imp` objectives scatter
+more than an order of magnitude wider for the *same* number of
+samples. In practice that means `qrpem` reaches a given precision with
+fewer importance samples -- the reason it is a popular production EM
+method. (At the default `isample = 300` both are already tight;
+quasi-random simply lets you use far fewer.)
 
 # Key parameters
 
