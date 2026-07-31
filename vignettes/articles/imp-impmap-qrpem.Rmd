@@ -101,14 +101,6 @@ Two current limits to know: the `imp` family requires mu-referencing
 (`muModel = "lin"`; this is what makes the M-step cheap), and IOV with
 correlated occasions is not supported.
 
-<div style="border-left:4px solid #888;padding-left:1em;margin:1em 0;">
-**Version note.** The `df`, `auto` and `gammaMethod` arguments, and the
-`fit$env$impPsisK` diagnostic, are newer than `nlmixr2est` 7.0.2. Everything
-else in this article works on any recent version. Check with
-`packageVersion("nlmixr2est")` and `names(formals(impmapControl))` if a control
-argument is not recognised.
-</div>
-
 # Worked example
 
 We use the theophylline data (`theo_sd`) and a one-compartment oral model with
@@ -391,15 +383,20 @@ width -- and tail weight, not width, is what makes importance weights
 well behaved. It is remarkably cheap: `df = 20` cleared every failing subject on
 theophylline for 0.25% of the effective sample size.
 
-**`auto`** (default `FALSE`) is NONMEM's `AUTO=1`: pick `df`, `isample` and
+**`auto`** (default `TRUE`) is NONMEM's `AUTO=1`: pick `df`, `isample` and
 `iaccept` per subject rather than globally. It escalates `df` only for subjects
 whose `k-hat` says they need it and leaves the rest on the cheaper Gaussian, and
 it shifts sample budget from data-rich subjects to difficult ones.
 
-The trade is real and measured: `auto = TRUE` takes max `k-hat` from 2.44 to
-0.49 and improves `Omega` accuracy by ~20%, at ~19% more Monte-Carlo noise on
-the objective. Prefer it when `impPsisK` is far above 0.7; leave it off when
-your `k-hat` values are already comfortable.
+The trade is measured: `auto` takes max `k-hat` from 2.44 to 0.49 and improves
+`Omega` accuracy by ~20%, at ~19% more Monte-Carlo noise on the objective. It is
+on by default because weights with infinite variance are a *correctness*
+problem -- their error is unbounded in the worst case -- while the extra noise
+is a bounded, measurable cost.
+
+Set `auto = FALSE` to recover the older behaviour exactly. That is worth doing
+when you want the tightest possible objective on a model whose `impPsisK`
+values are already comfortably below 0.7.
 
 ## Proposal tuning (rarely needed)
 
@@ -917,10 +914,12 @@ trustworthy), over 20 seeds on theophylline:
 | `auto = TRUE` | 0.0376 | **0.49** | **0.05** | **0.00198** |
 
 `auto` fixes the tail behaviour and estimates `Omega` about 20% more
-accurately, at roughly 19% more Monte-Carlo noise on the objective. On a model
-whose tail failure is only marginal that is not obviously a win, so the default
-is `FALSE`. Turn it on when `fit$env$impPsisK` is far above 0.7, or when a rare
-catastrophic draw would matter more than a small loss of precision.
+accurately, at roughly 19% more Monte-Carlo noise on the objective.  It is **on
+by default**: infinite-variance weights are a correctness problem whose error is
+unbounded in the worst case, whereas the added noise is bounded and measurable.
+`auto = FALSE` recovers the older behaviour exactly, which is the right choice
+when `fit$env$impPsisK` is already comfortably below 0.7 everywhere and you want
+the tightest objective you can get.
 
 ## Step 10 -- Convergence
 
