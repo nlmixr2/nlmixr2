@@ -207,6 +207,7 @@ Two consequences worth being clear about:
   (the `-0.5 log|Omega|` prior term and the rest), so both are estimates of the
   same quantity, in the same units. The difference between them is not an
   offset or a convention -- it is the error the Laplace step is making.
+
 * **They are evaluated at the same parameters.** After the EM converges,
   nlmixr2 runs one final FOCEI MAP pass at the converged estimates to produce
   `fit$objf`. So the two numbers differ *only* in how the integral was done --
@@ -528,8 +529,10 @@ estimation method is really a strategy for handling this integral:
   peak, and uses that Gaussian's known area -- the *Laplace approximation*. Fast
   and deterministic, but wrong by an unknown amount when the true integrand is
   skewed or heavy-tailed.
+
 * **SAEM** never evaluates the integral; it walks an MCMC chain through the
   posterior and averages parameter updates over iterations.
+
 * **The `imp` family** evaluates the integral numerically, by sampling.
 
 ## Importance sampling, without the equations
@@ -563,6 +566,7 @@ appeal of the method:
 
 * the **average weight** is an unbiased estimate of the integral `p(y_i)` -- the
   subject's marginal likelihood;
+
 * the **weighted average of the samples** is the subject's conditional mean
   `E[eta_i | y_i]`, and the weighted spread is the conditional variance -- the
   quantities the EM update needs.
@@ -579,6 +583,7 @@ fixed) and an M-step (update the parameters, with the expectations held fixed):
    factor `gamma` so the proposal is a little *wider* than the posterior --
    deliberately over-dispersed, which keeps the weights from being dominated by
    a single lucky sample.
+
 2. **Draw `isample` points** from `q_i`, independently for each subject.
    `qrpem` replaces the pseudo-random draw with a Sobol quasi-random point set.
 3. **Weight** each point by the importance ratio above, and normalise the
@@ -951,12 +956,15 @@ warns it *"may result in lack of stochastic reproducibility"*.
 
 **nlmixr2.** `impmapControl(auto=TRUE)` implements the same three levers, and
 adds a fourth signal NONMEM does not have -- Pareto k-hat -- because the
-documented triggers turn out to be **necessary but not sufficient**: on
-theophylline neither `nobs < neta` nor "categorical" fires, yet subjects still
-fail. So `df` is escalated on k-hat *severity* (`k>2` -> 12, `k>1` -> 20,
+documented triggers turn out to be **necessary but not sufficient**: on a
+multi-ETA theophylline model neither `nobs < neta` nor "categorical" fires, yet
+subjects still fail. So `df` is escalated on k-hat *severity* (`k>1` -> 20,
 `k>0.7` -> 30), one-way. Escalation is deliberately not reversed: once a t
 proposal is working k-hat drops *because* it is working, so relaxing on a low
 k-hat walks straight back into the failure.
+
+Both rungs, and the removal of a former `k>2` -> 12 rung, come from the sweep in
+[Appendix B](#autotuning), which also shows where escalation does **not** help.
 
 `isample` is allocated proportional to inverse effective-sample fraction within
 a fixed budget, so data-rich subjects fund the difficult ones (measured on a
@@ -966,22 +974,28 @@ mixed design: rich subjects 289-299 draws, sparse 300-329, total preserved).
 **Different:** all the numbers, the k-hat signal, and reproducibility --
 nlmixr2's `auto` stays seeded and thread-count independent.
 
-**What it costs.** Against a high-accuracy reference (`isample = 20000`;
-Gaussian, `df = 8` and `df = 20` references agree to 0.0003, so it is
-trustworthy), over 20 seeds on theophylline:
+**What it costs.** Against a high-accuracy reference (`isample = 8000`), over 8
+seeds on theophylline with 3 ETAs -- the 1-ETA model no longer has any tail
+failure to fix, see [Appendix B](#autotuning):
 
 | | objective RMSE | max k-hat | subjects k>0.7 | `Omega` RMSE |
 |---|---|---|---|---|
-| `auto = FALSE` | **0.0315** | 2.44 | 2.20 | 0.00247 |
-| `auto = TRUE` | 0.0376 | **0.49** | **0.05** | **0.00198** |
+| `auto = FALSE` | **0.0113** | 0.941 | 2.38 | 0.00406 |
+| `auto = TRUE` | 0.0165 | **0.571** | **0.25** | **0.00301** |
 
-`auto` fixes the tail behaviour and estimates `Omega` about 20% more
-accurately, at roughly 19% more Monte-Carlo noise on the objective.  It is **on
+`auto` fixes the tail behaviour and estimates `Omega` about 26% more
+accurately, at roughly 46% more Monte-Carlo noise on the objective.  It is **on
 by default**: infinite-variance weights are a correctness problem whose error is
 unbounded in the worst case, whereas the added noise is bounded and measurable.
 `auto = FALSE` recovers the older behaviour exactly, which is the right choice
 when `fit$env$impPsisK` is already comfortably below 0.7 everywhere and you want
 the tightest objective you can get.
+
+Two caveats worth reading before relying on it, both measured in
+[Appendix B](#autotuning): a *global* `df = 30` beats `auto` on every column
+above when you already know the whole model is heavy-tailed, and on subjects with
+fewer observations than random effects `auto` makes matters worse rather than
+better, because there the heavy tail is structural and no proposal can repair it.
 
 ## Step 10 -- Convergence
 
@@ -1039,6 +1053,143 @@ covariance is a one-argument change.
   OpenMP over subjects, and, as noted, guarantees the result does not depend on
   the thread count. The score accumulation is deliberately kept serial so the
   sum is bit-identical run to run.
+
+# Appendix B: what `auto` was tuned on {#autotuning}
+
+The `df` ladder in [Step 9c](#auto) is nlmixr2's own -- neither NONMEM source
+publishes a `DF` value, a threshold, or anything resembling a tail diagnostic --
+so it has to stand on measurement. This appendix records that measurement so the
+numbers are reproducible rather than asserted.
+
+The code below is **not run when this article builds**; the tables are its
+recorded output.
+
+## Why it was re-tuned
+
+The original ladder was calibrated on plain theophylline, which used to produce
+genuine tail failures. The `imp`/`impmap`/`focei` pooling fixes removed them:
+
+| quantity (theophylline, `isample=300`, `nIter=12`) | before the fixes | after |
+|---|---|---|
+| subjects with k-hat > 0.7 | 2 of 12 | **0** |
+| max k-hat, `auto = FALSE` | 2.44 | **-1.46** |
+
+That is a real improvement, not a broken diagnostic: raising `isample` 20-fold
+moves the objective by 0.037 (173.708 -> 173.671) and leaves the effective-sample
+fraction (0.536 -> 0.534) and k-hat (-1.46 -> -1.50) essentially unchanged. Had
+the weights collapsed, the cheap fit would have been biased and the reference
+would have moved away from it.
+
+The consequence is that **theophylline with one ETA no longer exercises `auto` at
+all**, so it is the wrong model to tune or test on.
+
+## Which models still stress the sampler
+
+Run with `auto = FALSE`, `isample = 300`, `nIter = 12`, `impSeed = 42`:
+
+| model | subjects | max k-hat | k > 0.7 | median ESS fraction |
+|---|---|---|---|---|
+| theophylline, `linCmt()`, **1 eta** | 12 | -1.46 | 0/12 | 0.54 |
+| theophylline, `linCmt()`, **3 etas** | 12 | **1.13** | **3/12** | 0.96 |
+| sparse, 2 obs/subject, 3 etas (`nobs < neta`) | 12 | 0.97 | **5/12** | 0.68 |
+| Poisson, 3 obs/subject, 1 eta | 20 | -1.45 | 0/20 | 0.54 |
+| theophylline + t(2) outlier contamination | 12 | 0.91 | 3/12 | 0.96 |
+
+The driver is the **number of ETAs**, not the data: identical data and structural
+model, 1 eta gives max k-hat -1.46 and 3 etas gives 1.13. This matches the
+tutorial's "many ETAs" language, and it is why the tuning fixture is the 3-eta
+model.
+
+Note also that the tutorial's *categorical* trigger and k-hat **disagree**: the
+Poisson fixture fires the documented trigger while its tails are entirely healthy
+(max k-hat -1.45). The two signals are tested separately for that reason.
+
+## The `df` sweep
+
+Theophylline with 3 ETAs, 8 seeds, RMSE against an `isample = 8000` reference
+(reference max k-hat 0.548, i.e. the reference itself is sound):
+
+| `df` | objective RMSE | `Omega` RMSE | max k-hat | subjects k > 0.7 |
+|---|---|---|---|---|
+| 0 (Gaussian) | 0.0113 | 0.00406 | 0.941 | 2.38 |
+| **30** | **0.0095** | 0.00281 | 0.593 | 0.25 |
+| 20 | 0.0097 | 0.00255 | 0.484 | 0.12 |
+| 12 | 0.0105 | 0.00224 | 0.405 | 0.00 |
+| 8 | 0.0116 | 0.00223 | 0.273 | 0.00 |
+
+The objective RMSE is **minimised at `df = 30`** and degrades past it -- `df = 8`
+is worse than using no t proposal at all -- while the tail index and `Omega`
+continue to improve. That trade-off is what fixes the ladder at 30 and 20, and it
+is why the old `k > 2 -> df 12` rung was dropped: post-fix nothing reaches k-hat 2
+(the sweep peaks at 1.13), so the rung was unreachable, and where `df = 12` could
+be measured it cost objective accuracy for a marginal `Omega` gain.
+
+## Where escalation does *not* help
+
+The same sweep on the deliberately sparse fixture (2 observations, 3 ETAs):
+
+| | objective RMSE | `Omega` RMSE | max k-hat | subjects k > 0.7 |
+|---|---|---|---|---|
+| `auto = FALSE` | **0.1517** | **0.02379** | 1.065 | **3.88** |
+| `auto = TRUE` | 0.2059 | 0.03163 | 1.088 | 4.88 |
+
+Here `auto` is worse on every axis, and **no** `df` moves max k-hat off ~1.07.
+The reason is visible in the reference: at `isample = 8000` that fixture still
+reads max k-hat 0.794. With two observations and three ETAs the individual
+posterior is not identified, so the heavy tail is structural rather than a
+proposal mismatch, and a heavier proposal cannot repair it.
+
+This is worth knowing when reading `fit$env$impPsisK`: `k > 0.7` on a subject with
+fewer observations than random effects is telling you about the model, not about
+the sampler. It is also the one place the measurement and the NONMEM tutorial pull
+in different directions -- the tutorial recommends `DF` precisely for
+`nobs < neta` -- so treat `auto` there as unproven rather than recommended.
+
+## Cost of `auto` itself
+
+On the 3-eta fixture, against the same reference:
+
+| | objective RMSE | `Omega` RMSE | max k-hat | subjects k > 0.7 |
+|---|---|---|---|---|
+| `auto = FALSE` | **0.0113** | 0.00406 | 0.941 | 2.38 |
+| `auto = TRUE` | 0.0165 | **0.00301** | **0.571** | **0.25** |
+| fixed `df = 30` | **0.0095** | 0.00281 | 0.593 | 0.25 |
+
+`auto` buys the tail and `Omega`, at about 46% more objective noise. A **global**
+`df = 30` beats it on every column here, because per-subject escalation and the
+sample-budget reallocation each add variance. `auto` earns its default by not
+needing to know in advance *which* subjects fail; if you already know your model
+is uniformly heavy-tailed, setting `df` globally is measurably better.
+
+```{r autoSweepCode, eval=FALSE}
+# The harness that produced the tables above.  Not run during the article build.
+mTheo3 <- function() {
+  ini({tka <- 0.45; tcl <- 1; tv <- 3.45
+       eta.ka ~ 0.3; eta.cl ~ 0.1; eta.v ~ 0.1; add.sd <- 0.7})
+  model({ka <- exp(tka + eta.ka); cl <- exp(tcl + eta.cl); v <- exp(tv + eta.v)
+         linCmt() ~ add(add.sd)})
+}
+run1 <- function(model, data, isample, df, seed, auto = FALSE, nIter = 12L) {
+  fit <- nlmixr2(model, data, "impmap",
+                 impmapControl(print = 0L, nIter = nIter, isample = isample,
+                               df = df, covMethod = "", auto = auto,
+                               impSeed = seed))
+  k <- fit$env$impPsisK
+  list(objf = as.numeric(fit$objf), omega = diag(fit$omega),
+       maxK = max(k, na.rm = TRUE), nAbove = sum(k > 0.7, na.rm = TRUE))
+}
+ref <- run1(mTheo3, nlmixr2data::theo_sd, 8000L, 0, 42L)
+for (df in c(0, 30, 20, 12, 8)) {
+  rs <- lapply(1:8, function(s) run1(mTheo3, nlmixr2data::theo_sd, 300L, df, s))
+  ob <- vapply(rs, function(z) z$objf, 1)
+  om <- do.call(rbind, lapply(rs, function(z) z$omega))
+  cat(sprintf("df=%-3g objRMSE=%.4f omRMSE=%.5f maxK=%.3f k>0.7=%.2f\n", df,
+              sqrt(mean((ob - ref$objf)^2)),
+              sqrt(mean((sweep(om, 2, ref$omega))^2)),
+              mean(vapply(rs, function(z) z$maxK, 1)),
+              mean(vapply(rs, function(z) z$nAbove, 1))))
+}
+```
 
 # References
 
