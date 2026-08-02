@@ -1154,17 +1154,17 @@ iterations is withdrawn and the samples given back.
 | no adaptation | 0.1517 | 0.02379 | 1.065 | 3.88 |
 | global `df = 30` | 0.1666 | 0.02695 | 1.075 | 5.00 |
 | `autoNonmemSparse = TRUE` (the tutorial's rule) | 0.2059 | 0.03163 | 1.088 | 4.88 |
-| **`auto` as shipped** | **0.1322** | **0.01717** | **0.983** | **4.75** |
+| **`auto` as shipped** | **0.1423** | **0.01947** | **0.998** | 5.00 |
 
 The gated default gives the best objective, the best `Omega` and the least severe
 worst tail -- and beats doing nothing at all, because it keeps the k-hat
 escalation and the budget reallocation where those help while withdrawing only
 the escalation that measurably does not.
 
-The one column it does not lead is the COUNT of subjects above 0.7 (4.75 against
+The one column it does not lead is the COUNT of subjects above 0.7 (5.00 against
 3.88 for no adaptation). That is not a contradiction: escalation redistributes
 where the weight sits, so slightly more subjects sit marginally above the
-threshold while the worst tail among them is milder (max k-hat 0.983 against
+threshold while the worst tail among them is milder (max k-hat 0.998 against
 1.065). On a fixture whose failure is structural, no method drives that count
 down -- the reference at `isample = 8000` still reads 0.794.
 
@@ -1185,7 +1185,7 @@ RMSE on the sparse fixture, by what is switched on:
 | `autoNonmemSparse = TRUE` (tutorial rule applied) | 0.2059 |
 | gate the trigger, never withdraw (`autoDfPatience = 0`) | 0.1807 |
 | `auto = FALSE` (no adaptation at all) | 0.1517 |
-| **gate the trigger and withdraw (shipped)** | **0.1322** |
+| **gate the trigger and withdraw (shipped)** | **0.1423** |
 
 Gating alone still loses to simply turning `auto` off; the withdrawal is what
 turns it into a win.
@@ -1197,16 +1197,23 @@ tolerated before an escalation is withdrawn (`0` never withdraws). Swept over
 | patience | sparse obj RMSE | 3-ETA obj RMSE | 3-ETA `Omega` RMSE | 3-ETA k>0.7 |
 |---|---|---|---|---|
 | 0 | 0.1807 | 0.01654 | 0.00301 | 0.25 |
-| 1 | 0.1690 | 0.01418 | 0.00271 | 0.50 |
-| **2 (default)** | **0.1322** | 0.01588 | **0.00225** | 0.38 |
+| 1 | **0.0969** | **0.01418** | 0.00271 | 0.50 |
+| **2 (default)** | 0.1423 | 0.01588 | **0.00195** | 0.38 |
 | 3 | 0.1457 | 0.01654 | 0.00301 | 0.25 |
 | 5 | 0.1866 | 0.01654 | 0.00301 | 0.25 |
 
-2 is a measured optimum rather than a round number: the sparse curve rises either
-side of it, and it is simultaneously better than never withdrawing on *both* the
-objective and `Omega` for the 3-ETA fixture. What it costs is a little tail
-performance on the fixtures that were improvable anyway (subjects above 0.7:
-0.38 vs 0.25 on the 3-ETA fixture, 0.12 vs 0.00 on the outlier one).
+This is a genuine trade-off rather than a single optimum. `1` gives the best
+objective on two of the three fixtures, but the **worst tail on all three**
+(subjects above 0.7: 0.50, 0.38 and 4.50 against 0.38, 0.12 and 5.00 at `2`).
+On the two fixtures where escalation genuinely helps, withdrawing that eagerly
+retracts proposals that were working.
+
+The default is `2` for the same reason `auto` is on at all: weights with
+infinite variance are a correctness problem whose error is unbounded, while
+Monte-Carlo noise is bounded and measurable, so tail behaviour is weighted above
+objective RMSE. If you weigh them the other way -- and on a structurally sparse
+model there is a case for it, `0.0969` against `0.1423` -- set
+`autoDfPatience = 1`.
 
 Note that patience interacts with `nIter`: at 3 and 5 the counter never
 accumulates inside a 12-iteration fit on a fixture whose k-hat does improve,
@@ -1239,7 +1246,7 @@ references:
 
 (`C` here is `auto` as shipped, i.e. with the sparsity gate of the previous
 section. On the sparse fixture, which has no counterpart above because neither
-`A` nor `B` addresses it, `C` reads 0.1322 / 0.01717.)
+`A` nor `B` addresses it, `C` reads 0.1423 / 0.01947.)
 
 Read the **top two rows first**. On a one-ETA model with no tail problem at all,
 a global `df = 30` costs **75% more objective RMSE and 73% more `Omega` RMSE**
