@@ -666,33 +666,63 @@ parametric proposal centred at each subject's MAP mode and updates by EM.
 `npag`/`npb` replace that entirely -- with an adaptive grid over support points,
 or with a Dirichlet-process posterior. Neither calls `impEStep`.
 
-That distinction has a practical consequence which the shared control object
-hides:
+That distinction has a practical consequence, and the package now tells you
+about it rather than leaving you to find out.
 
-> **The importance-sampling controls are accepted but inert under `npag`/`npb`.**
-> Twenty-two of them: `isample`, `nIter`, `mapIter`, `gamma`, `gammaMethod`,
-> `gammaMethodUser`, `df`, `auto`, `autoNonNormal`, `autoNonmemSparse`,
-> `autoDfPatience`, `iscaleMin`, `iscaleMax`, `iaccept`, `ctol`, `nConvWindow`,
-> `impSeed`, `qr`, `qrShift`, `qrRefresh`, `sir` and `sirSample`. They configure
-> a proposal density that the nonparametric engines never build. Passing them is
-> not an error and will not warn -- they simply do nothing. If you are tuning
-> `npag`, the knobs that matter are `points`, `cycles`, `gridWidth`,
-> `gridBounds` and `residOptimize`.
->
-> Two are worth singling out because they look like they should work: `nIter`
-> does not lengthen a fit (`npag` counts `cycles`), and `impSeed` does not set
-> the sampler seed (`npb` has its own `seed`; `npag` is Sobol-deterministic).
+## When a control does not apply, you get told {#npcontrols}
 
-**A naming collision worth flagging.** `gamma` and `gammaOptimize` are unrelated
-despite the shared word:
+The importance-sampling controls configure a proposal density that a
+nonparametric engine never builds. Passing one used to be accepted and silently
+ignored -- so a fit could be "tuned" with knobs that did nothing. It is now an
+error, and the error names the control that *does* do the job:
+
+```{r npReject, eval=FALSE}
+npagControl(nIter = 200)
+#> Error: use 'cycles' instead of 'nIter'
+
+npagControl(isample = 500)
+#> Error: 'isample' configure the importance-sampling proposal,
+#>        which est="npag" does not build
+
+npbControl(impSeed = 7)
+#> Error: use 'seed' instead of 'impSeed'
+```
+
+So there is nothing to memorise. If you reach for an `impmap` habit, you find
+out immediately. The handful with a direct counterpart:
+
+| you reach for | `npag`/`npb` control | why |
+|---|---|---|
+| `nIter` | `cycles` | npag counts adaptive-grid cycles, not EM iterations |
+| `ctol`, `nConvWindow` | `rhoend`, `cycles` | convergence is the grid's, not an EM window's |
+| `impSeed` | `seed` (npb) | npag needs none -- its grid is Sobol-deterministic |
+| `gamma` | `gammaOptimize` | unrelated quantities that happen to share a word -- see below |
+
+Everything else in that family (`isample`, `df`, `auto`, `iaccept`, `iscaleMin`,
+`iscaleMax`, `qr`, `sir` and the rest) has no nonparametric counterpart at all,
+because there is no proposal to shape. The controls that *do* steer `npag` are
+`points`, `cycles`, `gridWidth`, `gridBounds` and `residOptimize`; for `npb`,
+`points`, `alpha`, `burnin`, `nsamp`, `nchains`, `propSd` and `seed`.
+
+The shared FOCEI-family scaffolding still passes through untouched -- the
+residual error model, `covMethod`, `sigdig`, the thread count and so on -- since
+that half of the inheritance is real.
+
+## A word that means two things {#gammacollision}
+
+`gamma` and `gammaOptimize` are unrelated:
 
 | control | method | meaning |
 |---|---|---|
 | `gamma` | `impmap` | proposal-variance inflation (NONMEM `ISCALE`); scales the proposal covariance |
 | `gammaOptimize` | `npag`/`npb` | a global assay-error multiplier on the *residual* magnitude, in the Pmetrics sense |
 
-Setting `gamma` on an `npag` fit does not affect the assay-error term, and
-`gammaOptimize` has nothing to do with a proposal.
+This one is worth a sentence of its own because R would otherwise do something
+surprising with it. `gamma` is a *prefix* of `gammaOptimize`, so R's partial
+argument matching once bound `npagControl(gamma = 2)` to `gammaOptimize`, setting
+it to `isTRUE(2)` -- that is, `FALSE`. Reaching for impmap's proposal control did
+not get ignored; it silently switched the assay-error optimisation **off**.
+`gamma` is now rejected by name, so the partial match cannot happen.
 
 **Choosing between them.** Both handle a between-subject distribution that a
 normal `Omega` cannot; they answer different questions. `impmap` keeps a
