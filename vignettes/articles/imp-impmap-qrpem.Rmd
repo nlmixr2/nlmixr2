@@ -432,8 +432,14 @@ subject's importance weights. Read it as:
 This is worth checking because the other two statistics **cannot** detect the
 problem. `xi` and the Kish effective-sample fraction are both means over samples
 drawn *from the proposal*, so neither sees a tail the proposal rarely visits.
-On ordinary theophylline, two of twelve subjects have `k-hat` of 2.60 and 1.28
-while `xi` reads ~0.97 and the ESS fraction ~0.99 for those same subjects.
+On a three-ETA theophylline model, three of twelve subjects read `k-hat` above
+0.7 (up to 1.13) while the median ESS fraction over all twelve is 0.96 -- the
+efficiency statistic looks excellent on exactly the subjects whose weights are
+not trustworthy.
+
+Tail trouble tends to track the number of random effects rather than the amount
+of data: the same data and structural model with a single ETA reads `k-hat`
+about -1.8 for every subject.
 
 If `impPsisK` is above 0.7, more samples will not fix it -- see `df`.
 
@@ -963,8 +969,8 @@ subjects still fail. So `df` is escalated on k-hat *severity* (`k>1` -> 20,
 proposal is working k-hat drops *because* it is working, so relaxing on a low
 k-hat walks straight back into the failure.
 
-Both rungs, and the removal of a former `k>2` -> 12 rung, come from the sweep in
-[Appendix B](#autotuning), which also shows where escalation does **not** help.
+Both rungs come from the sweep in [Appendix B](#autotuning), which also shows
+where escalation does **not** help.
 
 `isample` is allocated proportional to inverse effective-sample fraction within
 a fixed budget, so data-rich subjects fund the difficult ones (measured on a
@@ -975,8 +981,8 @@ mixed design: rich subjects 289-299 draws, sparse 300-329, total preserved).
 nlmixr2's `auto` stays seeded and thread-count independent.
 
 **What it costs.** Against a high-accuracy reference (`isample = 8000`), over 8
-seeds on theophylline with 3 ETAs -- the 1-ETA model no longer has any tail
-failure to fix, see [Appendix B](#autotuning):
+seeds on theophylline with 3 ETAs -- a 1-ETA model has no tail failure to fix, so
+it shows nothing either way, see [Appendix B](#autotuning):
 
 | | objective RMSE | max k-hat | subjects k>0.7 | `Omega` RMSE |
 |---|---|---|---|---|
@@ -992,10 +998,12 @@ when `fit$env$impPsisK` is already comfortably below 0.7 everywhere and you want
 the tightest objective you can get.
 
 Two caveats worth reading before relying on it, both measured in
-[Appendix B](#autotuning): a *global* `df = 30` beats `auto` on every column
-above when you already know the whole model is heavy-tailed, and on subjects with
-fewer observations than random effects `auto` makes matters worse rather than
-better, because there the heavy tail is structural and no proposal can repair it.
+[Appendix B](#autotuning). If you *already know* the whole model is heavy-tailed,
+a global `df` gives a better objective than `auto` -- but it costs 75% more
+objective RMSE on a model that did not need it, which is why it is not the
+default. And on subjects with fewer observations than random effects `auto` makes
+matters worse rather than better, because there the heavy tail is structural and
+no proposal can repair it.
 
 ## Step 10 -- Convergence
 
@@ -1064,24 +1072,22 @@ numbers are reproducible rather than asserted.
 The code below is **not run when this article builds**; the tables are its
 recorded output.
 
-## Why it was re-tuned
+## Is the diagnostic trustworthy?
 
-The original ladder was calibrated on plain theophylline, which used to produce
-genuine tail failures. The `imp`/`impmap`/`focei` pooling fixes removed them:
+Everything below steers on Pareto k-hat, so the first thing to establish is that a
+low k-hat means what it claims. On plain theophylline every subject reads about
+-1.8, which is an unusually clean result and worth checking rather than assuming:
+genuinely light tails and a collapsed, near-uniform weight vector both drive
+k-hat down, and only one of those is good news.
 
-| quantity (theophylline, `isample=300`, `nIter=12`) | before the fixes | after |
-|---|---|---|
-| subjects with k-hat > 0.7 | 2 of 12 | **0** |
-| max k-hat, `auto = FALSE` | 2.44 | **-1.46** |
+Raising `isample` 20-fold is the test. It moves the objective by 0.037
+(173.708 -> 173.671) and leaves the effective-sample fraction (0.536 -> 0.534)
+and k-hat (-1.46 -> -1.50) essentially unchanged. Had the weights collapsed, the
+cheap fit would have been biased and the reference would have pulled away from
+it. The tails really are light, so k-hat can be trusted as the steering signal.
 
-That is a real improvement, not a broken diagnostic: raising `isample` 20-fold
-moves the objective by 0.037 (173.708 -> 173.671) and leaves the effective-sample
-fraction (0.536 -> 0.534) and k-hat (-1.46 -> -1.50) essentially unchanged. Had
-the weights collapsed, the cheap fit would have been biased and the reference
-would have moved away from it.
-
-The consequence is that **theophylline with one ETA no longer exercises `auto` at
-all**, so it is the wrong model to tune or test on.
+It also means **theophylline with one ETA does not exercise `auto` at all**, so it
+is the wrong model to tune on.
 
 ## Which models still stress the sampler
 
@@ -1119,10 +1125,14 @@ Theophylline with 3 ETAs, 8 seeds, RMSE against an `isample = 8000` reference
 
 The objective RMSE is **minimised at `df = 30`** and degrades past it -- `df = 8`
 is worse than using no t proposal at all -- while the tail index and `Omega`
-continue to improve. That trade-off is what fixes the ladder at 30 and 20, and it
-is why the old `k > 2 -> df 12` rung was dropped: post-fix nothing reaches k-hat 2
-(the sweep peaks at 1.13), so the rung was unreachable, and where `df = 12` could
-be measured it cost objective accuracy for a marginal `Omega` gain.
+continue to improve. That trade-off is what fixes the ladder at 30 and 20.
+
+There is no rung above that. Nothing measured here reaches k-hat 2 (the sweep
+peaks at 1.13, and the sparse fixture below at 1.07), so a heavier rung would be
+guesswork on an unobserved regime; and where `df = 12` can be measured it costs
+objective accuracy for a marginal `Omega` gain. If you do meet a model whose
+k-hat sits above 2, set `df` yourself rather than expecting `auto` to invent a
+value for it.
 
 ## Where escalation does *not* help
 
@@ -1145,21 +1155,45 @@ the sampler. It is also the one place the measurement and the NONMEM tutorial pu
 in different directions -- the tutorial recommends `DF` precisely for
 `nobs < neta` -- so treat `auto` there as unproven rather than recommended.
 
-## Cost of `auto` itself
+## Why `auto` rather than a global `df`
 
-On the 3-eta fixture, against the same reference:
+If a t proposal helps, why adapt per subject at all instead of just setting `df`
+globally? Because a global `df` is only free on models that need it. Three
+methods over five fixtures, 8 seeds each, against per-fixture `isample = 8000`
+references:
 
-| | objective RMSE | `Omega` RMSE | max k-hat | subjects k > 0.7 |
+* **A** -- `auto = FALSE`, `df = 0`: plain Gaussian, no adaptation
+* **B** -- `auto = FALSE`, `df = 30`: one global t proposal for everybody
+* **C** -- `auto = TRUE`: per-subject `df`/`isample`/`iaccept`
+
+| fixture | | A | B (global `df`) | C (`auto`) |
 |---|---|---|---|---|
-| `auto = FALSE` | **0.0113** | 0.00406 | 0.941 | 2.38 |
-| `auto = TRUE` | 0.0165 | **0.00301** | **0.571** | **0.25** |
-| fixed `df = 30` | **0.0095** | 0.00281 | 0.593 | 0.25 |
+| theophylline, 1 eta *(no tail problem)* | obj RMSE | **0.1091** | 0.1908 | 0.1148 |
+| | `Omega` RMSE | **0.00117** | 0.00203 | 0.00118 |
+| Poisson *(no tail problem)* | obj RMSE | 0.00525 | 0.00373 | **0.00341** |
+| | `Omega` RMSE | 0.01329 | 0.01146 | **0.01072** |
+| theophylline, 3 etas *(tail problem)* | obj RMSE | 0.01132 | **0.00952** | 0.01654 |
+| | `Omega` RMSE | 0.00406 | **0.00281** | 0.00301 |
+| | subjects k>0.7 | 2.38 | 0.25 | **0.25** |
+| outlier-contaminated *(tail problem)* | obj RMSE | 0.07680 | **0.04440** | 0.05186 |
+| | `Omega` RMSE | 0.00817 | 0.00817 | **0.00737** |
+| | subjects k>0.7 | 2.50 | 0.12 | **0.00** |
 
-`auto` buys the tail and `Omega`, at about 46% more objective noise. A **global**
-`df = 30` beats it on every column here, because per-subject escalation and the
-sample-budget reallocation each add variance. `auto` earns its default by not
-needing to know in advance *which* subjects fail; if you already know your model
-is uniformly heavy-tailed, setting `df` globally is measurably better.
+Read the **top two rows first**. On a one-ETA model with no tail problem at all,
+a global `df = 30` costs **75% more objective RMSE and 73% more `Omega` RMSE**
+for no benefit whatsoever -- both k-hats are already about -1.4 with nothing
+failing. `auto` costs about 5% there, and on the Poisson fixture it is the best of
+the three.
+
+On the two fixtures that *do* have a tail problem, a global `df` gives the better
+objective (0.0095 vs 0.0165, and 0.0444 vs 0.0519) while `auto` gives the better
+tail and `Omega`. So a global `df` is the better choice **once you already know
+your model is uniformly heavy-tailed** -- and that is exactly the thing you cannot
+know without having run something like this first.
+
+That asymmetry is why `auto` is the default and `df = 0` is its companion default:
+`auto` is close to free when it is not needed and effective when it is, whereas a
+global `df` is effective when needed and expensive when not.
 
 ```{r autoSweepCode, eval=FALSE}
 # The harness that produced the tables above.  Not run during the article build.
