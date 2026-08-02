@@ -1134,26 +1134,76 @@ objective accuracy for a marginal `Omega` gain. If you do meet a model whose
 k-hat sits above 2, set `df` yourself rather than expecting `auto` to invent a
 value for it.
 
-## Where escalation does *not* help
+## Where escalation does *not* help, and what is done about it {#sparsegate}
 
-The same sweep on the deliberately sparse fixture (2 observations, 3 ETAs):
+Some heavy tails are not the proposal's fault. On a deliberately sparse fixture
+(2 observations, 3 ETAs -- the tutorial's own definition of sparse) **no** `df`
+moves max k-hat off about 1.07, and the reason is visible in the reference: at
+`isample = 8000` that fixture still reads max k-hat 0.794. With fewer
+observations than random effects the individual posterior is not identified, so
+the heavy tail is **structural**, and a heavier proposal cannot repair what the
+data did not determine.
 
-| | objective RMSE | `Omega` RMSE | max k-hat | subjects k > 0.7 |
+Applying the tutorial's `nobs < neta` rule there makes every number worse. So
+that half of the trigger is **not** applied on its own: sparsity alone no longer
+assigns a t proposal, and an escalation that fails to improve k-hat within two
+iterations is withdrawn and the samples given back.
+
+| on the sparse fixture | objective RMSE | `Omega` RMSE | max k-hat | subjects k > 0.7 |
 |---|---|---|---|---|
-| `auto = FALSE` | **0.1517** | **0.02379** | 1.065 | **3.88** |
-| `auto = TRUE` | 0.2059 | 0.03163 | 1.088 | 4.88 |
+| no adaptation | 0.1517 | 0.02379 | 1.065 | 3.88 |
+| global `df = 30` | 0.1666 | 0.02695 | 1.075 | 5.00 |
+| `autoNonmemSparse = TRUE` (the tutorial's rule) | 0.2059 | 0.03163 | 1.088 | 4.88 |
+| **`auto` as shipped** | **0.1093** | **0.01833** | **0.994** | **4.50** |
 
-Here `auto` is worse on every axis, and **no** `df` moves max k-hat off ~1.07.
-The reason is visible in the reference: at `isample = 8000` that fixture still
-reads max k-hat 0.794. With two observations and three ETAs the individual
-posterior is not identified, so the heavy tail is structural rather than a
-proposal mismatch, and a heavier proposal cannot repair it.
+The gated default is the best of the four on every column -- and better than doing
+nothing at all, because it keeps the k-hat escalation and the budget reallocation
+where those help while withdrawing only the escalation that measurably does not.
 
-This is worth knowing when reading `fit$env$impPsisK`: `k > 0.7` on a subject with
-fewer observations than random effects is telling you about the model, not about
-the sampler. It is also the one place the measurement and the NONMEM tutorial pull
-in different directions -- the tutorial recommends `DF` precisely for
-`nobs < neta` -- so treat `auto` there as unproven rather than recommended.
+Two things follow. First, when reading `fit$env$impPsisK`, `k > 0.7` on a subject
+with fewer observations than random effects is telling you about the **model**,
+not about the sampler; no sampler setting will fix it. Second, this is the one
+place the measurement and the NONMEM tutorial pull in different directions, since
+the tutorial recommends `DF` precisely for `nobs < neta`. NONMEM's own testing is
+not published and was not done on these models, so
+`impmapControl(autoNonmemSparse = TRUE)` restores the documented rule unchanged
+for anyone whose own measurements come out the other way.
+
+Both halves matter, and gating the trigger on its own is not enough. Objective
+RMSE on the sparse fixture, by what is switched on:
+
+| | objective RMSE |
+|---|---|
+| `autoNonmemSparse = TRUE` (tutorial rule applied) | 0.1807 |
+| gate the trigger, never withdraw (`autoDfPatience = 0`) | 0.1807 |
+| `auto = FALSE` (no adaptation at all) | 0.1517 |
+| **gate the trigger and withdraw (shipped)** | **0.1093** |
+
+Gating alone still loses to simply turning `auto` off; the withdrawal is what
+turns it into a win.
+
+**`autoDfPatience`** sets how many consecutive non-improving iterations are
+tolerated before an escalation is withdrawn (`0` never withdraws). Swept over
+0, 1, 2, 3 and 5, 8 seeds:
+
+| patience | sparse obj RMSE | 3-ETA obj RMSE | 3-ETA `Omega` RMSE | 3-ETA k>0.7 |
+|---|---|---|---|---|
+| 0 | 0.1807 | 0.01654 | 0.00301 | 0.25 |
+| 1 | 0.1690 | 0.01418 | 0.00271 | 0.50 |
+| **2 (default)** | **0.1093** | 0.01588 | **0.00225** | 0.38 |
+| 3 | 0.1227 | 0.01654 | 0.00301 | 0.25 |
+| 5 | 0.1827 | 0.01654 | 0.00301 | 0.25 |
+
+2 is a measured optimum rather than a round number: the sparse curve rises either
+side of it, and it is simultaneously better than never withdrawing on *both* the
+objective and `Omega` for the 3-ETA fixture. What it costs is a little tail
+performance on the fixtures that were improvable anyway (subjects above 0.7:
+0.38 vs 0.25 on the 3-ETA fixture, 0.12 vs 0.00 on the outlier one).
+
+Note that patience interacts with `nIter`: at 3 and 5 the counter never
+accumulates inside a 12-iteration fit on a fixture whose k-hat does improve,
+which is why those rows are identical to switching withdrawal off. A longer fit
+will withdraw where a short one does not.
 
 ## Why `auto` rather than a global `df`
 
@@ -1172,12 +1222,16 @@ references:
 | | `Omega` RMSE | **0.00117** | 0.00203 | 0.00118 |
 | Poisson *(no tail problem)* | obj RMSE | 0.00525 | 0.00373 | **0.00341** |
 | | `Omega` RMSE | 0.01329 | 0.01146 | **0.01072** |
-| theophylline, 3 etas *(tail problem)* | obj RMSE | 0.01132 | **0.00952** | 0.01654 |
-| | `Omega` RMSE | 0.00406 | **0.00281** | 0.00301 |
-| | subjects k>0.7 | 2.38 | 0.25 | **0.25** |
-| outlier-contaminated *(tail problem)* | obj RMSE | 0.07680 | **0.04440** | 0.05186 |
-| | `Omega` RMSE | 0.00817 | 0.00817 | **0.00737** |
-| | subjects k>0.7 | 2.50 | 0.12 | **0.00** |
+| theophylline, 3 etas *(tail problem)* | obj RMSE | 0.01132 | **0.00952** | 0.01588 |
+| | `Omega` RMSE | 0.00406 | 0.00281 | **0.00225** |
+| | subjects k>0.7 | 2.38 | **0.25** | 0.38 |
+| outlier-contaminated *(tail problem)* | obj RMSE | 0.07680 | **0.04440** | 0.05223 |
+| | `Omega` RMSE | 0.00817 | 0.00817 | **0.00735** |
+| | subjects k>0.7 | 2.50 | **0.12** | 0.12 |
+
+(`C` here is `auto` as shipped, i.e. with the sparsity gate of the previous
+section. On the sparse fixture, which has no counterpart above because neither
+`A` nor `B` addresses it, `C` reads 0.1093 / 0.01833.)
 
 Read the **top two rows first**. On a one-ETA model with no tail problem at all,
 a global `df = 30` costs **75% more objective RMSE and 73% more `Omega` RMSE**
