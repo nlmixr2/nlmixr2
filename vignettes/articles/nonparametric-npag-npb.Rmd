@@ -670,11 +670,18 @@ That distinction has a practical consequence which the shared control object
 hides:
 
 > **The importance-sampling controls are accepted but inert under `npag`/`npb`.**
-> `isample`, `df`, `auto`, `autoNonmemSparse`, `autoDfPatience`, `iaccept` and
-> `gamma` configure a proposal density that the nonparametric engines never
-> build. Passing them is not an error and will not warn -- they simply do
-> nothing. If you are tuning `npag`, the knobs that matter are `points`,
-> `cycles`, `gridWidth`, `gridBounds` and `residOptimize`.
+> Twenty-two of them: `isample`, `nIter`, `mapIter`, `gamma`, `gammaMethod`,
+> `gammaMethodUser`, `df`, `auto`, `autoNonNormal`, `autoNonmemSparse`,
+> `autoDfPatience`, `iscaleMin`, `iscaleMax`, `iaccept`, `ctol`, `nConvWindow`,
+> `impSeed`, `qr`, `qrShift`, `qrRefresh`, `sir` and `sirSample`. They configure
+> a proposal density that the nonparametric engines never build. Passing them is
+> not an error and will not warn -- they simply do nothing. If you are tuning
+> `npag`, the knobs that matter are `points`, `cycles`, `gridWidth`,
+> `gridBounds` and `residOptimize`.
+>
+> Two are worth singling out because they look like they should work: `nIter`
+> does not lengthen a fit (`npag` counts `cycles`), and `impSeed` does not set
+> the sampler seed (`npb` has its own `seed`; `npag` is Sobol-deterministic).
 
 **A naming collision worth flagging.** `gamma` and `gammaOptimize` are unrelated
 despite the shared word:
