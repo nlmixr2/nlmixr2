@@ -644,6 +644,60 @@ NONMEM-comparable objective function; and, as the simulation/VPC and
 typical-prediction sections showed, the normal-`Omega` summary the fit finalizes
 into must not be mistaken for the population it came from.
 
+# Relationship to `impmap` {#impmap}
+
+`npagControl()` and `npbControl()` are thin wrappers around
+[`impmapControl()`](imp-impmap-qrpem.html): each builds an impmap
+control, tags it with its own `est`, and layers the nonparametric fields
+(`points`, `cycles`, `gridWidth`, `alpha`, ...) on top. Anything you pass through
+`...` goes to `impmapControl()`. That is a deliberate reuse, and it is worth
+knowing exactly how far it goes.
+
+**What `npag`/`npb` genuinely share with `impmap`.** The whole FOCEI-family
+scaffolding: the inner MAP problem that produces each subject's conditional mode,
+mu-referencing, the `Omega`/eta plumbing, the residual-error machinery, mixture
+proportions, iteration printing, and the thread count. In the C++ layer the
+nonparametric kernels call the same `imp*` interface (`impMapPass`, `impSetEta`,
+`impGetOmega`, `impMuInterceptStep`, `impIterPrint*`) that the importance-sampling
+EM does.
+
+**What they do not share: the E-step.** `impmap` draws importance samples from a
+parametric proposal centred at each subject's MAP mode and updates by EM.
+`npag`/`npb` replace that entirely -- with an adaptive grid over support points,
+or with a Dirichlet-process posterior. Neither calls `impEStep`.
+
+That distinction has a practical consequence which the shared control object
+hides:
+
+> **The importance-sampling controls are accepted but inert under `npag`/`npb`.**
+> `isample`, `df`, `auto`, `autoNonmemSparse`, `autoDfPatience`, `iaccept` and
+> `gamma` configure a proposal density that the nonparametric engines never
+> build. Passing them is not an error and will not warn -- they simply do
+> nothing. If you are tuning `npag`, the knobs that matter are `points`,
+> `cycles`, `gridWidth`, `gridBounds` and `residOptimize`.
+
+**A naming collision worth flagging.** `gamma` and `gammaOptimize` are unrelated
+despite the shared word:
+
+| control | method | meaning |
+|---|---|---|
+| `gamma` | `impmap` | proposal-variance inflation (NONMEM `ISCALE`); scales the proposal covariance |
+| `gammaOptimize` | `npag`/`npb` | a global assay-error multiplier on the *residual* magnitude, in the Pmetrics sense |
+
+Setting `gamma` on an `npag` fit does not affect the assay-error term, and
+`gammaOptimize` has nothing to do with a proposal.
+
+**Choosing between them.** Both handle a between-subject distribution that a
+normal `Omega` cannot; they answer different questions. `impmap` keeps a
+parametric `Omega` and improves how the marginal likelihood is *integrated*
+(exactly the FOCEI approximation error). `npag`/`npb` drop the normal assumption
+on the distribution itself and estimate it as a discrete measure. If your
+structural model is fine and you distrust the Laplace marginal, reach for
+`impmap`; if you suspect the population is multimodal or otherwise not normal in
+eta space, reach for `npag`. The diagnostic that tells you `impmap` is
+struggling -- Pareto k-hat, `fit$env$impPsisK` -- has no counterpart here, because
+there is no importance-sampling proposal whose tails could fail.
+
 # The npb (Nonparametric Bayes) method
 
 `npag` gives a point estimate of the mixing distribution. `npb` instead puts a
