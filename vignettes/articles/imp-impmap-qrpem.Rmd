@@ -476,9 +476,10 @@ on by default because weights with infinite variance are a *correctness*
 problem -- their error is unbounded in the worst case -- while the extra noise
 is a bounded, measurable cost.
 
-Set `auto = FALSE` to recover the older behaviour exactly. That is worth doing
-when you want the tightest possible objective on a model whose `impPsisK`
-values are already comfortably below 0.7.
+Set `auto = FALSE` to apply one global `df`, `isample` and `iaccept` to every
+subject. That is worth doing when you want the tightest possible objective on a
+model whose `impPsisK` values are already comfortably below 0.7, since there is
+no tail failure for the per-subject adaptation to repair.
 
 ## Proposal tuning (rarely needed) {#proposal-tuning}
 
@@ -495,9 +496,9 @@ adjusted toward, and **`gammaRule`** chooses how:
   until `xi` approximates `iaccept`, by at most 1.25x per iteration each way and
   clamped to **`iscaleMin`**/**`iscaleMax`** (defaults `0.1`/`10`). Both bounds
   are reachable.
-* **`"floor"`** is the previous behaviour: `iaccept` acts as a one-sided floor on
-  the mean Kish effective-sample fraction, so `gamma` is left at its efficient
-  starting value while coverage is healthy and only ever inflated. Under it only
+* **`"floor"`** treats `iaccept` as a one-sided floor on the mean Kish
+  effective-sample fraction instead: `gamma` is left at its efficient starting
+  value while coverage is healthy and only ever inflated. Under it only
   `iscaleMax` can bind.
 
 The tuned constants travel with the rule: choosing one also chooses its tuned
@@ -530,8 +531,9 @@ Note `"target"` repairs the tail *itself* -- it takes max k-hat from 0.836 to
 about -0.4 on the three-ETA fixture -- so under the default the `df` ladder
 ([see `auto`](#auto)) is a secondary safety net rather than the primary remedy.
 
-Choose `"floor"` if you want the proposal left at its efficient starting value, or
-to reproduce results from before this became the default.
+Choose `"floor"` when you want the proposal left at its efficient starting value
+-- the tightest objective on a model whose `impPsisK` values are already
+comfortably below 0.7, where there is no tail to buy coverage for.
 
 ## Sampling scheme (what `qrpem` turns on)
 
@@ -948,19 +950,18 @@ justifying, and it fails -- with `p = 1/2` the error multiplier is
 never settles (measured: `gamma` oscillating 1.30/1.22/1.30/1.22 with lag-1
 autocorrelation -0.99, so the fit can never meet its own stability gate).
 
-**The cost of the target, and why it is still the default.** Driving `xi` onto
-`IACCEPT = 0.4` deliberately over-disperses a proposal that may already fit: on
-theophylline it costs effective sample size (0.96 -> 0.70) and adds Monte-Carlo
-noise to the objective. An earlier version of this page concluded from that alone
-that the target was not worth taking.
+**What the target costs.** Driving `xi` onto `IACCEPT = 0.4` deliberately
+over-disperses a proposal that may already fit: on theophylline it costs
+effective sample size (0.96 -> 0.70) and adds Monte-Carlo noise to the objective.
 
-That comparison was unfair. It weighed a *tuned* floor rule against a target rule
-running on the floor rule's constants. Tuned against tuned -- each with its own
-`nConvWindow`, and with the target rule's objective gate measuring window-mean
-*drift* rather than mean absolute change, since the latter is a noise measure with
-a floor the wider proposal raises -- the target wins on accuracy as well as on the
-tail (see [Proposal tuning](#proposal-tuning)). The ESS cost is real; it is simply
-not the whole ledger.
+That noise is why the two rules carry different tuned constants. The target rule
+needs a longer convergence window (`nConvWindow` 20 against 10), and its objective
+gate measures the drift of the window *mean* rather than the mean absolute change
+between iterations -- the latter is a noise measure whose floor the wider proposal
+raises, so it would never settle however converged the fit was. With each rule
+measured on its own constants the target wins on accuracy as well as on the tail
+(see [Proposal tuning](#proposal-tuning)); the ESS cost is real but is not the
+whole ledger.
 
 ## Step 9b -- Proposal *shape*: the t sampler (`DF`) {#tprop}
 
@@ -1052,9 +1053,9 @@ it shows nothing either way, see [Appendix B](#autotuning):
 accurately, at roughly 46% more Monte-Carlo noise on the objective.  It is **on
 by default**: infinite-variance weights are a correctness problem whose error is
 unbounded in the worst case, whereas the added noise is bounded and measurable.
-`auto = FALSE` recovers the older behaviour exactly, which is the right choice
-when `fit$env$impPsisK` is already comfortably below 0.7 everywhere and you want
-the tightest objective you can get.
+`auto = FALSE` applies one global `df`, `isample` and `iaccept` to every subject,
+which is the right choice when `fit$env$impPsisK` is already comfortably below
+0.7 everywhere and you want the tightest objective you can get.
 
 Two caveats worth reading before relying on it, both measured in
 [Appendix B](#autotuning). If you *already know* the whole model is heavy-tailed,
@@ -1204,8 +1205,8 @@ the heavy tail is **structural**, and a heavier proposal cannot repair what the
 data did not determine.
 
 Applying the tutorial's `nobs < neta` rule there makes every number worse. So
-that half of the trigger is **not** applied on its own: sparsity alone no longer
-assigns a t proposal, and an escalation that fails to improve k-hat within two
+that half of the trigger is **not** applied on its own: sparsity alone does not
+assign a t proposal, and an escalation that fails to improve k-hat within two
 iterations is withdrawn and the samples given back.
 
 | on the sparse fixture | objective RMSE | `Omega` RMSE | max k-hat | subjects k > 0.7 |
