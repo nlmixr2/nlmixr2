@@ -275,10 +275,18 @@ rbind(impDiag(fitImp, "imp"), impDiag(fitImpmap, "impmap"),
 The two that matter most:
 
 * **`ESS frac`** (`fit$env$impNeffFrac`) is the effective sample size as a
-  fraction of `isample` -- how many of your samples are actually doing work. At
-  `1.0` the proposal matches the posterior perfectly. Above roughly `0.4` the
-  E-step is healthy. If it collapses toward `0`, the proposal is missing the
-  posterior and the estimates are being driven by a handful of samples.
+  fraction of `isample` -- how many of your samples are actually doing work. If
+  it collapses toward `0`, the proposal is missing the posterior and the
+  estimates are being driven by a handful of samples.
+
+  Do **not** read a high value as better. Under the default `gammaRule =
+  "target"` the sampler deliberately widens the proposal until `xi` reaches
+  `iaccept`, which *lowers* this fraction on purpose -- around `0.7` on
+  theophylline against `0.96` under `"floor"` -- in exchange for weights whose
+  variance is bounded. A fraction near `1.0` means the proposal is narrow and
+  matches the posterior closely, which is good only if its tails also do;
+  `impPsisK` is what tells you that, and it is exactly the case where this
+  statistic cannot ([see below](#khat)).
 
 * **`converged`** (`fit$env$impConverged`) is `TRUE` only if all three gates
   are met simultaneously in a trailing window: the objective has stopped moving,
@@ -313,8 +321,13 @@ Two features of that plot are worth naming.
 The **effective sample fraction starts near zero and climbs**. On iteration 1 the
 starting parameters are poor, so a proposal aimed with them lands badly and
 almost every sample is wasted; as the fit improves, the proposal starts matching
-the posterior and the fraction rises to near 1. A fit whose ESS fraction *never*
-climbs is a fit whose proposal is wrong.
+the posterior and the fraction climbs. A fit whose ESS fraction *never* climbs is
+a fit whose proposal is wrong.
+
+Under the default `"target"` rule it climbs and then settles *below* its peak,
+because the proposal-scale controller widens the proposal until `xi` reaches
+`iaccept`. That plateau is the controller working, not the fit degrading. Under
+`gammaRule = "floor"` it simply climbs and stays.
 
 The **objective flattens fast and then wobbles**. That wobble is Monte-Carlo
 noise, not a failure to converge, and its size is set by `isample`. The default
@@ -467,22 +480,58 @@ Set `auto = FALSE` to recover the older behaviour exactly. That is worth doing
 when you want the tightest possible objective on a model whose `impPsisK`
 values are already comfortably below 0.7.
 
-## Proposal tuning (rarely needed)
+## Proposal tuning (rarely needed) {#proposal-tuning}
 
-**`gamma`** (default `1.0`, NONMEM's `ISCALE`) inflates the proposal covariance.
-`gamma = 1` means "use the Laplace covariance as-is", which is optimal when the
-posterior really is Gaussian; values above 1 widen the proposal so it covers
-heavier tails. **`iaccept`** (default `0.4`, NONMEM's `IACCEPT`) is treated as a
-*floor* on the mean effective-sample fraction, not a target: `gamma` is left
-alone while coverage is healthy and inflated (by at most 25% per iteration,
-clamped to **`iscaleMin`**/**`iscaleMax`**, defaults `0.1`/`10`) only when
-coverage drops below the floor. Since `gamma` only ever moves up from its
-efficient starting value, `iscaleMax` is the bound that can bind in practice.
-The importance weights correct for `gamma`, so changing it moves the variance of
-the estimates, never their expectation.
+**`gamma`** (starting value `1.0`, NONMEM's `ISCALE`) inflates the proposal
+covariance. `gamma = 1` means "use the Laplace covariance as-is", which is
+optimal when the posterior really is Gaussian; values above 1 widen the proposal
+so it covers heavier tails. The importance weights correct for `gamma`, so
+changing it moves the variance of the estimates, never their expectation.
 
-Raise `gamma` (or `iscaleMax`) if the ESS fraction is stuck low and you suspect
-heavy-tailed individual posteriors.
+**`iaccept`** (default `0.4`, NONMEM's `IACCEPT`) is the **target** `gamma` is
+adjusted toward, and **`gammaRule`** chooses how:
+
+* **`"target"` (default)** is NONMEM's rule -- `gamma` is adjusted *both ways*
+  until `xi` approximates `iaccept`, by at most 1.25x per iteration each way and
+  clamped to **`iscaleMin`**/**`iscaleMax`** (defaults `0.1`/`10`). Both bounds
+  are reachable.
+* **`"floor"`** is the previous behaviour: `iaccept` acts as a one-sided floor on
+  the mean Kish effective-sample fraction, so `gamma` is left at its efficient
+  starting value while coverage is healthy and only ever inflated. Under it only
+  `iscaleMax` can bind.
+
+The tuned constants travel with the rule: choosing one also chooses its tuned
+`nConvWindow` (20 for `"target"`, 10 for `"floor"`), because the target rule
+tracks a Monte-Carlo statistic and needs a longer window to average it out. An
+explicitly supplied value always wins.
+
+**Why `"target"` is the default.** Tuned against tuned -- each rule with its own
+constants, six seeds, `isample = 300`, RMSE against an `isample = 6000`
+reference:
+
+| fixture | rule | theta RMSE | `Omega` RMSE | max k-hat | subjects k>0.7 | converged |
+|---|---|---|---|---|---|---|
+| 1 ETA | `"floor"` | **0.00113** | 0.00193 | -1.398 | 0.00 | 67% |
+| 1 ETA | `"target"` | 0.00224 | **0.00130** | -1.370 | 0.00 | **100%** |
+| 3 ETA | `"floor"` | 0.00187 | 0.00291 | +0.604 | 0.33 | 100% |
+| 3 ETA | `"target"` | **0.00176** | **0.00202** | **-0.429** | **0.00** | 100% |
+
+`"target"` wins every column at three ETAs, wins `Omega` RMSE and convergence at
+one, and is the only rule that adapts at all at eight ETAs -- there `"floor"`
+leaves `gamma` pinned at 1.0 with `xi` at 1.35, a proposal far too narrow, because
+it watches the Kish fraction, which stays healthy while `xi` says otherwise. Its
+cost is theta RMSE on the one-ETA fixture and roughly twice the iterations.
+
+That trade is the same one `auto` makes: weights with infinite variance are a
+correctness problem whose error is unbounded, while the extra Monte-Carlo noise is
+bounded and measurable.
+
+Note `"target"` repairs the tail *itself* -- it takes max k-hat from 0.836 to
+about -0.4 on the three-ETA fixture -- so under the default the `df` ladder
+([see `auto`](#auto)) is a secondary safety net rather than the primary remedy.
+
+Choose `"floor"` if you want the proposal left at its efficient starting value, or
+to reproduce results from before this became the default.
 
 ## Sampling scheme (what `qrpem` turns on)
 
@@ -874,15 +923,17 @@ bookkeeping for its `ini({})` block; NONMEM does the equivalent through
 `IACCEPT`*, bounded by `ISCALE_MIN` and `ISCALE_MAX`. The subscript in eq. 1.90
 (`gamma_i`) indicates this is done per subject.
 
-**nlmixr2.** Both are available, via `gammaMethod`:
+**nlmixr2.** `gammaMethod` chooses *shared vs per-subject*, and `gammaRule`
+chooses the *law* for the shared one:
 
-* `"global"` -- one shared `gamma`, adapted as a **floor rather than a target**:
-  left at its efficient starting value (`1.0`) while the mean ESS fraction stays
-  at or above `iaccept`, and inflated only when coverage drops below that floor,
-  by at most 1.25x per iteration, clamped to `[iscaleMin, iscaleMax]`.
+* `"global"` -- one shared `gamma`. Under `gammaRule = "target"` (the default)
+  it is adjusted **two-sided** until `xi` approximates `iaccept`, which is
+  NONMEM's rule; under `gammaRule = "floor"` it is a one-sided floor on the mean
+  Kish ESS fraction, which is not.
 * `"individual"` -- per-subject `gamma_i`, adapted **two-sided** toward
-  `iaccept` on that subject's own `xi_i`, which is NONMEM's objective.
-* `"auto"` (default) picks between them on the model's distribution.
+  `iaccept` on that subject's own `xi_i`, which is NONMEM's rule per subject.
+* `"auto"` (default) picks between shared and per-subject on the model's
+  distribution.
 
 **Same:** the role of `gamma`, the names and meaning of `IACCEPT`/`ISCALE_MIN`/
 `ISCALE_MAX`, the per-subject option, and the fact that the weights correct for
@@ -897,11 +948,19 @@ justifying, and it fails -- with `p = 1/2` the error multiplier is
 never settles (measured: `gamma` oscillating 1.30/1.22/1.30/1.22 with lag-1
 autocorrelation -0.99, so the fit can never meet its own stability gate).
 
-**A caution on the target.** Driving `xi` down to `IACCEPT = 0.4` deliberately
-over-disperses a proposal that may already fit. On theophylline that moves
-`gamma` from 1.0 to about 1.8 and costs effective sample size 0.95 -> 0.70 for
-identical estimates. It buys coverage the model does not need, which is why
-`"auto"` does not select `"individual"` for transformably-normal models.
+**The cost of the target, and why it is still the default.** Driving `xi` onto
+`IACCEPT = 0.4` deliberately over-disperses a proposal that may already fit: on
+theophylline it costs effective sample size (0.96 -> 0.70) and adds Monte-Carlo
+noise to the objective. An earlier version of this page concluded from that alone
+that the target was not worth taking.
+
+That comparison was unfair. It weighed a *tuned* floor rule against a target rule
+running on the floor rule's constants. Tuned against tuned -- each with its own
+`nConvWindow`, and with the target rule's objective gate measuring window-mean
+*drift* rather than mean absolute change, since the latter is a noise measure with
+a floor the wider proposal raises -- the target wins on accuracy as well as on the
+tail (see [Proposal tuning](#proposal-tuning)). The ESS cost is real; it is simply
+not the whole ledger.
 
 ## Step 9b -- Proposal *shape*: the t sampler (`DF`) {#tprop}
 
