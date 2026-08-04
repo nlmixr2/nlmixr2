@@ -4,3 +4,10 @@ docs
 /Meta/
 .Rhistory
 .vexp
+
+# Build artifacts (R CMD build/INSTALL/check output)
+*.Rcheck/
+*.tar.gz
+*.tgz
+.RData
+vignettes/*_files/
