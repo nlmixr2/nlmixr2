@@ -1,5 +1,7 @@
 *.html
 *.R
+# knitr figure/asset directories written next to the rendered articles
+*_files/
 # keep the fit-cache helper and its populate script (see cache/README.md)
 !cache.R
 !precompute.R

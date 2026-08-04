@@ -3,31 +3,6 @@
 
 # nlmixr2
 
-<!--
-## CRAN updating
-
-[![CRAN-status](https://img.shields.io/badge/CRAN-Updating-red)](https://github.com/nlmixr2/rxode2/actions/workflows/R-CMD-check.yaml)
-
-Currently we are updating `PreciseSums` on CRAN; `nlmixr2est` is
-linked to `rxode2` which in turn is linked to `PreciseSums`.  While
-`PreciseSums`, `rxode2` and `nlmixr2est` are being submitted, the most stable
-version of `nlmixr2` comes from the `r-universe`:
-
-```r
-install.packages(c("PreciseSums", "dparser", "nlmixr2data", "lotri",
-                   "rxode2ll", "rxode2parse", "rxode2random", "rxode2et",
-                   "rxode2",  "nlmixr2est", "nlmixr2extra", "nlmixr2plot",
-                   "nlmixr2"),
-                 repos = c('ttps://nlmixr2.r-universe.dev',
-                           'https://cloud.r-project.org'))
-```
-
-This is temporary and should resolve itself in a couple of weeks.
-
-You could also compile from source to work around the issue.
-
--->
-
 <!-- badges: start -->
 
 ![Cran updating
@@ -75,11 +50,11 @@ To setup the mac compilers, simply
 1.  Install Xcode from app store
 
 2.  Install gfortran:
-    
+
     1.  Download and install from <https://mac.r-project.org/tools/>
-    
-    2.  Add gfortran directory to the path with: `export
-        PATH=$PATH:/usr/local/gfortran/bin`
+
+    2.  Add gfortran directory to the path with:
+        `export PATH=$PATH:/usr/local/gfortran/bin`
 
 ## R package installation
 
@@ -250,18 +225,16 @@ If you have difficulties due to errors while compiling models, it may be
 useful to re-install all of nlmixr2 and its dependencies. For
 development versions, please use the `remotes::install_github()` or the
 `install.package()` with the `r-universe` above. For the stable version,
-please use the following command:
+you can get the command with:
 
 ``` r
-install.packages(c("dparser", "lotri", "rxode2ll", "rxode2parse",
-                   "rxode2random", "rxode2et", "rxode2",
-                   "nlmixr2data", "nlmixr2est", "nlmixr2extra",
-                   "nlmixr2plot", "nlmixr2"))
+library(nlmixr2)
+nlmixr2update()
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example of a non-linear mixed effect model
 
 ``` r
 library(nlmixr2)
@@ -291,18 +264,12 @@ one.compartment <- function() {
 
 ## The fit is performed by the function nlmixr/nlmixr2 specifying the model, data and estimate
 fit <- nlmixr2(one.compartment, theo_sd,  est="saem", saemControl(print=0))
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 print(fit)
 #> ── nlmixr² SAEM OBJF by FOCEi approximation ──
@@ -312,18 +279,20 @@ print(fit)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>           setup covariance  saem table compress    other
-#> elapsed 0.00089   0.007004 4.546  0.05    0.018 1.785106
+#>             setup   optimize covariance preprocess configure  saem postprocess
+#> elapsed 0.6147907 3.5104e-05 0.01500671      0.048     1.302 6.394       1.519
+#>         table compress     other
+#> elapsed 0.051    0.066 0.5331675
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
 #>        Parameter  Est.     SE %RSE Back-transformed(95%CI) BSV(CV%) Shrink(SD)%
-#> tka           Ka  0.46  0.196 42.7       1.58 (1.08, 2.33)     71.9    -0.291% 
-#> tcl           Cl  1.01 0.0839 8.29       2.75 (2.34, 3.25)     27.0      3.42% 
-#> tv             V  3.45 0.0469 1.36       31.6 (28.8, 34.7)     14.0      10.7% 
-#> add.sd           0.694                               0.694                     
+#> tka           Ka 0.456  0.189 41.5       1.58 (1.09, 2.29)     70.4     -0.398 
+#> tcl           Cl  1.01 0.0822 8.11       2.76 (2.35, 3.24)     27.2       3.79 
+#> tv             V  3.45 0.0432 1.25       31.6 (29.0, 34.4)     13.3       9.73 
+#> add.sd           0.697 0.0471 6.75    0.697 (0.605, 0.789)                     
 #>  
-#>   Covariance Type ($covMethod): linFim
+#>   Covariance Type ($covMethod): sa
 #>   No correlations in between subject variability (BSV) matrix
 #>   Full BSV covariance ($omega) or correlation ($omegaR; diagonals=SDs) 
 #>   Distribution stats (mean/skewness/kurtosis/p-value) available in $shrink 
@@ -333,9 +302,9 @@ print(fit)
 #> # A tibble: 132 × 19
 #>   ID     TIME    DV  PRED    RES IPRED   IRES  IWRES eta.ka eta.cl   eta.v    cp
 #>   <fct> <dbl> <dbl> <dbl>  <dbl> <dbl>  <dbl>  <dbl>  <dbl>  <dbl>   <dbl> <dbl>
-#> 1 1      0     0.74  0     0.74   0     0.74   1.07  0.0988 -0.484 -0.0843  0   
-#> 2 1      0.25  2.84  3.27 -0.433  3.87 -1.03  -1.49  0.0988 -0.484 -0.0843  3.87
-#> 3 1      0.57  6.57  5.85  0.718  6.82 -0.247 -0.356 0.0988 -0.484 -0.0843  6.82
+#> 1 1      0     0.74  0     0.74   0     0.74   1.06   0.105 -0.484 -0.0810  0   
+#> 2 1      0.25  2.84  3.26 -0.424  3.87 -1.03  -1.48   0.105 -0.484 -0.0810  3.87
+#> 3 1      0.57  6.57  5.84  0.729  6.81 -0.240 -0.344  0.105 -0.484 -0.0810  6.81
 #> # ℹ 129 more rows
 #> # ℹ 7 more variables: depot <dbl>, center <dbl>, ka <dbl>, cl <dbl>, v <dbl>,
 #> #   tad <dbl>, dosenum <dbl>

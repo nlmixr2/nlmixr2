@@ -11,6 +11,7 @@
 .verse$optional <- c(
   "admixr2",
   "babelmixr2",
+  "FME",
   "ggPMX",
   "monolix2rx",
   "nlmixr2auto",
@@ -20,13 +21,9 @@
   "nlmixr2targets",
   "nonmem2rx",
   "pmxNODE",
+  "PopED",
   "posologyr",
   "shinyMixR",
-  "pmxNODE",
-  "FME",
-  "PopED",
-  "nlmixr2auto", 
-  "nlmixr2autoinit",
   "xpose.nlmixr2"
 )
 .verse$missing_optional <- character(0)

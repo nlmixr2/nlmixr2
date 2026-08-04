@@ -36,7 +36,7 @@ Imports:
     lotri (>= 0.4.3),
     nlmixr2plot (>= 5.0.0),
     tibble,
-    nlmixr2save
+    nlmixr2save (>= 0.1.0)
 Suggests:
     admixr2,
     babelmixr2,
@@ -60,8 +60,6 @@ Suggests:
     withr,
     xpose.nlmixr2,
     devtools
-Remotes:
-    nlmixr2/nlmixr2save
 BugReports: https://github.com/nlmixr2/nlmixr2/issues/
 URL: https://nlmixr2.org/, https://github.com/nlmixr2/nlmixr2/
 Config/roxygen2/version: 8.0.0

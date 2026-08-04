@@ -4,6 +4,13 @@
 
 * Do not show the packages that were optionally included in the secondary list of packages, instead show them being imported with an open circle. Required packages are shown with a star.
 
+* Removed duplicated entries from the optional package list so that
+  `nlmixr2CheckInstall()` and the startup banner no longer report
+  `pmxNODE`, `nlmixr2auto` and `nlmixr2autoinit` twice.
+
+* `nlmixr2` now requires R 4.1.0 or later (the native `|>` pipe is used
+  internally).
+
 # nlmixr2 5.0.0
 
 * Import everything with the nlmixr2 5.0 file format

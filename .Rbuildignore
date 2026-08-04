@@ -18,3 +18,4 @@
 ^\.github$
 ^codecov\.yml$
 ^vignettes/articles$
+^\.vexp$
