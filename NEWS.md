@@ -1,6 +1,8 @@
-# nlmixr2 6.0.0
+# nlmixr2 7.0.0
 
 * Optionally import more packages to support nlmixr2 ecosystem
+
+* Match nlmixr2est
 
 * Do not show the packages that were optionally included in the secondary list of packages, instead show them being imported with an open circle. Required packages are shown with a star.
 
