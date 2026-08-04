@@ -1,4 +1,28 @@
-# nlmixr2 7.0.0
+# nlmixr2 7.0.1
+
+## Resubmission
+
+This is a resubmission of 7.0.0, which failed the incoming pre-test on
+r-devel-windows with an ERROR while running the example of
+`nlmixr2CheckInstall()`:
+
+```
+Error in av.src[pkg.bin, "Version"] : subscript out of bounds
+Calls: nlmixr2CheckInstall -> <Anonymous> -> .available.both
+```
+
+`nlmixr2CheckInstall()` reports whether the installed nlmixr2 packages
+are current, which it did by calling `utils::old.packages()`.  On Windows
+`getOption("pkgType")` is `"both"`, so that call goes through R's internal
+`utils:::.available.both()`, which errors when the source and binary
+indexes of the repository disagree about a package.
+
+`nlmixr2CheckInstall()` now treats a failure to query the repositories --
+whether from that error or from having no internet connection at all --
+as "the installed versions could not be compared to the current versions"
+and continues with the rest of the installation check, so the example can
+no longer fail.  The example was verified against the unreachable
+repository case and against a simulated `.available.both()` error.
 
 ## Submission notes
 

@@ -6,6 +6,10 @@
 \usage{
 nlmixr2CheckInstall()
 }
+\value{
+Nothing, called for the side effect of reporting on the
+installation
+}
 \description{
 Check your nlmixr2 installation for potential issues
 }

@@ -1,3 +1,17 @@
+# nlmixr2 7.0.1
+
+* `nlmixr2CheckInstall()` no longer fails when the repositories cannot be
+  queried for package updates.  Both an unreachable repository and an
+  error from `utils::old.packages()` itself (seen on Windows, where
+  `pkgType` is `"both"` and R's internal `.available.both()` can fail with
+  "subscript out of bounds" when the source and binary indexes disagree)
+  are now reported as "updates could not be checked" instead of stopping
+  the check.
+
+* `nlmixr2CheckInstall()` messages are escaped before they are handed to
+  `cli`, so paths or command output containing `{` or `}` are shown
+  literally rather than being interpreted as `glue` expressions.
+
 # nlmixr2 7.0.0
 
 * Optionally import more packages to support nlmixr2 ecosystem

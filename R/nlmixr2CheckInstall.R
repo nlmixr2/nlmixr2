@@ -16,8 +16,36 @@
   }
 }
 
+#' Query the repositories for out of date packages
+#'
+#' This is a wrapper around [utils::old.packages()] that never signals an
+#' error.  The repository query needs a working internet connection, and it
+#' can also fail on its own when the source and binary indexes of a
+#' repository disagree (`utils:::.available.both()` errors with "subscript
+#' out of bounds").  Neither is a problem with the installation being
+#' checked, so both degrade to "updates could not be checked".
+#'
+#' @return A list with `ok`, which is `TRUE` when the repositories could be
+#'   queried, and `old`, the [utils::old.packages()] matrix (`NULL` when
+#'   nothing is out of date or when `ok` is `FALSE`)
+#' @noRd
+.oldPackagesOrNull <- function() {
+  failed <- list(ok = FALSE, old = NULL)
+  available <- tryCatch(suppressWarnings(utils::available.packages()), error = function(e) NULL)
+  # An unreachable repository warns and gives back a zero row matrix
+  if (is.null(available) || nrow(available) == 0) {
+    return(failed)
+  }
+  tryCatch(
+    list(ok = TRUE, old = suppressWarnings(utils::old.packages(available = available))),
+    error = function(e) failed
+  )
+}
+
 #' Check your nlmixr2 installation for potential issues
 #'
+#' @return Nothing, called for the side effect of reporting on the
+#'   installation
 #' @examples
 #' nlmixr2CheckInstall()
 #' @export
@@ -28,17 +56,20 @@ nlmixr2CheckInstall <- function() {
   warningFun <- function(x) message("! ", x, sep = "")
   hasCli <- requireNamespace("cli", quietly = TRUE)
   if (hasCli) {
-    infoFun <- cli::cli_alert_info
-    successFun <- cli::cli_alert_success
-    warningFun <- cli::cli_alert_danger
+    # The messages below embed paths and command output, which cli would
+    # otherwise treat as glue expressions to interpolate
+    escapeCli <- function(x) gsub("}", "}}", gsub("{", "{{", x, fixed = TRUE), fixed = TRUE)
+    infoFun <- function(x) cli::cli_alert_info(escapeCli(x))
+    successFun <- function(x) cli::cli_alert_success(escapeCli(x))
+    warningFun <- function(x) cli::cli_alert_danger(escapeCli(x))
   }
   sysInfo <- Sys.info()
   osInfo <- sprintf("Operating system: %s %s %s", sysInfo["sysname"], sysInfo["release"], sysInfo["version"])
   infoFun(osInfo)
   isWindows <- sysInfo["sysname"] == "Windows"
-  hasDevtools <- requireNamespace("devtools")
+  hasDevtools <- requireNamespace("devtools", quietly = TRUE)
   if (isWindows & hasDevtools) {
-    hasRtools <- devtools::find_rtools(debug = TRUE)
+    hasRtools <- isTRUE(tryCatch(devtools::find_rtools(debug = TRUE), error = function(e) FALSE))
     if (hasRtools) {
       successFun("Rtools appears to be installed successfully")
     } else {
@@ -67,7 +98,12 @@ nlmixr2CheckInstall <- function() {
     return(invisible())
   }
   allPkgs <- utils::installed.packages()
-  oldPkgs <- utils::old.packages()
+  oldPkgsInfo <- .oldPackagesOrNull()
+  oldPkgs <- oldPkgsInfo$old
+  checkedUpdates <- oldPkgsInfo$ok
+  if (!checkedUpdates) {
+    warningFun("The repositories could not be queried, so the installed packages cannot be compared to the current versions")
+  }
   missingPkgs <- character()
   for (pkgType in names(pkgNames)) {
     for (currentPkg in pkgNames[[pkgType]]) {
@@ -82,7 +118,11 @@ nlmixr2CheckInstall <- function() {
           )
         warningFun(oldMsg)
       } else if (currentPkg %in% rownames(allPkgs)) {
-        installedMsg <- sprintf("The package '%s' is installed and seems to be up to date, version %s", currentPkg, allPkgs[currentPkg, "Version"])
+        if (checkedUpdates) {
+          installedMsg <- sprintf("The package '%s' is installed and seems to be up to date, version %s", currentPkg, allPkgs[currentPkg, "Version"])
+        } else {
+          installedMsg <- sprintf("The package '%s' is installed, version %s (could not check if it is up to date)", currentPkg, allPkgs[currentPkg, "Version"])
+        }
         successFun(installedMsg)
       } else if (pkgType == "optional") {
         missingPkgs <- c(missingPkgs, currentPkg)
@@ -109,4 +149,5 @@ nlmixr2CheckInstall <- function() {
     installCmd <- sprintf("To install missing packages, run the following command:\ninstall.packages(%s)", installStr)
     infoFun(installCmd)
   }
+  invisible()
 }
