@@ -15,14 +15,19 @@
 - `nlmixr2save` (used for the website's cached example fits) is now on
   CRAN, so the `Remotes:` field has been removed from DESCRIPTION.
 
+- The dependency on `magrittr` was dropped in favor of the native `|>`
+  pipe, which raises the minimum R version to 4.1.0.  `%>%` was only
+  imported, never exported by `nlmixr2`, so this does not change the
+  package's user-visible API.
+
 - No exported functions were added or removed relative to the version
   currently on CRAN (5.0.0), so no reverse dependency is affected by
   this update.
 
 ## R CMD check results
 
-`R CMD check --as-cran` on R 4.6.1 (Ubuntu 24.04, x86_64): 0 errors, 0
-warnings, 1 note.
+`R CMD check --as-cran` on R 4.6.1 (Ubuntu 24.04, x86_64), with all
+suggested packages installed: 0 errors, 0 warnings, 1 note.
 
 The note is local to the check machine only:
 

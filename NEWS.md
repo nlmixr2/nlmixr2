@@ -9,7 +9,9 @@
   `pmxNODE`, `nlmixr2auto` and `nlmixr2autoinit` twice.
 
 * `nlmixr2` now requires R 4.1.0 or later (the native `|>` pipe is used
-  internally).
+  internally); `magrittr` is no longer imported.  The `%>%` pipe was
+  never exported by `nlmixr2` itself, so this does not change the
+  package's user-visible API.
 
 # nlmixr2 5.0.0
 
