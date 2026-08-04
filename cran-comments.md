@@ -1,4 +1,4 @@
-# nlmixr2 6.0.0
+# nlmixr2 7.0.0
 
 ## Submission notes
 
