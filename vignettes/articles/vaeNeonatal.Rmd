@@ -130,27 +130,24 @@ print(fit)
 The selected covariate effects are injected directly into the fitted model, so
 they appear in the parameter table just like any hand-specified effect. The
 canonical result for this case study is a **gestational-age effect on birth
-weight**, which shows up as a `beta_lW0_GA` coefficient on the `lW0` line.
+weight**, which shows up as a coefficient on the `lW0` line.
 
-Printing the fitted model shows how the covariate enters. A continuous covariate
-is **centered** on its population value and added as `beta * log(COV / center)`;
-a multi-level categorical covariate enters as `beta * (COV - center)`. Centering
-keeps the intercept interpretable as the typical-subject value. A `0`/`1`
-**indicator** covariate (such as `sex`, `DelM` or `Para2` here) is *not*
-centered -- it is already in its natural parameterization, so it enters bare as
-`beta * COV`, its coefficient is the level-1 shift, and the intercept stays the
-reference (`COV = 0`) value:
+Injected coefficients are named `beta.<parameter>.<COVARIATE>.<shape>`, so
+`beta.lW0.GA.power` is the `power`-shaped `GA` effect on `lW0`. The name tells
+you which parameter carries the effect, which data column it came from, and the
+functional form it was written in -- all three matter when you compare
+coefficients between runs.
 
 ```{r}
-# the fitted, covariate-augmented model -- note the centered log(GA/<center>) term
+# the fitted, covariate-augmented model -- note the centered covariate term
 print(fit$ui)
 
 # the fixed-effect table, including any selected covariate coefficients
 fit$parFixed
 ```
 
-A positive `beta_lW0_GA` means heavier birth weights at higher gestational age
--- the expected physiological relationship, recovered automatically without
+A positive `GA` coefficient means heavier birth weights at higher gestational
+age -- the expected physiological relationship, recovered automatically without
 specifying it up front.
 
 With the settings above the search keeps **three** effects, not just that one
@@ -158,11 +155,11 @@ With the settings above the search keeps **three** effects, not just that one
 the one place `nlmixr2` departs from the paper, and why it is not what drives
 this table):
 
-| coefficient | estimate |
+| effect | estimate |
 |---|---|
-| `beta_lW0_GA` | 1.858 |
-| `beta_lkin_GA` | 1.880 |
-| `beta_lW0_SEX` | 0.090 |
+| `GA` on `lW0` | 1.858 |
+| `GA` on `lkin` | 1.880 |
+| `SEX` on `lW0` | 0.090 |
 
 so gestational age is retained on birth weight *and* on the production rate
 `kin`, plus a small sex effect on birth weight.  The `lW0`/`GA` term is the
@@ -183,6 +180,298 @@ canonical finding.  The remaining terms cleared the `log(N)` BICc penalty on thi
 data; treat them as a property of the simulated set rather than as a claim about
 neonatal physiology.
 
+# How covariates are handled
+
+It is worth knowing what the search actually considers, because that determines
+both what it can find and what a coefficient means.
+
+## Which data columns become candidates
+
+Every column that is not a reserved one (`ID`, `TIME`, `DV`, `AMT`, `EVID` and
+friends) is examined, and a column qualifies only if it is
+
+- **subject-constant** -- the effect is absorbed as a subject-level shift, so a
+  time-varying column cannot be searched;
+- **complete and finite** for every subject -- the M-step is a least-squares fit
+  with no imputation, and the written model has no guard to carry an imputed
+  value to solve time; and
+- **not a single repeated value**, which would duplicate the intercept.
+
+Anything excluded is reported in `$runInfo` rather than dropped silently.
+`vaeCovariates()` shows the whole candidate set without running a fit:
+
+```{r}
+vaeCovariates(neonatal)
+```
+
+Each **row is one search column**, not one covariate. A continuous covariate
+contributes several columns -- one per functional form it is allowed to take --
+and a categorical one contributes an indicator per level.
+
+## The three kinds of covariate
+
+- **Continuous** (more than two distinct values) is **centered** on its
+  population value, which keeps the structural parameter interpretable as the
+  typical-subject value. The centering statistic is the **median** by default.
+- **Categorical** enters as one `0`/`1` indicator per level, with the *modal*
+  level as reference. A level held by fewer than `catCutoff` of the subjects is
+  lumped into the reference rather than given its own coefficient (it would be
+  fit on too few subjects); those are listed in `$runInfo`.
+- **A bare `0`/`1` indicator column** (such as `sex`, `DelM` or `Para2` here) is
+  already in its natural parameterization, so it is left alone -- it enters as
+  `beta * COV`, its coefficient is the level-1 shift, and the structural
+  parameter stays the reference (`COV = 0`) value.
+
+## Shapes: the functional forms a continuous covariate may take
+
+`shapes=` controls which parameterizations the search may try, using the same
+vocabulary as `nlmixr2scm::runSCM()`. With `ctr` the centering value:
+
+| shape | written as | reads as |
+|---|---|---|
+| `"power"` | `beta * log(COV/ctr)` | allometric; `beta` is the power on `COV` |
+| `"log"` | `beta * log(COV)` | same curve, uncentered |
+| `"lin"` | `beta * (COV - ctr)` | straight line; `beta` is change per unit |
+| `"identity"` | `beta * COV` | same line, uncentered |
+| `"center"` | `beta * (COV/ctr)` | same line, as a fraction of typical |
+| `"hockey"` | `beta.low * (COV < ctr) * (COV - ctr)`<br>`+ beta.hi * (COV >= ctr) * (COV - ctr)` | two slopes meeting at `ctr` |
+
+All six are searched by default.
+
+Two things follow from this table. First, the selection objective is a
+least-squares fit with a free intercept, so it only sees the **span** of a
+column: `"power"` and `"log"` describe the same model, as do `"lin"`,
+`"identity"` and `"center"`. Within such a group the shape decides only how an
+accepted effect is *written back*, and the one you list **first** in `shapes=`
+wins. Second, **at most one shape of a covariate may enter a given parameter** --
+you never get two competing parameterizations of the same covariate on one line.
+
+`"hockey"` is the exception to the first point: it spans a strictly larger model
+than the straight-line shapes, because its two arms bend at the knot instead of
+sharing one slope. It is **continuous** at the knot -- both arms vanish there,
+so the structural parameter still means the value at `ctr` -- and both arms
+enter or neither does. It costs two coefficients where a linear shape costs one,
+so the BICc penalty only takes it when the bend genuinely earns its keep; a
+covariate whose effect really is a straight line comes back as `"lin"`. If fewer
+than `catCutoff` of the subjects fall on one side of the knot, hockey is skipped
+for that covariate with a note in `$runInfo` -- normally unreachable, since the
+median splits the subjects in half by construction.
+
+## How a covariate is chosen
+
+Every candidate column is scored by an L0-penalized least-squares fit of the
+encoder's latent posterior means, with a `log(N)` (BICc) penalty **per
+coefficient**. A covariate therefore has to improve the fit by more than it
+costs, which is what lets the method reject a spurious effect instead of
+force-fitting it -- and what makes hockey's second coefficient a real hurdle
+rather than a free upgrade.
+
+## Changing the settings
+
+```{r, eval=FALSE}
+vaeControl(
+  # which shapes a continuous covariate may take
+  shapes = c("power", "lin", "log", "identity", "center", "hockey"),
+  # ... or a per-covariate / per-pair rule set, which also picks the
+  # covariates to search unless you add fixCov = FALSE; see the next section
+
+  covCenterType = "median",   # or "mean"; computed over subjects, not rows
+  covCenter = NULL,           # override outright, e.g. c(GA = 40, Mage = 30)
+  catCutoff = 0.05,           # min subject share for a level (and a hockey side)
+
+  covSelectMethod = "auto",   # "bnb" (exact), "l0learn", or "auto"
+  covSelectMaxExact = 17L     # search size, in bits, at which "auto" switches
+)
+```
+
+A few notes on the ones whose effect is not obvious from the name:
+
+- **`shapes`** also takes a list, so different covariates can be searched on
+  different scales -- and in that form, naming a covariate is also what puts it
+  *in* the search. That is involved enough to get its own section below.
+- **`covCenter`** takes a **named numeric vector**, so several covariates can be
+  pinned at once (`c(GA = 40, Mage = 30)`); names are matched
+  case-insensitively, and any covariate you leave out falls back to
+  `covCenterType`. It is worth setting when a conventional reference exists (70
+  kg, 40 weeks) so coefficients are comparable across analyses. It is also the
+  **knot** for `"hockey"`, which is the one setting that changes where the bend
+  is allowed to occur -- so a conventional value far into a tail can push one
+  arm below `catCutoff` and disable hockey for that covariate. Here `GA = 40`
+  still leaves 43% of the neonates above the knot, so the bend stays searchable.
+- **`covSelectMethod`** picks the engine, not the answer. `"bnb"` is an exact
+  branch-and-bound; past roughly `covSelectMaxExact` bits of search space it
+  becomes impractical and `"auto"` hands candidate subsets to `L0Learn` instead.
+  Those candidates are then re-scored and polished with the *same* exact
+  objective, so the proposer can never shift a selection on its own -- and a
+  non-exact search always says so in `$runInfo`.
+
+## Giving different covariates different shapes
+
+A single character vector is the simple case: it applies to **every**
+parameter/covariate pair, and leaves every covariate searchable. Real analyses
+rarely want that -- gestational age has a conventional allometric reading,
+maternal age does not, and the parameter the covariate lands on can matter too.
+`shapes=` therefore also takes a **rule set**, written as a list.
+
+A list holds two kinds of entry, and they **mix freely** in one list:
+
+- **Named by covariate** -- `GA = c("power", "hockey")`. This is exact shorthand
+  for the covariate-wide pair rule below, which is what keeps it from having
+  semantics of its own.
+- **Pair rules** -- `list(var =, covar =, shapes =)`, in
+  `nlmixr2scm::runSCM()`'s `pairsVec` style. Drop `var` for a rule covering a
+  covariate wherever it lands, drop `covar` for one covering a parameter
+  whatever the covariate.
+
+```{r, eval=FALSE}
+shapes = list(GA   = c("power", "hockey"),         # named entry
+              list(var = "lkin", covar = "Mage", shapes = "lin"),  # pair rule
+              Sex  = TRUE)                          # see below
+```
+
+### Naming a covariate also puts it in the search
+
+In the list form, listing a covariate is the statement that it belongs in the
+search. `fixCov = TRUE` -- the default, given as an element of the list --
+**fixes the searched set to exactly the covariates named**:
+
+```{r, eval=FALSE}
+# searches GA and Mage; Sex, DelM and Para2 are not considered at all
+vaeControl(shapes = list(GA = c("power", "hockey"), Mage = "lin"))
+```
+
+This is the common case made cheap: you list the covariates you care about and
+are done, with no per-covariate opt-out to write for the ones you left out.
+Every covariate `fixCov` excludes is named in `$runInfo`, so a narrowed search
+is never silent.
+
+To restrict parameterizations *without* restricting the search -- so everything
+not named is still searched, with the default shapes -- add `fixCov = FALSE`:
+
+```{r, eval=FALSE}
+# GA is allometric or bent; every other covariate is still searched
+vaeControl(shapes = list(GA = c("power", "hockey"), fixCov = FALSE))
+```
+
+A character vector names no covariate, so `fixCov` does not apply to it and
+`shapes = c("power", "lin")` leaves the whole search intact.
+
+Because a categorical covariate takes no shape, `TRUE` is how you name one:
+`Sex = TRUE` means "eligible, shapes not applicable". It works for a continuous
+covariate too, where it means "eligible, with the default shapes".
+
+### Restricting a covariate to particular parameters
+
+A rule that names **both** `var` and `covar` makes only that pair eligible, so
+this is also how you say "search `GA` on birth weight and the production rate,
+and nowhere else" -- without writing the effect into the model:
+
+```{r, eval=FALSE}
+ctlShapes <- vaeControl(
+  shapes = list(
+    # 1. GA on birth weight: the canonical effect, plain power model only
+    list(var = "lW0",  covar = "GA", shapes = "power"),
+    # 2. GA on the production rate: allow the bend, but if the fit comes
+    #    back straight, write it as `lin` rather than as a power
+    list(var = "lkin", covar = "GA", shapes = c("hockey", "lin")),
+    # 3. maternal age, wherever it lands, on its own scale
+    Mage = c("lin", "center"),
+    # 4. sex is a bare indicator -- eligible, no shape to choose
+    Sex = TRUE
+  ),
+  # 40 weeks and 30 years are the conventional references -- and, for GA,
+  # the knot the hockey arms bend at
+  covCenter = c(GA = 40, Mage = 30)
+)
+```
+
+`DelM` and `Para2` are named by no rule, so under the default `fixCov = TRUE`
+they are not searched. That leaves these eligible pairs:
+
+| parameter | `GA` | `Mage` | `Sex` |
+|---|---|---|---|
+| `lW0` | rule 1 -- `power` | rule 3 -- `lin`, `center` | rule 4 |
+| `lkin` | rule 2 -- `hockey`, `lin` | rule 3 -- `lin`, `center` | rule 4 |
+| `lTL` | -- | rule 3 -- `lin`, `center` | rule 4 |
+| `lkoutmax` | -- | rule 3 -- `lin`, `center` | rule 4 |
+| `lT50` | -- | rule 3 -- `lin`, `center` | rule 4 |
+
+`GA` is confined to two parameters by rules 1 and 2; `Mage` and `Sex` are named
+without a `var`, so they stay eligible on all five.
+
+### How the rules are resolved
+
+Eligibility and parameterization are two separate passes. `fixCov` decides
+which cells may be searched at all; the ladder below then decides what an
+eligible cell may look like. **The most specific rule wins**:
+
+| rule | beats |
+|---|---|
+| `var` **and** `covar` | everything below |
+| `covar` only | `var`-only and a rule naming neither |
+| `var` only | a rule naming neither |
+| neither | -- |
+
+Ties at the same level go to the **last** rule listed, so order only matters
+between rules of equal specificity.
+
+Note that a rule naming **neither** `var` nor `covar` makes every covariate
+eligible, which contradicts `fixCov = TRUE`; it is an error rather than a
+silent contradiction. It is legal under `fixCov = FALSE`, where it sets the
+default shapes for anything the other rules do not claim.
+
+The ladder has one consequence worth stating outright, because it is the usual
+surprise: **a `var`-only rule loses to any `covar` rule.** Adding
+
+```{r, eval=FALSE}
+list(var = "lT50", shapes = "identity")   # weaker than it looks
+```
+
+to the rule set above does **not** make `lT50` uniformly `identity`. It loses
+`Mage` to rule 3, which names the covariate and is therefore more specific. A
+`var`-only rule reaches only the covariates nothing else names -- to force a
+shape on a particular pair, name the pair.
+
+A few more things that are easy to get wrong:
+
+- **Covariate names are case-insensitive** (the search upper-cases data
+  columns), so `covar = "ga"` and `covar = "GA"` are the same rule.
+  **Parameter names are not**, but you may use any of the parameter's aliases:
+  the random-effect name (`eta.W0`), the mu-referenced theta (`lW0`) or the
+  bare name (`W0`) all select the same line.
+- **Shapes never apply to a categorical covariate**, but `fixCov` does. A rule
+  naming `Sex` cannot change how it enters -- it is an indicator, governed by
+  `catCutoff` -- but naming it is still what keeps it in the search.
+- **Order within a shape vector decides write-back.** Rule 2 lists
+  `c("hockey", "lin")`, which does not prefer hockey -- hockey is a separate
+  family and competes on BICc like any other candidate. What the order settles
+  is that a straight-line fit is written as `lin` rather than as `identity` or
+  `center`.
+- **A requested shape whose family the data cannot support is not fatal.** Ask
+  for `"power"` or `"log"` on a covariate with non-positive values and the
+  covariate stays searchable through the fallback column that does exist, so
+  the restriction does not quietly drop it from the search.
+- **Under pinning (below) `shapes=` is ignored entirely, `fixCov` included.** A
+  pinned cell is an effect *you wrote*, and it is pinned to the shape you wrote
+  it in; intersecting that with a `shapes=` rule could empty the cell and delete
+  a declared effect, so the declaration wins outright and the disagreement is
+  reported in `$runInfo`.
+
+## Two ways to restrict which pairs are searched
+
+`fixCov` and `pinCovariates` both narrow the search, and they are worth keeping
+apart:
+
+| | you write | the search may | the coefficient is |
+|---|---|---|---|
+| `fixCov` (in `shapes=`) | a control setting | choose any allowed shape | found by the search |
+| `pinCovariates` (the default) | the effect, in the model | use only the shape you wrote | pinned to your form |
+
+Use `fixCov` to hand the search a shortlist and let it work out the form. Use a
+written effect when the form itself is part of the hypothesis. Pinning is the
+default whenever the model declares covariate effects, and has its own section:
+*Pinning the search to your model*, below.
+
 # Pre-specified covariates (`covariateSelection = FALSE`)
 
 Automatic selection is the headline feature, but you may already know which
@@ -196,7 +485,8 @@ at their `ini()` value:
 ```{r, eval=FALSE}
 # gestational-age effect on birth weight, written by hand
 neonatalFixedCov <- neonatalModel |>
-  model(lW0 <- tlW0 + beta_lW0_GA * log(GA / 32) + eta.lW0)
+  model(W0 <- exp(lW0 + beta.lW0.GA.power * log(GA / 40) + eta.W0)) |>
+  ini(beta.lW0.GA.power <- 1)
 
 ctl0 <- vaeControl(itersBurnIn = 60L, iters = 120L, klWarmup = 40L,
                    gammaIter = 90L, nGradStep = 4L, print = 0L,
@@ -204,13 +494,35 @@ ctl0 <- vaeControl(itersBurnIn = 60L, iters = 120L, klWarmup = 40L,
                    sigma0 = c(1e-3, 1e-2, 1e-1, 1e-1, 1e-1))
 
 fit0 <- nlmixr2(neonatalFixedCov, neonatal, est = "vae", control = ctl0)
-fit0$parFixed   # beta_lW0_GA is estimated, not frozen
+fit0$parFixed   # beta.lW0.GA.power is estimated, not frozen
 ```
 
 The coefficients are fit by the same regress M-step that estimates the non-mu
 structural thetas, so this holds regardless of the `nonMuTheta` setting. A
-coefficient you deliberately pin with `ini(beta_lW0_GA ~ fix(...))` still stays
-fixed and is excluded from estimation.
+coefficient you deliberately pin with `ini(beta.lW0.GA.power ~ fix(...))` still
+stays fixed and is excluded from estimation.
+
+## Do you actually need `covariateSelection = FALSE`?
+
+Often not, and it is worth being clear about why. **Writing covariate effects
+into the model already restricts the search to them** -- that is
+`pinCovariates = TRUE`, the default -- so `covariateSelection = FALSE` is *not*
+what makes the method respect the structure you wrote. Leaving it at `TRUE`
+does that on its own.
+
+What `covariateSelection = FALSE` adds is that a declared effect can no longer
+be **rejected**: the search is off, so every coefficient you wrote is estimated
+and kept, whatever the data says. Under the default the same pairs are the only
+ones considered, but each still has to clear the `log(N)` BICc penalty, and one
+that does not comes back as `0`.
+
+So use `covariateSelection = FALSE` when the model *is* the hypothesis and every
+term must survive -- a pre-specified analysis, a reference model being
+reproduced, a covariate kept for regulatory continuity. If instead you want the
+search confined to a shortlist you believe in, but still allowed to reject a
+member of it, change nothing and just write the effects. *Pinning the search to
+your model*, below, is that case in full; the estimator also differs between the
+two, which is the next section.
 
 ## Why the two paths do not give identical numbers
 
@@ -245,12 +557,12 @@ setting the estimator differences aside, exact numerical agreement is not
 guaranteed.
 
 Finally, watch the **parameterization** -- but only when the covariate is *not*
-pinned. When it auto-discovers a covariate, the selection path centers a
-continuous one as `beta * log(COV / center)` with `center` the covariate's
-population mean (multi-level categorical: `beta * (COV - center)`; a `0`/`1`
-indicator is left bare). If a hand-written effect uses a different center, or an
-un-transformed `beta * COV`, `beta` is on a different scale and is not
-comparable. `vaeCovariates()` reports the center the search would use.
+pinned. When it auto-discovers a covariate, the selection path picks both the
+shape and the centering value itself, so a hand-written effect using a different
+form, or a different center, puts `beta` on a different scale and it is not
+comparable. `vaeCovariates()` reports exactly which columns the search would
+build and the center it would use for each; the shape it settled on is in the
+coefficient's own name (`beta.lW0.GA.power`).
 
 This caveat does **not** apply to the pinned path (the default): a pinned
 covariate is searched at its *model* value, so the centering you wrote -- or the
@@ -267,9 +579,9 @@ selection machinery -- there is nothing to reconcile. Two tips still apply when
 you deliberately fall back to the regressor path (`pinCovariates = FALSE`, or
 `covariateSelection = FALSE`):
 
-- **Match the parameterization.** Write the effect the same centered way
-  selection does (`beta * log(COV / center)`, using the center from
-  `vaeCovariates()`) so the coefficient is on the same scale.
+- **Match the parameterization.** Write the effect in the same shape and at the
+  same center the search would use -- both are reported by `vaeCovariates()` --
+  so the coefficient is on the same scale.
 - **Refit deterministically for a path-independent number.** Refit the final
   covariate-augmented model with a classical estimator, e.g. `est = "focei"`,
   for a well-defined maximum-likelihood coefficient that does not depend on the
@@ -318,8 +630,12 @@ estimate closest to the maximum-likelihood value, or when you want the parameter
 learned by the same mechanism as everything else: an exact gradient beats a
 derivative-free search on the same objective.
 
-A model outside analytic scope -- an `ll()` endpoint, `linCmt()`, IOV -- falls
-back to `"regress"` automatically and says so in `$runInfo`.
+**A single `ll()` endpoint is in scope.** The analytic outer gradient now covers
+a generalized log-likelihood endpoint by differentiating the log-density
+directly, so `nonMuTheta = "grad"` applies to a conditionally Gaussian model and
+to a one-endpoint `ll()` model alike. A model genuinely outside analytic scope --
+a **multi-endpoint** or censored `ll()` model, IOV, `fo` -- falls back to
+`"regress"` automatically and says so in `$runInfo`.
 
 # Pinning the search to your model (`pinCovariates`, the default)
 
@@ -329,22 +645,64 @@ pairs you wrote. This is the default -- `vaeControl(pinCovariates = TRUE)` --
 and it activates whenever the model already declares covariate effects:
 
 ```{r, eval=FALSE}
-# GA on birth weight written by hand, but let the method confirm or drop it
+# GA on birth weight and on the production rate, written by hand -- but let the
+# method confirm or drop each one
 neonatalPin <- neonatalModel |>
-  model(lW0 <- tlW0 + beta_lW0_GA * log(GA / 32) + eta.lW0)
+  model(W0  <- exp(lW0  + beta.lW0.GA.power  * log(GA / 40) + eta.W0)) |>
+  model(kin <- exp(lkin + beta.lkin.GA.power * log(GA / 40) + eta.kin)) |>
+  ini(beta.lW0.GA.power  <- 1,
+      beta.lkin.GA.power <- 1)
 
 # pinCovariates = TRUE is the default; shown here for clarity
 fitp <- nlmixr2(neonatalPin, neonatal, est = "vae",
                 control = vaeControl(covariateSelection = TRUE, pinCovariates = TRUE))
-fitp$parFixed   # beta_lW0_GA is estimated if selected, or reported as 0 if dropped
+fitp$parFixed   # each beta is estimated if selected, or reported as 0 if dropped
 ```
 
 The BICc branch-and-bound runs, but its candidate set is exactly the pairs you
-declared: `GA` is only ever tested on `lW0`, never on the other parameters, and
-no covariate you did **not** write can enter. The search may still **drop** a
-declared covariate whose support does not clear the `log(N)` penalty; when it
-does, the returned model keeps your term but sets its coefficient to `0`, so the
-model you get back is exactly the one you wrote, pruned by the data.
+declared: `GA` is only ever tested on `lW0` and `lkin`, never on `lTL`,
+`lkoutmax` or `lT50`, and `Mage`, `Sex`, `DelM` and `Para2` cannot enter at all.
+`$runInfo` records it --
+
+```
+covariate selection pinned to model-specified covariates
+```
+
+-- and the model lines come back written exactly as you wrote them,
+`log(GA/40)` and all, because a pinned pair is allowed only the column matching
+its own shape. For the same reason **`shapes=` is ignored while pinning is
+active**, `fixCov` included: a pinned cell is an effect you wrote, and
+intersecting it with a `shapes=` rule could empty the cell and silently delete
+that effect, so the declaration wins outright and the disagreement is reported
+in `$runInfo`.
+
+This is the second way to restrict a covariate to certain parameters. The other
+is a `var`+`covar` rule in `shapes=` (see *Two ways to restrict which pairs are
+searched*): use that when you want the search to pick the functional form, and
+a written effect when the form is itself part of what you are asserting.
+
+Two things are easy to get wrong when writing the model:
+
+- **The `ini()` step is not optional.** A symbol that appears in a model line
+  but not in `ini()` is taken as a *data covariate*, not a coefficient. Piping
+  in `beta.lW0.GA.power` without promoting it to a population parameter declares
+  no effect at all -- and with nothing declared there is nothing to pin, so the
+  **full** search runs. Check that each coefficient lands in `$iniDf`.
+- **One covariate, one encoding.** If the same covariate is declared twice with
+  different centers (`log(GA/40)` on one parameter, `log(GA/38)` on another) the
+  two cannot share a search column: the first declaration claims it and the rest
+  are estimated in place by the regress M-step, noted in `$runInfo`.
+
+The search may still **drop** a declared covariate whose support does not clear
+the `log(N)` penalty; when it does, the returned model keeps your term but sets
+its coefficient to `0`:
+
+| declared effect | after a pinned fit |
+|---|---|
+| `beta.lW0.GA.power` | 0.0897 -- kept |
+| `beta.lT50.Mage.power` | 0 -- dropped by the search |
+
+So the model you get back is exactly the one you wrote, pruned by the data.
 
 ## Why pinning is usually better than the regressor path
 
@@ -373,11 +731,56 @@ machinery, which gives it three advantages:
 
 The regressor path is still the right tool in two cases, and pinning falls back
 to it **automatically** for the first: a declared covariate whose form the search
-cannot represent -- a **time-varying** covariate, or a raw-linear `beta * COV` on
-a continuous covariate (the search uses `log(COV / center)`) -- is estimated in
-place and noted in `$runInfo`. Use `pinCovariates = FALSE` explicitly when you
+cannot represent -- a **time-varying** covariate, or a written form outside the
+shape vocabulary, so that the estimated slope would not transfer -- is estimated
+in place and noted in `$runInfo`. (Any of `power`, `lin`, `log`, `identity` and
+`center` *is* recognized, so a plain `beta * COV` pins to the `identity` column
+rather than falling back.) Use `pinCovariates = FALSE` explicitly when you
 want *every* declared covariate kept and estimated with no possibility of being
 dropped (e.g. an effect you include on mechanistic grounds).
+
+# Scaling covariate selection to many covariates (`covSelectMethod`)
+
+The covariate M-step above solves an **exact** best-subset problem for every
+latent parameter, every iteration. That is the right thing at the five candidate
+covariates of this case study, but the branch-and-bound cost grows sharply with
+the number of candidates on a parameter -- a single 30-covariate parameter takes
+tens of seconds *per iteration*, and the M-step runs one search per parameter per
+iteration. Rohleff et al. hit the same wall and suggested switching solvers past
+roughly 25 covariates.
+
+`vaeControl(covSelectMethod=)` controls this:
+
+* `"auto"` (default) -- the exact branch-and-bound for a parameter with fewer than
+  `covSelectMaxExact` candidate covariates (default `17`, the measured wall-clock
+  crossover), and an L0Learn-accelerated path for one at or above it. The
+  threshold is the candidate count *after* `pinCovariates` trimming -- the size of
+  the search actually run.
+* `"bnb"` -- always the exact search.
+* `"l0learn"` -- always the accelerated path.
+
+**The accelerated path stays exact where it agrees.** The suggested `L0Learn`
+package only *proposes* candidate subsets (from its `L0` and `L0L2` regularization
+paths); `nlmixr2` then re-scores every proposal with the **same** exact objective
+`RSS/omega + log(N) * (number of covariates)`, the same regression and the same
+tie-break the branch-and-bound uses, and improves the winner by an add/drop/swap
+local search. So `L0Learn`'s own scaling and penalty grid cannot change *which*
+subset is selected -- they only decide which subsets are examined. Across a wide
+range of synthetic problems (including correlated covariate designs) the
+accelerated path reproduces the exact branch-and-bound optimum, at a fraction of
+the cost -- roughly 75x faster at 25 candidates on a parameter, and far more
+beyond that.
+
+`L0Learn` is a *suggested* dependency. When the exact search would be impractical
+but it is not installed, the fit stops with an error rather than run the slow
+search silently; install `L0Learn`, or set `covSelectMaxExact = Inf` to force the
+exact branch-and-bound everywhere. A fit that used the accelerated path records it
+in `fit$vae$covSelectMethodUsed` and notes it in `$runInfo`, so an approximate
+search is never silent.
+
+Nothing changes for a model below the threshold -- including the neonatal fit in
+this article, whose five candidates are well under it, so it runs the exact search
+exactly as before.
 
 # Goodness of fit
 
@@ -420,7 +823,11 @@ A VAE-NLME fit alternates three pieces per iteration:
    with a dependency-free branch-and-bound (the reference used a commercial
    MIQP solver). The search order is configurable via
    `vaeControl(bnbStrategy=)`, though the selected set is identical for every
-   strategy because the solver is exact.
+   strategy because the solver is exact. The exact search becomes impractical
+   once a single parameter has more than a couple of dozen candidate covariates;
+   for those wide problems `vaeControl(covSelectMethod=)` switches to an
+   L0Learn-accelerated path that keeps the *scoring* exact (see *Scaling
+   covariate selection to many covariates*).
 
 ## How gradients reach the encoder: sensitivities vs. autodiff
 
@@ -472,7 +879,8 @@ it.
 | Parameter transforms | `log`, `logit`, `probit`, identity (the standard `nlmixr2` set) | No: `log` only (`h = exp`) |
 | Bounds | `lower`/`upper` on a parameter are enforced by clamping the M-step estimate to the active bound | No |
 | Fixed parameters | Fixed structural `theta` (via `literalFix`), fixed `omega`, and fixed residual parameters are respected and excluded from estimation | No |
-| Covariate selection | Exact, dependency-free branch-and-bound over subsets; search order configurable with `vaeControl(bnbStrategy=)` | Yes, but via a commercial MIQP solver (`cvxpy` + GUROBI) |
+| Correlated random effects | A declared block `eta.cl + eta.v ~ c(0.1, 0.01, 0.1)` has its off-diagonals estimated, held at zero for the first `perNoCor` of the run so the variances settle first (saem's rule). A `fixed()` covariance is honored throughout. See [Correlated random effects](#correlated-random-effects-omega-off-diagonals) | No: diagonal `omega` only |
+| Covariate selection | Exact, dependency-free branch-and-bound over subsets (`bnbStrategy`); an L0Learn-accelerated candidate path (`covSelectMethod`) keeps the scoring exact on wide covariate sets | Yes, but via a commercial MIQP solver (`cvxpy` + GUROBI) |
 | Multiple endpoints | Supported through the standard multiple-endpoint machinery | No: single endpoint |
 | Post-fit object | Full `nlmixr2FitData`: objective function, standard errors (`covMethod = "analytic"/"r,s"/...`), EBEs, CWRES/NPDE residuals, VPC, tables | No: prints and plots only |
 
@@ -509,7 +917,7 @@ collects the technical differences.
 | Model definition | Hand-written per case study | Any `nlmixr2` UI model, auto-translated via the `rxode2` pipeline |
 | Encoder | PyTorch `nn.LSTM` + `nn.Linear`, autograd | Native Armadillo LSTM with **exact analytic BPTT**, validated vs a Torch oracle to ~1e-6 |
 | Decoder | Closed-form solution or `torchode` solve | `rxode2`-compiled C ODE solve (any model / error model) |
-| M-step / covariate selection | Cython class + **cvxpy + GUROBI MIQP** | C++ **exact branch-and-bound** (`bnbStrategy`), no external solver |
+| M-step / covariate selection | Cython class + **cvxpy + GUROBI MIQP** | C++ **exact branch-and-bound**, plus an optional L0Learn candidate path for wide sets (`covSelectMethod`), no external solver |
 | `theta` with no `eta` | Not representable -- every population parameter carries a random effect | The **regressor**: bounded `bobyqa` against the inner likelihood (`nonMuTheta`) |
 | Inner likelihood / EBE | Hand-coded linearization + SciPy Nelder-Mead | Shared **FOCEi engine** (`n1qn1`, analytic Hessian, `covMethod`) |
 | Differentiation | PyTorch autograd throughout | Analytic gradients (encoder BPTT + `rxode2` sensitivities) |
@@ -678,7 +1086,18 @@ and both solve the **same L0 objective per latent dimension**,
 - `nlmixr2` follows that for the latent parameters: `covSelectSmooth` regresses
   the smoothed statistic and `omegaUpdate = "suffStat"` (both defaults) form
   `omega` from the sufficient statistics and assign it, matching the reference
-  and `nlmixr2`'s own SAEM.
+  and `nlmixr2`'s own SAEM. `vaeControl(omegaUpdate = "blend")` selects the
+  historic `nlmixr2` path instead, regressing the **current** iteration's
+  posterior means and then EMA-smoothing the resulting **estimate** -- so it is
+  smoothed twice.
+
+The two `omega` updates converge to the same stationary point but with different
+per-iteration trajectories. In fact they are the *same* update while the gain is
+1, which it is for the whole burn-in and EM phase: assigning a value and blending
+it in with weight 1 are the same operation. They diverge only once `gammaIter`
+starts decaying the gain, so a short run at default settings shows no difference
+between them at all (measured: agreement to ~1e-13, separating to ~1e-5 once the
+gain decays).
 
 **The residual error is estimated differently, and deliberately so.** The
 reference carries an EMA on the residual sum of squares and takes the root
@@ -737,7 +1156,152 @@ objective value while doing it.
 For covariate selection the reference uses a commercial **MIQP** (binary
 indicators, big-M constraints); `nlmixr2` uses an **exact branch-and-bound** with
 an admissible RSS lower-bound prune -- provably the same selected subset, no
-GUROBI license, and a configurable search order.
+GUROBI license, and a configurable search order. Because the branch-and-bound
+cost grows quickly with the candidate count, a wide covariate set is instead
+handled by an L0Learn-backed candidate path (`covSelectMethod`) that scores every
+proposed subset with the same exact objective -- accelerating the search without
+giving up exact scoring (see *Scaling covariate selection to many covariates*).
+
+## Correlated random effects -- `omega` off-diagonals
+
+**The reference estimates only the `omega` diagonal. `nlmixr2` estimates the
+off-diagonals of a declared block**, so a correlated model
+
+```r
+eta.cl + eta.v ~ c(0.1,
+                   0.01, 0.1)
+```
+
+is fitted the way `saem` and the `focei` family fit it, rather than silently
+returning the correlation you started from.
+
+This is not a case of the reference lacking the information. Its M-step
+accumulates the sufficient statistics as **full** `z_dim x z_dim` matrices --
+`s2` (an EMA of `sum_i mu_i mu_i'`), `s3` (an EMA of `sum_i L_i L_i'`) and the
+covariate cross terms -- assembles the complete between-subject covariance, and
+then discards everything off the diagonal in the closing line:
+
+```python
+omega_pop = 1/self.nbatch * (self.s2 + omega_pop + self.s3).diag()
+```
+
+`.diag()` on a 2-D tensor *extracts* the diagonal, so `omega_pop` leaves the
+M-step as a length-`z_dim` vector. Every consumer downstream then assumes a
+diagonal: the covariate regression whitens dimension `k` by the scalar
+`1/sqrt(omega_pop[k])`, and the fixed-effect GLS builds its precision as
+`(1/omega_pop).diag()`.
+
+`nlmixr2` keeps those off-diagonals, following its own SAEM in three respects:
+
+- **Only declared entries are estimated.** The full second moment is masked to
+  the model's structure, exactly as `saem` does with
+  `Gamma2_phi1 = Gamma2_phi1 %*% covstruct1` -- a correlation you did not write
+  is never introduced, and a `fixed()` covariance is held.
+- **Correlations are held at zero early.** For the first `perNoCor` (default
+  0.75, the `saemControl()` default) of the EM phase only the variances move;
+  the correlations are estimated afterwards. This is `saem`'s `nb_correl` rule
+  and it exists for the same reason -- correlations estimated before the
+  variances have settled are noise that the later iterations must undo. Note the
+  fraction is of the **EM phase** (`min(gammaIter, iters)`), not of the whole
+  run, which is what makes it safe: the gain is 1 for `it <= gammaIter`, so the
+  correlations are released while the gain is still 1 and are estimable the
+  moment they are unfrozen. (`est = "emvi"` has no comparable unit-gain phase,
+  so it has to restart the off-diagonal gain at release instead -- omitting that
+  is not a theoretical concern, it recovered `rho = 0.16` against a true 0.75.)
+- **The covariate regression is a GLS in the full `Omega`.** Per-dimension
+  whitening by `1/sqrt(omega_k)` is the correct metric only when `Omega` is
+  diagonal; with a block, residuals across dimensions are correlated and that
+  scoring is simply wrong. Each dimension keeps its own exact L0 search -- so a
+  selected covariate still belongs to one interpretable parameter -- but on an
+  offset response and its conditional variance,
+
+  `min sum_i (r_ik + c_ik)^2 / (1/P_kk)`, with `P = Omega^-1` and
+  `c_ik = (1/P_kk) sum_{j != k} P_kj r_ij`,
+
+  which is the exact joint objective `sum_i r_i' Omega^-1 r_i` solved by
+  coordinate descent over dimensions. For a diagonal `Omega`, `c_ik = 0` and
+  `1/P_kk = omega_k`, recovering the reference expression unchanged.
+
+### What this changes for covariate selection
+
+The GLS metric is not only a scoring detail -- it can change **which covariates
+are selected**, because the L0 objective it feeds is the thing being minimized
+over subsets.
+
+Concretely, with a declared block the response dimension `k` is regressed on is
+no longer the raw residual but the residual plus an offset carrying the *other*
+dimensions' information, and the penalty is compared against the conditional
+variance `1/P_kk` rather than the marginal `omega_k`. Two consequences:
+
+- A covariate that looks uninformative for `eta.cl` on its own can become
+  worth its penalty once `eta.v`'s correlated residual is accounted for, and
+  vice versa. The stronger the correlation, the larger the divergence; at
+  `rho = 0` the offset vanishes, `1/P_kk = omega_k`, and the selected subset is
+  identical to the diagonal case by construction.
+- Because `1/P_kk <= omega_k` always (conditioning cannot increase variance --
+  the Schur-complement result), the penalty is weighed against a smaller
+  denominator, so a correlated block is in general *more* willing to retain a
+  covariate than the same model fitted with the correlation ignored. The gap is
+  not marginal at realistic correlations: at `rho = 0.75` the conditional
+  variance is 0.44 times the marginal one.
+
+One implementation point worth stating, since getting it wrong would be invisible
+in the output: when `covSelectMethod` uses `L0Learn` to **propose** candidate
+supports, the proposals are generated from the same GLS-adjusted response the
+exact search then scores. Proposing under the diagonal metric and scoring under
+the GLS one would quietly bias the candidate pool -- the proposal step would be
+answering a different question than the selection step.
+
+This is also the reason the correlated-omega work touches covariate selection at
+all. The two are usually independent knobs; here the covariance structure enters
+the selection objective directly.
+
+A diagonal model is therefore unaffected in every respect; the machinery only
+engages when the model declares a block. `est = "emvi"` gained the same
+treatment at the same time -- notably, with `viFamily = "fullRank"` the
+per-subject variational posterior `L_i L_i'` already carried the cross-covariance
+and the population M-step had been discarding it.
+
+### Which omega M-step runs, and why there are two
+
+`est = "vae"` has **two** omega M-step branches, and the off-diagonals follow
+whichever one the diagonal takes. Which branch runs is decided by
+`covariateSelection`, *not* by the objective:
+
+| branch | when | diagonal | off-diagonal |
+|---|---|---|---|
+| covariate M-step | `covariateSelection = TRUE` | follows `omegaUpdate=` | follows `omegaUpdate=` |
+| plain closed-form | `covariateSelection = FALSE` | raw posterior moments, gain-blended | same |
+
+Within the covariate branch, `vaeControl(omegaUpdate=)` selects between:
+
+* `"suffStat"` (default, the reference behavior) -- `omega` is formed from the
+  EMA sufficient statistics and **assigned outright**. The off-diagonal
+  counterpart is `(s2M + cross + s3M)/N`, with
+  `cross = sum_i (-c_i s_i' - s_i c_i' + c_i c_i')` against the smoothed `s1`.
+* `"blend"` (historic) -- `omega` is formed from the **raw** posterior moments
+  `(1/N) sum_i [d_i d_i' + L_i L_i']` and blended with the previous value at the
+  M-step gain, so it is smoothed twice.
+
+The plain branch has no `omegaUpdate` switch: its diagonal never reads the
+sufficient statistics, so its off-diagonal is always the raw-moment, gain-blended
+form. **That pairing is the invariant that matters** -- estimating the diagonal
+from the EMA statistics while estimating the off-diagonal from raw moments would
+build one block out of two different estimators, and the result need not even be
+positive definite.
+
+(As noted under [M-step](#m-step-same-idea-different-smoothing-point), the two
+`omegaUpdate` paths are the same update while the gain is 1, so they only differ
+in the smoothing tail.)
+
+One more thing worth stating because it is natural to assume otherwise:
+**`mStepObjective` does not enter the omega update at all.** It selects what the
+non-mu *theta* M-step is scored against (the full FOCEi outer objective, or the
+reference's plain ELBO) and gates `nonMuTheta = "grad"`. Omega has a closed-form
+EM update from the variational posterior either way, so the outer objective only
+matters for the parameters that have no closed form. An ELBO-only fit and an
+outer-objective fit use identical omega machinery -- the branch above is chosen
+by `covariateSelection`, and the estimator within it by `omegaUpdate`.
 
 ## The regressor -- no counterpart in the reference
 
