@@ -1148,7 +1148,7 @@ against 87.4).
 
 One implementation note worth stating, since it is a trap: a residual scale
 parameter is floored strictly above zero. The likelihood floors a zero variance
-(`r == 0` becomes `r = 1`) to stay finite, which makes a collapsed residual look
+(a variance `r` of 0 becomes `r` = 1) to stay finite, which makes a collapsed residual look
 *attractive* to an optimizer rather than forbidden -- a Box-Cox fit converged to
 `add.err = 0` before that bound existed, and still beat the closed form on
 objective value while doing it.
