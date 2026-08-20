@@ -111,9 +111,9 @@ different numbers for the identical syntax:
   included, is jointly normal. A prior on an omega element sits directly on its
   **raw value** (`om.eta.cl ~ ...`), never as degrees of freedom.
 
-You never choose one of these explicitly -- there is nowhere to write it, and
-there should not be: the model already says which convention it means, in how
-the prior is written. nlmixr2 reads that off automatically:
+By default you do not choose one of these -- the model already says which
+convention it means, in how the prior is written, and nlmixr2 reads that off
+automatically:
 
 | what the model writes | method used | why |
 |---|---|---|
@@ -127,7 +127,7 @@ model ("these are alternatives, not additions"), so the ambiguous case --
 a model that could mean either NONMEM's or Monolix's convention at once -- simply
 cannot be written. Guessing wrong would silently fit the wrong penalty (the same
 `invWishart(4)` means a different number under `general` and `nwpri`), which is
-why there is no default to fall back on instead of reading the syntax.
+why auto-detection reads the syntax rather than assuming.
 
 # Worked example
 
@@ -245,6 +245,37 @@ chain-ruled into FOCEi's own Cholesky parameterization the *same* way regardless
 of which of the three densities produced it, reusing the derivative data FOCEi's
 own (non-prior) omega gradient already computes -- so `nwpri`/`tnpri` cost
 nothing extra over `general` on the gradient side.
+
+## Choosing a method explicitly -- `foceiControl(priorMethod=)`
+
+`foceiControl()` (and every sibling control constructor built on it --
+`foceControl()`, `focepControl()`, `laplaceControl()`, `agqControl()`, ...) takes
+a `priorMethod` argument: `c("auto", "general", "nwpri", "tnpri")`, defaulting to
+`"auto"` -- the table above. You only need to touch this when you want to force a
+specific convention, e.g. reproducing a NONMEM `$PRIOR NWPRI` run's numbers
+exactly, or asserting in code review that a model is read the way you intend
+rather than trusting the auto-detected reading.
+
+An explicit choice the model's own `ini({})` cannot express under that
+convention **errors before estimation starts** -- `tnpri` puts a prior directly
+on an omega element's raw value and has no degrees-of-freedom reading, so asking
+for `tnpri` on the `nwpriModel` above (which writes `invWishart(4)`) fails
+immediately, not partway through a fit:
+
+```{r priorMethodError, error=TRUE}
+nlmixr2(nwpriModel, nlmixr2data::theo_sd, est = "foceif",
+        control = foceiControl(priorMethod = "tnpri", print = 0L))
+```
+
+Asking for the method auto-detection would already have picked is a no-op --
+useful for pinning the choice in a script without changing behavior if the model
+is later edited:
+
+```{r priorMethodExplicit}
+fitNwpriExplicit := nlmixr2(nwpriModel, nlmixr2data::theo_sd, est = "foceif",
+                            control = foceiControl(priorMethod = "nwpri", print = 0L))
+identical(unname(fitNwpri$objective), unname(fitNwpriExplicit$objective))
+```
 
 ## `general` -- everything else, including a bounded (half-Cauchy) prior
 
