@@ -105,11 +105,20 @@ different numbers for the identical syntax:
   multivariate normal `general` uses; an omega block's prior is
   `invWishart(nu)` degrees of freedom, but evaluated with NONMEM's own
   parameterization, **not** the textbook inverse-Wishart with `nu` substituted
-  in -- the two give different numbers for the same `nu`.
+  in -- the two give different numbers for the same `nu`. The `invWishart(nu)`
+  can name a single eta (`prior(eta.cl) ~ invWishart(nu)`) or a whole
+  correlated block at once (`prior(eta.cl, eta.v) ~ invWishart(nu)`, one
+  degrees-of-freedom for the joint 2x2) -- the block form is the more common
+  one in practice, since a real omega is rarely diagonal.
 * **`tnpri`** -- the assumption Monolix's Bayesian estimation makes, and that
   NONMEM's own estimation makes for omega: every estimated parameter, omega
   included, is jointly normal. A prior on an omega element sits directly on its
-  **raw value** (`om.eta.cl ~ ...`), never as degrees of freedom.
+  **raw value** (`om.eta.cl ~ ...`), never as degrees of freedom. A single
+  `om.eta.cl ~ ...` line is common with tools that only ever put a prior on
+  one thing at a time, but NONMEM's own TNPRI usage is typically a single
+  **joint covariance matrix** spanning every theta and every raw omega element
+  together (`tka ~ 0.1; tcl ~ c(0.01, 1); ...; om.eta.cl ~ c(...)`) -- see
+  below.
 
 By default you do not choose one of these -- the model already says which
 convention it means, in how the prior is written, and nlmixr2 reads that off
@@ -118,9 +127,12 @@ automatically:
 | what the model writes | method used | why |
 |---|---|---|
 | a normal/Cauchy prior on a population parameter only | `general` | all three agree here, so it does not matter |
-| `invWishart(nu)` on an omega block | `nwpri` | that is NONMEM's own mechanism for an omega prior |
+| `invWishart(nu)` on a single eta or a correlated block | `nwpri` | that is NONMEM's own mechanism for an omega prior |
 | a normal directly on an omega element (`om.eta.cl ~ ...`) | `tnpri` | that is the raw-omega-value convention |
+| a joint normal spanning thetas and raw omega elements together | `general` | a plain joint normal on raw values is exactly what `general`'s own textbook density already is, whether or not the model calls it "TNPRI" |
 | a Cauchy prior anywhere | `general` | neither `nwpri` nor `tnpri` has a Cauchy analogue |
+
+That third row is worth pausing on: a joint theta+omega block reads as `general`, not `tnpri`, even though it is the shape NONMEM users write for a TNPRI prior. This is not a misclassification -- `general`'s own textbook density for a normal prior directly on an omega element is the *same* formula `tnpri` uses (they only disagree on `invWishart()`, which `tnpri` refuses and `general` reads as a textbook inverse-Wishart). Auto-detection landing on `general` here gives an identical objective and gradient to `priorMethod = "tnpri"` on the same model -- the worked example below checks this explicitly.
 
 `lotri` itself refuses to mix `invWishart()` and a raw-omega normal in the same
 model ("these are alternatives, not additions"), so the ambiguous case --
@@ -211,6 +223,68 @@ c(`no prior` = unname(fitBase$omega["eta.cl", "eta.cl"]),
   `tnpri prior` = unname(fitTnpri$omega["eta.cl", "eta.cl"]))
 ```
 
+### The common NONMEM shape -- a joint theta+omega covariance
+
+A single `om.eta.cl ~ ...` line is not actually how most NONMEM TNPRI priors
+look. NONMEM typically inputs one joint covariance matrix spanning *every*
+population parameter and *every* raw omega value together, because the whole
+point of the convention is that thetas and omegas are jointly normal. `lotri`'s
+matrix shorthand extends past theta names to `om.`-prefixed omega names in the
+same block, so the same `name + name ~ c(...)` syntax used for correlated
+thetas covers this directly -- here a prior linking `tcl` and `eta.cl`'s own
+variance, both drawn from the SAME joint normal:
+
+```{r tnpriJointFit}
+tnpriJointModel <- function() {
+  ini({
+    tka <- 0.45
+    tcl <- 1
+    tv <- 3.45
+    eta.ka ~ 0.6
+    eta.cl ~ 0.3
+    eta.v ~ 0.1
+    add.sd <- 0.7
+    tcl + om.eta.cl ~ c(0.01,
+                         0.002, 0.005)
+  })
+  model({
+    ka <- exp(tka + eta.ka)
+    cl <- exp(tcl + eta.cl)
+    v  <- exp(tv  + eta.v)
+    d/dt(depot)  <- -ka * depot
+    d/dt(center) <-  ka * depot - cl / v * center
+    cp <- center / v
+    cp ~ add(add.sd)
+  })
+}
+
+fitTnpriJoint := nlmixr2(tnpriJointModel, nlmixr2data::theo_sd, est = "foceif",
+                         control = foceiControl(print = 0L))
+rxode2::rxUiPriors(tnpriJointModel)
+```
+
+The single row above (`multiNormal(...)`, anchored under the name `tcl`) is
+what a joint block looks like once `lotri` has built it -- `tcl` and
+`om.eta.cl` are no longer two separate priors, they are one bivariate normal.
+`.nlmixr2PriorMethod()` reads this as `general` rather than `tnpri` (the
+row's `neta1`/`neta2` are `NA` because the prior is anchored to `tcl`, a
+population parameter, not to the omega element alone) -- but since a plain
+joint normal on raw values is exactly what `general`'s own textbook density
+already implements, this is a difference in *label*, not in the number the
+fit produces:
+
+```{r tnpriJointCompare}
+fitTnpriJointExplicit := nlmixr2(tnpriJointModel, nlmixr2data::theo_sd, est = "foceif",
+                                 control = foceiControl(priorMethod = "tnpri", print = 0L))
+c(`auto objective`          = fitTnpriJoint$objective,
+  `explicit-tnpri objective` = fitTnpriJointExplicit$objective)
+```
+
+Single-parameter tools that only ever write one `om.eta.cl ~ ...` prior at a
+time are unaffected by any of this -- that case still auto-detects as `tnpri`
+directly (the worked example above), since there both `general` and `tnpri`
+agree just the same and the row genuinely is anchored to the omega element.
+
 ## A prior on omega -- `nwpri`
 
 `invWishart(nu)` degrees of freedom on the same block instead reads as NONMEM's
@@ -229,6 +303,84 @@ fitNwpri := nlmixr2(nwpriModel, nlmixr2data::theo_sd, est = "foceif",
 c(`no prior` = unname(fitBase$omega["eta.cl", "eta.cl"]),
   `nwpri prior (nu=4)` = unname(fitNwpri$omega["eta.cl", "eta.cl"]))
 ```
+
+### The more common shape -- a correlated block
+
+A single-eta `invWishart(nu)` is the simplest case to show, but a real omega
+is rarely diagonal, and NONMEM's `$PRIOR NWPRI` is ordinarily written on a
+whole correlated block at once. `prior(eta1, eta2) ~ invWishart(nu)` gives
+just the degrees of freedom -- the scale matrix (`$OMEGAP`) is still the
+block's own `ini()` covariance, exactly as in the single-eta case, just now a
+2x2:
+
+```{r nwpriBlockFit}
+nwpriBlockModel <- function() {
+  ini({
+    tka <- 0.45
+    tcl <- 1
+    tv <- 3.45
+    eta.ka ~ 0.6
+    eta.cl + eta.v ~ c(0.3,
+                        0.01, 0.1)
+    add.sd <- 0.7
+    prior(eta.cl, eta.v) ~ invWishart(4)
+  })
+  model({
+    ka <- exp(tka + eta.ka)
+    cl <- exp(tcl + eta.cl)
+    v  <- exp(tv  + eta.v)
+    d/dt(depot)  <- -ka * depot
+    d/dt(center) <-  ka * depot - cl / v * center
+    cp <- center / v
+    cp ~ add(add.sd)
+  })
+}
+fitNwpriBlock := nlmixr2(nwpriBlockModel, nlmixr2data::theo_sd, est = "foceif",
+                         control = foceiControl(print = 0L))
+rxode2::rxUiPriors(nwpriBlockModel)
+```
+
+One `invWishart(4)` row covers the whole `eta.cl`/`eta.v` block -- `lotri`
+does not expand it into one row per element, and `rxPriorBuildSpec()` builds
+one joint term for it, so this costs nothing extra over the single-eta case
+on either the objective or the (still analytic) gradient side.
+
+### Choosing `nu` -- Karlsson's degrees-of-freedom rule
+
+`nu = 4` above was picked to keep the example short, but it is not arbitrary
+in practice. Bauer's *NONMEM 7 Technical Guide* (Appendix G, "Degrees of
+Freedom Assessment for OMEGA Priors") attributes to Mats Karlsson a simple
+way to turn a *previous* analysis's own precision into a degrees-of-freedom
+input: for an omega diagonal element with point estimate `omega` and standard
+error `SE(omega)` from that earlier (unconstrained) fit,
+
+```
+nu = 2 * (omega / SE(omega))^2
+```
+
+A well-estimated omega (small `SE(omega)` relative to `omega` itself) earns a
+large `nu` -- a confident prior. A poorly-estimated one earns a small `nu`, so
+the prior does not pretend to know more than the data that produced it did.
+For example, if a previous unconstrained fit reported `var(eta.cl) = 0.3`
+with `SE = 0.15`, Karlsson's rule gives `nu = 2 * (0.3 / 0.15)^2 = 8`:
+
+```{r karlssonNu}
+omegaEst <- 0.3
+omegaSe <- 0.15
+nu <- 2 * (omegaEst / omegaSe)^2
+nu
+```
+
+This is exactly what `.nlmixr2BuildPriorSpec()`/`rxPriorBuildSpec()` never
+computes for you: `nu` is a judgment call about how much to trust a *previous*
+analysis, made once before the model is written, not something the current
+fit can derive from its own (not-yet-run) data. The rule generalizes to a
+correlated block the same way NONMEM practice does -- apply it to each
+diagonal element the block covers (here, both `eta.cl` and `eta.v`'s own
+variances) and use the smaller of the two, since `$OMEGAPD`/`invWishart(nu)`
+is a single degrees-of-freedom value for the whole block, and the more
+conservative (less confident) of the two is the one that should govern how
+strongly the joint prior pulls.
 
 `tnpri` and `nwpri` pull `var(eta.cl)` toward two different targets (`0.2` vs.
 the `ini()` value `0.3`) by two different mechanisms, and both engaged the
@@ -358,6 +510,10 @@ under-counting; every other fit keeps the analytic gradient throughout.
 * Bauer RJ. *NONMEM 7 Technical Guide*, eq. 1.154-1.171 (`$PRIOR NWPRI`) -- the
   `nwpri` convention, including the `d_W = rho + n + 1` degrees-of-freedom
   relationship that makes it differ from the textbook inverse-Wishart.
+* Bauer RJ. *NONMEM 7 Technical Guide*, Appendix G, "Degrees of Freedom
+  Assessment for OMEGA Priors" -- Mats Karlsson's `nu = 2*(omega/SE(omega))^2`
+  heuristic for choosing an `invWishart(nu)` degrees of freedom from a
+  previous analysis's own omega estimate and standard error.
 * Monolix documentation, "Bayesian estimation of the population parameters" --
   the joint-normal-on-everything-including-omega assumption `tnpri` implements.
 * Murray I. *Differentiation of the Cholesky decomposition*, 2016 -- background
