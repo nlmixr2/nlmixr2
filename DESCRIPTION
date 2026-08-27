@@ -62,4 +62,4 @@ Suggests:
     devtools
 BugReports: https://github.com/nlmixr2/nlmixr2/issues/
 URL: https://nlmixr2.org/, https://github.com/nlmixr2/nlmixr2/
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0
