@@ -589,12 +589,27 @@ visible.
 ## Scrambling the quasi-random points: `qrScramble` {#scramble}
 
 A Cranley-Patterson shift randomises the Sobol set but leaves the correlation
-structure between the sequence's high-order dimensions intact -- so it helps
-least on exactly the many-random-effect models that need it most.
-**`qrScramble`** permutes the digits instead and does break that structure:
-`"owen"` is a hash-based nested uniform (Owen) scramble, `"lms"` a linear matrix
-scramble with a digital shift. `"none"` (the default) keeps the historical
-behaviour.
+structure between the sequence's dimensions intact. **`qrScramble`** permutes
+the digits instead and does break it: `"owen"` is a hash-based nested uniform
+(Owen) scramble, `"lms"` a linear matrix scramble with a digital shift.
+`"none"` (the default) keeps the historical behaviour.
+
+**What this is measured to buy, which is not what the theory suggested.** The
+plausible story -- a shift helps least where the sequence degrades first, so a
+scramble should help most with many random effects -- is *not* what happens.
+The advantage is real but flat in dimension (1.79x on a smooth test integrand
+at one dimension, 1.53x at twelve), and it lands on the **E-step integral**
+rather than on the estimates: single-iteration IS `-2LL` RMSE 0.056 under
+`"owen"` against 0.080 unscrambled at three ETAs, while converged theta RMSE is
+unmoved at one ETA and *worse* at three, eight, and on a general-`ll()` model.
+At eight ETAs -- the dimension where a scramble was expected to win -- it is the
+worst of the three settings on theta and improves no k-hat.
+
+That is why `"none"` is the default. Reach for `"owen"` when the number you care
+about is the reported importance-sampling objective (`fit$env$impObj`, say for
+comparing models by IS likelihood) rather than the parameter estimates: that
+integral is the one it measurably improves. The full table is in
+[`?impmapControl`](https://nlmixr2.github.io/nlmixr2est/reference/impmapControl.html).
 
 Scrambling **replaces** the shift rather than composing with it, so `qrShift` is
 ignored when it is on; `qrRefresh` still decides whether the randomisation is
@@ -1486,33 +1501,64 @@ would break all four at once.
 ## Why the defaults are what they are {#defaults}
 
 Every capability in the table above ships **off** by default, and the fits you
-would have got before they existed are unchanged. That is deliberate, and it is
-the same policy `auto` and `gammaRule` already document elsewhere in this
-article: a default is a claim that one setting is better *on measured evidence*,
-and until that evidence exists the honest default is the one whose behaviour is
-already known.
+would have got before they existed are unchanged. That was the starting policy,
+and the measurements below are why it is also the finishing one. The harness is
+`design/qrpem/qrpem-options-bench.R`: four fixtures (1, 3 and 8 ETAs plus a
+general-`ll()` model), 8 seeds at `isample = 300`, scored against an
+`isample = 8000` reference.
 
-Concretely:
+The single most useful thing in that table is not any individual number, it is
+which fixture is which. **Three of the four never fail**: no subject exceeds
+Pareto k-hat 0.7 under any setting, because `auto`'s `df` ladder and
+`gammaRule = "target"` already keep them healthy. Only the 8-ETA warfarin PK/PD
+fit has a sampler that actually struggles (2.1 subjects over 0.7 under the
+default). So a proposal whose selling point is bounded weights has nothing to do
+on three quarters of the table -- and where it does have something to do, it
+shows up.
+
+| 8 ETAs, vs the default | theta RMSE | `Omega` RMSE | max k-hat | subjects k>0.7 |
+|---|---|---|---|---|
+| default (`normal`, no `qr`) | 0.0146 | 0.0194 | +0.97 | 2.12 |
+| `proposal = "laplace"` | **0.0116** | 0.0143 | +1.07 | 2.75 |
+| `qr = TRUE` | 0.0149 | **0.0125** | +1.07 | 2.75 |
+| `qrScramble = "owen"` | 0.0179 | 0.0139 | +1.13 | 2.25 |
+| `mapIter = 3` | 0.0205 | 0.0200 | **+0.88** | **0.25** |
+| `nBurn = 5`, frozen `Omega` | **0.1490** | 0.0246 | +1.30 | 3.12 |
+
+Option by option:
 
 * **`proposal = "auto"`** resolves to exactly the normal/t behaviour `df`
-  already selected. `"laplace"` bounds the importance weights by construction,
-  which is a genuinely stronger guarantee than anything the normal/t axis
-  offers -- but `auto`'s k-hat ladder and the `"target"` `gamma` rule already
-  repair the tail failures that show up on the fixtures measured here, so
-  switching the default would be paying a proposal-shape cost for a problem
-  that is already handled. It earns its place on models where those two do not.
-* **`qrScramble = "none"`** keeps every existing `qr = TRUE` fit bit-identical.
-  Randomised-QMC theory says a scramble should dominate the shift at higher eta
-  dimension, and the point-set diagnostics agree -- but "should" is not a
-  measured fit-level result, and this article's convention is to publish the
-  numbers before moving a default.
-* **`nBurn = 0`, `burnFreezeOmega = FALSE`.** Burn-in is a remedy for an early
-  `Omega` excursion. It costs iterations unconditionally and only pays back on
-  models that actually show the excursion, so it is opt-in until a fixture
-  demonstrates one.
-* **`mapIter = 1`** is the previous behaviour, and the conservative one: it
-  re-centres every iteration and so never runs a stale proposal. Raising it is a
-  cost optimisation, which is the user's call to make against their own model.
+  already selected. `"laplace"` earns its place exactly where the argument for
+  it says it should: on the one fixture whose sampler fails it gives the best
+  theta RMSE of every setting measured, 20% better than the default, with the
+  best effective sample size -- while on the three healthy fixtures it merely
+  costs accuracy. It is not the default because most models are the healthy
+  case; reach for it when `impPsisK` shows a tail the `df` ladder is not
+  fixing. One caveat stated plainly: it improved *accuracy* at 8 ETAs without
+  improving k-hat itself, so treat the bounded-weight guarantee as theory this
+  fixture does not confirm.
+* **`qrScramble = "none"`.** This is the one where the theory and the
+  measurement part company, and the measurement wins. The expectation was that
+  a scramble should beat the Cranley-Patterson shift by more as the eta
+  dimension grows. It does not: the advantage is real but flat (1.79x on a
+  smooth test integrand at one dimension, 1.53x at twelve), and it lands on the
+  **E-step integral**, not the estimates -- single-iteration IS `-2LL` RMSE
+  0.056 under `"owen"` against 0.080 unscrambled. At 8 ETAs, the dimension it
+  was supposed to win, it is the *worst* setting on theta RMSE. So it stays off,
+  and its documented use is a more accurate `impObj` for model comparison, not
+  better fits.
+* **`nBurn = 0`, `burnFreezeOmega = FALSE`.** This is the one to be careful
+  with. On the easy fixtures it is a mild loss; at 8 ETAs it is a **ten times
+  worse** theta RMSE (0.149 against 0.0146), with the tail degraded too.
+  Holding `Omega` while the thetas move is coherent to want, but on a
+  high-dimensional model the thetas travel a long way from an `Omega` that is
+  not allowed to follow, and the fit does not recover inside the remaining
+  iterations.
+* **`mapIter = 1`** is the previous behaviour and the one that never runs a
+  stale proposal. But the 8-ETA row is worth knowing: `mapIter = 3` cut the
+  failing-subject count from 2.1 to 0.25, by a wide margin the healthiest
+  sampler on that fixture, at a cost in theta RMSE. Re-optimising the mode every
+  iteration is not automatically the safer choice at high eta dimension.
 * **`iaccept = 0.4`, `sirSample = max(25, isample/10)`** follow NONMEM and the
   k-hat diagnostic respectively rather than Phoenix's documented 0.1 and 10, for
   the reasons given above.
@@ -1521,8 +1567,9 @@ The general rule this family follows, stated once: **weights with infinite
 variance are a correctness problem whose error is unbounded, while extra
 Monte-Carlo noise is bounded and measurable.** Where a default has been moved --
 `auto`, `gammaRule = "target"`, `combSens` -- it was moved on that reasoning
-plus a measured table, both of which are in this article. The options added
-here do not yet have their table, so they do not yet move a default.
+plus a measured table. Here the table came back saying every new option is a
+targeted instrument rather than a better default, which is a result, not an
+absence of one.
 
 # References
 
