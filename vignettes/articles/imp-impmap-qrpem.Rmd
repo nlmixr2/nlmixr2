@@ -554,12 +554,84 @@ This cuts the most expensive part of the M-step by roughly a factor of ten at
 essentially no cost in accuracy, because the resampled set already carries the
 weight information.
 
-## Not a knob
+## Proposal family: `proposal` {#proposalfamily}
 
-**`mapIter`** appears in `impmapControl()` and is set to `0` by `impControl()`,
-but the kernel selects the proposal from `est=` rather than from this field.
-Choose the behaviour with `est = "imp"` versus `est = "impmap"`, not by setting
-`mapIter`.
+`df` selects between a normal and a t proposal, but it cannot express every
+useful shape. **`proposal`** names the family directly. `"auto"` (the default)
+resolves to `"t"` when `df > 0` and `"normal"` otherwise, so nothing about the
+historical `df` behaviour changes.
+
+* **`"normal"` / `"t"`** -- the two families `df` already reached.
+* **`"laplace"`** -- a spherical (Kotz-type) multivariate Laplace,
+  `f(x) ~ exp(-sqrt(x' S^-1 x))`. Its exponential tail dominates the joint
+  target's, which for a bounded likelihood is at worst Gaussian, so the
+  importance weights are **bounded by construction** -- without having to guess
+  a `df`, and without the effective-sample-size cost a low-`df` t pays. Its
+  scale is covariance-matched (`S = Sigma/(p+1)`), so `gamma`, `iscaleMin` and
+  `iscaleMax` keep the meaning they have for `"normal"`.
+* **`"mixture"`** -- a defensive scale mixture about the same mode,
+  `sum_k w_k N(mode, c_k gamma Sigma)`, set by **`propMixScale`** and
+  **`propMixWeight`**. A broad component covers what a narrow one misses.
+  Note this does **not** bound the weights: its widest component is still
+  Gaussian-tailed. Use `"laplace"` when bounded weights are what you need.
+
+All four are elliptical and share the MAP mode, which is what keeps the
+peak-normalised kernel exactly 1 at the mode -- the property `xi` and both
+`gamma` controllers are built on. `auto` adapts `df` only on the normal/t axis:
+its ladder encodes "Gaussian" as `df <= 0` and its constants were tuned against
+a Gaussian baseline, so a subject on `"laplace"` or `"mixture"` keeps its family
+while the `isample` budget reallocation still applies to it.
+
+`fit$env$impProposal` reports the resolved family and `fit$env$impPropInd` the
+per-subject families actually used, so an `auto` escalation from normal to t is
+visible.
+
+## Scrambling the quasi-random points: `qrScramble` {#scramble}
+
+A Cranley-Patterson shift randomises the Sobol set but leaves the correlation
+structure between the sequence's high-order dimensions intact -- so it helps
+least on exactly the many-random-effect models that need it most.
+**`qrScramble`** permutes the digits instead and does break that structure:
+`"owen"` is a hash-based nested uniform (Owen) scramble, `"lms"` a linear matrix
+scramble with a digital shift. `"none"` (the default) keeps the historical
+behaviour.
+
+Scrambling **replaces** the shift rather than composing with it, so `qrShift` is
+ignored when it is on; `qrRefresh` still decides whether the randomisation is
+redrawn each iteration. The scramble key is derived arithmetically from
+`impSeed` and the (iteration, subject, dimension) indices rather than drawn from
+the RNG, so it consumes no draws and the fit stays reproducible and independent
+of the thread count.
+
+## Burn-in: `nBurn`, `burnFreezeOmega` {#burnin}
+
+The first EM iterations run under a proposal whose scale the controller has not
+yet adapted, and `Omega`'s update is the one that absorbs that -- it is built
+from the conditional variances, which an over- or under-dispersed proposal
+estimates badly. **`nBurn`** runs that many settling iterations first, and
+**`burnFreezeOmega`** holds `Omega` at its starting value through them while the
+structural and residual-error thetas update normally.
+
+Burn-in iterations are **extra**, not carved out of `nIter`, so raising `nBurn`
+never silently shortens a fit. Convergence is not tested until the whole
+trailing `nConvWindow` lies past the burn-in, so a frozen `Omega` cannot be
+mistaken for a settled one. Both default off.
+
+## MAP-assist period: `mapIter`
+
+**`mapIter`** is the MAP-assist period: `1` (the default) re-centres the proposal
+at each subject's MAP mode every iteration, `k > 1` every `k`th, and `0` not at
+all after the startup MAP pass. The MAP search is the mu-referenced FOCEI inner
+problem and the dominant per-iteration cost of `impmap`, so raising it trades
+proposal accuracy for speed -- worth doing once the population parameters move
+slowly enough that the mode barely shifts, and not before. A proposal centred
+away from the mode costs effective sample size, which `impNeffFrac` will show.
+
+Skipping a MAP does not freeze the proposal *centre*: the M-step reseeds every
+subject's eta with its conditional mean, so the centre still moves; it is the
+re-optimisation that is skipped. `est = "imp"` is a different thing and not the
+`mapIter = 0` case -- it also replaces the MAP-Hessian proposal covariance with
+the running conditional variance, so it never uses a MAP mode at all.
 
 ---
 
@@ -707,6 +779,8 @@ Dunlavey. nlmixr2's `qrpem` implements the **published** quasi-random parametric
 EM with SIR acceleration; Phoenix's production code is proprietary and its exact
 details are not public, so the two are not guaranteed identical, but they share
 the defining ideas (Sobol importance samples, SIR-accelerated convergence).
+See [Appendix C](#phoenix) for a knob-by-knob comparison against the options
+Phoenix exposes.
 
 **FOCEI.** FOCEI is a *deterministic Laplace approximation* of the marginal
 likelihood; the `imp` family is a *Monte-Carlo evaluation* of the same
@@ -1349,6 +1423,107 @@ for (df in c(0, 30, 20, 12, 8)) {
 }
 ```
 
+# Appendix C: nlmixr2 vs Phoenix QRPEM, option by option {#phoenix}
+
+Phoenix NLME exposes a set of "Advanced Options for QRPEM only" in its model
+executor. That list is the closest thing to a public specification of what
+Phoenix's QRPEM can be told to do, so it is a fair checklist to hold `qrpem`
+against -- with one caveat stated up front, and meant literally: **the option
+names tell you what Phoenix exposes, not what it computes.** The algorithm
+behind each checkbox is not published. Nothing below should be read as a claim
+that the two implementations agree numerically; where the underlying method is
+genuinely not public, this article says so rather than guessing.
+
+| Phoenix option | nlmixr2 equivalent |
+|---|---|
+| MAP Assist | `est = "impmap"` (on) vs `est = "imp"` (off) |
+| Periodicity for MAP Assist | `mapIter` |
+| Number of Sample Points | `isample` -- and ours also accepts a **per-subject vector** |
+| Acceptance Ratio | `iaccept` (see the default note below) |
+| Importance Sampling Distribution: MVN | `proposal = "normal"` |
+| Importance Sampling Distribution: MVT | `proposal = "t"` |
+| Importance Sampling Distribution: MVL | `proposal = "laplace"` |
+| Importance Sampling Distribution: Mixture-2 / -3 | `proposal = "mixture"`, `propMixScale`/`propMixWeight` of length 2 or 3 |
+| Number of Degrees of Freedom | `df` |
+| Quasi-Random Scrambling Method | `qrScramble` (see below) |
+| Number of SIR Samples | `sirSample` |
+| Number of Burn-in Iterations | `nBurn` |
+| Frozen Omega during Burn-In | `burnFreezeOmega` |
+| MCPEM (Monte-Carlo instead of quasi-random) | `qr = FALSE` |
+| Run All Requested Iterations | `nConvWindow = 0` disables the convergence test |
+
+Four places where the correspondence is a mapping rather than a match:
+
+**Scrambling.** Phoenix offers None / Owen / Tezuka-Faure. nlmixr2 offers
+`"none"` / `"owen"` / `"lms"`. `"lms"` is named for the *method* -- Matousek /
+Tezuka linear matrix scrambling -- and not after Phoenix's label, because
+"Tezuka-Faure" is not published in enough detail to claim we reproduce that
+particular variant. Both of ours are applied to the generator's output digits
+rather than to its direction numbers, which is legitimate for both: a Sobol
+point is a GF(2)-linear image of the direction numbers, so a linear scramble
+commutes with generation, and a nested digit permutation is defined on the
+digits however they were produced.
+
+**Acceptance ratio.** Phoenix documents a default of 0.1 and describes lowering
+it as broadening the proposal. nlmixr2's `iaccept` defaults to **0.4**, which is
+NONMEM's `IACCEPT` convention, and it is the *target* the two-sided `gammaRule`
+adapts toward rather than a threshold. The two numbers are not on the same
+scale and should not be transferred between programs.
+
+**SIR samples.** Phoenix documents a default of 10 per subject; nlmixr2 uses
+`max(25, isample/10)`. Ours is a floor-plus-fraction because the resampled set
+also has to remain usable for the Pareto k-hat diagnostic, which a set of 10
+does not.
+
+**Mixture proposals.** Phoenix names "Mixture-2" and "Mixture-3" without saying
+what the components are. nlmixr2 implements a *defensive scale mixture* about
+the shared MAP mode. That choice is not arbitrary: sharing the mode is what
+keeps the mixture's peak density closed-form, and therefore keeps the
+peak-normalised kernel exactly 1 at the mode -- the property `qCenter`, `xi` and
+both `gamma` controllers depend on. A mixture with per-component *locations*
+would break all four at once.
+
+## Why the defaults are what they are {#defaults}
+
+Every capability in the table above ships **off** by default, and the fits you
+would have got before they existed are unchanged. That is deliberate, and it is
+the same policy `auto` and `gammaRule` already document elsewhere in this
+article: a default is a claim that one setting is better *on measured evidence*,
+and until that evidence exists the honest default is the one whose behaviour is
+already known.
+
+Concretely:
+
+* **`proposal = "auto"`** resolves to exactly the normal/t behaviour `df`
+  already selected. `"laplace"` bounds the importance weights by construction,
+  which is a genuinely stronger guarantee than anything the normal/t axis
+  offers -- but `auto`'s k-hat ladder and the `"target"` `gamma` rule already
+  repair the tail failures that show up on the fixtures measured here, so
+  switching the default would be paying a proposal-shape cost for a problem
+  that is already handled. It earns its place on models where those two do not.
+* **`qrScramble = "none"`** keeps every existing `qr = TRUE` fit bit-identical.
+  Randomised-QMC theory says a scramble should dominate the shift at higher eta
+  dimension, and the point-set diagnostics agree -- but "should" is not a
+  measured fit-level result, and this article's convention is to publish the
+  numbers before moving a default.
+* **`nBurn = 0`, `burnFreezeOmega = FALSE`.** Burn-in is a remedy for an early
+  `Omega` excursion. It costs iterations unconditionally and only pays back on
+  models that actually show the excursion, so it is opt-in until a fixture
+  demonstrates one.
+* **`mapIter = 1`** is the previous behaviour, and the conservative one: it
+  re-centres every iteration and so never runs a stale proposal. Raising it is a
+  cost optimisation, which is the user's call to make against their own model.
+* **`iaccept = 0.4`, `sirSample = max(25, isample/10)`** follow NONMEM and the
+  k-hat diagnostic respectively rather than Phoenix's documented 0.1 and 10, for
+  the reasons given above.
+
+The general rule this family follows, stated once: **weights with infinite
+variance are a correctness problem whose error is unbounded, while extra
+Monte-Carlo noise is bounded and measurable.** Where a default has been moved --
+`auto`, `gammaRule = "target"`, `combSens` -- it was moved on that reasoning
+plus a measured table, both of which are in this article. The options added
+here do not yet have their table, so they do not yet move a default.
+
 # References
 
 * Bauer RJ. *NONMEM 7 Technical Guide*, section "Evaluating the Expectation
@@ -1363,6 +1538,15 @@ for (df in c(0, 30, 20, 12, 8)) {
   diagnostic used by `fit$env$impPsisK`.
 * Leary R, Dunlavey M. *QRPEM -- A Quasi-Random Parametric EM Method.* PAGE 2012;
   and Certara Phoenix NLME documentation.
+* Certara. *Advanced Options for QRPEM only*, RsNLME User Guide (NLME Model
+  Executor) -- the published option list [Appendix C](#phoenix) is held against.
+  <https://onlinehelp.certara.com/rsnlme/2.0/RsNLME_User_Guide/NLMEModelExecutor/Advanced_Options_for_QRPEM_only.htm>
+* Owen AB. *Randomly permuted (t,m,s)-nets and (t,s)-sequences.* Monte Carlo and
+  Quasi-Monte Carlo Methods in Scientific Computing, 1995; and Burley B.
+  *Practical Hash-based Owen Scrambling.* Journal of Computer Graphics
+  Techniques, 2020 -- the construction behind `qrScramble = "owen"`.
+* Matousek J. *On the L2-discrepancy for anchored boxes.* Journal of Complexity,
+  1998 -- linear matrix scrambling, `qrScramble = "lms"`.
 * Kuhn E, Lavielle M. *Maximum likelihood estimation in nonlinear mixed effects
   models.* Computational Statistics & Data Analysis, 2005 (SAEM).
 * Wang Y. *Derivation of various NONMEM estimation methods.* J. Pharmacokinet.
