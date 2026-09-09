@@ -50,10 +50,21 @@ methods on small or weakly-separated datasets. **`focei` is recommended when
 precise per-subject classification matters; SAEM is a usable alternative that
 may need tuning (see its section) to match it.**
 
-> **rxode2 requirement.** Nested transformations inside `mix()` — for example
+> **rxode2 requirements.** Nested transformations inside `mix()` — for example
 > `mix(expit(tcl1 + eta.cl, 0.1, 200), p1, ...)` — require **rxode2 >= 5.1.3**.
 > Earlier versions translate only the top-level `mix()` arguments and will
 > silently mis-handle the inner `expit()`/`logit()`/`exp()` calls.
+>
+> Reading `mixest`/`mixnum` back out of the *fitted table* (see
+> [Reading the component off the fit table](#reading-the-component-off-the-fit-table))
+> additionally requires an rxode2 carrying
+> [nlmixr2/rxode2#1358](https://github.com/nlmixr2/rxode2/pull/1358), which is
+> newer than 5.1.7. On earlier versions those columns — and every model
+> variable computed from `mix()` — come back as `0` for every row, and
+> `PRED`/`IPRED` are computed from those zeros. You do not have to check the
+> version: a fit on an affected rxode2 says so in `$runInfo`
+> (`"mixture not passed to table; mixest/mixnum read 0"`). The parameter
+> estimates, `$mixNum` and `$mixList` were never affected by this.
 
 ## Motivating Example: Bimodal Clearance
 
@@ -224,7 +235,9 @@ exposure distribution through random effects alone.
 
 ## Accessing Mixture Results
 
-After fitting, two accessors are available on the fit object:
+After fitting, the subpopulation each subject was assigned to is available in
+three places: two accessors on the fit object, and — for a model that asks for
+it — as columns of the fitted table itself.
 
 ### `$mixNum` — best-fit subpopulation per subject
 
@@ -283,6 +296,58 @@ probability.
 
 Subjects with `prob ≈ 1` are unambiguously assigned; subjects with intermediate
 `prob` values (e.g. 0.3–0.7) are phenotypically ambiguous.
+
+### Reading the component off the fit table
+
+A model may also assign the reserved variables `mixest` (the component this
+subject was fit under) and `mixnum` (how many components the model has) to
+output variables, and they then appear as columns of the fitted table alongside
+everything else the model computes:
+
+```{r mixest-model, eval=FALSE}
+model({
+  ka <- exp(tka)
+  cl <- mix(expit(tcl1 + eta.cl, 0.1, 200), p1, expit(tcl2 + eta.cl, 0.1, 200))
+  v  <- exp(tv + eta.v)
+  component   <- mixest   # which subpopulation this subject is in
+  nComponents <- mixnum   # how many there are (a constant)
+  linCmt() ~ add(add.sd)
+})
+```
+
+```{r mixest-table, eval=FALSE}
+head(as.data.frame(fit)[, c("ID", "TIME", "component", "nComponents", "cl", "v")])
+```
+
+```{r mixest-table-show, echo=FALSE}
+cat("
+  ID TIME component nComponents       cl        v
+1  1  0.5         1           2 10.22241 32.06395
+2  1  1.0         1           2 10.22241 32.06395
+3  1  2.0         1           2 10.22241 32.06395
+4  1  4.0         1           2 10.22241 32.06395
+5  1  6.0         1           2 10.22241 32.06395
+6  1  8.0         1           2 10.22241 32.06395
+")
+```
+
+`component` is per subject and agrees with `$mixNum`; `nComponents` is the same
+constant on every row. `IPRED` is the prediction under that subject's own
+component. `PRED`, being the *population* prediction, takes one value per
+component per time point, so a PRED-versus-time plot of a two-component mixture
+shows two curves rather than one -- that is expected, not a fitting problem. This is the most convenient route when you want the
+component next to the individual parameters and predictions rather than in a
+separate data frame — note that `cl` above is the clearance of the component the
+subject was actually assigned to, not an average over components.
+
+The name you assign to is yours; `mixest`/`mixnum` are the reserved variables on
+the right-hand side. `mixunif`, the third reserved variable, is only meaningful
+for *simulation* from a `mix()` model — in a fitted table it reports the
+component that was supplied rather than a uniform draw, so use `mixest` there.
+
+> These columns require a recent rxode2; see the requirements note in the
+> [Overview](#overview). On an older one they read `0` and the fit says so in
+> `$runInfo`.
 
 ### Checking classification accuracy (when true labels are known)
 
@@ -552,6 +617,13 @@ fitSaem$mixList$mix1   # ID, ETAs, and posterior probability for component 1
 fitSaem$mixProbabilities  # final population mixing probabilities (sum to 1)
 ```
 
+A `mixest`/`mixnum` output variable works the same way here as for the
+gradient-based methods -- see
+[Reading the component off the fit table](#reading-the-component-off-the-fit-table).
+For SAEM the component reported there is the hard assignment `$mixNum` records,
+which for `mixProbMethod = "regress"` (the default) is also what the fit itself
+conditioned on.
+
 For SAEM, the `prob` column in `$mixList` is the posterior membership weight
 $a_{ik}$ computed by the SAEM engine directly (returned internally as the
 `mixWeights` matrix), and `$mixNum` reports the component with the largest
@@ -777,7 +849,10 @@ increased (see that section for a worked example):
   in the data. More than 2–3 components is rarely supportable with typical
   PK/PD datasets.
 - The `mixest`, `mixnum`, and `mixunif` variables can be included in the model
-  block for diagnostic purposes but do not affect the likelihood.
+  block for diagnostic purposes but do not affect the likelihood. `mixest` and
+  `mixnum` report the fitted component and the component count in the fit table
+  (see [Reading the component off the fit table](#reading-the-component-off-the-fit-table));
+  `mixunif` is only meaningful when simulating.
 - **Initial estimates matter**: provide lower bounds on `tcl1` and `tcl2` to
   prevent label-switching for focei during optimization.
 - **SAEM** supports mixtures via soft assignment, stabilized against collapse

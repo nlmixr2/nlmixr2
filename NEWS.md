@@ -1,5 +1,10 @@
 # nlmixr2 7.0.1
 
+* The mixture-models article documents reading the fitted component off the
+  fit table (a `mixest`/`mixnum` output variable), which needs an rxode2
+  carrying nlmixr2/rxode2#1358; it also now appears in the Articles menu,
+  which it was missing from.
+
 * `nlmixr2CheckInstall()` no longer fails when the repositories cannot be
   queried for package updates.  Both an unreachable repository and an
   error from `utils::old.packages()` itself (seen on Windows, where
