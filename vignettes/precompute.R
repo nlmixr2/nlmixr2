@@ -35,6 +35,7 @@ vignettes <- c(
   "multiple-endpoints.Rmd",
   "nimo.Rmd",
   "articles/imp-impmap-qrpem.Rmd",
+  "articles/mixture-models.Rmd",
   "articles/vaeNeonatal.Rmd",
   "wbc.Rmd",
   "xgxr-nlmixr-ggpmx.Rmd"
