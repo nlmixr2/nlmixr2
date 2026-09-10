@@ -512,9 +512,13 @@ print(fitSaem)
 
 `tka` and `tv` get real, finite SEs; `tcl1`/`tcl2` (the mixture-owned fixed
 effects) correctly show no SE rather than either an error or a fabricated
-number — see the covariance callout below.  The back-transformed `p1` should
-land in the neighborhood of the true EM prevalence (0.67), and `fitSaem$mixNum`
-should show a real (not collapsed) split:
+number — see the covariance callout below.  `p1` does now carry an SE: the
+proportion is reported at its score-zero point, which is the condition the
+mixture information matrix needs (see
+[Standard errors for the mixture proportions](#standard-errors-for-the-mixture-proportions)).
+
+Compare the back-transformed `p1` above against the true EM prevalence of
+0.67, and check that `fitSaem$mixNum` is a real rather than a collapsed split:
 
 ```{r mixnum-saem-table}
 table(fitSaem$mixNum$mixnum)
