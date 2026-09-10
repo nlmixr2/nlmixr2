@@ -1,0 +1,294 @@
+---
+title: "Fitting separate phase 1 and phase 3 residual error"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    self_contained: no
+vignette: >
+  %\VignetteIndexEntry{Fitting separate phase 1 and phase 3 residual error}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  message = FALSE,
+  warning = FALSE,
+  out.width = "100%"
+  )
+library(nlmixr2save)
+options(nlmixr2save.dir = "../cache",
+        nlmixr2save.prefix = "phase-residual-error-",
+        nlmixr2save.check = FALSE)
+```
+
+![nlmixr](../logo.png)
+
+# One structural model, two residual error models
+
+A pooled population PK analysis usually combines studies that were not
+run under the same conditions.  Phase 1 contributes rich profiles from
+healthy volunteers at one site, with a validated assay and controlled
+sample handling.  Phase 3 contributes sparse samples from patients
+across many sites, with nominal rather than recorded times and more
+variable sample handling.
+
+The drug does not change between the phases, so the structural model
+does not either.  What changes is the *noise around the prediction*.
+Forcing one residual error model onto the pooled data splits the
+difference: it overstates the noise on the phase 1 records and
+understates it on the phase 3 ones.  Because the residual variance is
+what weights each observation in the objective function, that
+compromise leaks into the structural and random-effect estimates too.
+
+`rxode2` lets one prediction carry more than one residual error model,
+each named with `| <name>`:
+
+```{r modelDef}
+library(nlmixr2)
+library(ggplot2)
+
+pkPhase <- function() {
+  ini({
+    tka <- 0.45; label("Log Ka")
+    tcl <- 1;    label("Log Cl")
+    tv  <- 3.45; label("Log V")
+    eta.ka ~ 0.6
+    eta.cl ~ 0.3
+    eta.v  ~ 0.1
+    phase1.sd <- 0.3; label("Phase 1 additive error (mg/L)")
+    phase3.sd <- 0.3; label("Phase 3 additive error (mg/L)")
+  })
+  model({
+    ka <- exp(tka + eta.ka)
+    cl <- exp(tcl + eta.cl)
+    v  <- exp(tv + eta.v)
+    d/dt(depot)  <- -ka * depot
+    d/dt(center) <-  ka * depot - cl / v * center
+    cp <- center / v
+    cp ~ add(phase1.sd) | phase1
+    cp ~ add(phase3.sd) | phase3
+  })
+}
+```
+
+There is one `cp` and one set of ODEs.  Which standard deviation
+applies is decided per observation record, by the compartment (or
+`dvid`) that record names:
+
+```{r multipleEndpoint}
+pkPhase()$multipleEndpoint
+```
+
+This is the estimation companion to the `rxode2` article
+[Separating phase 1 and phase 3 residual error](https://nlmixr2.github.io/rxode2/articles/rxode2-phase-residual-error.html),
+which covers the same model from the simulation side.
+
+## A pooled dataset
+
+To make the point visible we simulate a pooled analysis dataset where
+the two phases really do have different residual error -- phase 1 at
+`0.15 mg/L`, phase 3 at `0.8 mg/L` -- and then try to recover it.
+
+```{r simData}
+sim <- pkPhase() |>
+  ini(phase1.sd = 0.15, phase3.sd = 0.8)
+
+# phase 1: 12 subjects, rich sampling
+ev1 <- et(amt=320, cmt="depot") |>
+  et(c(0.25, 0.5, 1, 2, 3, 4, 6, 8, 12, 16, 24), cmt="phase1")
+
+# phase 3: 48 subjects, sparse sampling
+ev3 <- et(amt=320, cmt="depot") |>
+  et(c(1, 4, 12, 24), cmt="phase3")
+
+set.seed(42)
+d1 <- rxSolve(sim, ev1, nSub=12, addDosing=TRUE, returnType="data.frame")
+d3 <- rxSolve(sim, ev3, nSub=48, addDosing=TRUE, returnType="data.frame")
+
+# label each study's observation records with its phase, and keep the
+# subject ids distinct between the two
+d1$dvid <- ifelse(d1$evid == 0, "phase1", NA_character_)
+d3$dvid <- ifelse(d3$evid == 0, "phase3", NA_character_)
+d3$sim.id <- d3$sim.id + max(d1$sim.id)
+
+dat <- rbind(d1, d3)
+dat$DV <- dat$sim
+dat <- dat[, c("sim.id", "time", "amt", "evid", "DV", "dvid")]
+names(dat) <- c("ID", "TIME", "AMT", "EVID", "DV", "dvid")
+
+head(dat)
+table(dat$dvid, useNA="no")
+```
+
+The residual standard deviations really are different in this dataset:
+
+```{r simCheck}
+c(phase1 = sd(d1$sim - d1$ipredSim, na.rm=TRUE),
+  phase3 = sd(d3$sim - d3$ipredSim, na.rm=TRUE))
+```
+
+The `dvid` column is what selects the endpoint.  It can equally be a
+`cmt` column, or the numeric `dvid` that `$multipleEndpoint` lists;
+dosing records leave it missing.
+
+## What one residual error model gives you
+
+First fit the same structural model with a single additive error, on
+the same data with the `dvid` column removed:
+
+```{r pooledModel}
+pkPooled <- function() {
+  ini({
+    tka <- 0.45; label("Log Ka")
+    tcl <- 1;    label("Log Cl")
+    tv  <- 3.45; label("Log V")
+    eta.ka ~ 0.6
+    eta.cl ~ 0.3
+    eta.v  ~ 0.1
+    add.sd <- 0.3; label("Pooled additive error (mg/L)")
+  })
+  model({
+    ka <- exp(tka + eta.ka)
+    cl <- exp(tcl + eta.cl)
+    v  <- exp(tv + eta.v)
+    d/dt(depot)  <- -ka * depot
+    d/dt(center) <-  ka * depot - cl / v * center
+    cp <- center / v
+    cp ~ add(add.sd)
+  })
+}
+
+datPooled <- dat[, names(dat) != "dvid"]
+
+fitPooled := nlmixr2(pkPooled, datPooled, est="focei",
+                     control=list(print=0))
+
+fitPooled$parFixedDf["add.sd", c("Estimate", "SE", "Back-transformed")]
+```
+
+The single estimate lands between the two truths.  Nothing in the
+output says so -- the fit converges and the parameter has a small
+standard error -- but the conditional weighted residuals do:
+
+```{r pooledIwres, fig.width=7, fig.height=4}
+resPooled <- as.data.frame(fitPooled)
+resPooled$phase <- dat$dvid[dat$EVID == 0]
+
+tapply(resPooled$IWRES, resPooled$phase, sd)
+```
+
+Individual weighted residuals should have about the same spread in
+every stratum.  Splitting them by phase shows they do not: phase 3
+supplies most of the records, so it pulls the single `add.sd` towards
+its own error and ends up reasonably weighted, while the phase 1
+records -- whose true error is five times smaller -- are divided by a
+standard deviation far too large for them and are effectively
+discounted in the objective function.
+
+## Fitting both at once
+
+The two-endpoint model needs no extra machinery -- give `nlmixr2()`
+the dataset with its `dvid` column:
+
+```{r phaseFit}
+fitPhase := nlmixr2(pkPhase, dat, est="focei",
+                    control=list(print=0))
+
+print(fitPhase)
+```
+
+```{r phaseEstimates}
+fitPhase$parFixedDf[c("phase1.sd", "phase3.sd"),
+                    c("Estimate", "SE", "Back-transformed")]
+```
+
+Both standard deviations come back near the values used to simulate.
+The weighted residuals are now on a comparable scale in the two
+phases, instead of differing by a factor of three:
+
+```{r phaseIwres}
+resPhase <- as.data.frame(fitPhase)
+resPhase$phase <- dat$dvid[dat$EVID == 0]
+
+tapply(resPhase$IWRES, resPhase$phase, sd)
+```
+
+Neither reaches exactly 1, and that is expected: the phase 3 design has
+four samples per subject against three random effects, so its
+individual estimates -- and with them its IWRES -- are shrunk.  What
+matters is that the two strata are no longer weighted against each
+other.
+
+```{r iwresPlot, fig.width=7, fig.height=4}
+d <- rbind(
+  data.frame(model="one residual error",  phase=resPooled$phase, iwres=resPooled$IWRES),
+  data.frame(model="per-phase residual error", phase=resPhase$phase, iwres=resPhase$IWRES))
+
+ggplot(d, aes(x=phase, y=iwres)) +
+  geom_boxplot() +
+  geom_hline(yintercept=c(-2, 2), linetype="dashed") +
+  facet_wrap(~model) +
+  ylab("IWRES") +
+  theme_bw()
+```
+
+The two fits are nested -- the pooled model is the per-phase model with
+the two standard deviations constrained equal -- so the objective
+functions are comparable on one degree of freedom:
+
+```{r objfCompare}
+c(pooled = fitPooled$objf, perPhase = fitPhase$objf)
+c(pooled = AIC(fitPooled),  perPhase = AIC(fitPhase))
+```
+
+## Working with the model
+
+Because both endpoints have the same left-hand side, model piping has
+to be told which one you mean.  Name the condition:
+
+```{r pipeOne}
+pkPhase2 <- pkPhase() |>
+  model(cp ~ prop(phase3.prop) | phase3)
+
+print(pkPhase2)
+```
+
+Piping `cp ~ prop(phase3.prop)` with no `| phase3` reports the
+conditions to choose from rather than guessing.  The same name removes
+one endpoint:
+
+```{r dropOne}
+pkPhase3 <- pkPhase2 |>
+  model(-phase3)
+
+print(pkPhase3)
+```
+
+Each endpoint has to be named.  Two unnamed endpoints on one variable
+(`cp ~ add(a)` written twice) are rejected when the model is built,
+because no data record could tell them apart.
+
+Transformations are per endpoint too, so `cp ~ lnorm(phase3.sd) |
+phase3` gives phase 3 a log-normal residual while phase 1 stays
+additive, and the same is true of `boxCox()`, `propT()`, `combined1`
+and the rest.
+
+## Notes
+
+- The endpoints share `cp`, so they share every structural parameter
+  and every random effect.  This is a residual-error split, not a
+  separate model per phase; if the phases need different clearance or
+  absorption, that belongs in a covariate on `cl` or `ka`.
+- `rxode2` gives each of the shared endpoints its own generated
+  variable (`rx.cp.phase1`, `rx.cp.phase3`, listed in
+  `$endpointAlias`), which is why `$predDf$var` differs from the
+  variable you typed.  It is internal; you never write those lines and
+  they do not appear in the fit.
+- The same pattern applies to any grouping the residual error depends
+  on and the structural model does not: assay version, sample matrix
+  (plasma versus dried blood spot), or site.
+- All estimation methods handle it -- `focei`, `saem`, `nlme` and the
+  `nlm` family all read the per-endpoint residual parameters.

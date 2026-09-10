@@ -33,6 +33,8 @@ navbar:
           href: articles/censoring.html
         - text: "Mixture models (latent subpopulations)"
           href: articles/mixture-models.html
+        - text: "Separate phase 1 and phase 3 residual error"
+          href: articles/phase-residual-error.html
         - text: "Simulations with individually-titrated dosing"
           href: articles/simulate-titrated-dosing.html
         - text: "--------------------------"

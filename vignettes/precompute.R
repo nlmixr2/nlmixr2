@@ -36,6 +36,7 @@ vignettes <- c(
   "nimo.Rmd",
   "articles/imp-impmap-qrpem.Rmd",
   "articles/mixture-models.Rmd",
+  "articles/phase-residual-error.Rmd",
   "articles/priors-focei.Rmd",
   "articles/vaeNeonatal.Rmd",
   "articles/variational-inference.Rmd",
