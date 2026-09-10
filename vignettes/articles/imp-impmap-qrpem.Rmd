@@ -566,16 +566,103 @@ supplies the M-step's Newton step directly -- one ODE solve per sample instead
 of two. It defaulted to opt-in for one release while folding more sensitivity
 states into one coupled ODE system was still a live concern for a model with a
 non-mu **structural** theta; that concern turned out to be a genuine, unrelated
-bug rather than a property of `combSens` itself (see [Appendix
-B](#combsens-and-auto)), and with the bug fixed `combSens = TRUE`/`FALSE`
-agree, so it is now the default.
+bug rather than a property of `combSens` itself (see [Does `combSens` change
+any of this?](#combsens-and-auto)), and with the bug fixed
+`combSens = TRUE`/`FALSE` agree, so it is now the default.
 
-## Not a knob
+## Proposal family: `proposal` {#proposalfamily}
 
-**`mapIter`** appears in `impmapControl()` and is set to `0` by `impControl()`,
-but the kernel selects the proposal from `est=` rather than from this field.
-Choose the behaviour with `est = "imp"` versus `est = "impmap"`, not by setting
-`mapIter`.
+`df` selects between a normal and a t proposal, but it cannot express every
+useful shape. **`proposal`** names the family directly. `"auto"` (the default)
+resolves to `"t"` when `df > 0` and `"normal"` otherwise, so nothing about the
+historical `df` behaviour changes.
+
+* **`"normal"` / `"t"`** -- the two families `df` already reached.
+* **`"laplace"`** -- a spherical (Kotz-type) multivariate Laplace,
+  `f(x) ~ exp(-sqrt(x' S^-1 x))`. Its exponential tail dominates the joint
+  target's, which for a bounded likelihood is at worst Gaussian, so the
+  importance weights are **bounded by construction** -- without having to guess
+  a `df`, and without the effective-sample-size cost a low-`df` t pays. Its
+  scale is covariance-matched (`S = Sigma/(p+1)`), so `gamma`, `iscaleMin` and
+  `iscaleMax` keep the meaning they have for `"normal"`.
+* **`"mixture"`** -- a defensive scale mixture about the same mode,
+  `sum_k w_k N(mode, c_k gamma Sigma)`, set by **`propMixScale`** and
+  **`propMixWeight`**. A broad component covers what a narrow one misses.
+  Note this does **not** bound the weights: its widest component is still
+  Gaussian-tailed. Use `"laplace"` when bounded weights are what you need.
+
+All four are elliptical and share the MAP mode, which is what keeps the
+peak-normalised kernel exactly 1 at the mode -- the property `xi` and both
+`gamma` controllers are built on. `auto` adapts `df` only on the normal/t axis:
+its ladder encodes "Gaussian" as `df <= 0` and its constants were tuned against
+a Gaussian baseline, so a subject on `"laplace"` or `"mixture"` keeps its family
+while the `isample` budget reallocation still applies to it.
+
+`fit$env$impProposal` reports the resolved family and `fit$env$impPropInd` the
+per-subject families actually used, so an `auto` escalation from normal to t is
+visible.
+
+## Scrambling the quasi-random points: `qrScramble` {#scramble}
+
+A Cranley-Patterson shift randomises the Sobol set but leaves the correlation
+structure between the sequence's dimensions intact. **`qrScramble`** permutes
+the digits instead and does break it: `"owen"` is a hash-based nested uniform
+(Owen) scramble, `"lms"` a linear matrix scramble with a digital shift.
+`"none"` (the default) keeps the historical behaviour.
+
+**What this is measured to buy, which is not what the theory suggested.** The
+plausible story -- a shift helps least where the sequence degrades first, so a
+scramble should help most with many random effects -- is *not* what happens.
+The advantage is real but flat in dimension (1.79x on a smooth test integrand
+at one dimension, 1.53x at twelve), and it lands on the **E-step integral**
+rather than on the estimates: single-iteration IS `-2LL` RMSE 0.056 under
+`"owen"` against 0.080 unscrambled at three ETAs, while converged theta RMSE is
+unmoved at one ETA and *worse* at three, eight, and on a general-`ll()` model.
+At eight ETAs -- the dimension where a scramble was expected to win -- it is the
+worst of the three settings on theta and improves no k-hat.
+
+That is why `"none"` is the default. Reach for `"owen"` when the number you care
+about is the reported importance-sampling objective (`fit$env$impObj`, say for
+comparing models by IS likelihood) rather than the parameter estimates: that
+integral is the one it measurably improves. The full table is in
+[`?impmapControl`](https://nlmixr2.github.io/nlmixr2est/reference/impmapControl.html).
+
+Scrambling **replaces** the shift rather than composing with it, so `qrShift` is
+ignored when it is on; `qrRefresh` still decides whether the randomisation is
+redrawn each iteration. The scramble key is derived arithmetically from
+`impSeed` and the (iteration, subject, dimension) indices rather than drawn from
+the RNG, so it consumes no draws and the fit stays reproducible and independent
+of the thread count.
+
+## Burn-in: `nBurn`, `burnFreezeOmega` {#burnin}
+
+The first EM iterations run under a proposal whose scale the controller has not
+yet adapted, and `Omega`'s update is the one that absorbs that -- it is built
+from the conditional variances, which an over- or under-dispersed proposal
+estimates badly. **`nBurn`** runs that many settling iterations first, and
+**`burnFreezeOmega`** holds `Omega` at its starting value through them while the
+structural and residual-error thetas update normally.
+
+Burn-in iterations are **extra**, not carved out of `nIter`, so raising `nBurn`
+never silently shortens a fit. Convergence is not tested until the whole
+trailing `nConvWindow` lies past the burn-in, so a frozen `Omega` cannot be
+mistaken for a settled one. Both default off.
+
+## MAP-assist period: `mapIter`
+
+**`mapIter`** is the MAP-assist period: `1` (the default) re-centres the proposal
+at each subject's MAP mode every iteration, `k > 1` every `k`th, and `0` not at
+all after the startup MAP pass. The MAP search is the mu-referenced FOCEI inner
+problem and the dominant per-iteration cost of `impmap`, so raising it trades
+proposal accuracy for speed -- worth doing once the population parameters move
+slowly enough that the mode barely shifts, and not before. A proposal centred
+away from the mode costs effective sample size, which `impNeffFrac` will show.
+
+Skipping a MAP does not freeze the proposal *centre*: the M-step reseeds every
+subject's eta with its conditional mean, so the centre still moves; it is the
+re-optimisation that is skipped. `est = "imp"` is a different thing and not the
+`mapIter = 0` case -- it also replaces the MAP-Hessian proposal covariance with
+the running conditional variance, so it never uses a MAP mode at all.
 
 ---
 
@@ -723,6 +810,8 @@ Dunlavey. nlmixr2's `qrpem` implements the **published** quasi-random parametric
 EM with SIR acceleration; Phoenix's production code is proprietary and its exact
 details are not public, so the two are not guaranteed identical, but they share
 the defining ideas (Sobol importance samples, SIR-accelerated convergence).
+See [Appendix C](#phoenix) for a knob-by-knob comparison against the options
+Phoenix exposes.
 
 **FOCEI.** FOCEI is a *deterministic Laplace approximation* of the marginal
 likelihood; the `imp` family is a *Monte-Carlo evaluation* of the same
@@ -1436,6 +1525,140 @@ model has a non-mu **structural** theta, a "healthy" k-hat measured before
 this fix may not have been healthy at all. Re-measure `impPsisK` after
 upgrading rather than trusting an old reading for such a model.
 
+# Appendix C: nlmixr2 vs Phoenix QRPEM, option by option {#phoenix}
+
+Phoenix NLME exposes a set of "Advanced Options for QRPEM only" in its model
+executor. That list is the closest thing to a public specification of what
+Phoenix's QRPEM can be told to do, so it is a fair checklist to hold `qrpem`
+against -- with one caveat stated up front, and meant literally: **the option
+names tell you what Phoenix exposes, not what it computes.** The algorithm
+behind each checkbox is not published. Nothing below should be read as a claim
+that the two implementations agree numerically; where the underlying method is
+genuinely not public, this article says so rather than guessing.
+
+| Phoenix option | nlmixr2 equivalent |
+|---|---|
+| MAP Assist | `est = "impmap"` (on) vs `est = "imp"` (off) |
+| Periodicity for MAP Assist | `mapIter` |
+| Number of Sample Points | `isample` -- and ours also accepts a **per-subject vector** |
+| Acceptance Ratio | `iaccept` (see the default note below) |
+| Importance Sampling Distribution: MVN | `proposal = "normal"` |
+| Importance Sampling Distribution: MVT | `proposal = "t"` |
+| Importance Sampling Distribution: MVL | `proposal = "laplace"` |
+| Importance Sampling Distribution: Mixture-2 / -3 | `proposal = "mixture"`, `propMixScale`/`propMixWeight` of length 2 or 3 |
+| Number of Degrees of Freedom | `df` |
+| Quasi-Random Scrambling Method | `qrScramble` (see below) |
+| Number of SIR Samples | `sirSample` |
+| Number of Burn-in Iterations | `nBurn` |
+| Frozen Omega during Burn-In | `burnFreezeOmega` |
+| MCPEM (Monte-Carlo instead of quasi-random) | `qr = FALSE` |
+| Run All Requested Iterations | `nConvWindow = 0` disables the convergence test |
+
+Four places where the correspondence is a mapping rather than a match:
+
+**Scrambling.** Phoenix offers None / Owen / Tezuka-Faure. nlmixr2 offers
+`"none"` / `"owen"` / `"lms"`. `"lms"` is named for the *method* -- Matousek /
+Tezuka linear matrix scrambling -- and not after Phoenix's label, because
+"Tezuka-Faure" is not published in enough detail to claim we reproduce that
+particular variant. Both of ours are applied to the generator's output digits
+rather than to its direction numbers, which is legitimate for both: a Sobol
+point is a GF(2)-linear image of the direction numbers, so a linear scramble
+commutes with generation, and a nested digit permutation is defined on the
+digits however they were produced.
+
+**Acceptance ratio.** Phoenix documents a default of 0.1 and describes lowering
+it as broadening the proposal. nlmixr2's `iaccept` defaults to **0.4**, which is
+NONMEM's `IACCEPT` convention, and it is the *target* the two-sided `gammaRule`
+adapts toward rather than a threshold. The two numbers are not on the same
+scale and should not be transferred between programs.
+
+**SIR samples.** Phoenix documents a default of 10 per subject; nlmixr2 uses
+`max(25, isample/10)`. Ours is a floor-plus-fraction because the resampled set
+also has to remain usable for the Pareto k-hat diagnostic, which a set of 10
+does not.
+
+**Mixture proposals.** Phoenix names "Mixture-2" and "Mixture-3" without saying
+what the components are. nlmixr2 implements a *defensive scale mixture* about
+the shared MAP mode. That choice is not arbitrary: sharing the mode is what
+keeps the mixture's peak density closed-form, and therefore keeps the
+peak-normalised kernel exactly 1 at the mode -- the property `qCenter`, `xi` and
+both `gamma` controllers depend on. A mixture with per-component *locations*
+would break all four at once.
+
+## Why the defaults are what they are {#defaults}
+
+Every capability added for these methods ships **off** by default, and the fits
+you would have got before they existed are unchanged. The one exception,
+`combSens`, is argued [above](#combsens-and-auto). That was the starting policy,
+and the measurements below are why it is also the finishing one. The harness is
+`design/qrpem/qrpem-options-bench.R`: four fixtures (1, 3 and 8 ETAs plus a
+general-`ll()` model), 8 seeds at `isample = 300`, scored against an
+`isample = 8000` reference.
+
+The single most useful thing in that table is not any individual number, it is
+which fixture is which. **Three of the four never fail**: no subject exceeds
+Pareto k-hat 0.7 under any setting, because `auto`'s `df` ladder and
+`gammaRule = "target"` already keep them healthy. Only the 8-ETA warfarin PK/PD
+fit has a sampler that actually struggles (2.1 subjects over 0.7 under the
+default). So a proposal whose selling point is bounded weights has nothing to do
+on three quarters of the table -- and where it does have something to do, it
+shows up.
+
+| 8 ETAs, vs the default | theta RMSE | `Omega` RMSE | max k-hat | subjects k>0.7 |
+|---|---|---|---|---|
+| default (`normal`, no `qr`) | 0.0146 | 0.0194 | +0.97 | 2.12 |
+| `proposal = "laplace"` | **0.0116** | 0.0143 | +1.07 | 2.75 |
+| `qr = TRUE` | 0.0149 | **0.0125** | +1.07 | 2.75 |
+| `qrScramble = "owen"` | 0.0179 | 0.0139 | +1.13 | 2.25 |
+| `mapIter = 3` | 0.0205 | 0.0200 | **+0.88** | **0.25** |
+| `nBurn = 5`, frozen `Omega` | **0.1490** | 0.0246 | +1.30 | 3.12 |
+
+Option by option:
+
+* **`proposal = "auto"`** resolves to exactly the normal/t behaviour `df`
+  already selected. `"laplace"` earns its place exactly where the argument for
+  it says it should: on the one fixture whose sampler fails it gives the best
+  theta RMSE of every setting measured, 20% better than the default, with the
+  best effective sample size -- while on the three healthy fixtures it merely
+  costs accuracy. It is not the default because most models are the healthy
+  case; reach for it when `impPsisK` shows a tail the `df` ladder is not
+  fixing. One caveat stated plainly: it improved *accuracy* at 8 ETAs without
+  improving k-hat itself, so treat the bounded-weight guarantee as theory this
+  fixture does not confirm.
+* **`qrScramble = "none"`.** This is the one where the theory and the
+  measurement part company, and the measurement wins. The expectation was that
+  a scramble should beat the Cranley-Patterson shift by more as the eta
+  dimension grows. It does not: the advantage is real but flat (1.79x on a
+  smooth test integrand at one dimension, 1.53x at twelve), and it lands on the
+  **E-step integral**, not the estimates -- single-iteration IS `-2LL` RMSE
+  0.056 under `"owen"` against 0.080 unscrambled. At 8 ETAs, the dimension it
+  was supposed to win, it is the *worst* setting on theta RMSE. So it stays off,
+  and its documented use is a more accurate `impObj` for model comparison, not
+  better fits.
+* **`nBurn = 0`, `burnFreezeOmega = FALSE`.** This is the one to be careful
+  with. On the easy fixtures it is a mild loss; at 8 ETAs it is a **ten times
+  worse** theta RMSE (0.149 against 0.0146), with the tail degraded too.
+  Holding `Omega` while the thetas move is coherent to want, but on a
+  high-dimensional model the thetas travel a long way from an `Omega` that is
+  not allowed to follow, and the fit does not recover inside the remaining
+  iterations.
+* **`mapIter = 1`** is the previous behaviour and the one that never runs a
+  stale proposal. But the 8-ETA row is worth knowing: `mapIter = 3` cut the
+  failing-subject count from 2.1 to 0.25, by a wide margin the healthiest
+  sampler on that fixture, at a cost in theta RMSE. Re-optimising the mode every
+  iteration is not automatically the safer choice at high eta dimension.
+* **`iaccept = 0.4`, `sirSample = max(25, isample/10)`** follow NONMEM and the
+  k-hat diagnostic respectively rather than Phoenix's documented 0.1 and 10, for
+  the reasons given above.
+
+The general rule this family follows, stated once: **weights with infinite
+variance are a correctness problem whose error is unbounded, while extra
+Monte-Carlo noise is bounded and measurable.** Where a default has been moved --
+`auto`, `gammaRule = "target"`, `combSens` -- it was moved on that reasoning
+plus a measured table. Here the table came back saying every new option is a
+targeted instrument rather than a better default, which is a result, not an
+absence of one.
+
 # References
 
 * Bauer RJ. *NONMEM 7 Technical Guide*, section "Evaluating the Expectation
@@ -1450,6 +1673,15 @@ upgrading rather than trusting an old reading for such a model.
   diagnostic used by `fit$env$impPsisK`.
 * Leary R, Dunlavey M. *QRPEM -- A Quasi-Random Parametric EM Method.* PAGE 2012;
   and Certara Phoenix NLME documentation.
+* Certara. *Advanced Options for QRPEM only*, RsNLME User Guide (NLME Model
+  Executor) -- the published option list [Appendix C](#phoenix) is held against.
+  <https://onlinehelp.certara.com/rsnlme/2.0/RsNLME_User_Guide/NLMEModelExecutor/Advanced_Options_for_QRPEM_only.htm>
+* Owen AB. *Randomly permuted (t,m,s)-nets and (t,s)-sequences.* Monte Carlo and
+  Quasi-Monte Carlo Methods in Scientific Computing, 1995; and Burley B.
+  *Practical Hash-based Owen Scrambling.* Journal of Computer Graphics
+  Techniques, 2020 -- the construction behind `qrScramble = "owen"`.
+* Matousek J. *On the L2-discrepancy for anchored boxes.* Journal of Complexity,
+  1998 -- linear matrix scrambling, `qrScramble = "lms"`.
 * Kuhn E, Lavielle M. *Maximum likelihood estimation in nonlinear mixed effects
   models.* Computational Statistics & Data Analysis, 2005 (SAEM).
 * Wang Y. *Derivation of various NONMEM estimation methods.* J. Pharmacokinet.
