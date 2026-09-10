@@ -266,6 +266,154 @@ costs, which is what lets the method reject a spurious effect instead of
 force-fitting it -- and what makes hockey's second coefficient a real hurdle
 rather than a free upgrade.
 
+## When covariates are colinear, or parameters are correlated
+
+Covariate selection gets harder in two situations that are the norm rather than
+the exception in pharmacometrics: **candidate covariates that are correlated
+with one another** (weight, lean body mass, BSA and BMI all measure much the
+same thing), and **individual parameters that are correlated with one another**
+(clearance and volume routinely are). Both push the method toward selecting a
+covariate that is not the one actually driving the parameter.
+
+It is worth being precise about why, because the obvious explanation is the
+wrong one.
+
+### It is not a search failure
+
+The natural guess is that the search never looked at the other covariate. It
+did. The exact branch-and-bound enumerates every feasible subset, and the
+`L0Learn` path re-scores its proposals and then runs an add / drop / swap local
+search to convergence. Swapping weight for lean body mass is a move both engines
+already consider and score.
+
+The difficulty is the **criterion**, not the search. The selection regresses the
+encoder's latent posterior means on the candidate columns, so
+
+- the sample size is the number of **subjects**, not observations -- often a few
+  dozen; and
+- the response is an **estimate that moves**, refreshed by the encoder at every
+  training iteration.
+
+When two columns correlate at 0.98, the difference in fit between them is
+smaller than the iteration-to-iteration movement of the thing being fitted. The
+exact minimizer of a noisy criterion is still near-arbitrary, and it changes its
+mind from one iteration to the next. Optimizing harder cannot fix that.
+
+### Colinearity clusters
+
+Covariates that are near-interchangeable are grouped into a **colinearity
+cluster** when their absolute correlation reaches `covSelectColinearCut`
+(default `0.9`). Clustering happens at the level of the *covariate*, not the
+search column, so the alternate **shapes** of one covariate are never clustered
+with each other -- those are competing parameterizations of a single covariate
+and are already arbitrated by the rule that at most one shape may enter a
+parameter.
+
+`vaeCovariates()` shows the clusters straight from the data, with no fit:
+
+```{r}
+vaeCovariates(neonatal)[, c("covariate", "group", "block", "cluster")]
+```
+
+On this data every candidate ends up in its own cluster -- the strongest
+cross-covariate correlation among the neonatal covariates is about `0.2`, so
+nothing is close to interchangeable and none of the machinery below engages. A
+`cluster` column that merges two `group`s is the signal that it will.
+
+A cluster is a **label, never a constraint**. It does not stop two correlated
+covariates from both being selected, and it does not change the objective. It
+only tells the two mechanisms below which covariates are substitutes for one
+another.
+
+### Stability: not changing your mind without a reason
+
+Within a cluster, the covariate selected on the previous iteration is not
+displaced by a mate unless that mate beats it by `covSelectHysteresis` (default
+`0.25`), measured in units of the `log(N)` selection penalty. A challenger that
+wins by less than a quarter of one covariate's BIC cost has not really won, and
+the incumbent stays.
+
+The tolerance is in penalty units rather than as a percentage of the objective
+on purpose: the objective grows with the number of subjects while the decision
+scale does not, so a percentage would quietly mean something different in every
+study.
+
+The effect is that a run settles on an answer instead of alternating between two
+equally good ones -- which also makes the reported result reproducible.
+
+### Saying so when the choice was close
+
+Stability is not the same as being right. When the data genuinely cannot
+distinguish two covariates, what you want is to be **told**, not to be handed one
+of them with no indication that the other was equally good.
+
+Cluster mates that scored within `covSelectAltTol` (default `0.10` penalty
+units) of the selected covariate are recorded on the fit:
+
+```{r, eval=FALSE}
+fit$vae$colinear$alternates
+#>    param covariate alternate  delta
+#> 1 eta.cl  WT_power LBM_power  0.031
+```
+
+and a one-line note appears in `$runInfo`. Read that table as: *this analysis
+selected weight, but lean body mass fit essentially as well, and the data does
+not support preferring one over the other.* That is a statement worth having
+before a covariate goes into a final model.
+
+Nothing is reported when nothing is close, so the table staying empty is
+informative too.
+
+### Correlated parameters: is the covariate even on the right one?
+
+The second problem is different in kind. Each individual parameter runs its own
+covariate search, and the coupling between parameters is held fixed while each
+one searches. So no individual search can see that a covariate assigned to
+clearance would be better explained on volume, when the two are correlated --
+that comparison is invisible from inside either search.
+
+When the model declares correlated random effects, a further pass makes exactly
+that comparison: for each group of correlated parameters it tests moving a
+selected covariate to another parameter in the group, adding it there, or
+dropping it, and scores the whole group jointly rather than one parameter at a
+time. Parameters are grouped when their correlation reaches
+`covSelectPhiJoin` (default `0.9`) and leave the group only below
+`covSelectPhiLeave` (default `0.8`), so a correlation hovering near the
+threshold does not shuffle the grouping every iteration.
+
+This pass runs **only when the model declares the correlation**, for a reason
+worth stating plainly: with a diagonal `omega` the selection objective separates
+into one independent problem per parameter, and each of those is already solved
+exactly. There is provably nothing a cross-parameter move could improve. So on a
+diagonal model the pass is skipped and `$runInfo` says so -- if your parameters
+really are correlated, declaring it is what lets the method use the fact:
+
+```{r, eval=FALSE}
+# the refinement has something to work with here
+ini({
+  eta.cl + eta.v ~ c(0.09,
+                     0.07, 0.09)
+})
+```
+
+### Turning it off
+
+```{r, eval=FALSE}
+vaeControl(covSelectColinear = FALSE)
+```
+
+restores the previous behavior exactly. This is the only supported way to do so
+-- setting the individual thresholds to extreme values is close but not
+identical.
+
+### What it does not do
+
+This machinery makes a near-arbitrary choice **stable and visible**. It does not
+make it **correct**. If two covariates are interchangeable in your data, no
+selection method can tell you which is mechanistically real; that is a question
+for the science and, if it matters, for a study designed to separate them. What
+the fit can now tell you is that the question exists.
+
 ## Changing the settings
 
 ```{r, eval=FALSE}
@@ -280,7 +428,19 @@ vaeControl(
   catCutoff = 0.05,           # min subject share for a level (and a hockey side)
 
   covSelectMethod = "auto",   # "bnb" (exact), "l0learn", or "auto"
-  covSelectMaxExact = 17L     # search size, in bits, at which "auto" switches
+  covSelectMaxExact = 17L,    # search size, in bits, at which "auto" switches
+
+  covSelectColinear = TRUE,   # the whole colinearity-aware path; FALSE is the
+                              # only supported way back to the old behavior
+  covSelectColinearCut = 0.9, # |cor| at which two covariates cluster
+  covSelectHysteresis = 0.25, # margin, in log(N) penalty units, to displace
+                              # the previous iteration's pick within a cluster
+  covSelectAltTol = 0.1,      # window, same units, for reporting near-ties
+
+  covSelectPhiCor = "suffStat",  # what parameter correlation is measured on
+  covSelectPhiJoin = 0.9,        # |cor| at which two parameters group
+  covSelectPhiLeave = 0.8,       # ... and below which one leaves again
+  covSelectPhiMaxDim = 4L        # largest group the refinement will attempt
 )
 ```
 
