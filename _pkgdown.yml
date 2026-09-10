@@ -67,6 +67,8 @@ navbar:
         - text: "--------------------------"
         - text: "Estimation: conditional/quadrature ladder (fo...agq)"
           href: articles/linearized-quadrature-ladder.html
+        - text: "Priors in FOCEi: general, nwpri and tnpri"
+          href: articles/priors-focei.html
         - text: "Estimation: SAEM"
           href: articles/saem.html
         - text: "Estimation: NLM-family optimizers (population-only)"

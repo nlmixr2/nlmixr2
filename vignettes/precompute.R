@@ -36,7 +36,9 @@ vignettes <- c(
   "nimo.Rmd",
   "articles/imp-impmap-qrpem.Rmd",
   "articles/phase-residual-error.Rmd",
+  "articles/priors-focei.Rmd",
   "articles/vaeNeonatal.Rmd",
+  "articles/variational-inference.Rmd",
   "wbc.Rmd",
   "xgxr-nlmixr-ggpmx.Rmd"
 )
