@@ -566,9 +566,9 @@ supplies the M-step's Newton step directly -- one ODE solve per sample instead
 of two. It defaulted to opt-in for one release while folding more sensitivity
 states into one coupled ODE system was still a live concern for a model with a
 non-mu **structural** theta; that concern turned out to be a genuine, unrelated
-bug rather than a property of `combSens` itself (see [Appendix
-B](#combsens-and-auto)), and with the bug fixed `combSens = TRUE`/`FALSE`
-agree, so it is now the default.
+bug rather than a property of `combSens` itself (see [Does `combSens` change
+any of this?](#combsens-and-auto)), and with the bug fixed
+`combSens = TRUE`/`FALSE` agree, so it is now the default.
 
 ## Proposal family: `proposal` {#proposalfamily}
 
@@ -1587,8 +1587,9 @@ would break all four at once.
 
 ## Why the defaults are what they are {#defaults}
 
-Every capability in the table above ships **off** by default, and the fits you
-would have got before they existed are unchanged. That was the starting policy,
+Every capability added for these methods ships **off** by default, and the fits
+you would have got before they existed are unchanged. The one exception,
+`combSens`, is argued [above](#combsens-and-auto). That was the starting policy,
 and the measurements below are why it is also the finishing one. The harness is
 `design/qrpem/qrpem-options-bench.R`: four fixtures (1, 3 and 8 ETAs plus a
 general-`ll()` model), 8 seeds at `isample = 300`, scored against an
