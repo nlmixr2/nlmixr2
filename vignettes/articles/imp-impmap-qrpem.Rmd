@@ -535,7 +535,7 @@ Choose `"floor"` when you want the proposal left at its efficient starting value
 -- the tightest objective on a model whose `impPsisK` values are already
 comfortably below 0.7, where there is no tail to buy coverage for.
 
-## Sampling scheme (what `qrpem` turns on)
+## Sampling scheme (what `qrpem` turns on) {#sampling-scheme-what-qrpem-turns-on}
 
 **`qr`** (default `FALSE`; `TRUE` under `qrpemControl()`) switches the draws to a
 Sobol quasi-random point set. **`qrShift`** (default `TRUE`) applies a random
@@ -553,6 +553,22 @@ subject (default `max(25, isample/10)`) instead of all `isample` weighted ones.
 This cuts the most expensive part of the M-step by roughly a factor of ten at
 essentially no cost in accuracy, because the resampled set already carries the
 weight information.
+
+**`combSens`** (default `TRUE`) is a different M-step acceleration, and the
+two are complementary rather than alternatives. Without it (`combSens =
+FALSE`), a non-mu (structural or residual-error) theta's
+`d(f)/d(theta)`/`d(V)/d(theta)` sensitivities are read from a second,
+dedicated model that re-solves every importance sample the E-step's own
+inner-model solve had already produced value and eta-sensitivities for.
+`combSens = TRUE` instead carries those theta columns on the inner model
+itself, so with `sir = FALSE` (the default) the E-step's own per-sample solve
+supplies the M-step's Newton step directly -- one ODE solve per sample instead
+of two. It defaulted to opt-in for one release while folding more sensitivity
+states into one coupled ODE system was still a live concern for a model with a
+non-mu **structural** theta; that concern turned out to be a genuine, unrelated
+bug rather than a property of `combSens` itself (see [Appendix
+B](#combsens-and-auto)), and with the bug fixed `combSens = TRUE`/`FALSE`
+agree, so it is now the default.
 
 ## Proposal family: `proposal` {#proposalfamily}
 
@@ -1437,6 +1453,77 @@ for (df in c(0, 30, 20, 12, 8)) {
               mean(vapply(rs, function(z) z$nAbove, 1))))
 }
 ```
+
+## Does `combSens` change any of this? {#combsens-and-auto}
+
+`combSens` (see [Sampling scheme](#sampling-scheme-what-qrpem-turns-on)) changes
+only how the M-step's non-mu theta-sensitivity gradient is computed -- it never
+touches the E-step's importance weights, which is what `auto`'s `df`/k-hat
+tuning steers on. So in principle it should not interact with any number in
+this appendix at all. That is worth checking rather than assuming, though,
+because folding the theta-sensitivity states into the SAME coupled ODE system
+as the eta sensitivities restructures the compiled inner model, which *can*
+move floating-point results by a small amount when a non-mu theta is
+**structural** (enters an ODE state directly) rather than purely residual-error
+-- nlmixr2est's own `impmapControl(combSens=)` documentation records this
+(confirmed on a one-ETA fixture where `tka`/`tv` are non-mu structural thetas,
+not the fixtures used here).
+
+Every fixture the `df`/`auto` sweep above ran on -- theophylline (1 and 3 ETA),
+the sparse fixture, and the Poisson fixture -- has **at most one** non-mu theta,
+and it is always the residual-error `add.sd` (Poisson has none at all). A
+sigma-only non-mu theta needs no ODE sensitivity state: its sensitivity is
+purely algebraic, so there is nothing for `combSens` to fold into the shared
+ODE system. Re-running the `mTheo3` and sparse-fixture grids with
+`combSens = TRUE` confirms it directly rather than by inference -- every
+point checked (2-3 seeds each; every seed matched to the same precision, so one
+representative row is shown per configuration):
+
+| fixture | `df` | `auto` | `objf` (`combSens=FALSE`) | `objf` (`combSens=TRUE`) | difference |
+|---|---|---|---|---|---|
+| theophylline, 3 ETA | 0 | `FALSE` | 116.83403482 | 116.83403482 | 0 |
+| theophylline, 3 ETA | 30 | `FALSE` | 116.83811796 | 116.83811796 | 0 |
+| theophylline, 3 ETA | 0 | `TRUE` | 116.84654942 | 116.84654942 | 0 |
+| theophylline, 3 ETA | 30 | `TRUE` | 116.83675595 | 116.83675595 | 0 |
+| sparse, `autoDfPatience = 0` | -- | `TRUE` | 25.71803423 | 25.71803423 | 0 |
+| sparse, `autoDfPatience = 2` (default) | -- | `TRUE` | 25.81800226 | 25.81800226 | 0 |
+
+Max k-hat matched to the same four decimals on every row too (not shown), and
+`odeSwapInfo_()$impThetaSensHarvestN` confirmed the harvested M-step path was
+actually engaging under `combSens = TRUE` throughout -- this is a checked
+equivalence, not a case where the new path silently declined to run.
+
+**Verdict: the golden ratios stand.** `df = 30/20/12/8`, the k-hat breakpoints,
+`autoDfPatience = 2`, `gammaRule = "target"`, and every other number in this
+appendix were tuned on, and remain exactly reproduced by, models `combSens`
+cannot perturb. Nothing here needed re-tuning, and none of `auto`'s defaults
+changed.
+
+**Update: the structural-theta discrepancy was a real bug, now fixed, not a
+`combSens` floating-point artifact.** Chasing the caveat above (a one-ETA
+theophylline fixture with `tka`/`tv` as non-mu structural thetas) down to its
+source found that `impmap`'s inner Hessian -- which builds the importance
+proposal -- was reading a **stale cached Jacobian** from `linCmtB()` on that
+fixture, regardless of `combSens`. Several compiled models share one solve
+pool (nlmixr2est's `odeSwap`), and `linCmtB()`'s Jacobian cache is gated by a
+process-global (`rx->ndiff`) that the pool's per-individual solve entry point
+never restored for the peer actually being solved -- so a solve could read a
+Jacobian shaped for a *different* peer's structural-parameter set. The
+resulting proposal was artificially wide, which **masked** a real heavy tail
+as healthy (Pareto k-hat about -1.5) rather than actually being healthy
+(k-hat about 2.9 once the correct Jacobian is used). This is now fixed
+(nlmixr2est's per-individual solve entry point restores each peer's own
+`ndiff` before every solve), verified to make `combSens = TRUE`/`FALSE` agree
+on that fixture too, and is why `combSens` now defaults to `TRUE`: it exists
+for models with a non-mu structural theta, and the fix makes it correct
+there.
+
+One consequence worth flagging for anyone who has treated a one-ETA,
+low-tail-failure fixture as a "does AUTO cost anything when nothing needs
+fixing" reference (as this article's own package tests once did): if the
+model has a non-mu **structural** theta, a "healthy" k-hat measured before
+this fix may not have been healthy at all. Re-measure `impPsisK` after
+upgrading rather than trusting an old reading for such a model.
 
 # Appendix C: nlmixr2 vs Phoenix QRPEM, option by option {#phoenix}
 
