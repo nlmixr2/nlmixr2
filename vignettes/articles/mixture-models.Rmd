@@ -11,9 +11,21 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
+  message = FALSE,
+  warning = FALSE,
   fig.width = 7,
   fig.height = 4
 )
+library(nlmixr2)
+library(nlmixr2save)
+## Every fit below is REAL and its output is whatever the current nlmixr2
+## produced -- nothing in this article is transcribed by hand.  The `:=`
+## operator (nlmixr2save) runs each fit once and caches it under the prefix
+## below, so the site rebuilds without refitting.  This article lives in
+## vignettes/articles/, so the shared cache one directory up is "../cache".
+options(nlmixr2save.dir = "../cache",
+        nlmixr2save.prefix = "mixture-",
+        nlmixr2save.check = FALSE)
 ```
 
 ## Overview
@@ -38,22 +50,51 @@ block. The following estimation methods all support mixture models:
 | `laplace` | Laplace approximation |
 | `agq`     | Adaptive Gaussian Quadrature |
 | `saem`    | Stochastic Approximation Expectation-Maximization |
+| `imp`     | Importance sampling (Monte-Carlo EM) |
+| `impmap`  | Importance sampling around the MAP estimate |
+| `qrpem`   | Quasi-random parametric EM |
+| `npag`    | Nonparametric adaptive grid |
+| `npb`     | Nonparametric Bayesian (Dirichlet-process) |
+
+Two methods **reject** a `mix()` model up front rather than fitting something
+misleading: `emvi` and `fbvi` (mean-field variational inference on the
+theta-sensitivity model, which has no mixture structure) stop with
+`cannot have a mixture model (ie 'mix()') for the estimation routine`.
+`vae` does not currently fit a mixture model either.
 
 The gradient-based methods (`focei`, `foce`, `fo`, `foi`, `laplace`, `agq`) all
 use the same *hard-assignment* strategy described below and reliably separate
-mixture components with high precision. SAEM supports mixtures through a
-different *soft-assignment* (probabilistic) scheme, described in its own
-section, [Mixture Models with SAEM](#mixture-models-with-saem); it is stabilized
-against a mixing-probability collapse failure mode by default, but with default
-settings may separate components less precisely than the gradient-based
-methods on small or weakly-separated datasets. **`focei` is recommended when
+mixture components with high precision. SAEM's mixture machinery is a
+*soft-assignment* (EM responsibility) scheme, described in its own section,
+[Mixture Models with SAEM](#mixture-models-with-saem) — though its default,
+`mixProbMethod = "regress"`, hard-classifies each subject once and skips the
+per-iteration responsibility step, which is what makes the default immune to
+the mixing-probability collapse that scheme is otherwise prone to. Even so, on
+small or weakly-separated datasets it may separate components less precisely
+than the gradient-based methods. **`focei` is recommended when
 precise per-subject classification matters; SAEM is a usable alternative that
-may need tuning (see its section) to match it.**
+may need tuning (see its section) to match it.** The EM/sampling and
+nonparametric families are covered in
+[Other estimation families](#other-estimation-families).
 
-> **rxode2 requirement.** Nested transformations inside `mix()` — for example
+> **rxode2 requirements.** Nested transformations inside `mix()` — for example
 > `mix(expit(tcl1 + eta.cl, 0.1, 200), p1, ...)` — require **rxode2 >= 5.1.3**.
 > Earlier versions translate only the top-level `mix()` arguments and will
 > silently mis-handle the inner `expit()`/`logit()`/`exp()` calls.
+>
+> Reading `mixest`/`mixnum` back out of the *fitted table* (see
+> [Reading the component off the fit table](#reading-the-component-off-the-fit-table))
+> additionally requires an rxode2 carrying the fix in
+> [nlmixr2/rxode2#1358](https://github.com/nlmixr2/rxode2/pull/1358), which is
+> newer than 5.1.7. This was a bug, not a design limit: up to that version the
+> prediction model lost its `mix()` call to symengine and rxode2 no longer read
+> it as a mixture, so those columns — and every model variable computed from
+> `mix()` — came back as `0` for every row, with `PRED`/`IPRED` computed from
+> those zeros. You do not have to check the version: a fit on an affected
+> rxode2 now says so in `$runInfo`
+> (`"mixture not passed to table; mixest/mixnum read 0"`). The **parameter
+> estimates, `$mixNum` and `$mixList` were never affected** — the bug was
+> confined to the table.
 
 ## Motivating Example: Bimodal Clearance
 
@@ -183,37 +224,30 @@ twoPop <- function() {
 
 ## Fitting
 
-```{r fit, eval=FALSE}
-fit <- nlmixr2(twoPop, simData, "focei",
-               control = foceiControl(print = 5))
+```{r fit}
+fit := nlmixr2(twoPop, simData, "focei",
+               control = foceiControl(print = 0))
 print(fit)
 ```
 
-```{r fit-show, echo=FALSE}
-cat("
-── nlmixr² FOCEi (outer: bobyqa) ──
 
-           OBJF      AIC      BIC Log-likelihood Condition#(Cov)
-FOCEi -262.2443 360.2551 390.6479      -172.1276        14.14459
-      Condition#(Cor)
-FOCEi        2.891855
-
-── Population Parameters (fit$parFixed or fit$parFixedDf): ──
-
-         Est.      SE  %RSE Back-transformed(95%CI) BSV(CV% or SD) Shrink(SD)%
-tka    0.1712 0.07434 43.42    1.187 (1.026, 1.373)
-tcl1   -3.323  0.1272 3.827    7.057 (5.564, 8.939)
-tcl2   -5.693  0.1783 3.133  0.7715 (0.5739, 1.051)
-tv       3.38 0.06005 1.776    29.38 (26.11, 33.05)          18.00     11.97%
-p1     0.6666                                0.6666
-add.sd 0.3279                                0.3279
-eta.cl                                                        0.36      8.322%
-")
+```{r fit-numbers, echo=FALSE}
+.bt <- function(f, n) signif(f$parFixedDf[n, "Back-transformed"], 3)
 ```
 
-The back-transformed `p1` of **0.667** closely matches the true EM prevalence
-(0.67). The EM clearance (`tcl1` → 7.06 L/hr) and PM clearance (`tcl2` → 0.772
-L/hr) both recover the true values within a few percent.
+The back-transformed `p1` of **`r .bt(fit, "p1")`** is close to the true EM
+prevalence (0.67). The two component clearances (`tcl1` →
+`r .bt(fit, "tcl1")` L/hr, `tcl2` → `r .bt(fit, "tcl2")` L/hr) recover the
+simulated 8 and 0.8 L/hr. `p1` now also carries a standard error and a
+confidence interval — see
+[Standard errors for the mixture proportions](#standard-errors-for-the-mixture-proportions)
+for what they mean and how they are computed.
+
+> The simulation above multiplies by `exp(rnorm(...))`, i.e. a proportional
+> (log-normal) residual error, while the model fits an additive one
+> (`add(add.sd)`) to keep the example short. The structural parameters and the
+> mixture are recovered regardless, but do not read the estimated `add.sd`
+> against the simulated `sigma` — they are not the same quantity.
 
 ### Why the estimates are good
 
@@ -224,50 +258,35 @@ exposure distribution through random effects alone.
 
 ## Accessing Mixture Results
 
-After fitting, two accessors are available on the fit object:
+After fitting, the subpopulation each subject was assigned to is available in
+three places: two accessors on the fit object, and — for a model that asks for
+it — as columns of the fitted table itself.
 
 ### `$mixNum` — best-fit subpopulation per subject
 
-```{r mixnum, eval=FALSE}
+```{r mixnum}
 head(fit$mixNum, 8)
 ```
 
-```{r mixnum-show, echo=FALSE}
-cat("
-  ID mixnum
-1  1      1
-2  2      1
-3  3      1
-4  4      1
-5  5      1
-6  6      1
-7  7      1
-8  8      1
-")
-```
 
 `mixnum = 1` → EM (fast), `mixnum = 2` → PM (slow). In a real analysis you
 would merge this back into the data frame and verify concordance with any
 available genotype or phenotype data.
 
+> **Two different things are called `mixnum`.** The `mixnum` *column of
+> `$mixNum`*, above, is the component each subject was assigned to. The
+> `mixnum` *reserved model variable* is the number of components in the model —
+> a constant. The per-subject component in a model is `mixest`. This article
+> names its output variables `component` and `nComponents` to keep the two
+> apart.
+
 ### `$mixList` — per-component ETAs and posterior probabilities
 
-```{r mixlist, eval=FALSE}
+```{r mixlist}
 # ETAs and posterior probability of belonging to EM component
 head(fit$mixList$mix1)
 ```
 
-```{r mixlist-show, echo=FALSE}
-cat("
-  ID      eta.cl       eta.v      prob
-1  1  0.39326459  0.08586619 1.0000000
-2  2  0.17811121 -0.03913940 1.0000000
-3  3  0.01023984 -0.09369114 1.0000000
-4  4 -0.05653866  0.33189804 0.9999999
-5  5  0.38879404 -0.07281481 1.0000000
-6  6  0.47960137  0.01132721 1.0000000
-")
-```
 
 `prob` is the Bayesian posterior probability that subject $i$ belongs to
 component $k$:
@@ -284,11 +303,68 @@ probability.
 Subjects with `prob ≈ 1` are unambiguously assigned; subjects with intermediate
 `prob` values (e.g. 0.3–0.7) are phenotypically ambiguous.
 
+### Reading the component off the fit table
+
+A model may also assign the reserved variables `mixest` (the component this
+subject was fit under) and `mixnum` (how many components the model has) to
+output variables, and they then appear as columns of the fitted table alongside
+everything else the model computes:
+
+```{r mixest-model}
+twoPopComp <- function() {
+  ini({
+    tka   <- log(1.2)
+    tcl1  <- logit(0.8, 0.1, 200)
+    tcl2  <- logit(0.8, 0.1, 200)
+    tv    <- log(30)
+    p1    <- 0.67
+    eta.cl ~ 0.09
+    eta.v  ~ 0.04
+    add.sd <- 0.2
+  })
+  model({
+    ka <- exp(tka)
+    cl <- mix(expit(tcl1 + eta.cl, 0.1, 200), p1, expit(tcl2 + eta.cl, 0.1, 200))
+    v  <- exp(tv + eta.v)
+    component   <- mixest   # which subpopulation this subject is in
+    nComponents <- mixnum   # how many there are (a constant)
+    linCmt() ~ add(add.sd)
+  })
+}
+
+fitComp := nlmixr2(twoPopComp, simData, "focei",
+                   control = foceiControl(print = 0))
+```
+
+```{r mixest-table}
+head(as.data.frame(fitComp)[, c("ID", "TIME", "component", "nComponents",
+                                "cl", "v")])
+```
+
+
+`component` is per subject and agrees with `$mixNum`; `nComponents` is the same
+constant on every row. `IPRED` is the prediction under that subject's own
+component. `PRED`, being the *population* prediction, takes one value per
+component per time point, so a PRED-versus-time plot of a two-component mixture
+shows two curves rather than one — that is expected, not a fitting problem. This is the most convenient route when you want the
+component next to the individual parameters and predictions rather than in a
+separate data frame — note that `cl` above is the clearance of the component the
+subject was actually assigned to, not an average over components.
+
+The name you assign to is yours; `mixest`/`mixnum` are the reserved variables on
+the right-hand side. `mixunif`, the third reserved variable, is only meaningful
+for *simulation* from a `mix()` model — in a fitted table it reports the
+component that was supplied rather than a uniform draw, so use `mixest` there.
+
+> These columns require an rxode2 carrying the fix described in the
+> requirements note in the [Overview](#overview). On an older one they read `0`
+> and the fit says so in `$runInfo`.
+
 ### Checking classification accuracy (when true labels are known)
 
 In a simulation study the true labels can be compared directly:
 
-```{r classification, eval=FALSE}
+```{r classification}
 # Merge predicted mixture assignment with true labels
 truth <- data.frame(ID = seq_len(n), trueGroup = group)
 comp  <- merge(fit$mixNum, truth, by = "ID")
@@ -296,17 +372,18 @@ comp$predicted <- ifelse(comp$mixnum == 1, "EM (fast)", "PM (slow)")
 table(Predicted = comp$predicted, True = comp$trueGroup)
 ```
 
-```{r classification-show, echo=FALSE}
-cat("
-              True
-Predicted      EM (fast)  PM (slow)
-  EM (fast)       20          0
-  PM (slow)        0         10
-")
-```
 
 Perfect classification in this example — the 10× clearance difference makes the
 two populations easy to separate.
+
+> **Check the label order before reading that table.** The `ifelse()` above
+> hard-codes "component 1 is EM", which is only true because *this* fit happened
+> to land that way. Nothing constrains which component gets which index, and a
+> different seed, dataset or method can swap them. A swapped run makes the
+> identical code report *zero*
+> agreement, which looks like a failed fit and is not one. Confirm the order from
+> the estimates — compare the back-transformed `tcl1`/`tcl2` against what you
+> expect each subpopulation's clearance to be — before labelling the components.
 
 ## Interpreting the `$parFixed` Table
 
@@ -316,14 +393,71 @@ scale in the `Back-transformed` column. The back-transformation is applied
 *jointly* across all mixture probability parameters via `rxode2::mexpit()`,
 preserving the constraint that probabilities sum to 1 across components.
 
-Standard errors and confidence intervals are intentionally omitted for mixture
-probability parameters because the sum-to-1 constraint makes their covariance
-ill-defined on the mlogit scale. Use `$mixList` `prob` columns for
-individual-level uncertainty.
+### Standard errors for the mixture proportions
+
+`p1` gets a standard error, a %RSE and a confidence interval like any other
+parameter. (Older versions of nlmixr2est reported `NA` here.) The quantity
+behind them is the NONMEM 7 Technical Guide's own
+construction, eq. (7.51)-(7.54): the mixture parameters' information matrix is
+the outer product of the per-subject scores
+
+$$
+I_{a} \;=\; \sum_i g_{ia}\, g_{ia}^{\prime},
+\qquad
+g_{ia,\ell} \;=\; -2\,(r_{i\ell} - \pi_\ell)
+$$
+
+where $r_{i\ell}$ is subject $i$'s posterior responsibility for component
+$\ell$ (the `prob` column of `$mixList`) and $\pi_\ell$ the estimated
+proportion. That is the same score the estimation itself uses, so the SE costs
+no extra model solves.
+
+Three things are worth knowing about how it is reported.
+
+**It is on the probability scale.** The proportions are *estimated* as a
+multinomial logit, but reporting an SE there would put it next to an estimate
+that is a probability. The covariance is therefore rotated with the full
+Jacobian of `mexpit()`, $J = \mathrm{diag}(\pi) - \pi\pi^{\prime}$, so `$cov`,
+the SE, the %RSE and the CI all sit on the same scale as the estimate. Using the
+*full* Jacobian rather than just its diagonal is what carries the proportions'
+correlations — with each other and with the structural thetas — onto that scale.
+
+**The interval is a logit-scale interval.** A symmetric $\hat p \pm 1.96\,SE$
+walks out of $(0,1)$ for a proportion near either end. The reported CI is
+$\mathrm{expit}(\mathrm{logit}(\hat p) \pm z\,SE/(\hat p(1-\hat p)))$, which
+stays inside $(0,1)$ and is asymmetric — which is the honest shape here.
+
+**Near a boundary the SE shrinks toward zero.** The rotation carries a factor of
+$\pi(1-\pi)$, so a proportion sitting at 0 or 1 gets a very small SE. That is
+the correct delta-method answer but it reads as certainty, when really the Wald
+approximation has stopped being informative; the fit says so in `$runInfo` when
+it happens. Treat a near-boundary proportion as "this component may not be
+supported by the data", not as a precise estimate.
+
+Which covariance methods provide it:
+
+| `covMethod` | Mixture proportion SE |
+|---|---|
+| `"r,s"`, `"r"`, `"s"` | yes (the default route for `focei` and its relatives) |
+| `"imp"` | yes |
+| `"analytic"` | declines for a mixture and falls back to the finite-difference sandwich, which does provide it |
+| `linFim` / `fim` / `sa` (`saem`) | only when the fit is at the mixture's score-zero point; see below |
+
+`saem` leaves the proportions out of the parameter vector its kernel converges,
+so the block is appended from the fit's own responsibilities — and only when
+$\pi_\ell = \overline{r}_{\cdot\ell}$ actually holds. An information matrix
+describes the precision of a maximum-likelihood estimate, and away from that
+point it would be a confident-looking number attached to something that is not
+one. When the identity fails, the fit says so in `$runInfo` and reports no SE
+rather than a misleading one.
+
+For individual-level uncertainty — how sure the fit is about *this subject's*
+membership, as opposed to the population proportion — use the `prob` columns of
+`$mixList`.
 
 ## Using `$mixNum` in Downstream Analysis
 
-```{r downstream, eval=FALSE}
+```{r downstream}
 library(dplyr)
 
 fitData <- as.data.frame(fit)
@@ -339,19 +473,10 @@ fitAug |>
   )
 ```
 
-```{r downstream-show, echo=FALSE}
-cat("
-# A tibble: 2 × 4
-  mixnum nSubjects medianCl medianIpred
-   <int>     <int>    <dbl>       <dbl>
-1      1        20     7.43        3.16
-2      2        10     0.86        3.39
-")
-```
 
 ## Visualizing Posterior Probabilities
 
-```{r plot-prob, eval=FALSE}
+```{r plot-prob}
 library(ggplot2)
 library(dplyr)
 
@@ -379,62 +504,38 @@ clear separation of the two populations.
 SAEM accepts the same `mix()` model syntax as the gradient-based methods, so the
 `twoPop` model defined above can be submitted to it directly:
 
-```{r fit-saem, eval=FALSE}
-fitSaem <- nlmixr2(twoPop, simData, "saem",
-                   control = saemControl(nBurn = 200, nEm = 300, print = 50))
+```{r fit-saem}
+fitSaem := nlmixr2(twoPop, simData, "saem",
+                   control = saemControl(nBurn = 200, nEm = 300, print = 0))
 print(fitSaem)
-```
-
-```{r fit-saem-show, echo=FALSE}
-cat("
-── nlmixr² SAEM OBJF by FOCEi approximation ──
-
- Gaussian/Laplacian Likelihoods: AIC() or $objf etc.
- FOCEi CWRES & Likelihoods: addCwres()
-
-── Population Parameters (fitSaem$parFixed or fitSaem$parFixedDf): ──
-
-        Est.     SE  %RSE Back-transformed(95%CI) BSV(CV% or SD) Shrink(SD)%
-tka    0.188 0.0348  18.6       1.21 (1.13, 1.29)
-tcl1   -4.09                                 3.38
-tcl2   -6.35                                 0.45
-tv      3.39 0.0332 0.981       29.6 (27.7, 31.6)          18.01     10.97%
-p1     0.691                                0.691
-add.sd 0.326                                0.326
-eta.cl                                                      1.11     23.20%
-
-  Covariance Type ($covMethod): linFim
-  Information about run found ($runInfo):
-   • error calculating tables, returning without table step
-   • diag(V) had non-positive or NA entries; the non-finite result may be dubious
-")
 ```
 
 `tka` and `tv` get real, finite SEs; `tcl1`/`tcl2` (the mixture-owned fixed
 effects) correctly show no SE rather than either an error or a fabricated
-number — see the covariance callout below. The back-transformed `p1` of
-**0.691** is in the right neighborhood of the true EM prevalence (0.67), and
-`fitSaem$mixNum` shows a real (not collapsed) split:
+number — see the covariance callout below.  `p1` does now carry an SE: the
+proportion is reported at its score-zero point, which is the condition the
+mixture information matrix needs (see
+[Standard errors for the mixture proportions](#standard-errors-for-the-mixture-proportions)).
 
-```{r mixnum-saem-table, echo=FALSE}
-cat("
- 1  2
-26  4
-")
+Compare the back-transformed `p1` above against the true EM prevalence of
+0.67, and check that `fitSaem$mixNum` is a real rather than a collapsed split:
+
+```{r mixnum-saem-table}
+table(fitSaem$mixNum$mixnum)
 ```
 
-Cross-tabulated against the true labels, SAEM gets every true EM subject right
-but only 4 of the 10 true PM subjects — noticeably less precise than FOCEI's
-perfect separation on the same data:
+Cross-tabulated against the true labels.  Which component gets index 1 is not
+fixed, so read the counts rather than the row labels (see the caution above):
 
-```{r classification-saem, echo=FALSE}
-cat("
-           True
-Predicted   EM (fast) PM (slow)
-  EM (fast)        20         6
-  PM (slow)         0         4
-")
+```{r classification-saem}
+compSaem <- merge(fitSaem$mixNum, truth, by = "ID")
+compSaem$predicted <- ifelse(compSaem$mixnum == 1, "component 1", "component 2")
+table(Predicted = compSaem$predicted, True = compSaem$trueGroup)
 ```
+
+SAEM typically separates these two subpopulations less cleanly than FOCEi does
+on the same data; the settings discussed next are what to reach for when it
+does.
 
 > **Two known limitations, both distinct from component separation itself.**
 > First, `tcl1`/`tcl2` (the mixture-owned fixed effects) show no SE. The
@@ -446,8 +547,8 @@ Predicted   EM (fast) PM (slow)
 > split ETAs, see below, does not by itself fix this). Second, separation
 > quality itself is sensitive to `nBurn`/`nEm` and to the
 > `mixProbPriorN`/`mixProbMethod` settings described next — increasing
-> `mixProbPriorN` to 30 and using `nBurn = 400, nEm = 800` recovers a 21/9
-> split (`p1` ≈ 0.675) on this same simulated data, much closer to FOCEI. For
+> `mixProbPriorN` to 30 and using `nBurn = 400, nEm = 800` moves it toward
+> FOCEi's separation on this same simulated data. For
 > a first look at a mixture model, or when precise per-subject classification
 > matters, `focei` remains the more reliable default; SAEM is a usable
 > alternative that may need more iterations and/or a higher `mixProbPriorN`
@@ -473,10 +574,20 @@ prevent that.
 
 ### Stabilizing the mixing-probability estimate: `mixProbMethod`
 
-`saemControl()` exposes two independent ways to stabilize the mixing
-probability against the collapse described above:
+`saemControl()` exposes three ways to stabilize the mixing probability against
+the collapse described above:
 
-* **`mixProbMethod = "regularized"` (default).** Blend `mixProbPriorN`
+* **`mixProbMethod = "regress"` (the default).** Skip the per-iteration soft-EM
+  responsibility step altogether: each subject is hard-classified to a
+  component once, up front, and that membership is held fixed and fed into the
+  solve as a regressor. This avoids the feedback loop by construction and is
+  the lowest-bias option. The cost is variance rather than bias — an early
+  misclassification is never revisited — so prefer `"regularized"` when
+  membership is genuinely uncertain. Because membership is fixed, the `prob`
+  column of `$mixList` is 0/1 under this option rather than a graded posterior;
+  use one of the other two if you want soft weights.
+
+* **`mixProbMethod = "regularized"`.** Blend `mixProbPriorN`
   pseudo-subjects, distributed according to the model's *initial* mixing
   probability (from `ini()`), into the responsibility average used at every
   iteration — equivalent to a Dirichlet-prior/MAP-EM correction on the mixing
@@ -546,20 +657,32 @@ perfectly separated.
 The same accessors are available as for the gradient-based fits, and return
 values without error:
 
-```{r saem-accessors, eval=FALSE}
+```{r saem-accessors}
 fitSaem$mixNum         # most-likely component per subject (1-indexed)
 fitSaem$mixList$mix1   # ID, ETAs, and posterior probability for component 1
 fitSaem$mixProbabilities  # final population mixing probabilities (sum to 1)
 ```
 
-For SAEM, the `prob` column in `$mixList` is the posterior membership weight
-$a_{ik}$ computed by the SAEM engine directly (returned internally as the
-`mixWeights` matrix), and `$mixNum` reports the component with the largest
-weight. `$etaExpected` holds the posterior-weighted ETAs used for shrinkage.
-As shown above, these are meaningful once `mixProbMethod` is stabilizing the
-fit, but their precision (how many subjects land in the correct component)
-depends on `mixProbPriorN` and the number of iterations, more so than for the
-gradient-based methods.
+A `mixest`/`mixnum` output variable works the same way here as for the
+gradient-based methods — see
+[Reading the component off the fit table](#reading-the-component-off-the-fit-table).
+For SAEM the component reported there is the hard assignment `$mixNum` records,
+which for `mixProbMethod = "regress"` (the default) is also what the fit itself
+conditioned on.
+
+For SAEM, the `prob` column in `$mixList` is the membership weight $a_{ik}$ the
+SAEM engine computed directly (returned internally as the `mixWeights` matrix),
+and `$mixNum` reports the component with the largest weight. **Under the default
+`mixProbMethod = "regress"` that weight is 0/1**, because membership was
+hard-classified once rather than updated as a responsibility — a valid MAP
+assignment, but not a graded posterior. Switch to `"regularized"` or
+`"annealed"` if you want to see how uncertain each subject's membership is.
+
+`$etaExpected` holds the posterior-weighted ETAs used for shrinkage. These are
+meaningful once `mixProbMethod` is keeping the fit stable, but their precision
+(how many subjects land in the correct component) depends on the number of
+iterations — and, under `"regularized"`, on `mixProbPriorN` — more so than for
+the gradient-based methods.
 
 ### Shared variability across components (split ETAs)
 
@@ -579,7 +702,7 @@ $$
 so a single `eta.cl` term is reported even though each component was sampled with
 its own random effect during estimation.
 
-```{r fit-saem-split, eval=FALSE}
+```{r fit-saem-split}
 twoPopSplit <- function() {
   ini({
     tka   <- log(1.2)
@@ -599,29 +722,10 @@ twoPopSplit <- function() {
     linCmt() ~ add(add.sd)
   })
 }
-fitSaemSplit <- nlmixr2(twoPopSplit, simData, "saem",
-                        control = saemControl(nBurn = 200, nEm = 300,
+fitSaemSplit := nlmixr2(twoPopSplit, simData, "saem",
+                        control = saemControl(nBurn = 200, nEm = 300, print = 0,
                                               covMethod = "linFim"))
 print(fitSaemSplit)
-```
-
-```{r fit-saem-split-show, echo=FALSE}
-cat("
-── nlmixr² SAEM OBJF by FOCEi approximation ──
-
-── Population Parameters (fitSaemSplit$parFixed or fitSaemSplit$parFixedDf): ──
-
-        Est.     SE %RSE Back-transformed(95%CI) BSV(CV% or SD) Shrink(SD)%
-tka    0.308 0.0485 15.7        1.36 (1.24, 1.5)
-tcl1    -3.5                                5.98
-tcl2   -5.79                               0.709
-tv      3.46  0.036 1.04       31.9 (29.8, 34.3)          19.31    100.0%
-p1     0.661                               0.661
-add.sd 0.412                               0.412
-eta.cl                                                     1.08     84.56%
-
-  Covariance Type ($covMethod): linFim
-")
 ```
 
 Split ETAs correctly separate the two clearances (5.98 and 0.71, near the true
@@ -701,42 +805,34 @@ between two designs:
 `nmc` to roughly `nMix` times its default (`nmc = 6` for a 2-component
 mixture here) for a fair comparison:
 
-```{r fit-saem-msaem, eval=FALSE}
-fitSaemMsaem <- nlmixr2(twoPopSplit, simData, "saem",
+```{r fit-saem-msaem}
+fitSaemMsaem := nlmixr2(twoPopSplit, simData, "saem",
                         control = saemControl(nBurn = 200, nEm = 300, nmc = 6,
+                                              print = 0,
                                               mixSampleMethod = "msaem",
                                               covMethod = "linFim"))
 print(fitSaemMsaem)
 ```
 
-```{r fit-saem-msaem-show, echo=FALSE}
-cat("
-── Population Parameters (fitSaemMsaem$parFixed or fitSaemMsaem$parFixedDf): ──
+Fixed effects separate about as well as `"parallel"` — `tcl1` and `tcl2`
+back-transform to `r .bt(fitSaemMsaem, "tcl1")` and
+`r .bt(fitSaemMsaem, "tcl2")` against the true 0.8 and 8. The usual label-order
+caveat applies: which component gets index 1 is not fixed, so compare the two
+back-transformed clearances against what you expect each subpopulation to be
+before reading anything else in the row.
 
-        Est.     SE  %RSE Back-transformed(95%CI) BSV(CV% or SD) Shrink(SD)%
-tka    0.152   0.04  26.4       1.16 (1.08, 1.26)
-tcl1   -5.64                                0.806
-tcl2   -3.33                                 6.98
-tv      3.38 0.0323 0.955       29.3 (27.5, 31.2)          17.35     48.99%
-p1     0.615                                0.615
-add.sd 0.379                                0.379
-eta.cl                                                      1.10     86.56%
+The raw, unpooled per-component BSV (`fitSaemMsaem$env$saem0$Gamma2_phi1`) is
+better than `"parallel"`'s, whose equivalent raw diagonal is *always* exactly
+zero for split-ETA columns (the pooled `$omega` shown in `parFixed` only looks
+reasonable because pooling adds in the between-component variance of the
+means) — but it is still not a reliable recovery of the true 0.09.
 
-  Covariance Type (fitSaemMsaem$covMethod): linFim
-")
-```
-
-Fixed effects separate just as well as `"parallel"` (0.806 and 6.98,
-against the true 0.8/8 — the usual label-order caveat applies, here
-`tcl1`/`tcl2` swapped which component is which relative to the earlier
-examples). The raw, unpooled per-component BSV
-(`fitSaemMsaem$env$saem0$Gamma2_phi1`) is `0.009` and `0.027` here, against
-a true 0.09 — better than `"parallel"`, whose equivalent raw diagonal is
-*always* exactly zero for split-ETA columns (the pooled `$omega` shown in
-`parFixed` only looks reasonable because pooling adds in the
-between-component variance of the means), but still not a reliable
-recovery of the true value. `mixProb` is also less accurate than
-`"parallel"`'s here (0.615 vs. the true 0.667).
+And read `p1` against the component it actually belongs to. `p1` is the prior
+probability of *component 1*, which in this fit is the component whose
+clearance is `r .bt(fitSaemMsaem, "tcl1")` — so compare it to that
+subpopulation's true fraction, not automatically to the 0.67 the earlier
+examples use. That mismatch, not a fitting failure, is what makes a swapped run
+look wrong at first glance.
 
 **Bottom line:** `"msaem"`'s fixed-effect separation is as solid as
 `"parallel"`'s, and its split-ETA BSV, while still not reliable, is
@@ -746,17 +842,139 @@ less accurate, and BSV recovery is inconsistent across datasets/seeds.
 Prefer `"parallel"` (the default) unless you are specifically evaluating
 `"msaem"` or comparing the two.
 
+## Other estimation families
+
+Mixture support is not limited to the gradient-based methods and SAEM. Two more
+families accept `mix()` and return the same `$mixNum`/`$mixList` accessors and
+the same `mixest`/`mixnum` table columns.
+
+### The EM / importance-sampling family: `imp`, `impmap`, `qrpem`
+
+These are part of the same FOCEi family as the gradient-based methods and reach
+the mixture the same way — ETAs are optimized for every subject x component
+combination and the best-fitting component is selected, exactly as described in
+[Accessing Mixture Results](#accessing-mixture-results) — so `$mixNum` and
+`$mixList$prob` mean the same thing here as they do for `focei`. What differs is
+how the individual marginal likelihood is obtained: by importance sampling
+rather than by a Laplace-style linearization.
+
+```{r imp-fit}
+fitImp := nlmixr2(twoPop, simData, "imp", control = impControl(print = 0))
+fitImp$parFixed
+```
+
+They are a reasonable middle ground: no linearization error, and, because the
+component assignment is the family's hard assignment rather than a soft-EM
+responsibility, no mixing-probability collapse to guard against — at the cost of
+the Monte-Carlo sampling itself. `impmap` re-centres the sampling on the MAP
+estimate and `qrpem` uses a quasi-random sequence, both of which reduce the
+sampling variance relative to plain `imp` at the same number of draws.
+
+### The nonparametric family: `npag`, `npb`
+
+#### A nonparametric distribution is already a mixture
+
+This needs stating plainly, because it is easy to reach for `mix()` here out of
+habit and get nothing for it.
+
+`npag` (adaptive grid) and `npb` (Dirichlet-process Bayesian) do not assume the
+random effects are normal. They estimate a *discrete* distribution — a set of
+support points $\phi_k$ with weights $w_k$ — and the marginal likelihood of a
+subject is
+
+$$
+p(y_i) \;=\; \sum_k w_k \, p(y_i \mid \phi_k)
+$$
+
+which is a mixture already, over the support points, with as many components as
+the data will support and each subject carrying a posterior over them. Two
+distinct subpopulations do not need to be declared: the grid puts mass in two
+places, and the two groups of subjects separate on their own. **If all you mean
+is "clearance is bimodal", a nonparametric fit gives you that without `mix()`,
+without committing to how many modes there are, and without needing initial
+estimates for each one.**
+
+#### So what does `mix()` add?
+
+The two describe different things, and they sit at different levels of the
+model:
+
+| | What varies | How many | Estimated as |
+|---|---|---|---|
+| Nonparametric support | the **random effects** — where subjects sit in the parameter space | discovered from the data | support points and weights |
+| `mix()` | the **structural model** — a different fixed-effect expression per subpopulation | declared by you | per-component thetas plus a proportion |
+
+A support point is an unlabeled location in the random-effect space. A `mix()`
+component is a claim that some subjects follow a *different equation*: a
+different typical clearance parameter, a different absorption model, a
+different anything you can write on the right-hand side. That is not something a
+support distribution can express, because every support point is evaluated
+through the same structural model.
+
+So declare `mix()` on top of a nonparametric method when you want the things
+only a declared mixture gives you — a named, estimated proportion you can report
+and test, a per-component fixed effect with its own interpretation, a
+per-subject component assignment tied to a mechanism (a genotype, a formulation,
+a disease state) — and let the nonparametric distribution keep doing what it is
+for, describing the spread *within* each of those components without assuming it
+is normal. Reach for the nonparametric fit alone when the multimodality is the
+finding rather than the hypothesis.
+
+#### How the two are fitted together
+
+One nonparametric distribution is shared across the declared components — the
+support set is not re-estimated per component. Each subject is split into
+per-component pseudo-subjects and the conditional likelihood is marginalized
+over the components using the mixing proportions,
+$p(y_i \mid \phi) = \sum_m \pi_m\, p(y_i \mid \phi, m)$. `npag` then updates
+the proportion once per cycle with an EM step, holding the support points and
+weights fixed; `npb` samples it inside its blocked Gibbs sweep — each subject
+draws a component from its posterior responsibility and the proportions are
+drawn from $\mathrm{Dirichlet}(1 + \text{component counts})$, with the
+posterior-mean proportions reported in `$env$npbMixProb`. A `fix()`ed
+proportion is held at its `ini()` value in both.
+
+The components' own structural parameters (the per-component typical clearance,
+say) are estimated alongside the residual parameters against that same
+marginalized conditional likelihood — they are estimated, not held at their
+initial values. Only the proportions are handled by the separate update step
+above.
+
+```{r np-fit}
+fitNpag := nlmixr2(twoPop, simData, "npag", control = npagControl(print = 0))
+fitNpag$parFixed
+```
+
+### Methods that decline a mixture
+
+`emvi` and `fbvi` (mean-field variational inference) stop up front with
+
+```
+'twoPop' cannot have a mixture model (ie `mix()`) for the estimation routine 'emvi'
+```
+
+rather than silently fitting a model without the mixture structure.
+
+`vae` **does** fit a mixture model. It follows the same
+convention as the gradient-based methods -- every subject-component pair is
+characterized by the encoder at its own eta, membership is the posterior
+responsibility, and the proportions are estimated on the mlogit scale through
+their analytic gradient -- so a `mix()` model can be submitted to it directly.
+Earlier versions stopped during assembly rather than fitting.
+
 ## Choosing an Estimation Method
 
 All six gradient-based methods handle mixture models using the same strategy:
 ETAs are optimized separately for every subject × mixture combination and the
 best-fitting component is selected. This works reliably in practice and gives
-the cleanest separation. SAEM uses the soft-assignment scheme described in
-[Mixture Models with SAEM](#mixture-models-with-saem); with the default
-`mixProbMethod = "regularized"` it no longer collapses, but by default it may
-separate components less precisely than the gradient-based methods on
-small/weakly-separated datasets unless `mixProbPriorN` and `nBurn`/`nEm` are
-increased (see that section for a worked example):
+the cleanest separation. SAEM's scheme is described in
+[Mixture Models with SAEM](#mixture-models-with-saem); its default,
+`mixProbMethod = "regress"`, hard-classifies rather than collapsing, but it may
+still separate components less precisely than the gradient-based methods on
+small/weakly-separated datasets. Where membership is genuinely uncertain, switch
+to `mixProbMethod = "regularized"` and raise `mixProbPriorN` and `nBurn`/`nEm`
+(`mixProbPriorN` applies only to `"regularized"`; see that section for a worked
+example):
 
 | Method    | Interaction | Accuracy | Notes |
 |-----------|:-----------:|:--------:|-------|
@@ -766,7 +984,9 @@ increased (see that section for a worked example):
 | `agq`     | Yes | Highest | Most accurate; slowest |
 | `fo`      | No  | Low     | Linearization; fast but less accurate |
 | `foi`     | Yes | Low     | FO with interaction |
-| `saem`    | Yes | Moderate–High | Soft assignment; tune `mixProbPriorN`/`nBurn`/`nEm` for closer-to-FOCEI separation; see [Mixture Models with SAEM](#mixture-models-with-saem) |
+| `saem`    | Yes | Moderate–High | Hard-classifies by default (`mixProbMethod = "regress"`); for uncertain membership use `"regularized"` and tune `mixProbPriorN`/`nBurn`/`nEm`; see [Mixture Models with SAEM](#mixture-models-with-saem) |
+| `imp` / `impmap` / `qrpem` | Yes | High | Same hard assignment as FOCEi, marginal likelihood by importance sampling; see [Other estimation families](#other-estimation-families) |
+| `npag` / `npb` | Yes | — | Nonparametric random effects; marginalizes over components. Consider whether you need `mix()` at all — see [Other estimation families](#other-estimation-families) |
 
 ## Notes and Limitations
 
@@ -776,19 +996,36 @@ increased (see that section for a worked example):
 - **Identifiability** requires that the mixture components are well-separated
   in the data. More than 2–3 components is rarely supportable with typical
   PK/PD datasets.
+- **A proportion sitting at 0 or 1** is the usual sign that a component is not
+  supported by the data. Its reported SE will be very small, which is the
+  correct delta-method answer and not evidence of precision — see
+  [Standard errors for the mixture proportions](#standard-errors-for-the-mixture-proportions).
 - The `mixest`, `mixnum`, and `mixunif` variables can be included in the model
-  block for diagnostic purposes but do not affect the likelihood.
+  block for diagnostic purposes but do not affect the likelihood. `mixest` and
+  `mixnum` report the fitted component and the component count in the fit table
+  (see [Reading the component off the fit table](#reading-the-component-off-the-fit-table));
+  `mixunif` is only meaningful when simulating.
 - **Initial estimates matter**: provide lower bounds on `tcl1` and `tcl2` to
-  prevent label-switching for focei during optimization.
-- **SAEM** supports mixtures via soft assignment, stabilized against collapse
-  by `saemControl(mixProbMethod=)`, and correctly separates split-ETA fixed
+  prevent label-switching for focei during optimization. They matter at least
+  as much for SAEM under its default `mixProbMethod = "regress"`, which
+  hard-classifies every subject once, up front, and never revisits that
+  assignment — so a poor start is not corrected by later iterations. Where
+  membership is genuinely uncertain, prefer `"regularized"`.
+- **SAEM** supports mixtures via an EM-responsibility (soft assignment) scheme
+  whose default, `mixProbMethod = "regress"`, hard-classifies each subject once
+  rather than updating responsibilities, and correctly separates split-ETA fixed
   effects under both `mixSampleMethod` options (see
   [Mixture Models with SAEM](#mixture-models-with-saem)); it typically needs
-  more tuning (iterations, `mixProbPriorN`) than the gradient-based methods
-  to match their separation precision. Two things it does not currently do
+  more tuning than the gradient-based methods to match their separation
+  precision — more `nBurn`/`nEm`, and, if you switch to `"regularized"` for
+  uncertain membership, a larger `mixProbPriorN` (which applies to that option
+  only). Two things it does not currently do
   well regardless of parameterization or `mixSampleMethod`: standard errors
   for the mixture-owned fixed effects (`tcl1`/`tcl2`-style parameters) come
-  back as `NA` rather than a real SE, and `$omega`/BSV for split-ETA
+  back as `NA` rather than a real SE (the mixture *proportion* does get one
+  under the gradient-based methods — see
+  [Standard errors for the mixture proportions](#standard-errors-for-the-mixture-proportions)),
+  and `$omega`/BSV for split-ETA
   components can be unreliable (too large or collapsed near zero under
   `mixSampleMethod="parallel"`, the default; improved but still not
   consistently accurate under the experimental `"msaem"`) even when the
