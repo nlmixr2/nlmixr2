@@ -46,7 +46,6 @@ cacheDir <- file.path(repoRoot, "inst", "cache")
 ## use the nlmixr2save `:=` operator.
 vignettes <- c(
   "addingCovariances.Rmd",
-  "broom.Rmd",
   "delays.Rmd",
   "mavoglurant.Rmd",
   "modelPiping.Rmd",
