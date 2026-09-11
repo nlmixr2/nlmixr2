@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
   out.width = "100%"
   )
 library(nlmixr2save)
-options(nlmixr2save.dir = "cache",
+options(nlmixr2save.dir = system.file("cache", package = "nlmixr2"),
         nlmixr2save.prefix = "delays-",
         nlmixr2save.check = FALSE)
 ```
@@ -528,8 +528,8 @@ parameter of the past is estimable at all is the whole point of a non-constant
 
 # Reproducing this article
 
-The two fits here are expensive, so they are cached under `vignettes/cache/`
-and reused by the website build. To refit from scratch:
+The two fits here are expensive, so they are cached in `inst/cache/` (shipped
+with the package) and reused by the website build. To refit from scratch:
 
 ```sh
 cd vignettes && Rscript precompute.R --clean

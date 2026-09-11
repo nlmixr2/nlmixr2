@@ -19,11 +19,11 @@ knitr::opts_chunk$set(
   out.width = "100%"
   )
 library(nlmixr2save)
-## this article lives in vignettes/articles/, so the shared cache and logo one
-## directory up (vignettes/) are referenced with "../".  The `:=` operator
-## (from nlmixr2save) runs each fit once and caches it under the prefix below, so
-## the article renders with live output without refitting on every build.
-options(nlmixr2save.dir = "../cache",
+## The `:=` operator (from nlmixr2save) runs each fit once and caches it under
+## the prefix below, so the article renders with live output without refitting
+## on every build.  The shared cache ships with the package in inst/cache/ and
+## is located with system.file().
+options(nlmixr2save.dir = system.file("cache", package = "nlmixr2"),
         nlmixr2save.prefix = "vi-",
         nlmixr2save.check = FALSE)
 ```

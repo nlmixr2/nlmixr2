@@ -21,9 +21,9 @@ library(nlmixr2save)
 ## Every fit below is REAL and its output is whatever the current nlmixr2
 ## produced -- nothing in this article is transcribed by hand.  The `:=`
 ## operator (nlmixr2save) runs each fit once and caches it under the prefix
-## below, so the site rebuilds without refitting.  This article lives in
-## vignettes/articles/, so the shared cache one directory up is "../cache".
-options(nlmixr2save.dir = "../cache",
+## below, so the site rebuilds without refitting.  The shared cache ships with
+## the package in inst/cache/ and is located with system.file().
+options(nlmixr2save.dir = system.file("cache", package = "nlmixr2"),
         nlmixr2save.prefix = "mixture-",
         nlmixr2save.check = FALSE)
 ```

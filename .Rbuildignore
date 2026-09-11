@@ -18,4 +18,5 @@
 ^\.github$
 ^codecov\.yml$
 ^vignettes/articles$
+^inst/cache$
 ^\.vexp$

@@ -18,10 +18,11 @@ knitr::opts_chunk$set(
   out.width = "100%"
   )
 library(nlmixr2save)
-## Cache each fit with the `:=` operator (nlmixr2save): fits are stored under
-## vignettes/cache/ with a per-article prefix and loaded as-is on the website
-## build.  See the "Contributing a long-running example" article.
-options(nlmixr2save.dir = "cache",
+## Cache each fit with the `:=` operator (nlmixr2save): fits are stored in
+## inst/cache/ (shipped with the package) under a per-article prefix and loaded
+## as-is on the website build.  See the "Contributing a long-running example"
+## article.
+options(nlmixr2save.dir = system.file("cache", package = "nlmixr2"),
         nlmixr2save.prefix = "modelPiping-",
         nlmixr2save.check = FALSE)
 ```

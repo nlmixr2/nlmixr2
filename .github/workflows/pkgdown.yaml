@@ -34,6 +34,10 @@ jobs:
         with:
           use-public-rspm: true
 
+      - name: Include fit cache in package build
+        run: sed -i '/inst\/cache/d' .Rbuildignore
+        shell: bash
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           pak-version: devel

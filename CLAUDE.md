@@ -59,17 +59,25 @@ Articles under `vignettes/` are the main deliverable here, and they matter more 
   `R CMD check` or on CRAN. This is deliberate: it lets an article run a *real* SAEM/FOCEi/DDE fit.
 - Because real fits are slow and the pkgdown runner times out, expensive fits are **cached** with the
   `:=` operator from the `nlmixr2save` package (imported here). `fit := nlmixr2(...)` writes a portable
-  `cache/<prefix>-fit.zip` the first time and reloads it on every later build. See
-  `vignettes/precompute-articles.Rmd` for the full contract (setup chunk uses
-  `options(nlmixr2save.dir="cache", nlmixr2save.prefix="<article>-", nlmixr2save.check=FALSE)`).
+  `inst/cache/<prefix>-fit.zip` the first time and reloads it on every later build. Articles locate the
+  cache with `system.file("cache", package = "nlmixr2")`. See `vignettes/precompute-articles.Rmd` for
+  the full contract (setup chunk uses
+  `options(nlmixr2save.dir=system.file("cache", package="nlmixr2"),
+  nlmixr2save.prefix="<article>-", nlmixr2save.check=FALSE)`).
+- `inst/cache/` is `.Rbuildignore`d so it is **excluded from normal `R CMD build`/check/CRAN tarballs**
+  (the package is otherwise much larger than CRAN likes). The **pkgdown workflow** deletes that
+  `.Rbuildignore` line (`sed -i '/inst\/cache/d' .Rbuildignore`) before it builds/installs the package,
+  so the cache is present for `system.file()` during the site build.
 - **Regenerate the cache** with `vignettes/precompute.R`:
   ```bash
   cd vignettes && Rscript precompute.R            # fit only what's missing
-  cd vignettes && Rscript precompute.R --clean    # clear cache/ and refit everything
+  cd vignettes && Rscript precompute.R --clean    # clear inst/cache/ and refit everything
   ```
   It renders each cached article listed in the `vignettes` vector in its **own fresh R subprocess**
   (one long-lived session accumulates rxode2 model DLLs and eventually fails with "error building
-  model"). When you add a new cached article, add its filename to that vector.
+  model"). Each subprocess `pkgload::load_all()`s the source package so `system.file()` resolves to
+  the source `inst/cache/` while fits are written. When you add a new cached article, add its filename
+  to that vector.
 - `_pkgdown.yml` defines the navbar/article menu; the pkgdown GitHub workflow installs the GitHub
   version of `nlmixr2save` (it is a `Remotes:` dependency, not yet on CRAN).
 

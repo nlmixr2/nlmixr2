@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
   out.width = "100%"
   )
 library(nlmixr2save)
-options(nlmixr2save.dir = "cache",
+options(nlmixr2save.dir = system.file("cache", package = "nlmixr2"),
         nlmixr2save.prefix = "broom-",
         nlmixr2save.check = FALSE)
 ```

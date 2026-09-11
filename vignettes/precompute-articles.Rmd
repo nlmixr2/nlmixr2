@@ -46,12 +46,18 @@ Each article that fits a model starts with:
 
 ```{r}
 library(nlmixr2save)
-options(nlmixr2save.dir    = "cache",         # where the cache files live
+options(nlmixr2save.dir    = system.file("cache", package = "nlmixr2"), # where the cache files live
         nlmixr2save.prefix = "modelPiping-",  # a per-article file prefix
         nlmixr2save.check  = FALSE)           # trust the committed cache
 ```
 
-- **`nlmixr2save.dir = "cache"`** puts the cache files under `vignettes/cache/`.
+- **`nlmixr2save.dir = system.file("cache", package = "nlmixr2")`** points at
+  the cache under `inst/cache/` (which installs to `cache/` at the package
+  root). `inst/cache/` is `.Rbuildignore`d for normal `R CMD build` / CRAN
+  tarballs, but the pkgdown workflow removes that line before building the
+  package, so `system.file()` finds it during the site build. `precompute.R`
+  `pkgload::load_all()`s the source package so `system.file()` resolves to the
+  source tree's `inst/cache/` while the cache is populated.
 - **`nlmixr2save.prefix`** namespaces this article's files. Use the article's
   base name plus a dash (`"modelPiping-"`, `"wbc-"`, `"delays-"`, …) so files do
   not collide between articles.
@@ -72,7 +78,7 @@ fit := nlmixr2(one.compartment, theo_sd, est = "focei",
 ```
 
 The first time this runs it fits the model and writes
-`cache/modelPiping-fit.zip`; every later build loads that file and assigns `fit`
+`inst/cache/modelPiping-fit.zip`; every later build loads that file and assigns `fit`
 without refitting. The variable name (`fit`) plus the prefix is the cache file
 name, so **each `:=` target must be unique within an article**.
 
@@ -80,7 +86,7 @@ A simulation or other non-fit value works the same way and is stored as an
 `.rds` (a fit becomes a portable `.zip`):
 
 ```{r}
-vpc := vpcSim(fit, n = 300)     # cache/modelPiping-vpc.rds
+vpc := vpcSim(fit, n = 300)     # inst/cache/modelPiping-vpc.rds
 ```
 
 ## One model transformation per fit
@@ -120,18 +126,19 @@ vignettes <- c(
 
 ```sh
 cd vignettes
-Rscript precompute.R          # fits only what is missing from cache/
+Rscript precompute.R          # fits only what is missing from inst/cache/
 ```
 
 `precompute.R` renders each registered article in its **own fresh R subprocess**
-(building many rxode2 models in one long-lived session eventually fails), which
-runs the article's real code — so the `:=` lines do the fitting and write the
-cache files.
+(building many rxode2 models in one long-lived session eventually fails) that
+first `pkgload::load_all()`s the source package (so `system.file()` resolves to
+`inst/cache/`) and then runs the article's real code — so the `:=` lines do the
+fitting and write the cache files there.
 
 **3. Commit the cache** alongside the `.Rmd`:
 
 ```sh
-git add vignettes/mymodel.Rmd vignettes/cache/mymodel-*.zip
+git add vignettes/mymodel.Rmd inst/cache/mymodel-*.zip
 ```
 
 **4. Add the article to the pkgdown navbar** in `_pkgdown.yml`.
@@ -143,15 +150,16 @@ the cache and re-render. `nlmixr2saveInvalidate()` removes every cache entry
 under the active prefix/dir:
 
 ```{r}
-options(nlmixr2save.dir = "cache", nlmixr2save.prefix = "mymodel-")
-nlmixr2saveInvalidate()       # clears cache/mymodel-*
+options(nlmixr2save.dir = system.file("cache", package = "nlmixr2"),
+        nlmixr2save.prefix = "mymodel-")
+nlmixr2saveInvalidate()       # clears the mymodel-* cache entries
 ```
 
 or clear everything and rebuild all articles:
 
 ```sh
 cd vignettes
-Rscript precompute.R --clean   # empties cache/ then refits every article
+Rscript precompute.R --clean   # empties inst/cache/ then refits every article
 ```
 
 # When a fit needs settings that only matter for the demo
@@ -170,6 +178,7 @@ in the prose.
 - Set `nlmixr2save.dir`/`.prefix`/`.check` once, then cache every fit with
   `name := nlmixr2(...)` (a fit → `.zip`, a simulation → `.rds`).
 - Do model piping in a separate, cheap step; give each fit its own unique `:=`.
-- Register the article in `precompute.R`, run it, and commit `cache/<prefix>*`.
+- Register the article in `precompute.R`, run it, and commit
+  `inst/cache/<prefix>*`.
 - `precompute.R --clean` (or `nlmixr2saveInvalidate()`) refreshes the cache when
   a model changes.
