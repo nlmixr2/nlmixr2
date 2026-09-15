@@ -12,8 +12,8 @@
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="xgxr and ggPMX integration with nlmixr2">
 </head>
@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">nlmixr2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">5.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">7.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,8 +46,14 @@
     <li><a class="dropdown-item" href="../articles/modelPiping.html">Model Piping</a></li>
     <li><a class="dropdown-item" href="../articles/broom.html">Sweeping models to tidy datasets (broom)</a></li>
     <li><a class="dropdown-item" href="../articles/censoring.html">Censoring in nlmixr2 (M3 and others)</a></li>
+    <li><a class="dropdown-item" href="../articles/mixture-models.html">Mixture models (latent subpopulations)</a></li>
+    <li><a class="dropdown-item" href="../articles/phase-residual-error.html">Separate phase 1 and phase 3 residual error</a></li>
+    <li><a class="dropdown-item" href="../articles/simulate-titrated-dosing.html">Simulations with individually-titrated dosing</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="../articles/xgxr-nlmixr-ggpmx.html">Integrated development with xgxr/nlmixr/ggPMX</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>For contributors</h6></li>
+    <li><a class="dropdown-item" href="../articles/precompute-articles.html">Contributing a long-running example (precompute + cache)</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="../articles/citations.html">Citations of nlmixr2</a></li>
     <li><a class="dropdown-item" href="../articles/nlmixr2-team-and-advisory-committee.html">Who we are</a></li>
@@ -61,6 +67,18 @@
     <li><a class="dropdown-item" href="../articles/nimo.html">Nonlinear PK/PD -- Nimotuzumab</a></li>
     <li><a class="dropdown-item" href="../articles/mavoglurant.html">PBPK -- Mavoglurant</a></li>
     <li><a class="dropdown-item" href="../articles/wbc.html">PKPD -- Myelosuppression model</a></li>
+    <li><a class="dropdown-item" href="../articles/delays.html">DDEs -- Lifespan and delayed-response models</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/vaeNeonatal.html">VAE-NLME -- neonatal growth with covariate selection</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="../articles/linearized-quadrature-ladder.html">Estimation: conditional/quadrature ladder (fo...agq)</a></li>
+    <li><a class="dropdown-item" href="../articles/priors-focei.html">Priors in FOCEi: general, nwpri and tnpri</a></li>
+    <li><a class="dropdown-item" href="../articles/saem.html">Estimation: SAEM</a></li>
+    <li><a class="dropdown-item" href="../articles/nlm-family-optimizers.html">Estimation: NLM-family optimizers (population-only)</a></li>
+    <li><a class="dropdown-item" href="../articles/babelmixr2-external-engines.html">Estimation: external engines via babelmixr2</a></li>
+    <li><a class="dropdown-item" href="../articles/imp-impmap-qrpem.html">Estimation: importance-sampling EM (imp/impmap/qrpem)</a></li>
+    <li><a class="dropdown-item" href="../articles/nonparametric-npag-npb.html">Nonparametric NLME (npag/npb) vs Pmetrics</a></li>
+    <li><a class="dropdown-item" href="../articles/variational-inference.html">Variational inference (emvi/fbvi) vs FOCEI/SAEM/Stan/VAE</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/nlmixr2/nlmixr2/raw/main/CheatSheet_nlmixr_220621.pdf"><span class="fa fa-scroll fa-lg"></span> Cheat Sheet</a></li>
@@ -79,7 +97,7 @@
 
 
 
-
+<link href="xgxr-nlmixr-ggpmx_files/huxtable-6.0.1/huxtable.css" rel="stylesheet">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>xgxr and ggPMX integration with nlmixr2</h1>
@@ -288,35 +306,37 @@ effect on the PK data.</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>DV<span class="op">=</span><span class="va">LIDV</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">CMT</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">TRTACT</span> <span class="op">!=</span> <span class="st">"Placebo"</span><span class="op">)</span></span></code></pre></div>
-<p>Next, for the purpose of this demonstration we will subset to 7
-patients per dose group):</p>
+<p>For this demonstration we use all of the available subjects per dose
+group (30 each):</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">doses</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">DOSE</span><span class="op">)</span></span>
-<span><span class="va">nid</span> <span class="op">&lt;-</span> <span class="fl">20</span> <span class="co"># 7 ids per dose group</span></span>
+<span><span class="va">nid</span> <span class="op">&lt;-</span> <span class="fl">30</span> <span class="co"># subjects per dose group (all that are available)</span></span>
 <span><span class="va">dat2</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">dat</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">DOSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">ID</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">ID</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">nid</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>This approach is not only good for demonstration, but allows a
-variety of structural models to be applied more quickly while developing
-a base model. The full dataset can then be applied to the selected model
-to make sure it makes sense with all the data.</p>
+<p>While developing a base model you can subset to fewer subjects per
+dose group (reduce <code>nid</code>) so a variety of structural models
+can be tried more quickly, then apply the full dataset to the selected
+model.</p>
 <p>Next create a 2 compartment model:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Use 2 compartment model</span></span>
 <span><span class="va">cmt2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span><span class="op">{</span></span>
-<span>    <span class="va">lka</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">0.1</span><span class="op">)</span>; <span class="fu">label</span><span class="op">(</span><span class="st">"Ka"</span><span class="op">)</span></span>
-<span>    <span class="va">lv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>; <span class="fu">label</span><span class="op">(</span><span class="st">"Vc"</span><span class="op">)</span></span>
-<span>    <span class="va">lcl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span>; <span class="fu">label</span><span class="op">(</span><span class="st">"Cl"</span><span class="op">)</span></span>
+<span>    <span class="co">## doses are in mg and concentrations in ng/mL, so the volumes are on</span></span>
+<span>    <span class="co">## the order of tens-to-hundreds of L; start there so the fit is stable</span></span>
+<span>    <span class="va">lka</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span>; <span class="fu">label</span><span class="op">(</span><span class="st">"Ka"</span><span class="op">)</span></span>
+<span>    <span class="va">lv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>; <span class="fu">label</span><span class="op">(</span><span class="st">"Vc"</span><span class="op">)</span></span>
+<span>    <span class="va">lcl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>; <span class="fu">label</span><span class="op">(</span><span class="st">"Cl"</span><span class="op">)</span></span>
 <span>    <span class="va">lq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>; <span class="fu">label</span><span class="op">(</span><span class="st">"Q"</span><span class="op">)</span></span>
-<span>    <span class="va">lvp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span>; <span class="fu">label</span><span class="op">(</span><span class="st">"Vp"</span><span class="op">)</span></span>
+<span>    <span class="va">lvp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>; <span class="fu">label</span><span class="op">(</span><span class="st">"Vp"</span><span class="op">)</span></span>
 <span></span>
-<span>    <span class="va">eta.ka</span> <span class="op">~</span> <span class="fl">0.01</span></span>
+<span>    <span class="va">eta.ka</span> <span class="op">~</span> <span class="fl">0.1</span></span>
 <span>    <span class="va">eta.v</span> <span class="op">~</span> <span class="fl">0.1</span></span>
 <span>    <span class="va">eta.cl</span> <span class="op">~</span> <span class="fl">0.1</span></span>
-<span>    <span class="va">logn.sd</span> <span class="op">=</span> <span class="fl">10</span></span>
+<span>    <span class="va">logn.sd</span> <span class="op">=</span> <span class="fl">1</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/model.html" class="external-link">model</a></span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="va">ka</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">lka</span> <span class="op">+</span> <span class="va">eta.ka</span><span class="op">)</span></span>
@@ -329,19 +349,19 @@ to make sure it makes sense with all the data.</p>
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="co">## Check parsing</span></span>
-<span><span class="va">cmt2m</span> <span class="op">&lt;-</span> <span class="fu">nlmixr</span><span class="op">(</span><span class="va">cmt2</span><span class="op">)</span></span>
+<span><span class="va">cmt2m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span><span class="va">cmt2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cmt2m</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">rxode2-based solved PK 2-compartment model</span> <span style="color: #00BBBB;">──────────────────────────────────</span> </span></span>
 <span><span class="co">#&gt;  ── <span style="font-weight: bold;">Initalization:</span> ──  </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">Fixed Effects</span> (<span style="color: #0000BB; font-weight: bold;">$theta</span>): </span></span>
-<span><span class="co">#&gt;       lka        lv       lcl        lq       lvp   logn.sd </span></span>
-<span><span class="co">#&gt; -2.302585  2.302585  1.386294  2.302585  2.995732 10.000000 </span></span>
+<span><span class="co">#&gt;        lka         lv        lcl         lq        lvp    logn.sd </span></span>
+<span><span class="co">#&gt; -0.6931472  3.9120230  2.3025851  2.3025851  4.6051702  1.0000000 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">Omega</span> (<span style="color: #0000BB; font-weight: bold;">$omega</span>): </span></span>
 <span><span class="co">#&gt;        eta.ka eta.v eta.cl</span></span>
-<span><span class="co">#&gt; eta.ka   0.01   0.0    0.0</span></span>
-<span><span class="co">#&gt; eta.v    0.00   0.1    0.0</span></span>
-<span><span class="co">#&gt; eta.cl   0.00   0.0    0.1</span></span>
+<span><span class="co">#&gt; eta.ka    0.1   0.0    0.0</span></span>
+<span><span class="co">#&gt; eta.v     0.0   0.1    0.0</span></span>
+<span><span class="co">#&gt; eta.cl    0.0   0.0    0.1</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co"><span style="font-weight: bold;">#&gt; States</span> (<span style="color: #0000BB; font-weight: bold;">$state</span> or <span style="color: #0000BB; font-weight: bold;">$stateDf</span>): </span></span>
 <span><span class="co">#&gt;   Compartment Number Compartment Name Rate   Off Internal #</span></span>
@@ -356,18 +376,18 @@ to make sure it makes sense with all the data.</p>
 <span><span class="co">#&gt;  ── <span style="font-weight: bold;">Model (Normalized Syntax):</span> ── </span></span>
 <span><span class="co">#&gt; function() {</span></span>
 <span><span class="co">#&gt;     ini({</span></span>
-<span><span class="co">#&gt;         lka &lt;- -2.30258509299405</span></span>
+<span><span class="co">#&gt;         lka &lt;- -0.693147180559945</span></span>
 <span><span class="co">#&gt;         label("Ka")</span></span>
-<span><span class="co">#&gt;         lv &lt;- 2.30258509299405</span></span>
+<span><span class="co">#&gt;         lv &lt;- 3.91202300542815</span></span>
 <span><span class="co">#&gt;         label("Vc")</span></span>
-<span><span class="co">#&gt;         lcl &lt;- 1.38629436111989</span></span>
+<span><span class="co">#&gt;         lcl &lt;- 2.30258509299405</span></span>
 <span><span class="co">#&gt;         label("Cl")</span></span>
 <span><span class="co">#&gt;         lq &lt;- 2.30258509299405</span></span>
 <span><span class="co">#&gt;         label("Q")</span></span>
-<span><span class="co">#&gt;         lvp &lt;- 2.99573227355399</span></span>
+<span><span class="co">#&gt;         lvp &lt;- 4.60517018598809</span></span>
 <span><span class="co">#&gt;         label("Vp")</span></span>
-<span><span class="co">#&gt;         logn.sd &lt;- c(0, 10)</span></span>
-<span><span class="co">#&gt;         eta.ka ~ 0.01</span></span>
+<span><span class="co">#&gt;         logn.sd &lt;- c(0, 1)</span></span>
+<span><span class="co">#&gt;         eta.ka ~ 0.1</span></span>
 <span><span class="co">#&gt;         eta.v ~ 0.1</span></span>
 <span><span class="co">#&gt;         eta.cl ~ 0.1</span></span>
 <span><span class="co">#&gt;     })</span></span>
@@ -384,135 +404,46 @@ to make sure it makes sense with all the data.</p>
 compare a few models:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## First try log-normal (since the variability seemed proportional to concentration)</span></span>
-<span><span class="va">cmt2fit.logn</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">nlmixr</span><span class="op">(</span></span>
-<span>    <span class="va">cmt2m</span>, data <span class="op">=</span> <span class="va">dat2</span>,</span>
-<span>    est <span class="op">=</span> <span class="st">"saem"</span>,</span>
-<span>    control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>, </span>
-<span>    table<span class="op">=</span><span class="fu">tableControl</span><span class="op">(</span>cwres<span class="op">=</span><span class="cn">TRUE</span>, npde<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:02</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
+<span><span class="va">cmt2fit.logn</span> <span class="op">:=</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span></span>
+<span>  <span class="va">cmt2m</span>, data <span class="op">=</span> <span class="va">dat2</span>,</span>
+<span>  est <span class="op">=</span> <span class="st">"saem"</span>,</span>
+<span>  control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
+<span>  table<span class="op">=</span><span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/tableControl.html">tableControl</a></span><span class="op">(</span>cwres<span class="op">=</span><span class="cn">TRUE</span>, npde<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## Now try proportional</span></span>
-<span><span class="va">cmt2fit.prop</span> <span class="op">&lt;-</span></span>
-<span>  <span class="va">cmt2fit.logn</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/update.html" class="external-link">update</a></span><span class="op">(</span><span class="fu">linCmt</span><span class="op">(</span><span class="op">)</span> <span class="op">~</span> <span class="fu">prop</span><span class="op">(</span><span class="va">prop.sd</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">nlmixr</span><span class="op">(</span></span>
-<span>    est<span class="op">=</span><span class="st">"saem"</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
-<span>    table<span class="op">=</span><span class="fu">tableControl</span><span class="op">(</span>npde<span class="op">=</span><span class="cn">TRUE</span>, cwres<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:02</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span></span>
-<span><span class="co">## now try add+prop</span></span>
+<span><span class="va">cmt2fit.prop.mod</span> <span class="op">&lt;-</span> <span class="va">cmt2fit.logn</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/stats/update.html" class="external-link">update</a></span><span class="op">(</span><span class="fu">linCmt</span><span class="op">(</span><span class="op">)</span> <span class="op">~</span> <span class="fu">prop</span><span class="op">(</span><span class="va">prop.sd</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">cmt2fit.prop</span> <span class="op">:=</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span></span>
+<span>  <span class="va">cmt2fit.prop.mod</span>, <span class="va">dat2</span>,</span>
+<span>  est<span class="op">=</span><span class="st">"saem"</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
+<span>  table<span class="op">=</span><span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/tableControl.html">tableControl</a></span><span class="op">(</span>npde<span class="op">=</span><span class="cn">TRUE</span>, cwres<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>You could also try a combined additive-plus-proportional error, shown
+below. It is not run here (<code>eval=FALSE</code>): for this data the
+additive component collapses toward zero (the data is well described by
+a proportional error alone), so the combined model is over-parameterized
+and its covariance step does not produce a usable result.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## add+prop is over-parameterized here (additive component -&gt; 0)</span></span>
 <span><span class="va">cmt2fit.add.prop</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">cmt2fit.prop</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/update.html" class="external-link">update</a></span><span class="op">(</span><span class="fu">linCmt</span><span class="op">(</span><span class="op">)</span> <span class="op">~</span> <span class="fu">prop</span><span class="op">(</span><span class="va">prop.sd</span><span class="op">)</span> <span class="op">+</span> <span class="fu">add</span><span class="op">(</span><span class="va">add.sd</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">nlmixr</span><span class="op">(</span></span>
-<span>    est<span class="op">=</span><span class="st">"saem"</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>, </span>
-<span>    table<span class="op">=</span><span class="fu">tableControl</span><span class="op">(</span>npde<span class="op">=</span><span class="cn">TRUE</span>, cwres<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:02</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span></code></pre></div>
-<p>Now that we have run 3 different estimation methods, we can compare
-the results side-by-side</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<span>  <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr</a></span><span class="op">(</span></span>
+<span>    est<span class="op">=</span><span class="st">"saem"</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
+<span>    table<span class="op">=</span><span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/tableControl.html">tableControl</a></span><span class="op">(</span>npde<span class="op">=</span><span class="cn">TRUE</span>, cwres<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p>Now that we have run the log-normal and proportional models, we can
+compare the results side-by-side:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hughjonesd.github.io/huxtable/" class="external-link">huxtable</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://hughjonesd.github.io/huxtable/reference/huxreg.html" class="external-link">huxreg</a></span><span class="op">(</span></span>
 <span>  <span class="st">"lognormal"</span><span class="op">=</span><span class="va">cmt2fit.logn</span>,</span>
 <span>  <span class="st">"proportional"</span><span class="op">=</span><span class="va">cmt2fit.prop</span>,</span>
-<span>  <span class="st">"add+prop"</span><span class="op">=</span><span class="va">cmt2fit.add.prop</span>,</span>
 <span>  statistics<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>N<span class="op">=</span><span class="st">"nobs"</span>, <span class="st">"logLik"</span>, <span class="st">"AIC"</span><span class="op">)</span>,</span>
 <span>  stars <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<table class="table huxtable" data-quarto-disable-processing="true" style="margin-left: auto; margin-right: auto;" id="tab:model-compare">
-<col>
+<table class="table huxtable" data-quarto-disable-processing="true" style="margin-left: auto; margin-right: auto;   break-inside: avoid; page-break-inside: avoid;" id="tab:model-compare">
 <col>
 <col>
 <col>
@@ -520,179 +451,141 @@ the results side-by-side</p>
 <th class="huxtable-cell huxtable-header" style="text-align: center;  border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;      font-weight: normal;"></th>
 <th class="huxtable-cell huxtable-header" style="text-align: center;  border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;      font-weight: normal;">lognormal</th>
 <th class="huxtable-cell huxtable-header" style="text-align: center;  border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;      font-weight: normal;">proportional</th>
-<th class="huxtable-cell huxtable-header" style="text-align: center;  border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;      font-weight: normal;">add+prop</th>
 </tr></thead>
 <tbody>
 <tr>
 <th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;">lka</th>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;">-2.285 </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;">-2.391 </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;">-2.445 </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;">-0.187 </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;">11.703 </td>
 </tr>
 <tr>
 <th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;"></th>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.085)</td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.058)</td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.065)</td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.257)</td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.347)</td>
 </tr>
 <tr>
 <th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;">lv</th>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">2.164 </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">-8.180 </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">-8.290 </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">3.457 </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">5.172 </td>
 </tr>
 <tr>
 <th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;"></th>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.139)</td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.426)</td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.452)</td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.303)</td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.097)</td>
 </tr>
 <tr>
 <th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;">lcl</th>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">1.847 </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">-16.869 </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">-15.636 </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">2.599 </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">170.184 </td>
 </tr>
 <tr>
 <th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;"></th>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.075)</td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(1.866)</td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(1.780)</td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.041)</td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.025)</td>
 </tr>
 <tr>
 <th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;">lq</th>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">2.172 </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">2.148 </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">2.200 </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">3.414 </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">-0.156 </td>
 </tr>
 <tr>
 <th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;"></th>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.294)</td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(280.415)</td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(347.071)</td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.098)</td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.000)</td>
 </tr>
 <tr>
 <th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;">lvp</th>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">3.044 </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">-9.138 </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">-9.130 </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">5.331 </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">5.744 </td>
 </tr>
 <tr>
 <th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;"></th>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.243)</td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.114)</td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.143)</td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.068)</td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.000)</td>
 </tr>
 <tr>
 <th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;">sd__eta.ka</th>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">0.107 </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">0.330 </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">0.378 </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">0.095 </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">0.807 </td>
 </tr>
 <tr>
 <th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;"></th>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(NA)     </td>
 <td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(NA)     </td>
 <td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(NA)     </td>
 </tr>
 <tr>
 <th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;">sd__eta.v</th>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">0.340 </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">3.477 </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">3.526 </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">0.110 </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">0.327 </td>
 </tr>
 <tr>
 <th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;"></th>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(NA)     </td>
 <td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(NA)     </td>
 <td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(NA)     </td>
 </tr>
 <tr>
 <th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;">sd__eta.cl</th>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">0.710 </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">11.391 </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">12.172 </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">0.440 </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">0.289 </td>
 </tr>
 <tr>
 <th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;"></th>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(NA)     </td>
 <td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(NA)     </td>
 <td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(NA)     </td>
 </tr>
 <tr>
 <th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;">logn.sd</th>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">1.045 </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">     </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">1.117 </td>
 <td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">     </td>
 </tr>
 <tr>
 <th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;"></th>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(NA)     </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">     </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.014)</td>
 <td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">     </td>
 </tr>
 <tr>
 <th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;">prop.sd</th>
 <td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">     </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">0.957 </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">0.973 </td>
-</tr>
-<tr>
-<th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;"></th>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">     </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(NA)     </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(NA)     </td>
-</tr>
-<tr>
-<th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;">add.sd</th>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">     </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">     </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">0.075 </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">13617079196587500107302926613860296318497129994858517739633993985271064424061213222451606964974700963682895776434231947392380091190828269413414731776.000 </td>
 </tr>
 <tr>
 <th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;"></th>
 <td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;">     </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;">     </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;">(NA)     </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;">(0.000)</td>
 </tr>
 <tr>
 <th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;">N</th>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;">2600     </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;">2600     </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;">2600     </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;">3900     </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;">3900     </td>
 </tr>
 <tr>
 <th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;">logLik</th>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">-223.596 </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">-17116.552 </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">-17030.792 </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">1391.792 </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">-71829.897 </td>
 </tr>
 <tr>
 <th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;      font-weight: normal;">AIC</th>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;">465.193 </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;">34251.105 </td>
-<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;">34081.584 </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;">-2765.584 </td>
+<td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;">143677.794 </td>
 </tr>
 </tbody>
 </table>
-<p>Note that the additive and proportional model has the additive
-component approach zero. When comparing the objective functions of
-log-normal and proportional models, the proportional model has the
-lowest objective function value. (Since we modeled log-normal without
-data transformation it is appropriate to compare the AIC/Objective
-function values)</p>
+<p>When comparing the objective functions of the log-normal and
+proportional models, the proportional model has the lowest objective
+function value. (Since we modeled log-normal without data transformation
+it is appropriate to compare the AIC/Objective function values.)</p>
 </div>
 <div class="section level2">
 <h2 id="model-diagnostics-with-ggpmx">Model Diagnostics with ggPMX<a class="anchor" aria-label="anchor" href="#model-diagnostics-with-ggpmx"></a>
 </h2>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## The controller then can be piped into a specific plot</span></span>
 <span><span class="va">ctr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/pmx_nlmixr.html" class="external-link">pmx_nlmixr</a></span><span class="op">(</span><span class="va">cmt2fit.logn</span>, conts <span class="op">=</span> <span class="st">"WEIGHTB"</span>, cats<span class="op">=</span><span class="st">"TRTACT"</span>, vpc<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:02</span></span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ctr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/residual_scatter.html" class="external-link">pmx_plot_npde_pred</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fig-npde-pred-1.png" class="r-plt" alt="" width="100%"></p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## Modify graphical options and remove DRAFT label:</span></span>
 <span><span class="va">ctr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/residual_scatter.html" class="external-link">pmx_plot_npde_time</a></span><span class="op">(</span></span>
@@ -700,16 +593,16 @@ function values)</p>
 <span>    labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Time after first dose (days)"</span>, y <span class="op">=</span> <span class="st">"Normalized PDE"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fig-npde-pred-nodraft-1.png" class="r-plt" alt="" width="100%"></p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ctr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/residual_scatter.html" class="external-link">pmx_plot_dv_ipred</a></span><span class="op">(</span>scale_x_log10<span class="op">=</span><span class="cn">TRUE</span>, scale_y_log10<span class="op">=</span><span class="cn">TRUE</span>, filter<span class="op">=</span><span class="va">IPRED</span><span class="op">&gt;</span><span class="fl">0.001</span><span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fig-dv-ipred-1.png" class="r-plt" alt="" width="100%"></p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ctr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/residual_scatter.html" class="external-link">pmx_plot_dv_pred</a></span><span class="op">(</span>scale_x_log10<span class="op">=</span><span class="cn">TRUE</span>, scale_y_log10<span class="op">=</span><span class="cn">TRUE</span>, filter<span class="op">=</span><span class="va">IPRED</span><span class="op">&gt;</span><span class="fl">0.001</span><span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fig-dv-pred-1.png" class="r-plt" alt="" width="100%"></p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ctr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/residual_scatter.html" class="external-link">pmx_plot_abs_iwres_ipred</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fig-iwres-ipred-1.png" class="r-plt" alt="" width="100%"></p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ctr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/pmx_plot_individual.html" class="external-link">pmx_plot_individual</a></span><span class="op">(</span></span>
 <span>    <span class="fl">1</span>,</span>
@@ -717,10 +610,10 @@ function values)</p>
 <span>    facets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fig-individual-1.png" class="r-plt" alt="" width="100%"></p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ctr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/pmx_plot_iwres_dens.html" class="external-link">pmx_plot_iwres_dens</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fig-iwres-dens-1.png" class="r-plt" alt="" width="100%"></p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ctr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/pmx_qq_plot.html" class="external-link">pmx_plot_eta_qq</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fig-eta-qq-1.png" class="r-plt" alt="" width="100%"></p>
 <p>This creates two reports with default settings, both a <a href="https://github.com/nlmixr2/nlmixr2/raw/master/vignettes/nlmixr_report.pdf" class="external-link">pdf</a>
@@ -728,13 +621,13 @@ and <a href="https://github.com/nlmixr2/nlmixr2/raw/master/vignettes/nlmixr_repo
 document. The report can be customized by editing the default template
 to include project specificities (change labels, stratifications,
 filtering, etc.).</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ctr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/eta_distribution_plot.html" class="external-link">pmx_plot_eta_box</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fig-eta-box-1.png" class="r-plt" alt="" width="100%"></p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ctr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/eta_distribution_plot.html" class="external-link">pmx_plot_eta_hist</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fit-eta-hist-1.png" class="r-plt" alt="" width="100%"></p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ctr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/ggPMX/man/pmx_plot_eta_matrix.html" class="external-link">pmx_plot_eta_matrix</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fig-eta-matrix-1.png" class="r-plt" alt="" width="100%"></p>
 <p>This creates two reports with default settings, both a <a href="https://github.com/nlmixr2/nlmixr2/raw/master/vignettes/nlmixr_report.pdf" class="external-link">pdf</a>
@@ -753,10 +646,10 @@ the nlmixr model using a <a href="https://nlmixr2.github.io/rxode2/articles/rxod
 event table</a> created from <code><a href="https://nlmixr2.github.io/rxode2/reference/rxode2.html" class="external-link">rxode2()</a></code>.</p>
 <p>In this case we wish to simulate with some variability and see what
 happens at steady state:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Start a new simulation</span></span>
 <span><span class="va">ev</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/et.html" class="external-link">et</a></span><span class="op">(</span>amt<span class="op">=</span><span class="fl">100</span>, ii<span class="op">=</span><span class="fl">8</span>, ss<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ev</span><span class="op">$</span><span class="fu">add.sampling</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">8</span>, length.out<span class="op">=</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">ev</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── EventTable with 51 records ──</span></span></span>
@@ -766,8 +659,8 @@ happens at steady state:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 51 × 5</span></span></span>
 <span><span class="co">#&gt;     time   amt    ii evid             ss</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;evid&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 0        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #0000BB; font-weight: bold;">0</span>:<span style="color: #BBBBBB;">Observation</span>    <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 0       100     8 <span style="color: #0000BB; font-weight: bold;">1</span>:<span style="color: #BBBB00;">Dose (Add)</span>      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 0       100     8 <span style="color: #0000BB; font-weight: bold;">1</span>:<span style="color: #BBBB00;">Dose (Add)</span>      1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 0        <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #0000BB; font-weight: bold;">0</span>:<span style="color: #BBBBBB;">Observation</span>    <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 0.163    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #0000BB; font-weight: bold;">0</span>:<span style="color: #BBBBBB;">Observation</span>    <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 0.327    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #0000BB; font-weight: bold;">0</span>:<span style="color: #BBBBBB;">Observation</span>    <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 0.490    <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span> <span style="color: #0000BB; font-weight: bold;">0</span>:<span style="color: #BBBBBB;">Observation</span>    <span style="color: #BB0000;">NA</span></span></span>
@@ -784,7 +677,7 @@ parameters or covariances, like what is done for a VPC.</p>
 <code>100</code> different theoretical studies where you simulate from
 the uncertainty in the fixed parameter estimates and covariances you can
 very easily with nlmixr2/rxode2:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
 <span><span class="va">sim1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/rxSolve.html" class="external-link">rxSolve</a></span><span class="op">(</span><span class="va">cmt2fit.logn</span>, <span class="va">ev</span>, nSub<span class="op">=</span><span class="fl">100</span>, nStud<span class="op">=</span><span class="fl">100</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====</span></span>
@@ -792,18 +685,18 @@ very easily with nlmixr2/rxode2:</p>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Solved rxode2 object ──</span></span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Parameters (</span><span style="color: #0000BB; font-weight: bold;">$params</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10,000 × 10</span></span></span>
-<span><span class="co">#&gt;    sim.id   lka    lv   lcl    lq   lvp logn.sd  eta.ka   eta.v   eta.cl</span></span>
-<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>      1 -<span style="color: #BB0000;">2.26</span>  2.25  1.90  2.10  3.11    1.04  0.011<span style="text-decoration: underline;">4</span> -<span style="color: #BB0000;">0.017</span><span style="color: #BB0000; text-decoration: underline;">4</span> -<span style="color: #BB0000;">0.752</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>      2 -<span style="color: #BB0000;">2.26</span>  2.25  1.90  2.10  3.11    1.04  0.193  -<span style="color: #BB0000;">0.167</span>  -<span style="color: #BB0000;">0.716</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>      3 -<span style="color: #BB0000;">2.26</span>  2.25  1.90  2.10  3.11    1.04  0.155   0.377  -<span style="color: #BB0000;">0.002</span><span style="color: #BB0000; text-decoration: underline;">40</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>      4 -<span style="color: #BB0000;">2.26</span>  2.25  1.90  2.10  3.11    1.04 -<span style="color: #BB0000;">0.045</span><span style="color: #BB0000; text-decoration: underline;">9</span>  0.025<span style="text-decoration: underline;">9</span>  0.373  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>      5 -<span style="color: #BB0000;">2.26</span>  2.25  1.90  2.10  3.11    1.04  0.250  -<span style="color: #BB0000;">0.416</span>  -<span style="color: #BB0000;">0.017</span><span style="color: #BB0000; text-decoration: underline;">9</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>      6 -<span style="color: #BB0000;">2.26</span>  2.25  1.90  2.10  3.11    1.04  0.164   0.216  -<span style="color: #BB0000;">0.328</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>      7 -<span style="color: #BB0000;">2.26</span>  2.25  1.90  2.10  3.11    1.04 -<span style="color: #BB0000;">0.047</span><span style="color: #BB0000; text-decoration: underline;">6</span> -<span style="color: #BB0000;">0.109</span>  -<span style="color: #BB0000;">0.936</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>      8 -<span style="color: #BB0000;">2.26</span>  2.25  1.90  2.10  3.11    1.04 -<span style="color: #BB0000;">0.065</span><span style="color: #BB0000; text-decoration: underline;">2</span> -<span style="color: #BB0000;">0.911</span>  -<span style="color: #BB0000;">0.228</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>      9 -<span style="color: #BB0000;">2.26</span>  2.25  1.90  2.10  3.11    1.04 -<span style="color: #BB0000;">0.011</span><span style="color: #BB0000; text-decoration: underline;">6</span>  0.335   0.281  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     10 -<span style="color: #BB0000;">2.26</span>  2.25  1.90  2.10  3.11    1.04  0.167  -<span style="color: #BB0000;">0.195</span>  -<span style="color: #BB0000;">0.040</span><span style="color: #BB0000; text-decoration: underline;">4</span> </span></span>
+<span><span class="co">#&gt;    sim.id    lka    lv   lcl    lq   lvp logn.sd  eta.ka    eta.v    eta.cl</span></span>
+<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>      1 -<span style="color: #BB0000;">0.431</span>  3.15  2.59  3.32  5.34    1.12  0.010<span style="text-decoration: underline;">1</span> -<span style="color: #BB0000;">0.005</span><span style="color: #BB0000; text-decoration: underline;">22</span> -<span style="color: #BB0000;">0.464</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>      2 -<span style="color: #BB0000;">0.431</span>  3.15  2.59  3.32  5.34    1.12  0.169  -<span style="color: #BB0000;">0.048</span><span style="color: #BB0000; text-decoration: underline;">1</span>  -<span style="color: #BB0000;">0.435</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>      3 -<span style="color: #BB0000;">0.431</span>  3.15  2.59  3.32  5.34    1.12  0.136   0.122   -<span style="color: #BB0000;">0.001</span><span style="color: #BB0000; text-decoration: underline;">36</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>      4 -<span style="color: #BB0000;">0.431</span>  3.15  2.59  3.32  5.34    1.12 -<span style="color: #BB0000;">0.040</span><span style="color: #BB0000; text-decoration: underline;">3</span>  0.007<span style="text-decoration: underline;">07</span>  0.229   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>      5 -<span style="color: #BB0000;">0.431</span>  3.15  2.59  3.32  5.34    1.12  0.220  -<span style="color: #BB0000;">0.125</span>    0.000<span style="text-decoration: underline;">424</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>      6 -<span style="color: #BB0000;">0.431</span>  3.15  2.59  3.32  5.34    1.12  0.144   0.071<span style="text-decoration: underline;">8</span>  -<span style="color: #BB0000;">0.200</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>      7 -<span style="color: #BB0000;">0.431</span>  3.15  2.59  3.32  5.34    1.12 -<span style="color: #BB0000;">0.041</span><span style="color: #BB0000; text-decoration: underline;">8</span> -<span style="color: #BB0000;">0.035</span><span style="color: #BB0000; text-decoration: underline;">4</span>  -<span style="color: #BB0000;">0.579</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>      8 -<span style="color: #BB0000;">0.431</span>  3.15  2.59  3.32  5.34    1.12 -<span style="color: #BB0000;">0.057</span><span style="color: #BB0000; text-decoration: underline;">3</span> -<span style="color: #BB0000;">0.288</span>   -<span style="color: #BB0000;">0.133</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>      9 -<span style="color: #BB0000;">0.431</span>  3.15  2.59  3.32  5.34    1.12 -<span style="color: #BB0000;">0.010</span><span style="color: #BB0000; text-decoration: underline;">2</span>  0.105    0.170   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     10 -<span style="color: #BB0000;">0.431</span>  3.15  2.59  3.32  5.34    1.12  0.147  -<span style="color: #BB0000;">0.057</span><span style="color: #BB0000; text-decoration: underline;">5</span>  -<span style="color: #BB0000;">0.018</span><span style="color: #BB0000; text-decoration: underline;">3</span>  </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 9,990 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Initial Conditions (</span><span style="color: #0000BB; font-weight: bold;">$inits</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt;       depot     central peripheral1 </span></span>
@@ -816,94 +709,94 @@ very easily with nlmixr2/rxode2:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── First part of data (object): ──</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 500,000 × 12</span></span></span>
-<span><span class="co">#&gt;   sim.id  time    ka    cl     v     q    vp ipredSim   sim depot central</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>      1 0     0.106  3.14  9.36  8.21  22.4     3.60  5.49  175.    33.8</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>      1 0.163 0.106  3.14  9.36  8.21  22.4     3.75  1.77  172.    35.1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>      1 0.327 0.106  3.14  9.36  8.21  22.4     3.86 12.5   169.    36.2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>      1 0.490 0.106  3.14  9.36  8.21  22.4     3.95 32.7   166.    37.0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>      1 0.653 0.106  3.14  9.36  8.21  22.4     4.02  1.13  163.    37.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>      1 0.816 0.106  3.14  9.36  8.21  22.4     4.07  2.21  160.    38.1</span></span>
+<span><span class="co">#&gt;   sim.id  time    ka    cl     v     q    vp ipredSim    sim depot central</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>      1 0     0.657  8.37  23.2  27.5  209.     1.12  1.76  101.     25.9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>      1 0.163 0.657  8.37  23.2  27.5  209.     1.50  0.667  90.3    34.7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>      1 0.327 0.657  8.37  23.2  27.5  209.     1.75  6.17   81.1    40.7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>      1 0.490 0.657  8.37  23.2  27.5  209.     1.92 18.6    72.9    44.5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>      1 0.653 0.657  8.37  23.2  27.5  209.     2.02  0.514  65.5    46.8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>      1 0.816 0.657  8.37  23.2  27.5  209.     2.06  1.07   58.8    47.9</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 499,994 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: peripheral1 &lt;dbl&gt;</span></span></span></code></pre></div>
 <p>You may examine the simulated study information easily, as show in
 the <code><a href="https://nlmixr2.github.io/rxode2/reference/rxode2.html" class="external-link">rxode2()</a></code> printout:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">thetaMat</span><span class="op">)</span></span>
-<span><span class="co">#&gt;              lka           lv         lcl          lq         lvp</span></span>
-<span><span class="co">#&gt; [1,]  0.02947905  0.089896667  0.04984078 -0.06706706  0.06520861</span></span>
-<span><span class="co">#&gt; [2,]  0.06197460 -0.170342222 -0.05373612  0.68716441  0.09226292</span></span>
-<span><span class="co">#&gt; [3,] -0.06697635 -0.217177252 -0.10981408 -0.20229225 -0.14341128</span></span>
-<span><span class="co">#&gt; [4,] -0.06332902 -0.184020593  0.16697188  0.30978833 -0.03255698</span></span>
-<span><span class="co">#&gt; [5,] -0.17713830 -0.148149267  0.07439355 -0.69996458 -0.51233627</span></span>
-<span><span class="co">#&gt; [6,] -0.05815461  0.008916266 -0.05256217 -0.23281914 -0.24435683</span></span></code></pre></div>
+<span><span class="co">#&gt;              lka         lv          lcl          lq         lvp      logn.sd</span></span>
+<span><span class="co">#&gt; [1,] -0.24310499 -0.3069419 -0.009243328 -0.09784732  0.01242648  0.005394559</span></span>
+<span><span class="co">#&gt; [2,] -0.18784810 -0.2623023 -0.039100147  0.07996672  0.01376370  0.003423098</span></span>
+<span><span class="co">#&gt; [3,]  0.08075177  0.1022470  0.011021375 -0.02801452  0.04737219 -0.008515521</span></span>
+<span><span class="co">#&gt; [4,] -0.13312090 -0.2126346 -0.065836851 -0.05694813 -0.03591474 -0.013095814</span></span>
+<span><span class="co">#&gt; [5,] -0.17585009 -0.1394264 -0.106183413 -0.18323328 -0.01257307  0.022512342</span></span>
+<span><span class="co">#&gt; [6,]  0.36172057  0.4628480  0.062899895  0.08703887  0.00156359  0.001694008</span></span></code></pre></div>
 <p>You can also see the covariance matricies that are simulated (note
 they come from an inverse Wishart distribution):</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">omegaList</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [[1]]</span></span>
-<span><span class="co">#&gt;              eta.ka        eta.v       eta.cl</span></span>
-<span><span class="co">#&gt; eta.ka  0.012623191 -0.004464206 -0.003035283</span></span>
-<span><span class="co">#&gt; eta.v  -0.004464206  0.150338686  0.016213674</span></span>
-<span><span class="co">#&gt; eta.cl -0.003035283  0.016213674  0.511307406</span></span>
+<span><span class="co">#&gt;               eta.ka         eta.v       eta.cl</span></span>
+<span><span class="co">#&gt; eta.ka  0.0097386012 -0.0009766941 -0.001299979</span></span>
+<span><span class="co">#&gt; eta.v  -0.0009766941  0.0148086539  0.002559209</span></span>
+<span><span class="co">#&gt; eta.cl -0.0012999793  0.0025592095  0.195150912</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[2]]</span></span>
-<span><span class="co">#&gt;              eta.ka        eta.v       eta.cl</span></span>
-<span><span class="co">#&gt; eta.ka  0.010590789 -0.002237411 -0.005009739</span></span>
-<span><span class="co">#&gt; eta.v  -0.002237411  0.134165266  0.023422769</span></span>
-<span><span class="co">#&gt; eta.cl -0.005009739  0.023422769  0.480798833</span></span>
+<span><span class="co">#&gt;               eta.ka         eta.v       eta.cl</span></span>
+<span><span class="co">#&gt; eta.ka  0.0084458971 -0.0005014409 -0.002246153</span></span>
+<span><span class="co">#&gt; eta.v  -0.0005014409  0.0135118622  0.003784047</span></span>
+<span><span class="co">#&gt; eta.cl -0.0022461527  0.0037840471  0.185596834</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[3]]</span></span>
 <span><span class="co">#&gt;              eta.ka         eta.v       eta.cl</span></span>
-<span><span class="co">#&gt; eta.ka 0.0099509533  0.0008136218  0.005543711</span></span>
-<span><span class="co">#&gt; eta.v  0.0008136218  0.1349640454 -0.056394136</span></span>
-<span><span class="co">#&gt; eta.cl 0.0055437113 -0.0563941356  0.483792201</span></span>
+<span><span class="co">#&gt; eta.ka 0.0080249125  0.0002111766  0.002587580</span></span>
+<span><span class="co">#&gt; eta.v  0.0002111766  0.0135033706 -0.009131818</span></span>
+<span><span class="co">#&gt; eta.cl 0.0025875804 -0.0091318182  0.186541471</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[4]]</span></span>
 <span><span class="co">#&gt;              eta.ka        eta.v      eta.cl</span></span>
-<span><span class="co">#&gt; eta.ka 0.0123884759 0.0002081887 0.003492112</span></span>
-<span><span class="co">#&gt; eta.v  0.0002081887 0.1040441775 0.016897162</span></span>
-<span><span class="co">#&gt; eta.cl 0.0034921121 0.0168971618 0.440930357</span></span>
+<span><span class="co">#&gt; eta.ka 9.608690e-03 4.361314e-05 0.001587391</span></span>
+<span><span class="co">#&gt; eta.v  4.361314e-05 1.099009e-02 0.002838064</span></span>
+<span><span class="co">#&gt; eta.cl 1.587391e-03 2.838064e-03 0.172858719</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[5]]</span></span>
-<span><span class="co">#&gt;              eta.ka       eta.v       eta.cl</span></span>
-<span><span class="co">#&gt; eta.ka  0.012777103 0.003651706 -0.003321946</span></span>
-<span><span class="co">#&gt; eta.v   0.003651706 0.140182692  0.009462842</span></span>
-<span><span class="co">#&gt; eta.cl -0.003321946 0.009462842  0.492853429</span></span>
+<span><span class="co">#&gt;               eta.ka        eta.v       eta.cl</span></span>
+<span><span class="co">#&gt; eta.ka  0.0098398893 0.0008144681 -0.001500053</span></span>
+<span><span class="co">#&gt; eta.v   0.0008144681 0.0140092814  0.001514191</span></span>
+<span><span class="co">#&gt; eta.cl -0.0015000529 0.0015141913  0.189391288</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[6]]</span></span>
 <span><span class="co">#&gt;              eta.ka        eta.v       eta.cl</span></span>
-<span><span class="co">#&gt; eta.ka  0.012372109 -0.007659249 -0.007657738</span></span>
-<span><span class="co">#&gt; eta.v  -0.007659249  0.123751802  0.032497415</span></span>
-<span><span class="co">#&gt; eta.cl -0.007657738  0.032497415  0.496990248</span></span></code></pre></div>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<span><span class="co">#&gt; eta.ka  0.009532787 -0.001736875 -0.003261606</span></span>
+<span><span class="co">#&gt; eta.v  -0.001736875  0.012642187  0.005263468</span></span>
+<span><span class="co">#&gt; eta.cl -0.003261606  0.005263468  0.190687544</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">sigmaList</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [[1]]</span></span>
 <span><span class="co">#&gt;                rxerr.rxLinCmt</span></span>
-<span><span class="co">#&gt; rxerr.rxLinCmt      0.9911237</span></span>
+<span><span class="co">#&gt; rxerr.rxLinCmt      0.9926866</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[2]]</span></span>
 <span><span class="co">#&gt;                rxerr.rxLinCmt</span></span>
-<span><span class="co">#&gt; rxerr.rxLinCmt       1.028955</span></span>
+<span><span class="co">#&gt; rxerr.rxLinCmt       1.023488</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[3]]</span></span>
 <span><span class="co">#&gt;                rxerr.rxLinCmt</span></span>
-<span><span class="co">#&gt; rxerr.rxLinCmt       1.016967</span></span>
+<span><span class="co">#&gt; rxerr.rxLinCmt       1.013763</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[4]]</span></span>
 <span><span class="co">#&gt;                rxerr.rxLinCmt</span></span>
-<span><span class="co">#&gt; rxerr.rxLinCmt       1.024366</span></span>
+<span><span class="co">#&gt; rxerr.rxLinCmt       1.019769</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[5]]</span></span>
 <span><span class="co">#&gt;                rxerr.rxLinCmt</span></span>
-<span><span class="co">#&gt; rxerr.rxLinCmt      0.9737614</span></span>
+<span><span class="co">#&gt; rxerr.rxLinCmt      0.9784425</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[6]]</span></span>
 <span><span class="co">#&gt;                rxerr.rxLinCmt</span></span>
-<span><span class="co">#&gt; rxerr.rxLinCmt       1.025798</span></span></code></pre></div>
+<span><span class="co">#&gt; rxerr.rxLinCmt        1.02093</span></span></code></pre></div>
 <p>It is also easy enough to create a plot to see what is going on with
 the simulation:</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">conf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">sim1</span>, <span class="st">"sim"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">conf</span><span class="op">)</span> <span class="co">## This returns a ggplot2 object</span></span>
@@ -913,7 +806,7 @@ the simulation:</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Time (hr)"</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Simulated Concentrations of TID steady state"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="xgxr-nlmixr-ggpmx_files/figure-html/fig-simulate-1.png" class="r-plt" alt="" width="100%"></p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># And put the same plot on a semi-log plot</span></span>
 <span><span class="va">p1</span> <span class="op">+</span></span>
@@ -936,7 +829,7 @@ summarize it in the way you wish.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

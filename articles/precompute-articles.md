@@ -1,0 +1,190 @@
+# Contributing a long-running example (precompute + cache)
+
+This article is for **contributors**. It explains how to add a pkgdown
+article whose model fits are too slow to run on every website build — a
+full FOCEi or SAEM estimation, a PBPK model, a delay differential
+equation — without timing the build out.
+
+The mechanics are a one-time setup chunk plus a single line per fit.
+
+## The problem
+
+The articles under `vignettes/` are `.Rbuildignore`d, so they are built
+**only for the website** (`pkgdown`), never during `R CMD check` or on
+CRAN. That is deliberate: it lets an article run a real estimation.
+
+But a real estimation is slow. When several articles each re-fit a SAEM
+or FOCEi model on every site build, the pkgdown runner times out (it
+exits 143 after its wall-clock limit). So we cache: fit once, commit the
+result, and load it on every later build.
+
+We do this with the **`:=` operator** from the
+[nlmixr2save](https://github.com/nlmixr2/nlmixr2save) package, which
+saves a fit in a portable format (readable independent of the
+nlmixr2/rxode2 version) and reloads it instead of refitting.
+
+## The setup chunk
+
+Each article that fits a model starts with:
+
+``` r
+
+library(nlmixr2save)
+options(nlmixr2save.dir    = system.file("cache", package = "nlmixr2"), # where the cache files live
+        nlmixr2save.prefix = "modelPiping-",  # a per-article file prefix
+        nlmixr2save.check  = FALSE)           # trust the committed cache
+```
+
+- **`nlmixr2save.dir = system.file("cache", package = "nlmixr2")`**
+  points at the cache under `inst/cache/` (which installs to `cache/` at
+  the package root). `inst/cache/` is `.Rbuildignore`d for normal
+  `R CMD build` / CRAN tarballs, but the pkgdown workflow removes that
+  line before building the package, so
+  [`system.file()`](https://rdrr.io/r/base/system.file.html) finds it
+  during the site build. `precompute.R`
+  [`pkgload::load_all()`](https://pkgload.r-lib.org/reference/load_all.html)s
+  the source package so
+  [`system.file()`](https://rdrr.io/r/base/system.file.html) resolves to
+  the source tree’s `inst/cache/` while the cache is populated.
+- **`nlmixr2save.prefix`** namespaces this article’s files. Use the
+  article’s base name plus a dash (`"modelPiping-"`, `"wbc-"`,
+  `"delays-"`, …) so files do not collide between articles.
+- **`nlmixr2save.check = FALSE`** tells `:=` to *trust* the committed
+  cache: if the cache file exists it is loaded as-is; it is regenerated
+  only when it is missing (or you clear it). This keeps a committed
+  cache stable across nlmixr2/rxode2 updates — the fits are re-run only
+  when you actually want them re-run.
+
+## Caching a fit with `:=`
+
+Replace a normal assignment `fit <- nlmixr2(...)` with
+`fit := nlmixr2(...)`:
+
+``` r
+
+fit := nlmixr2(one.compartment, theo_sd, est = "focei",
+               control = list(print = 0),
+               table = list(cwres = TRUE, npde = TRUE))
+```
+
+The first time this runs it fits the model and writes
+`inst/cache/modelPiping-fit.zip`; every later build loads that file and
+assigns `fit` without refitting. The variable name (`fit`) plus the
+prefix is the cache file name, so **each `:=` target must be unique
+within an article**.
+
+A simulation or other non-fit value works the same way and is stored as
+an `.rds` (a fit becomes a portable `.zip`):
+
+``` r
+
+vpc := vpcSim(fit, n = 300)     # inst/cache/modelPiping-vpc.rds
+```
+
+### One model transformation per fit
+
+`:=` caches a single
+[`nlmixr2()`](https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html)/[`nlmixr()`](https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html)
+call. When an example builds its model by piping, do the (cheap) model
+transformation first and give the (slow) fit its own `:=` line:
+
+``` r
+
+# build the model -- cheap, not cached
+noEta.mod <- fit |> model(ka <- exp(tka))
+
+# fit it -- cached
+noEta := nlmixr2(noEta.mod, theo_sd, est = "focei",
+                 control = list(print = 0))
+```
+
+Piping a fit through
+[`ini()`](https://nlmixr2.github.io/rxode2/reference/ini.html)/[`model()`](https://nlmixr2.github.io/rxode2/reference/model.html)/[`update()`](https://rdrr.io/r/stats/update.html)
+returns a model (an `rxUi`), which carries no data, so pass the data
+explicitly to
+[`nlmixr2()`](https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html).
+
+## Registering, populating, and committing the cache
+
+**1. Register the article** in `precompute.R` — add its file name to the
+`vignettes` vector so the cache-populating script renders it:
+
+``` r
+
+vignettes <- c(
+  "addingCovariances.Rmd",
+  "delays.Rmd",
+  "mymodel.Rmd",          # <- add here
+  "modelPiping.Rmd",
+  # ...
+)
+```
+
+**2. Populate the cache.** From the `vignettes/` directory:
+
+``` sh
+cd vignettes
+Rscript precompute.R          # fits only what is missing from inst/cache/
+```
+
+`precompute.R` renders each registered article in its **own fresh R
+subprocess** (building many rxode2 models in one long-lived session
+eventually fails) that first
+[`pkgload::load_all()`](https://pkgload.r-lib.org/reference/load_all.html)s
+the source package (so
+[`system.file()`](https://rdrr.io/r/base/system.file.html) resolves to
+`inst/cache/`) and then runs the article’s real code — so the `:=` lines
+do the fitting and write the cache files there.
+
+**3. Commit the cache** alongside the `.Rmd`:
+
+``` sh
+git add vignettes/mymodel.Rmd inst/cache/mymodel-*.zip
+```
+
+**4. Add the article to the pkgdown navbar** in `_pkgdown.yml`.
+
+## Refreshing the cache
+
+To force the fits to re-run — after changing a model, data, or package —
+clear the cache and re-render.
+[`nlmixr2saveInvalidate()`](https://nlmixr2.github.io/nlmixr2save/reference/nlmixr2saveInvalidate.html)
+removes every cache entry under the active prefix/dir:
+
+``` r
+
+options(nlmixr2save.dir = system.file("cache", package = "nlmixr2"),
+        nlmixr2save.prefix = "mymodel-")
+nlmixr2saveInvalidate()       # clears the mymodel-* cache entries
+```
+
+or clear everything and rebuild all articles:
+
+``` sh
+cd vignettes
+Rscript precompute.R --clean   # empties inst/cache/ then refits every article
+```
+
+## When a fit needs settings that only matter for the demo
+
+A cached fit is computed once, so it is fine — and often clearer — to
+use control settings that make the *demonstration* fast and robust
+rather than production-grade. The DDE article, for example, skips the
+standard-error step (`covMethod = ""`) and common-subexpression
+optimization (`optExpression = FALSE`) because the point is parameter
+recovery, not precision. Put such choices in the `.Rmd` (the source of
+truth) and note *why* in the prose.
+
+## Summary
+
+- Articles in `vignettes/` build for the website only; they may run real
+  fits.
+- Set `nlmixr2save.dir`/`.prefix`/`.check` once, then cache every fit
+  with `name := nlmixr2(...)` (a fit → `.zip`, a simulation → `.rds`).
+- Do model piping in a separate, cheap step; give each fit its own
+  unique `:=`.
+- Register the article in `precompute.R`, run it, and commit
+  `inst/cache/<prefix>*`.
+- `precompute.R --clean` (or
+  [`nlmixr2saveInvalidate()`](https://nlmixr2.github.io/nlmixr2save/reference/nlmixr2saveInvalidate.html))
+  refreshes the cache when a model changes.

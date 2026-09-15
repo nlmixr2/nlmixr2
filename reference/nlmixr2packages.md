@@ -18,7 +18,7 @@ nlmixr2packages(include_self = TRUE)
 
 ``` r
 nlmixr2packages()
-#>  [1] "cli"          "crayon"       "dplyr"        "purrr"        "rstudioapi"  
-#>  [6] "nlmixr2est"   "nlmixr2extra" "rxode2"       "lotri"        "nlmixr2plot" 
-#> [11] "tibble"       "magrittr"     "nlmixr2"     
+#>  [1] "clisymbols"   "cli"          "crayon"       "dplyr"        "purrr"       
+#>  [6] "rstudioapi"   "nlmixr2est"   "nlmixr2extra" "rxode2"       "lotri"       
+#> [11] "nlmixr2plot"  "tibble"       "nlmixr2save"  "nlmixr2"     
 ```

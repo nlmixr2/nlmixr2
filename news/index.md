@@ -1,5 +1,48 @@
 # Changelog
 
+## nlmixr2 7.0.1
+
+CRAN release: 2026-08-04
+
+- The mixture-models article documents reading the fitted component off
+  the fit table (a `mixest`/`mixnum` output variable), which needs an
+  rxode2 carrying nlmixr2/rxode2#1358; it also now appears in the
+  Articles menu, which it was missing from.
+
+- [`nlmixr2CheckInstall()`](https://nlmixr2.github.io/nlmixr2/reference/nlmixr2CheckInstall.md)
+  no longer fails when the repositories cannot be queried for package
+  updates. Both an unreachable repository and an error from
+  [`utils::old.packages()`](https://rdrr.io/r/utils/update.packages.html)
+  itself (seen on Windows, where `pkgType` is `"both"` and R’s internal
+  `.available.both()` can fail with “subscript out of bounds” when the
+  source and binary indexes disagree) are now reported as “updates could
+  not be checked” instead of stopping the check.
+
+- [`nlmixr2CheckInstall()`](https://nlmixr2.github.io/nlmixr2/reference/nlmixr2CheckInstall.md)
+  messages are escaped before they are handed to `cli`, so paths or
+  command output containing `{` or `}` are shown literally rather than
+  being interpreted as `glue` expressions.
+
+## nlmixr2 7.0.0
+
+- Optionally import more packages to support nlmixr2 ecosystem
+
+- Match nlmixr2est
+
+- Do not show the packages that were optionally included in the
+  secondary list of packages, instead show them being imported with an
+  open circle. Required packages are shown with a star.
+
+- Removed duplicated entries from the optional package list so that
+  [`nlmixr2CheckInstall()`](https://nlmixr2.github.io/nlmixr2/reference/nlmixr2CheckInstall.md)
+  and the startup banner no longer report `pmxNODE`, `nlmixr2auto` and
+  `nlmixr2autoinit` twice.
+
+- `nlmixr2` now requires R 4.1.0 or later (the native `|>` pipe is used
+  internally); `magrittr` is no longer imported. The `%>%` pipe was
+  never exported by `nlmixr2` itself, so this does not change the
+  package’s user-visible API.
+
 ## nlmixr2 5.0.0
 
 CRAN release: 2025-11-30
@@ -93,8 +136,9 @@ CRAN release: 2022-06-27
   simple [`library(nlmixr2)`](https://nlmixr2.org/) instead of
   [`library(rxode2);library(nlmixr2)`](https://nlmixr2.github.io/rxode2/)
 
-- `vpcSim()` now exports the new `nretry` option for more robust control
-  of `vpcSim()`
+- [`vpcSim()`](https://nlmixr2.github.io/nlmixr2est/reference/vpcSim.html)
+  now exports the new `nretry` option for more robust control of
+  [`vpcSim()`](https://nlmixr2.github.io/nlmixr2est/reference/vpcSim.html)
 
 - Update documentation to mention the package names that work with
   nlmixr2, like `xpose.nlmixr2` instead of `xpose.nlmixr`

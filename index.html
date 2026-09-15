@@ -12,8 +12,8 @@
 <link rel="icon" sizes="any" href="favicon.ico">
 <link rel="manifest" href="site.webmanifest">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Nonlinear Mixed Effects Models in Population PK/PD">
 <meta name="description" content="Fit and compare nonlinear mixed-effects models in differential equations with flexible dosing information commonly seen in pharmacokinetics and pharmacodynamics (Almquist, Leander, and Jirstrand 2015 &lt;doi:10.1007/s10928-015-9409-1&gt;). Differential equation solving is by compiled C code provided in the rxode2 package (Wang, Hallow, and James 2015 &lt;doi:10.1002/psp4.12052&gt;).">
@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">nlmixr2</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">5.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">7.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,8 +49,14 @@
     <li><a class="dropdown-item" href="articles/modelPiping.html">Model Piping</a></li>
     <li><a class="dropdown-item" href="articles/broom.html">Sweeping models to tidy datasets (broom)</a></li>
     <li><a class="dropdown-item" href="articles/censoring.html">Censoring in nlmixr2 (M3 and others)</a></li>
+    <li><a class="dropdown-item" href="articles/mixture-models.html">Mixture models (latent subpopulations)</a></li>
+    <li><a class="dropdown-item" href="articles/phase-residual-error.html">Separate phase 1 and phase 3 residual error</a></li>
+    <li><a class="dropdown-item" href="articles/simulate-titrated-dosing.html">Simulations with individually-titrated dosing</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="articles/xgxr-nlmixr-ggpmx.html">Integrated development with xgxr/nlmixr/ggPMX</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>For contributors</h6></li>
+    <li><a class="dropdown-item" href="articles/precompute-articles.html">Contributing a long-running example (precompute + cache)</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="articles/citations.html">Citations of nlmixr2</a></li>
     <li><a class="dropdown-item" href="articles/nlmixr2-team-and-advisory-committee.html">Who we are</a></li>
@@ -64,6 +70,18 @@
     <li><a class="dropdown-item" href="articles/nimo.html">Nonlinear PK/PD -- Nimotuzumab</a></li>
     <li><a class="dropdown-item" href="articles/mavoglurant.html">PBPK -- Mavoglurant</a></li>
     <li><a class="dropdown-item" href="articles/wbc.html">PKPD -- Myelosuppression model</a></li>
+    <li><a class="dropdown-item" href="articles/delays.html">DDEs -- Lifespan and delayed-response models</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="articles/vaeNeonatal.html">VAE-NLME -- neonatal growth with covariate selection</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="articles/linearized-quadrature-ladder.html">Estimation: conditional/quadrature ladder (fo...agq)</a></li>
+    <li><a class="dropdown-item" href="articles/priors-focei.html">Priors in FOCEi: general, nwpri and tnpri</a></li>
+    <li><a class="dropdown-item" href="articles/saem.html">Estimation: SAEM</a></li>
+    <li><a class="dropdown-item" href="articles/nlm-family-optimizers.html">Estimation: NLM-family optimizers (population-only)</a></li>
+    <li><a class="dropdown-item" href="articles/babelmixr2-external-engines.html">Estimation: external engines via babelmixr2</a></li>
+    <li><a class="dropdown-item" href="articles/imp-impmap-qrpem.html">Estimation: importance-sampling EM (imp/impmap/qrpem)</a></li>
+    <li><a class="dropdown-item" href="articles/nonparametric-npag-npb.html">Nonparametric NLME (npag/npb) vs Pmetrics</a></li>
+    <li><a class="dropdown-item" href="articles/variational-inference.html">Variational inference (emvi/fbvi) vs FOCEI/SAEM/Stan/VAE</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/nlmixr2/nlmixr2/raw/main/CheatSheet_nlmixr_220621.pdf"><span class="fa fa-scroll fa-lg"></span> Cheat Sheet</a></li>
@@ -85,30 +103,6 @@
 <img src="logo.png" class="logo" alt=""><h1 id="nlmixr2">nlmixr2<a class="anchor" aria-label="anchor" href="#nlmixr2"></a>
 </h1>
 </div>
-<!--
-## CRAN updating
-
-[![CRAN-status](https://img.shields.io/badge/CRAN-Updating-red)](https://github.com/nlmixr2/rxode2/actions/workflows/R-CMD-check.yaml)
-
-Currently we are updating `PreciseSums` on CRAN; `nlmixr2est` is
-linked to `rxode2` which in turn is linked to `PreciseSums`.  While
-`PreciseSums`, `rxode2` and `nlmixr2est` are being submitted, the most stable
-version of `nlmixr2` comes from the `r-universe`:
-
-```r
-install.packages(c("PreciseSums", "dparser", "nlmixr2data", "lotri",
-                   "rxode2ll", "rxode2parse", "rxode2random", "rxode2et",
-                   "rxode2",  "nlmixr2est", "nlmixr2extra", "nlmixr2plot",
-                   "nlmixr2"),
-                 repos = c('ttps://nlmixr2.r-universe.dev',
-                           'https://cloud.r-project.org'))
-```
-
-This is temporary and should resolve itself in a couple of weeks.
-
-You could also compile from source to work around the issue.
-
--->
 <!-- badges: start -->
 
 <p>The vision of nlmixr2 is to develop a R-based open-source nonlinear mixed-effects modeling software package that can compete with commercial pharmacometric tools and is suitable for regulatory submissions.</p>
@@ -137,7 +131,7 @@ You could also compile from source to work around the issue.
 <p>Install gfortran:</p>
 <ol style="list-style-type: decimal">
 <li><p>Download and install from <a href="https://mac.r-project.org/tools/" class="external-link uri">https://mac.r-project.org/tools/</a></p></li>
-<li><p>Add gfortran directory to the path with: <code>export     PATH=$PATH:/usr/local/gfortran/bin</code></p></li>
+<li><p>Add gfortran directory to the path with: <code>export PATH=$PATH:/usr/local/gfortran/bin</code></p></li>
 </ol>
 </li>
 </ol>
@@ -276,18 +270,16 @@ You could also compile from source to work around the issue.
 <div class="section level3">
 <h3 id="refreshing-the-installation-with-the-latest-cran-version">Refreshing the installation with the latest CRAN version<a class="anchor" aria-label="anchor" href="#refreshing-the-installation-with-the-latest-cran-version"></a>
 </h3>
-<p>If you have difficulties due to errors while compiling models, it may be useful to re-install all of nlmixr2 and its dependencies. For development versions, please use the <code><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">remotes::install_github()</a></code> or the <code>install.package()</code> with the <code>r-universe</code> above. For the stable version, please use the following command:</p>
+<p>If you have difficulties due to errors while compiling models, it may be useful to re-install all of nlmixr2 and its dependencies. For development versions, please use the <code><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">remotes::install_github()</a></code> or the <code>install.package()</code> with the <code>r-universe</code> above. For the stable version, you can get the command with:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dparser"</span>, <span class="st">"lotri"</span>, <span class="st">"rxode2ll"</span>, <span class="st">"rxode2parse"</span>,</span>
-<span>                   <span class="st">"rxode2random"</span>, <span class="st">"rxode2et"</span>, <span class="st">"rxode2"</span>,</span>
-<span>                   <span class="st">"nlmixr2data"</span>, <span class="st">"nlmixr2est"</span>, <span class="st">"nlmixr2extra"</span>,</span>
-<span>                   <span class="st">"nlmixr2plot"</span>, <span class="st">"nlmixr2"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://nlmixr2.org/" class="external-link">nlmixr2</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/nlmixr2update.html">nlmixr2update</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<p>This is a basic example which shows you how to solve a common problem:</p>
+<p>This is a basic example of a non-linear mixed effect model</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://nlmixr2.org/" class="external-link">nlmixr2</a></span><span class="op">)</span></span>
 <span></span>
@@ -316,18 +308,12 @@ You could also compile from source to work around the issue.
 <span></span>
 <span><span class="co">## The fit is performed by the function nlmixr/nlmixr2 specifying the model, data and estimate</span></span>
 <span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">nlmixr2</span><span class="op">(</span><span class="va">one.compartment</span>, <span class="va">theo_sd</span>,  est<span class="op">=</span><span class="st">"saem"</span>, <span class="fu">saemControl</span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
-<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
 <span><span class="co">#&gt; ── nlmixr² SAEM OBJF by FOCEi approximation ──</span></span>
@@ -337,18 +323,20 @@ You could also compile from source to work around the issue.
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Time (sec $time): ──</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;           setup covariance  saem table compress    other</span></span>
-<span><span class="co">#&gt; elapsed 0.00089   0.007004 4.546  0.05    0.018 1.785106</span></span>
+<span><span class="co">#&gt;             setup   optimize covariance preprocess configure  saem postprocess</span></span>
+<span><span class="co">#&gt; elapsed 0.6147907 3.5104e-05 0.01500671      0.048     1.302 6.394       1.519</span></span>
+<span><span class="co">#&gt;         table compress     other</span></span>
+<span><span class="co">#&gt; elapsed 0.051    0.066 0.5331675</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── Population Parameters ($parFixed or $parFixedDf): ──</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;        Parameter  Est.     SE %RSE Back-transformed(95%CI) BSV(CV%) Shrink(SD)%</span></span>
-<span><span class="co">#&gt; tka           Ka  0.46  0.196 42.7       1.58 (1.08, 2.33)     71.9    -0.291% </span></span>
-<span><span class="co">#&gt; tcl           Cl  1.01 0.0839 8.29       2.75 (2.34, 3.25)     27.0      3.42% </span></span>
-<span><span class="co">#&gt; tv             V  3.45 0.0469 1.36       31.6 (28.8, 34.7)     14.0      10.7% </span></span>
-<span><span class="co">#&gt; add.sd           0.694                               0.694                     </span></span>
+<span><span class="co">#&gt; tka           Ka 0.456  0.189 41.5       1.58 (1.09, 2.29)     70.4     -0.398 </span></span>
+<span><span class="co">#&gt; tcl           Cl  1.01 0.0822 8.11       2.76 (2.35, 3.24)     27.2       3.79 </span></span>
+<span><span class="co">#&gt; tv             V  3.45 0.0432 1.25       31.6 (29.0, 34.4)     13.3       9.73 </span></span>
+<span><span class="co">#&gt; add.sd           0.697 0.0471 6.75    0.697 (0.605, 0.789)                     </span></span>
 <span><span class="co">#&gt;  </span></span>
-<span><span class="co">#&gt;   Covariance Type ($covMethod): linFim</span></span>
+<span><span class="co">#&gt;   Covariance Type ($covMethod): sa</span></span>
 <span><span class="co">#&gt;   No correlations in between subject variability (BSV) matrix</span></span>
 <span><span class="co">#&gt;   Full BSV covariance ($omega) or correlation ($omegaR; diagonals=SDs) </span></span>
 <span><span class="co">#&gt;   Distribution stats (mean/skewness/kurtosis/p-value) available in $shrink </span></span>
@@ -358,9 +346,9 @@ You could also compile from source to work around the issue.
 <span><span class="co">#&gt; # A tibble: 132 × 19</span></span>
 <span><span class="co">#&gt;   ID     TIME    DV  PRED    RES IPRED   IRES  IWRES eta.ka eta.cl   eta.v    cp</span></span>
 <span><span class="co">#&gt;   &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 1      0     0.74  0     0.74   0     0.74   1.07  0.0988 -0.484 -0.0843  0   </span></span>
-<span><span class="co">#&gt; 2 1      0.25  2.84  3.27 -0.433  3.87 -1.03  -1.49  0.0988 -0.484 -0.0843  3.87</span></span>
-<span><span class="co">#&gt; 3 1      0.57  6.57  5.85  0.718  6.82 -0.247 -0.356 0.0988 -0.484 -0.0843  6.82</span></span>
+<span><span class="co">#&gt; 1 1      0     0.74  0     0.74   0     0.74   1.06   0.105 -0.484 -0.0810  0   </span></span>
+<span><span class="co">#&gt; 2 1      0.25  2.84  3.26 -0.424  3.87 -1.03  -1.48   0.105 -0.484 -0.0810  3.87</span></span>
+<span><span class="co">#&gt; 3 1      0.57  6.57  5.84  0.729  6.81 -0.240 -0.344  0.105 -0.484 -0.0810  6.81</span></span>
 <span><span class="co">#&gt; # ℹ 129 more rows</span></span>
 <span><span class="co">#&gt; # ℹ 7 more variables: depot &lt;dbl&gt;, center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   tad &lt;dbl&gt;, dosenum &lt;dbl&gt;</span></span></code></pre></div>
@@ -455,7 +443,7 @@ You could also compile from source to work around the issue.
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

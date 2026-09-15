@@ -18,6 +18,7 @@ functions.
 To explore this, first we run the model:
 
 ``` r
+
 library(nlmixr2)
 library(broom.mixed)
 
@@ -56,12 +57,6 @@ fit.s <- nlmixr(pheno, pheno_sd, "saem", control=list(logLik=TRUE, print=0),
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
@@ -73,7 +68,9 @@ fit.f <- nlmixr(pheno, pheno_sd, "focei",
 #> calculating covariance matrix
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
 #> done
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:04 
+#> 
+#> [lsoda -- internal t + h = t (h too small for machine precision)]: 146 warning(s) for subject(s): 3 (sim 23), 25 (sim 87), 20 (sim 197), 39 (sim 247)
 ```
 
 ## Glancing at the goodness of fit metrics
@@ -83,12 +80,13 @@ well it fits. In `broom`, `glance` will give a summary of the fit
 metrics of goodness of fit:
 
 ``` r
+
 glance(fit.s)
 #> # A tibble: 2 × 6
 #>    OBJF   AIC   BIC logLik `Condition#(Cov)` `Condition#(Cor)`
 #>   <dbl> <dbl> <dbl>  <dbl>             <dbl>             <dbl>
-#> 1  689.  986. 1004.  -487.              6.03              5.25
-#> 2  698.  995. 1013.  -492.              6.03              5.25
+#> 1  689.  986. 1004.  -487.              20.6              19.5
+#> 2  691.  987. 1006.  -488.              20.6              19.5
 ```
 
 Note in nlmixr it is possible to have more than one fit metric (based on
@@ -99,6 +97,7 @@ If you wish you can set the objective function to the focei objective
 function (which was already calculated with CWRES).
 
 ``` r
+
 setOfv(fit.s,"gauss3_1.6")
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 ```
@@ -106,19 +105,21 @@ setOfv(fit.s,"gauss3_1.6")
 Now the glance gives the `gauss3_1.6` values.
 
 ``` r
+
 glance(fit.s)
 #> # A tibble: 3 × 6
 #>    OBJF   AIC   BIC logLik `Condition#(Cov)` `Condition#(Cor)`
 #>   <dbl> <dbl> <dbl>  <dbl>             <dbl>             <dbl>
-#> 1  689.  986. 1004.  -487.              6.03              5.25
-#> 2  698.  995. 1013.  -492.              6.03              5.25
-#> 3  698.  995. 1013.  -492.              6.03              5.25
+#> 1  689.  986. 1004.  -487.              20.6              19.5
+#> 2  691.  987. 1006.  -488.              20.6              19.5
+#> 3  691.  987. 1006.  -488.              20.6              19.5
 ```
 
 Of course you can always change the type of objective function that
 nlmixr uses:
 
 ``` r
+
 setOfv(fit.s,"FOCEi") # Setting objective function to focei
 ```
 
@@ -126,25 +127,27 @@ By setting it back to the SAEM default objective function of `FOCEi`,
 the `glance(fit.s)` has the same values again:
 
 ``` r
+
 glance(fit.s)
 #> # A tibble: 3 × 6
 #>    OBJF   AIC   BIC logLik `Condition#(Cov)` `Condition#(Cor)`
 #>   <dbl> <dbl> <dbl>  <dbl>             <dbl>             <dbl>
-#> 1  689.  986. 1004.  -487.              6.03              5.25
-#> 2  698.  995. 1013.  -492.              6.03              5.25
-#> 3  698.  995. 1013.  -492.              6.03              5.25
+#> 1  689.  986. 1004.  -487.              20.6              19.5
+#> 2  691.  987. 1006.  -488.              20.6              19.5
+#> 3  691.  987. 1006.  -488.              20.6              19.5
 ```
 
 For convenience, you can do this while you `glance` at the objects:
 
 ``` r
+
 glance(fit.s, type="FOCEi")
 #> # A tibble: 3 × 6
 #>    OBJF   AIC   BIC logLik `Condition#(Cov)` `Condition#(Cor)`
 #>   <dbl> <dbl> <dbl>  <dbl>             <dbl>             <dbl>
-#> 1  689.  986. 1004.  -487.              6.03              5.25
-#> 2  698.  995. 1013.  -492.              6.03              5.25
-#> 3  698.  995. 1013.  -492.              6.03              5.25
+#> 1  689.  986. 1004.  -487.              20.6              19.5
+#> 2  691.  987. 1006.  -488.              20.6              19.5
+#> 3  691.  987. 1006.  -488.              20.6              19.5
 ```
 
 ## Tidying the model parameters
@@ -160,16 +163,17 @@ The default function for this is `tidy`, which when applied to the `fit`
 object provides the overall parameter information in a tidy dataset:
 
 ``` r
+
 tidy(fit.s)
 #> # A tibble: 6 × 7
-#>   effect   group         term              estimate std.error statistic  p.value
-#>   <chr>    <chr>         <chr>                <dbl>     <dbl>     <dbl>    <dbl>
-#> 1 fixed    NA            tcl                 -5.02     0.0750    -66.9   1   e+0
-#> 2 fixed    NA            tv                   0.350    0.0548      6.37  1.09e-9
-#> 3 ran_pars ID            sd__eta.cl           0.488   NA          NA    NA      
-#> 4 ran_pars ID            sd__eta.v            0.402   NA          NA    NA      
-#> 5 ran_pars ID            cor__eta.v.eta.cl    0.946   NA          NA    NA      
-#> 6 ran_pars Residual(add) add.err              2.76    NA          NA    NA    
+#>   effect   group         term             estimate std.error statistic   p.value
+#>   <chr>    <chr>         <chr>               <dbl>     <dbl>     <dbl>     <dbl>
+#> 1 fixed    NA            tcl                -5.00     0.0663    -75.4   1   e+ 0
+#> 2 fixed    NA            tv                  0.347    0.0530      6.54  4.66e-10
+#> 3 ran_pars ID            sd__eta.cl          0.488   NA          NA    NA       
+#> 4 ran_pars ID            sd__eta.v           0.399   NA          NA    NA       
+#> 5 ran_pars ID            cor__eta.v.eta.…    0.962   NA          NA    NA       
+#> 6 ran_pars Residual(add) add.err             2.78     0.240      11.6   7.58e-23
 ```
 
 Note by default these are the parameters that are *actually* estimated
@@ -179,39 +183,41 @@ exponentiate some of the terms. The broom package allows you to apply
 exponentiation on *all* the parameters, that is:
 
 ``` r
+
 ## Transformation applied on every parameter
 tidy(fit.s, exponentiate=TRUE)
 #> # A tibble: 6 × 7
 #>   effect   group         term             estimate std.error statistic   p.value
 #>   <chr>    <chr>         <chr>               <dbl>     <dbl>     <dbl>     <dbl>
-#> 1 fixed    NA            tcl               0.00663  0.000498      13.3  1.75e-27
-#> 2 fixed    NA            tv                1.42     0.0778        18.2  4.27e-40
+#> 1 fixed    NA            tcl               0.00671  0.000445      15.1  4.40e-32
+#> 2 fixed    NA            tv                1.41     0.0750        18.9  1.27e-41
 #> 3 ran_pars ID            sd__eta.cl        0.488   NA             NA   NA       
-#> 4 ran_pars ID            sd__eta.v         0.402   NA             NA   NA       
-#> 5 ran_pars ID            cor__eta.v.eta.…  0.946   NA             NA   NA       
-#> 6 ran_pars Residual(add) add.err           2.76    NA             NA   NA    
+#> 4 ran_pars ID            sd__eta.v         0.399   NA             NA   NA       
+#> 5 ran_pars ID            cor__eta.v.eta.…  0.962   NA             NA   NA       
+#> 6 ran_pars Residual(add) add.err           2.78     0.240         11.6  7.58e-23
 ```
 
 **Note:**, in accordance with the rest of the broom package, when the
 parameters with the exponentiated, the standard errors are transformed
-to an approximate standard error by the formula:
-$\text{se}\left( \exp(x) \right) \approx \exp\left( \text{model estimate}_{x} \right) \times \text{se}_{x}$.
-This can be confusing because the confidence intervals (described later)
-are using the actual standard error and back-transforming to the
+to an approximate standard error by the formula: $`\textrm{se}(\exp(x))
+\approx \exp(\textrm{model estimate}_x)\times \textrm{se}_x`$. This can
+be confusing because the confidence intervals (described later) are
+using the actual standard error and back-transforming to the
 exponentiated scale. This is the reason why the default for nlmixr’s
 `broom` interface is `exponentiate=FALSE`, that is:
 
 ``` r
+
 tidy(fit.s, exponentiate=FALSE) ## No transformation applied
 #> # A tibble: 6 × 7
-#>   effect   group         term              estimate std.error statistic  p.value
-#>   <chr>    <chr>         <chr>                <dbl>     <dbl>     <dbl>    <dbl>
-#> 1 fixed    NA            tcl                 -5.02     0.0750    -66.9   1   e+0
-#> 2 fixed    NA            tv                   0.350    0.0548      6.37  1.09e-9
-#> 3 ran_pars ID            sd__eta.cl           0.488   NA          NA    NA      
-#> 4 ran_pars ID            sd__eta.v            0.402   NA          NA    NA      
-#> 5 ran_pars ID            cor__eta.v.eta.cl    0.946   NA          NA    NA      
-#> 6 ran_pars Residual(add) add.err              2.76    NA          NA    NA    
+#>   effect   group         term             estimate std.error statistic   p.value
+#>   <chr>    <chr>         <chr>               <dbl>     <dbl>     <dbl>     <dbl>
+#> 1 fixed    NA            tcl                -5.00     0.0663    -75.4   1   e+ 0
+#> 2 fixed    NA            tv                  0.347    0.0530      6.54  4.66e-10
+#> 3 ran_pars ID            sd__eta.cl          0.488   NA          NA    NA       
+#> 4 ran_pars ID            sd__eta.v           0.399   NA          NA    NA       
+#> 5 ran_pars ID            cor__eta.v.eta.…    0.962   NA          NA    NA       
+#> 6 ran_pars Residual(add) add.err             2.78     0.240      11.6   7.58e-23
 ```
 
 If you want, you can also use the parsed back-transformation that is
@@ -222,17 +228,18 @@ log-scaled back-transformed values**.
 This is done by:
 
 ``` r
+
 ## Transformation applied to log-scaled population parameters
 tidy(fit.s, exponentiate=NA)
 #> # A tibble: 6 × 7
 #>   effect   group         term             estimate std.error statistic   p.value
 #>   <chr>    <chr>         <chr>               <dbl>     <dbl>     <dbl>     <dbl>
-#> 1 fixed    NA            tcl               0.00663  0.000498      13.3  1.75e-27
-#> 2 fixed    NA            tv                1.42     0.0778        18.2  4.27e-40
+#> 1 fixed    NA            tcl               0.00671  0.000445      15.1  4.40e-32
+#> 2 fixed    NA            tv                1.41     0.0750        18.9  1.27e-41
 #> 3 ran_pars ID            sd__eta.cl        0.488   NA             NA   NA       
-#> 4 ran_pars ID            sd__eta.v         0.402   NA             NA   NA       
-#> 5 ran_pars ID            cor__eta.v.eta.…  0.946   NA             NA   NA       
-#> 6 ran_pars Residual(add) add.err           2.76    NA             NA   NA    
+#> 4 ran_pars ID            sd__eta.v         0.399   NA             NA   NA       
+#> 5 ran_pars ID            cor__eta.v.eta.…  0.962   NA             NA   NA       
+#> 6 ran_pars Residual(add) add.err           2.78     0.240         11.6  7.58e-23
 ```
 
 Also note, at the time of this writing the default separator between
@@ -240,17 +247,18 @@ variables is `.`, which doesn’t work well with this model giving
 `cor__eta.v.eta.cl`. You can easily change this by:
 
 ``` r
+
 options(broom.mixed.sep2="..")
 tidy(fit.s)
 #> # A tibble: 6 × 7
-#>   effect   group         term              estimate std.error statistic  p.value
-#>   <chr>    <chr>         <chr>                <dbl>     <dbl>     <dbl>    <dbl>
-#> 1 fixed    NA            tcl                 -5.02     0.0750    -66.9   1   e+0
-#> 2 fixed    NA            tv                   0.350    0.0548      6.37  1.09e-9
-#> 3 ran_pars ID            sd__eta.cl           0.488   NA          NA    NA      
-#> 4 ran_pars ID            sd__eta.v            0.402   NA          NA    NA      
-#> 5 ran_pars ID            cor__eta.v..eta.…    0.946   NA          NA    NA      
-#> 6 ran_pars Residual(add) add.err              2.76    NA          NA    NA    
+#>   effect   group         term             estimate std.error statistic   p.value
+#>   <chr>    <chr>         <chr>               <dbl>     <dbl>     <dbl>     <dbl>
+#> 1 fixed    NA            tcl                -5.00     0.0663    -75.4   1   e+ 0
+#> 2 fixed    NA            tv                  0.347    0.0530      6.54  4.66e-10
+#> 3 ran_pars ID            sd__eta.cl          0.488   NA          NA    NA       
+#> 4 ran_pars ID            sd__eta.v           0.399   NA          NA    NA       
+#> 5 ran_pars ID            cor__eta.v..eta…    0.962   NA          NA    NA       
+#> 6 ran_pars Residual(add) add.err             2.78     0.240      11.6   7.58e-23
 ```
 
 This gives an easier way to parse value: `cor__eta.v..eta.cl`
@@ -260,11 +268,12 @@ This gives an easier way to parse value: `cor__eta.v..eta.cl`
 The default R method `confint` works with nlmixr fit objects:
 
 ``` r
+
 confint(fit.s)
-#>          model.est   estimate      2.5 %     97.5 %
-#> tcl     -5.0154795 0.00663445 -5.1625159 -4.8684431
-#> tv       0.3495036 1.41836329  0.2420439  0.4569632
-#> add.err  2.7649251 2.76492510         NA         NA
+#>          model.est    estimate      2.5 %    97.5 %
+#> tcl     -5.0038694 0.006711926 -5.1338600 -4.873879
+#> tv       0.3465891 1.414235512  0.2426922  0.450486
+#> add.err  2.7811642 2.781164168  2.3108388  3.251490
 ```
 
 This transforms the variables as described above. You can still use the
@@ -272,11 +281,12 @@ This transforms the variables as described above. You can still use the
 interval:
 
 ``` r
+
 confint(fit.s, exponentiate=FALSE)
-#>          model.est   estimate      2.5 %     97.5 %
-#> tcl     -5.0154795 0.00663445 -5.1625159 -4.8684431
-#> tv       0.3495036 1.41836329  0.2420439  0.4569632
-#> add.err  2.7649251 2.76492510         NA         NA
+#>          model.est    estimate      2.5 %    97.5 %
+#> tcl     -5.0038694 0.006711926 -5.1338600 -4.873879
+#> tv       0.3465891 1.414235512  0.2426922  0.450486
+#> add.err  2.7811642 2.781164168  2.3108388  3.251490
 ```
 
 However, broom has also implemented it own way to make these data a tidy
@@ -284,16 +294,17 @@ dataset. The easiest way to get these values in a nlmixr dataset is to
 use:
 
 ``` r
+
 tidy(fit.s, conf.level=0.9)
 #> # A tibble: 6 × 9
-#>   effect   group  term  estimate std.error statistic  p.value conf.low conf.high
-#>   <chr>    <chr>  <chr>    <dbl>     <dbl>     <dbl>    <dbl>    <dbl>     <dbl>
-#> 1 fixed    NA     tcl     -5.02     0.0750    -66.9   1   e+0   -5.14     -4.89 
-#> 2 fixed    NA     tv       0.350    0.0548      6.37  1.09e-9    0.259     0.440
-#> 3 ran_pars ID     sd__…    0.488   NA          NA    NA         NA        NA    
-#> 4 ran_pars ID     sd__…    0.402   NA          NA    NA         NA        NA    
-#> 5 ran_pars ID     cor_…    0.946   NA          NA    NA         NA        NA    
-#> 6 ran_pars Resid… add.…    2.76    NA          NA    NA         NA        NA
+#>   effect   group term  estimate std.error statistic   p.value conf.low conf.high
+#>   <chr>    <chr> <chr>    <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>
+#> 1 fixed    NA    tcl     -5.00     0.0663    -75.4   1   e+ 0   -5.11     -4.89 
+#> 2 fixed    NA    tv       0.347    0.0530      6.54  4.66e-10    0.259     0.434
+#> 3 ran_pars ID    sd__…    0.488   NA          NA    NA          NA        NA    
+#> 4 ran_pars ID    sd__…    0.399   NA          NA    NA          NA        NA    
+#> 5 ran_pars ID    cor_…    0.962   NA          NA    NA          NA        NA    
+#> 6 ran_pars Resi… add.…    2.78     0.240      11.6   7.58e-23   NA        NA
 ```
 
 The confidence interval is on the scale specified by `exponentiate`, by
@@ -303,16 +314,17 @@ If you want to have the confidence on the adaptive back-transformed
 scale, you would simply use the following:
 
 ``` r
+
 tidy(fit.s, conf.level=0.9, exponentiate=NA)
 #> # A tibble: 6 × 9
 #>   effect   group term  estimate std.error statistic   p.value conf.low conf.high
 #>   <chr>    <chr> <chr>    <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>
-#> 1 fixed    NA    tcl    0.00663  0.000498      13.3  1.75e-27  0.00586   0.00751
-#> 2 fixed    NA    tv     1.42     0.0778        18.2  4.27e-40  1.30      1.55   
+#> 1 fixed    NA    tcl    0.00671  0.000445      15.1  4.40e-32  0.00602   0.00749
+#> 2 fixed    NA    tv     1.41     0.0750        18.9  1.27e-41  1.30      1.54   
 #> 3 ran_pars ID    sd__…  0.488   NA             NA   NA        NA        NA      
-#> 4 ran_pars ID    sd__…  0.402   NA             NA   NA        NA        NA      
-#> 5 ran_pars ID    cor_…  0.946   NA             NA   NA        NA        NA      
-#> 6 ran_pars Resi… add.…  2.76    NA             NA   NA        NA        NA
+#> 4 ran_pars ID    sd__…  0.399   NA             NA   NA        NA        NA      
+#> 5 ran_pars ID    cor_…  0.962   NA             NA   NA        NA        NA      
+#> 6 ran_pars Resi… add.…  2.78     0.240         11.6  7.58e-23 NA        NA
 ```
 
 ## Extracting other model information with `tidy`
@@ -325,12 +337,13 @@ The type of information that is extracted can be controlled by the
 The fixed effect parameters can be extracted by `effects="fixed"`
 
 ``` r
+
 tidy(fit.s, effects="fixed")
 #> # A tibble: 2 × 6
-#>   effect term  estimate std.error statistic       p.value
-#>   <chr>  <chr>    <dbl>     <dbl>     <dbl>         <dbl>
-#> 1 fixed  tcl     -5.02     0.0750    -66.9  1            
-#> 2 fixed  tv       0.350    0.0548      6.37 0.00000000109
+#>   effect term  estimate std.error statistic  p.value
+#>   <chr>  <chr>    <dbl>     <dbl>     <dbl>    <dbl>
+#> 1 fixed  tcl     -5.00     0.0663    -75.4  1   e+ 0
+#> 2 fixed  tv       0.347    0.0530      6.54 4.66e-10
 ```
 
 ### Extracting only random parameters
@@ -338,14 +351,15 @@ tidy(fit.s, effects="fixed")
 The random standard deviations can be extracted by `effects="ran_pars"`:
 
 ``` r
+
 tidy(fit.s, effects="ran_pars")
-#> # A tibble: 4 × 4
-#>   effect   group         term               estimate
-#>   <chr>    <chr>         <chr>                 <dbl>
-#> 1 ran_pars ID            sd__eta.cl            0.488
-#> 2 ran_pars ID            sd__eta.v             0.402
-#> 3 ran_pars ID            cor__eta.v..eta.cl    0.946
-#> 4 ran_pars Residual(add) add.err               2.76
+#> # A tibble: 4 × 7
+#>   effect   group         term             estimate std.error statistic   p.value
+#>   <chr>    <chr>         <chr>               <dbl>     <dbl>     <dbl>     <dbl>
+#> 1 ran_pars ID            sd__eta.cl          0.488    NA          NA   NA       
+#> 2 ran_pars ID            sd__eta.v           0.399    NA          NA   NA       
+#> 3 ran_pars ID            cor__eta.v..eta…    0.962    NA          NA   NA       
+#> 4 ran_pars Residual(add) add.err             2.78      0.240      11.6  7.58e-23
 ```
 
 ### Extracting random values (also called ETAs)
@@ -354,16 +368,17 @@ The random values, or in NONMEM the ETAs, can be extracted by
 `effects="ran_vals"` or `effects="random"`
 
 ``` r
+
 head(tidy(fit.s, effects="ran_vals"))
 #> # A tibble: 6 × 5
 #>   effect   group level term   estimate
 #>   <chr>    <chr> <fct> <fct>     <dbl>
-#> 1 ran_vals ID    1     eta.cl  -0.0854
-#> 2 ran_vals ID    2     eta.cl  -0.232 
-#> 3 ran_vals ID    3     eta.cl   0.257 
-#> 4 ran_vals ID    4     eta.cl  -0.522 
-#> 5 ran_vals ID    5     eta.cl   0.316 
-#> 6 ran_vals ID    6     eta.cl  -0.163
+#> 1 ran_vals ID    1     eta.cl  -0.0790
+#> 2 ran_vals ID    2     eta.cl  -0.220 
+#> 3 ran_vals ID    3     eta.cl   0.265 
+#> 4 ran_vals ID    4     eta.cl  -0.524 
+#> 5 ran_vals ID    5     eta.cl   0.323 
+#> 6 ran_vals ID    6     eta.cl  -0.152
 ```
 
 This duplicate method of running `effects` is because the `broom`
@@ -379,39 +394,41 @@ In this case we can extract this information from a nlmixr fit object
 by:
 
 ``` r
+
 head(tidy(fit.s, effects="ran_coef"))
 #> # A tibble: 6 × 5
 #>   effect   group level term  estimate
 #>   <chr>    <chr> <fct> <fct>    <dbl>
-#> 1 ran_coef ID    1     tcl      -5.10
-#> 2 ran_coef ID    2     tcl      -5.25
-#> 3 ran_coef ID    3     tcl      -4.76
-#> 4 ran_coef ID    4     tcl      -5.54
-#> 5 ran_coef ID    5     tcl      -4.70
-#> 6 ran_coef ID    6     tcl      -5.18
+#> 1 ran_coef ID    1     tcl      -5.08
+#> 2 ran_coef ID    2     tcl      -5.22
+#> 3 ran_coef ID    3     tcl      -4.74
+#> 4 ran_coef ID    4     tcl      -5.53
+#> 5 ran_coef ID    5     tcl      -4.68
+#> 6 ran_coef ID    6     tcl      -5.16
 ```
 
 This can also be changed by the `exponentiate` argument:
 
 ``` r
+
 head(tidy(fit.s, effects="ran_coef", exponentiate=NA))
 #> # A tibble: 6 × 5
 #>   effect   group level term  estimate
 #>   <chr>    <chr> <fct> <fct>    <dbl>
-#> 1 ran_coef ID    1     tcl    0.00609
-#> 2 ran_coef ID    2     tcl    0.00526
-#> 3 ran_coef ID    3     tcl    0.00858
-#> 4 ran_coef ID    4     tcl    0.00393
-#> 5 ran_coef ID    5     tcl    0.00910
-#> 6 ran_coef ID    6     tcl    0.00564
+#> 1 ran_coef ID    1     tcl    0.00620
+#> 2 ran_coef ID    2     tcl    0.00539
+#> 3 ran_coef ID    3     tcl    0.00875
+#> 4 ran_coef ID    4     tcl    0.00398
+#> 5 ran_coef ID    5     tcl    0.00927
+#> 6 ran_coef ID    6     tcl    0.00577
 head(tidy(fit.s, effects="ran_coef", exponentiate=TRUE))
 #> # A tibble: 6 × 5
 #>   effect   group level term  estimate
 #>   <chr>    <chr> <fct> <fct>    <dbl>
-#> 1 ran_coef ID    1     tcl    0.00609
-#> 2 ran_coef ID    2     tcl    0.00526
-#> 3 ran_coef ID    3     tcl    0.00858
-#> 4 ran_coef ID    4     tcl    0.00393
-#> 5 ran_coef ID    5     tcl    0.00910
-#> 6 ran_coef ID    6     tcl    0.00564
+#> 1 ran_coef ID    1     tcl    0.00620
+#> 2 ran_coef ID    2     tcl    0.00539
+#> 3 ran_coef ID    3     tcl    0.00875
+#> 4 ran_coef ID    4     tcl    0.00398
+#> 5 ran_coef ID    5     tcl    0.00927
+#> 6 ran_coef ID    6     tcl    0.00577
 ```

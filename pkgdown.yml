@@ -1,21 +1,36 @@
-pandoc: 3.1.11
-pkgdown: 2.2.0
+pandoc: 3.8.3
+pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   addingCovariances: addingCovariances.html
+  articles/babelmixr2-external-engines: babelmixr2-external-engines.html
   broom: broom.html
   censoring: censoring.html
   citations: citations.html
+  delays: delays.html
+  articles/imp-impmap-qrpem: imp-impmap-qrpem.html
+  articles/linearized-quadrature-ladder: linearized-quadrature-ladder.html
   mavoglurant: mavoglurant.html
+  articles/mixture-models: mixture-models.html
   modelPiping: modelPiping.html
   multiple-endpoints: multiple-endpoints.html
   nimo: nimo.html
+  articles/nlm-family-optimizers: nlm-family-optimizers.html
+  articles/nlmixr2-hooks: nlmixr2-hooks.html
   articles/nlmixr2-team-and-advisory-committee: nlmixr2-team-and-advisory-committee.html
+  articles/nonparametric-npag-npb: nonparametric-npag-npb.html
+  articles/phase-residual-error: phase-residual-error.html
+  precompute-articles: precompute-articles.html
+  articles/priors-focei: priors-focei.html
   residualErrors: residualErrors.html
   running_nlmixr: running_nlmixr.html
+  articles/saem: saem.html
+  articles/simulate-titrated-dosing: simulate-titrated-dosing.html
+  articles/vaeNeonatal: vaeNeonatal.html
+  articles/variational-inference: variational-inference.html
   wbc: wbc.html
   xgxr-nlmixr-ggpmx: xgxr-nlmixr-ggpmx.html
-last_built: 2026-04-21T07:22Z
+last_built: 2026-09-15T10:51Z
 urls:
   reference: https://nlmixr2.github.io/nlmixr2/reference
   article: https://nlmixr2.github.io/nlmixr2/articles

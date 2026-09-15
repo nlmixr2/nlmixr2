@@ -1,0 +1,251 @@
+# One model, any engine: external estimation via babelmixr2 (NONMEM, Monolix, saemix, nlmer, FME)
+
+![nlmixr](../logo.png)
+
+nlmixr
+
+## Write the model once, run it in any engine
+
+Everything in the other estimation articles – `focei`, `saem`, the
+[importance-sampling](https://nlmixr2.github.io/nlmixr2/articles/imp-impmap-qrpem.md)
+and
+[nonparametric](https://nlmixr2.github.io/nlmixr2/articles/nonparametric-npag-npb.md)
+families – runs *inside* nlmixr2. The **`babelmixr2`** package extends
+the same `est =` interface *outward*: it translates your nlmixr2 model
+to another tool’s input, runs that tool, and imports the result back as
+an ordinary `nlmixr2` fit. You write one model in one syntax and get
+NONMEM, Monolix, `saemix`, `lme4`, or FME estimates – all comparable in
+the same objects, plots and diagnostics.
+
+That is worth a lot in practice:
+
+- **Cross-tool validation.** Fit the same model in nlmixr2 and NONMEM
+  and check they agree – a common expectation for regulatory work.
+- **Reuse existing infrastructure.** Run your validated NONMEM or
+  Monolix engine from an R-based, reproducible nlmixr2 workflow.
+- **Reach methods nlmixr2 does not implement natively**, e.g. a Bayesian
+  MCMC population fit, without leaving the interface.
+
+``` r
+
+library(nlmixr2)
+library(babelmixr2)
+```
+
+## The engine menu
+
+| `est =` | Engine it drives | What you get |
+|----|----|----|
+| `"nonmem"` | **NONMEM** (external) | Whatever the NONMEM method sets – FOCEI, IMP, SAEM, … |
+| `"monolix"` | **Monolix** (external, via `lixoftConnectors` or files) | SAEM population fit |
+| `"saemix"` | **`saemix`** R package | SAEM (independent implementation) |
+| `"nlmer"` | **[`lme4::nlmer`](https://rdrr.io/pkg/lme4/man/nlmer.html)** | `lme4`’s own Laplace approximation (inner predictions/gradients from nlmixr2’s `nlm` C engine) |
+| `"fmeMcmc"` | **[`FME::modMCMC`](https://rdrr.io/pkg/FME/man/modMCMC.html)** | Bayesian posterior (population, MCMC) |
+| `"pseudoOptim"` | **`FME`** pseudo-random optimizer | Global (population) optimum |
+| `"pknca"` | **`PKNCA`** | Non-compartmental starting estimates |
+| `"poped"` | **`PopED`** | Optimal experimental design (not estimation) |
+
+The first four are *mixed-effects* engines (they fit a model with random
+effects); `fmeMcmc`/`pseudoOptim` are population-only (like the [NLM
+family](https://nlmixr2.github.io/nlmixr2/articles/nlm-family-optimizers.md));
+`pknca`/`poped` are adjacent tools (initial estimates, and design).
+
+## A live example: a Bayesian population fit through FME
+
+NONMEM and Monolix cannot run inside a rendered article (they are
+external programs), so those examples are shown but not executed. The
+R-package engines – `FME` here, and `saemix`/`nlmer` further below –
+need no outside installation and *do* run live. Start with `FME`: take a
+naive-pooled one-compartment model (no random effects) and estimate its
+posterior by MCMC:
+
+``` r
+
+popModel <- function() {
+  ini({
+    tka <- 0.45; tcl <- 1; tv <- 3.45
+    add.sd <- 0.7
+  })
+  model({
+    ka <- exp(tka); cl <- exp(tcl); v <- exp(tv)
+    d/dt(depot)  <- -ka * depot
+    d/dt(center) <-  ka * depot - cl / v * center
+    cp <- center / v
+    cp ~ add(add.sd)
+  })
+}
+
+fitMcmc := nlmixr2(popModel, nlmixr2data::theo_sd, est = "fmeMcmc",
+                   control = fmeMcmcControl(niter = 400L))
+fitMcmc$theta
+#>       tka       tcl        tv    add.sd 
+#> 0.6139365 0.9634410 3.5237032 1.4265399
+```
+
+`fitMcmc` is a normal `nlmixr2` fit object – the population parameters
+above are posterior summaries from
+[`FME::modMCMC`](https://rdrr.io/pkg/FME/man/modMCMC.html), and the full
+object carries the usual tables and predictions. The point is not this
+particular fit; it is that a completely different engine reached you
+through the same one-line `est =` call.
+
+## The flagship: NONMEM and Monolix
+
+The reason most people reach for `babelmixr2` is to run **NONMEM** or
+**Monolix** from an nlmixr2 model. The workflow is identical to any
+other fit – only `est =` changes – but the engine is the external
+program:
+
+``` r
+
+## the SAME model with random effects, run through NONMEM
+theoModel <- function() {
+  ini({
+    tka <- 0.45; tcl <- 1; tv <- 3.45
+    eta.ka ~ 0.6; eta.cl ~ 0.3; eta.v ~ 0.1
+    add.sd <- 0.7
+  })
+  model({
+    ka <- exp(tka + eta.ka); cl <- exp(tcl + eta.cl); v <- exp(tv + eta.v)
+    d/dt(depot)  <- -ka * depot
+    d/dt(center) <-  ka * depot - cl / v * center
+    cp <- center / v
+    cp ~ add(add.sd)
+  })
+}
+
+## NONMEM: babelmixr2 writes the control stream + data, runs NONMEM, imports the
+## results as an nlmixr2 fit (the NONMEM method is set through the control)
+fitNm  <- nlmixr2(theoModel, nlmixr2data::theo_sd, est = "nonmem",
+                  control = nonmemControl(est = "focei", runCommand = "/path/to/nmfe75"))
+
+## Monolix (needs the Monolix install / lixoftConnectors); its engine is SAEM
+fitMlx <- nlmixr2(theoModel, nlmixr2data::theo_sd, est = "monolix",
+                  control = monolixControl())
+
+## both return ordinary nlmixr2 fits, so they compare directly:
+## rbind(nlmixr2 = fitSaem$theta, nonmem = fitNm$theta, monolix = fitMlx$theta)
+```
+
+Because the returned objects are ordinary `nlmixr2FitData`, a NONMEM or
+Monolix run drops straight into the same `print`, `augPred`, VPC and
+parameter-table machinery as a native fit, and you can line them up
+parameter-for-parameter with an `est = "focei"` or `est = "saem"` run
+for validation.
+
+## The mixed-effects engines run here: saemix and nlmer
+
+Two more external engines fit models *with* random effects, and – unlike
+NONMEM and Monolix – both run inside this article. That lets us do the
+cross-engine validation that motivates `babelmixr2`: fit the **same**
+model natively and through each engine, and check they agree. Take the
+one-compartment model with between-subject variability on `ka`, `cl` and
+`v`:
+
+``` r
+
+theoModel <- function() {
+  ini({
+    tka <- 0.45; tcl <- 1; tv <- 3.45
+    eta.ka ~ 0.6; eta.cl ~ 0.3; eta.v ~ 0.1
+    add.sd <- 0.7
+  })
+  model({
+    ka <- exp(tka + eta.ka); cl <- exp(tcl + eta.cl); v <- exp(tv + eta.v)
+    d/dt(depot)  <- -ka * depot
+    d/dt(center) <-  ka * depot - cl / v * center
+    cp <- center / v
+    cp ~ add(add.sd)
+  })
+}
+```
+
+``` r
+
+## nlmixr2's own FOCEI, as the reference
+fitFocei  := nlmixr2(theoModel, nlmixr2data::theo_sd, est = "focei",
+                     control = foceiControl(print = 0L))
+## saemix R package (Comets/Lavielle SAEM)
+fitSaemix := nlmixr2(theoModel, nlmixr2data::theo_sd, est = "saemix",
+                     control = saemixControl(nbiter.saemix = c(200L, 100L)))
+## lme4::nlmer (lme4's own Laplace approximation; inner grads from nlmixr2's nlm engine)
+fitNlmer  := nlmixr2(theoModel, nlmixr2data::theo_sd, est = "nlmer",
+                     control = nlmerControl())
+```
+
+The typical values agree across three completely independent
+implementations – nlmixr2’s FOCEI, the `saemix` SAEM, and `lme4`’s
+Laplace:
+
+``` r
+
+round(rbind(`nlmixr2 focei` = fitFocei$theta,
+            `saemix (SAEM)` = fitSaemix$theta,
+            `nlmer (lme4)`  = fitNlmer$theta), 3)
+#>                 tka   tcl    tv add.sd
+#> nlmixr2 focei 0.463 1.012 3.460  0.694
+#> saemix (SAEM) 0.464 1.011 3.455  0.695
+#> nlmer (lme4)  0.448 1.025 3.448  0.680
+```
+
+`saemix` is a second implementation of the same SAEM algorithm as
+`est = "saem"` (see the [SAEM
+article](https://nlmixr2.github.io/nlmixr2/articles/saem.md)). `nlmer`
+is **not** a re-implementation of FOCEI: it drives the fit with
+[`lme4::nlmer`](https://rdrr.io/pkg/lme4/man/nlmer.html), whose
+objective is `lme4`’s own Laplace approximation (nlmer supports only
+`nAGQ = 1`), while babelmixr2 supplies the inner per-subject predictions
+and analytic gradients from nlmixr2’s `nlm` C engine. That makes it a
+genuinely different objective function – its OFV is not comparable to
+FOCEI’s, and in machinery it is closer to `est = "nlm"` than to
+`est = "focei"`, so the fits can differ. (On sparse data `nlmer` also
+tends to shrink the smaller between-subject variances toward zero, so
+lean on its typical values rather than its variance estimates.) That
+three independent engines – FOCEI, `saemix`’s SAEM, and `lme4`’s Laplace
+– land on close *typical values* despite different objective functions
+is strong evidence a fit is real and not an artifact of one
+implementation.
+
+## The adjacent tools: pseudoOptim, PKNCA, PopED
+
+- **`pseudoOptim`** – `FME`’s pseudo-random *global* optimizer on a
+  population-only model, for multimodal objectives where a local
+  optimizer would land in the wrong basin (it needs finite bounds on
+  every parameter).
+- **`pknca`** – runs **PKNCA** non-compartmental analysis to derive
+  **starting estimates** for a compartmental model; a fast, model-free
+  way to seed a subsequent `focei`/`saem` fit.
+- **`poped`** – runs **PopED** to compute an **optimal experimental
+  design** (sampling times, dose) for the model; a design task rather
+  than parameter estimation, but reached through the same interface.
+
+## How it works
+
+For each external engine, `babelmixr2`:
+
+1.  **translates** the nlmixr2 UI model into the target’s input – a
+    NONMEM control stream and dataset, a Monolix project, a
+    `saemix`/`lme4`/`FME` model object;
+2.  **runs** the engine (an external process for NONMEM/Monolix; an R
+    call for the package engines);
+3.  **imports** the results, mapping the estimates, covariance, and
+    predictions back onto the original nlmixr2 parameterization and
+    returning an `nlmixr2FitData`.
+
+Step 3 is what makes the engines interchangeable: whatever ran, you get
+the same object, so every downstream diagnostic, plot and table is
+identical. The translation is also useful on its own – `babelmixr2`
+(with `nonmem2rx` / `monolix2rx`) can convert *existing* NONMEM or
+Monolix projects into nlmixr2 models, i.e. the round trip in both
+directions.
+
+## References
+
+- Schoemaker R, Wilkins J, Fidler M, et al. *babelmixr2* and the nlmixr2
+  ecosystem interface to `PKNCA`, NONMEM and Monolix.
+- Comets E, Lavielle M, Kuhn E. *saemix: an R version of the SAEM
+  algorithm.*
+- Bates D, Maechler M, Bolker B, Walker S. *Fitting Linear Mixed-Effects
+  Models Using lme4.* J. Stat. Soft., 2015 (`nlmer`).
+- Soetaert K, Petzoldt T. *Inverse Modelling, Sensitivity and Monte
+  Carlo Analysis in R Using Package FME.* J. Stat. Soft., 2010.

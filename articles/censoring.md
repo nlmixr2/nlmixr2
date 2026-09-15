@@ -1,20 +1,24 @@
 # Censoring in nlmixr
 
 ``` r
+
 library(nlmixr2)
-#> ── Attaching packages ───────────────────────────────────────── nlmixr2 5.0.0 ──
-#> ✔ lotri         1.0.3.9000     ✔ nlmixr2plot   5.0.1     
-#> ✔ nlmixr2data   2.0.9          ✔ rxode2        5.0.2     
-#> ✔ nlmixr2est    5.0.2.9000     ✔ ggPMX         1.3.2     
-#> ✔ nlmixr2extra  5.0.0          ✔ xpose.nlmixr2 0.4.1
-#> ── Optional Packages Loaded/Ignored ─────────────────────────── nlmixr2 5.0.0 ──
-#> ✔ ggPMX             ✖ nlmixr2rpt
-#> ✔ xpose.nlmixr2     ✖ nonmem2rx
-#> ✖ babelmixr2     ✖ posologyr
-#> ✖ monolix2rx     ✖ shinyMixR
-#> ✖ nlmixr2lib
+#> ── Attaching packages ───────────────────────────────────────── nlmixr2 7.0.1 ──
+#> ★ lotri           1.0.5           ◯ nlmixr2auto     1.0.0      
+#> ★ nlmixr2data     2.0.10          ◯ nlmixr2autoinit 1.0.1      
+#> ★ nlmixr2save     0.2.0           ◯ nlmixr2lib      0.3.2      
+#> ★ nlmixr2est      7.1.0           ◯ nlmixr2rpt      0.2.2      
+#> ★ nlmixr2extra    5.2.0           ◯ nlmixr2targets  0.1.0      
+#> ★ nlmixr2plot     5.1.0.9000      ◯ nonmem2rx       0.1.9      
+#> ★ rxode2          5.1.8           ◯ pmxNODE         0.1.0      
+#> ◯ admixr2         0.2.0           ◯ PopED           0.7.0      
+#> ◯ babelmixr2      0.1.11.9000     ◯ posologyr       1.2.8      
+#> ◯ FME             1.3.6.4         ◯ shinyMixR       0.5.3      
+#> ◯ ggPMX           1.3.2           ◯ xpose.nlmixr2   0.4.2      
+#> ◯ monolix2rx      0.0.6
 #> ── Conflicts ───────────────────────────────────────────── nlmixr2conflicts() ──
 #> ✖ rxode2::boxCox()     masks nlmixr2est::boxCox()
+#> ✖ coda::traceplot()    masks babelmixr2::traceplot(), nlmixr2plot::traceplot()
 #> ✖ rxode2::yeoJohnson() masks nlmixr2est::yeoJohnson()
 ```
 

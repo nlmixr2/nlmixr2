@@ -4,6 +4,7 @@ This shows an example of integrated workflow between `xgxr` `nlmixr` and
 `ggPmx`
 
 ``` r
+
 library(rxode2)
 library(nlmixr2)
 library(xgxr)
@@ -19,6 +20,7 @@ library(broom.mixed)
 ## Load the data
 
 ``` r
+
 pkpd_data <-
   case1_pkpd %>%
   arrange(DOSE) %>%
@@ -65,6 +67,7 @@ the following helper functions:
   considered best practice when the data or plots are draft.
 
 ``` r
+
 xgx_theme_set() # This uses black and white theme based on xgxr best
                 # practices
 
@@ -111,6 +114,7 @@ actual individual profiles. Using `ggplot` coupled with the `xgxr`
 helper functions used above, we can easily create these plots as well:
 
 ``` r
+
 ggplot(data = pk_data_cycle1, aes(x = TIME, y = LIDV)) +
   geom_line(aes(group = ID), color = "grey50", linewidth = 1, alpha = 0.3) +
   geom_cens(aes(cens=CENS)) + 
@@ -135,6 +139,7 @@ If the confidence intervals overlap, often this is a dose linear
 example.
 
 ``` r
+
 ggplot(data = pk_data_cycle1,
        aes(x = NOMTIME,
            y = LIDV / as.numeric(as.character(DOSE)),
@@ -154,6 +159,7 @@ data. This can be made even more clear by removing the censored data for
 this plot:
 
 ``` r
+
 ggplot(data = pk_data_cycle1 %>% filter(CENS == 0),
        aes(x = NOMTIME,
            y = LIDV / as.numeric(as.character(DOSE)),
@@ -180,6 +186,7 @@ Using the `xgx` helper functions to `ggplot` you can explore the effect
 of high baseline weight. This particular plot is shown below:
 
 ``` r
+
 ggplot(data = pk_data_cycle1, aes(x = NOMTIME,
                                   y = LIDV,
                                   group = WEIGHTB > 100,
@@ -207,6 +214,7 @@ effect on the PK data.
 First we need to subset to the PK only data and rename `LIDV` to `DV`
 
 ``` r
+
 dat <-
   case1_pkpd %>%
   rename(DV=LIDV) %>%
@@ -214,12 +222,13 @@ dat <-
   filter(TRTACT != "Placebo")
 ```
 
-Next, for the purpose of this demonstration we will subset to 7 patients
-per dose group):
+For this demonstration we use all of the available subjects per dose
+group (30 each):
 
 ``` r
+
 doses <- unique(dat$DOSE)
-nid <- 20 # 7 ids per dose group
+nid <- 30 # subjects per dose group (all that are available)
 dat2 <-
   dat %>%
   group_by(DOSE) %>%
@@ -227,27 +236,29 @@ dat2 <-
   ungroup()
 ```
 
-This approach is not only good for demonstration, but allows a variety
-of structural models to be applied more quickly while developing a base
-model. The full dataset can then be applied to the selected model to
-make sure it makes sense with all the data.
+While developing a base model you can subset to fewer subjects per dose
+group (reduce `nid`) so a variety of structural models can be tried more
+quickly, then apply the full dataset to the selected model.
 
 Next create a 2 compartment model:
 
 ``` r
+
 ## Use 2 compartment model
 cmt2 <- function() {
   ini({
-    lka <- log(0.1); label("Ka")
-    lv <- log(10); label("Vc")
-    lcl <- log(4); label("Cl")
+    ## doses are in mg and concentrations in ng/mL, so the volumes are on
+    ## the order of tens-to-hundreds of L; start there so the fit is stable
+    lka <- log(0.5); label("Ka")
+    lv <- log(50); label("Vc")
+    lcl <- log(10); label("Cl")
     lq <- log(10); label("Q")
-    lvp <- log(20); label("Vp")
+    lvp <- log(100); label("Vp")
 
-    eta.ka ~ 0.01
+    eta.ka ~ 0.1
     eta.v ~ 0.1
     eta.cl ~ 0.1
-    logn.sd = 10
+    logn.sd = 1
   })
   model({
     ka <- exp(lka + eta.ka)
@@ -265,14 +276,14 @@ print(cmt2m)
 #>  ── rxode2-based solved PK 2-compartment model ────────────────────────────────── 
 #>  ── Initalization: ──  
 #> Fixed Effects ($theta): 
-#>       lka        lv       lcl        lq       lvp   logn.sd 
-#> -2.302585  2.302585  1.386294  2.302585  2.995732 10.000000 
+#>        lka         lv        lcl         lq        lvp    logn.sd 
+#> -0.6931472  3.9120230  2.3025851  2.3025851  4.6051702  1.0000000 
 #> 
 #> Omega ($omega): 
 #>        eta.ka eta.v eta.cl
-#> eta.ka   0.01   0.0    0.0
-#> eta.v    0.00   0.1    0.0
-#> eta.cl   0.00   0.0    0.1
+#> eta.ka    0.1   0.0    0.0
+#> eta.v     0.0   0.1    0.0
+#> eta.cl    0.0   0.0    0.1
 #> 
 #> States ($state or $stateDf): 
 #>   Compartment Number Compartment Name Rate   Off Internal #
@@ -287,18 +298,18 @@ print(cmt2m)
 #>  ── Model (Normalized Syntax): ── 
 #> function() {
 #>     ini({
-#>         lka <- -2.30258509299405
+#>         lka <- -0.693147180559945
 #>         label("Ka")
-#>         lv <- 2.30258509299405
+#>         lv <- 3.91202300542815
 #>         label("Vc")
-#>         lcl <- 1.38629436111989
+#>         lcl <- 2.30258509299405
 #>         label("Cl")
 #>         lq <- 2.30258509299405
 #>         label("Q")
-#>         lvp <- 2.99573227355399
+#>         lvp <- 4.60517018598809
 #>         label("Vp")
-#>         logn.sd <- c(0, 10)
-#>         eta.ka ~ 0.01
+#>         logn.sd <- c(0, 1)
+#>         eta.ka ~ 0.1
 #>         eta.v ~ 0.1
 #>         eta.cl ~ 0.1
 #>     })
@@ -317,188 +328,106 @@ Now that the parsing of the nlmixr model is complete start and compare a
 few models:
 
 ``` r
+
 ## First try log-normal (since the variability seemed proportional to concentration)
-cmt2fit.logn <-
-  nlmixr(
-    cmt2m, data = dat2,
-    est = "saem",
-    control=list(print=0), 
-    table=tableControl(cwres=TRUE, npde=TRUE)
-  )
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:02
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
+cmt2fit.logn := nlmixr(
+  cmt2m, data = dat2,
+  est = "saem",
+  control=list(print=0),
+  table=tableControl(cwres=TRUE, npde=TRUE)
+)
 
 ## Now try proportional
-cmt2fit.prop <-
-  cmt2fit.logn %>%
-  update(linCmt() ~ prop(prop.sd)) %>%
-  nlmixr(
-    est="saem", control=list(print=0),
-    table=tableControl(npde=TRUE, cwres=TRUE)
-  )
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:02
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
+cmt2fit.prop.mod <- cmt2fit.logn %>% update(linCmt() ~ prop(prop.sd))
+cmt2fit.prop := nlmixr(
+  cmt2fit.prop.mod, dat2,
+  est="saem", control=list(print=0),
+  table=tableControl(npde=TRUE, cwres=TRUE)
+)
+```
 
-## now try add+prop
+You could also try a combined additive-plus-proportional error, shown
+below. It is not run here (`eval=FALSE`): for this data the additive
+component collapses toward zero (the data is well described by a
+proportional error alone), so the combined model is over-parameterized
+and its covariance step does not produce a usable result.
+
+``` r
+
+## add+prop is over-parameterized here (additive component -> 0)
 cmt2fit.add.prop <-
   cmt2fit.prop %>%
   update(linCmt() ~ prop(prop.sd) + add(add.sd)) %>%
   nlmixr(
-    est="saem", control=list(print=0), 
+    est="saem", control=list(print=0),
     table=tableControl(npde=TRUE, cwres=TRUE)
   )
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:02
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 ```
 
-Now that we have run 3 different estimation methods, we can compare the
-results side-by-side
+Now that we have run the log-normal and proportional models, we can
+compare the results side-by-side:
 
 ``` r
+
 library(huxtable)
 
 huxreg(
   "lognormal"=cmt2fit.logn,
   "proportional"=cmt2fit.prop,
-  "add+prop"=cmt2fit.add.prop,
   statistics=c(N="nobs", "logLik", "AIC"),
   stars = NULL
 )
 ```
 
-|              | lognormal | proportional |    add+prop |
-|--------------|----------:|-------------:|------------:|
-| lka          |   -2.285  |      -2.391  |     -2.445  |
-|              |   (0.085) |      (0.058) |     (0.065) |
-| lv           |    2.164  |      -8.180  |     -8.290  |
-|              |   (0.139) |      (0.426) |     (0.452) |
-| lcl          |    1.847  |     -16.869  |    -15.636  |
-|              |   (0.075) |      (1.866) |     (1.780) |
-| lq           |    2.172  |       2.148  |      2.200  |
-|              |   (0.294) |    (280.415) |   (347.071) |
-| lvp          |    3.044  |      -9.138  |     -9.130  |
-|              |   (0.243) |      (0.114) |     (0.143) |
-| sd\_\_eta.ka |    0.107  |       0.330  |      0.378  |
-|              | (NA)      |    (NA)      |   (NA)      |
-| sd\_\_eta.v  |    0.340  |       3.477  |      3.526  |
-|              | (NA)      |    (NA)      |   (NA)      |
-| sd\_\_eta.cl |    0.710  |      11.391  |     12.172  |
-|              | (NA)      |    (NA)      |   (NA)      |
-| logn.sd      |    1.045  |              |             |
-|              | (NA)      |              |             |
-| prop.sd      |           |       0.957  |      0.973  |
-|              |           |    (NA)      |   (NA)      |
-| add.sd       |           |              |      0.075  |
-|              |           |              |   (NA)      |
-| N            | 2600      |    2600      |   2600      |
-| logLik       | -223.596  |  -17116.552  | -17030.792  |
-| AIC          |  465.193  |   34251.105  |  34081.584  |
+|  | lognormal | proportional |
+|----|---:|---:|
+| lka | -0.187  | 11.703  |
+|  | (0.257) | (0.347) |
+| lv | 3.457  | 5.172  |
+|  | (0.303) | (0.097) |
+| lcl | 2.599  | 170.184  |
+|  | (0.041) | (0.025) |
+| lq | 3.414  | -0.156  |
+|  | (0.098) | (0.000) |
+| lvp | 5.331  | 5.744  |
+|  | (0.068) | (0.000) |
+| sd\_\_eta.ka | 0.095  | 0.807  |
+|  | (NA)      | (NA)      |
+| sd\_\_eta.v | 0.110  | 0.327  |
+|  | (NA)      | (NA)      |
+| sd\_\_eta.cl | 0.440  | 0.289  |
+|  | (NA)      | (NA)      |
+| logn.sd | 1.117  |       |
+|  | (0.014) |       |
+| prop.sd |       | 13617079196587500107302926613860296318497129994858517739633993985271064424061213222451606964974700963682895776434231947392380091190828269413414731776.000  |
+|  |       | (0.000) |
+| N | 3900      | 3900      |
+| logLik | 1391.792  | -71829.897  |
+| AIC | -2765.584  | 143677.794  |
 
-Note that the additive and proportional model has the additive component
-approach zero. When comparing the objective functions of log-normal and
+When comparing the objective functions of the log-normal and
 proportional models, the proportional model has the lowest objective
 function value. (Since we modeled log-normal without data transformation
-it is appropriate to compare the AIC/Objective function values)
+it is appropriate to compare the AIC/Objective function values.)
 
 ## Model Diagnostics with ggPMX
 
 ``` r
+
 ## The controller then can be piped into a specific plot
 ctr <- pmx_nlmixr(cmt2fit.logn, conts = "WEIGHTB", cats="TRTACT", vpc=TRUE)
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:02
 ```
 
 ``` r
+
 ctr %>% pmx_plot_npde_pred()
 ```
 
 ![](xgxr-nlmixr-ggpmx_files/figure-html/fig-npde-pred-1.png)
 
 ``` r
+
 ## Modify graphical options and remove DRAFT label:
 ctr %>%
   pmx_plot_npde_time(
@@ -510,24 +439,28 @@ ctr %>%
 ![](xgxr-nlmixr-ggpmx_files/figure-html/fig-npde-pred-nodraft-1.png)
 
 ``` r
+
 ctr %>% pmx_plot_dv_ipred(scale_x_log10=TRUE, scale_y_log10=TRUE, filter=IPRED>0.001)
 ```
 
 ![](xgxr-nlmixr-ggpmx_files/figure-html/fig-dv-ipred-1.png)
 
 ``` r
+
 ctr %>% pmx_plot_dv_pred(scale_x_log10=TRUE, scale_y_log10=TRUE, filter=IPRED>0.001)
 ```
 
 ![](xgxr-nlmixr-ggpmx_files/figure-html/fig-dv-pred-1.png)
 
 ``` r
+
 ctr %>% pmx_plot_abs_iwres_ipred()
 ```
 
 ![](xgxr-nlmixr-ggpmx_files/figure-html/fig-iwres-ipred-1.png)
 
 ``` r
+
 ctr %>%
   pmx_plot_individual(
     1,
@@ -539,12 +472,14 @@ ctr %>%
 ![](xgxr-nlmixr-ggpmx_files/figure-html/fig-individual-1.png)
 
 ``` r
+
 ctr %>% pmx_plot_iwres_dens()
 ```
 
 ![](xgxr-nlmixr-ggpmx_files/figure-html/fig-iwres-dens-1.png)
 
 ``` r
+
 ctr %>% pmx_plot_eta_qq()
 ```
 
@@ -559,18 +494,21 @@ to include project specificities (change labels, stratifications,
 filtering, etc.).
 
 ``` r
+
 ctr %>% pmx_plot_eta_box()
 ```
 
 ![](xgxr-nlmixr-ggpmx_files/figure-html/fig-eta-box-1.png)
 
 ``` r
+
 ctr %>% pmx_plot_eta_hist()
 ```
 
 ![](xgxr-nlmixr-ggpmx_files/figure-html/fit-eta-hist-1.png)
 
 ``` r
+
 ctr %>% pmx_plot_eta_matrix()
 ```
 
@@ -598,11 +536,13 @@ In this case we wish to simulate with some variability and see what
 happens at steady state:
 
 ``` r
+
 # Start a new simulation
 ev <- et(amt=100, ii=8, ss=1)
 ```
 
 ``` r
+
 ev$add.sampling(seq(0, 8, length.out=50))
 print(ev)
 #> ── EventTable with 51 records ──
@@ -612,8 +552,8 @@ print(ev)
 #> # A tibble: 51 × 5
 #>     time   amt    ii evid             ss
 #>    <dbl> <dbl> <dbl> <evid>        <int>
-#>  1 0        NA    NA 0:Observation    NA
-#>  2 0       100     8 1:Dose (Add)      1
+#>  1 0       100     8 1:Dose (Add)      1
+#>  2 0        NA    NA 0:Observation    NA
 #>  3 0.163    NA    NA 0:Observation    NA
 #>  4 0.327    NA    NA 0:Observation    NA
 #>  5 0.490    NA    NA 0:Observation    NA
@@ -635,6 +575,7 @@ parameter estimates and covariances you can very easily with
 nlmixr2/rxode2:
 
 ``` r
+
 set.seed(100)
 sim1 <- rxSolve(cmt2fit.logn, ev, nSub=100, nStud=100)
 #> [====|====|====|====|====|====|====|====|====|====
@@ -642,18 +583,18 @@ print(sim1)
 #> ── Solved rxode2 object ──
 #> ── Parameters ($params): ──
 #> # A tibble: 10,000 × 10
-#>    sim.id   lka    lv   lcl    lq   lvp logn.sd  eta.ka   eta.v   eta.cl
-#>     <int> <dbl> <dbl> <dbl> <dbl> <dbl>   <dbl>   <dbl>   <dbl>    <dbl>
-#>  1      1 -2.26  2.25  1.90  2.10  3.11    1.04  0.0114 -0.0174 -0.752  
-#>  2      2 -2.26  2.25  1.90  2.10  3.11    1.04  0.193  -0.167  -0.716  
-#>  3      3 -2.26  2.25  1.90  2.10  3.11    1.04  0.155   0.377  -0.00240
-#>  4      4 -2.26  2.25  1.90  2.10  3.11    1.04 -0.0459  0.0259  0.373  
-#>  5      5 -2.26  2.25  1.90  2.10  3.11    1.04  0.250  -0.416  -0.0179 
-#>  6      6 -2.26  2.25  1.90  2.10  3.11    1.04  0.164   0.216  -0.328  
-#>  7      7 -2.26  2.25  1.90  2.10  3.11    1.04 -0.0476 -0.109  -0.936  
-#>  8      8 -2.26  2.25  1.90  2.10  3.11    1.04 -0.0652 -0.911  -0.228  
-#>  9      9 -2.26  2.25  1.90  2.10  3.11    1.04 -0.0116  0.335   0.281  
-#> 10     10 -2.26  2.25  1.90  2.10  3.11    1.04  0.167  -0.195  -0.0404 
+#>    sim.id    lka    lv   lcl    lq   lvp logn.sd  eta.ka    eta.v    eta.cl
+#>     <int>  <dbl> <dbl> <dbl> <dbl> <dbl>   <dbl>   <dbl>    <dbl>     <dbl>
+#>  1      1 -0.431  3.15  2.59  3.32  5.34    1.12  0.0101 -0.00522 -0.464   
+#>  2      2 -0.431  3.15  2.59  3.32  5.34    1.12  0.169  -0.0481  -0.435   
+#>  3      3 -0.431  3.15  2.59  3.32  5.34    1.12  0.136   0.122   -0.00136 
+#>  4      4 -0.431  3.15  2.59  3.32  5.34    1.12 -0.0403  0.00707  0.229   
+#>  5      5 -0.431  3.15  2.59  3.32  5.34    1.12  0.220  -0.125    0.000424
+#>  6      6 -0.431  3.15  2.59  3.32  5.34    1.12  0.144   0.0718  -0.200   
+#>  7      7 -0.431  3.15  2.59  3.32  5.34    1.12 -0.0418 -0.0354  -0.579   
+#>  8      8 -0.431  3.15  2.59  3.32  5.34    1.12 -0.0573 -0.288   -0.133   
+#>  9      9 -0.431  3.15  2.59  3.32  5.34    1.12 -0.0102  0.105    0.170   
+#> 10     10 -0.431  3.15  2.59  3.32  5.34    1.12  0.147  -0.0575  -0.0183  
 #> # ℹ 9,990 more rows
 #> ── Initial Conditions ($inits): ──
 #>       depot     central peripheral1 
@@ -666,14 +607,14 @@ print(sim1)
 #> 
 #> ── First part of data (object): ──
 #> # A tibble: 500,000 × 12
-#>   sim.id  time    ka    cl     v     q    vp ipredSim   sim depot central
-#>    <int> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>    <dbl> <dbl> <dbl>   <dbl>
-#> 1      1 0     0.106  3.14  9.36  8.21  22.4     3.60  5.49  175.    33.8
-#> 2      1 0.163 0.106  3.14  9.36  8.21  22.4     3.75  1.77  172.    35.1
-#> 3      1 0.327 0.106  3.14  9.36  8.21  22.4     3.86 12.5   169.    36.2
-#> 4      1 0.490 0.106  3.14  9.36  8.21  22.4     3.95 32.7   166.    37.0
-#> 5      1 0.653 0.106  3.14  9.36  8.21  22.4     4.02  1.13  163.    37.6
-#> 6      1 0.816 0.106  3.14  9.36  8.21  22.4     4.07  2.21  160.    38.1
+#>   sim.id  time    ka    cl     v     q    vp ipredSim    sim depot central
+#>    <int> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>    <dbl>  <dbl> <dbl>   <dbl>
+#> 1      1 0     0.657  8.37  23.2  27.5  209.     1.12  1.76  101.     25.9
+#> 2      1 0.163 0.657  8.37  23.2  27.5  209.     1.50  0.667  90.3    34.7
+#> 3      1 0.327 0.657  8.37  23.2  27.5  209.     1.75  6.17   81.1    40.7
+#> 4      1 0.490 0.657  8.37  23.2  27.5  209.     1.92 18.6    72.9    44.5
+#> 5      1 0.653 0.657  8.37  23.2  27.5  209.     2.02  0.514  65.5    46.8
+#> 6      1 0.816 0.657  8.37  23.2  27.5  209.     2.06  1.07   58.8    47.9
 #> # ℹ 499,994 more rows
 #> # ℹ 1 more variable: peripheral1 <dbl>
 ```
@@ -683,89 +624,93 @@ You may examine the simulated study information easily, as show in the
 printout:
 
 ``` r
+
 head(sim1$thetaMat)
-#>              lka           lv         lcl          lq         lvp
-#> [1,]  0.02947905  0.089896667  0.04984078 -0.06706706  0.06520861
-#> [2,]  0.06197460 -0.170342222 -0.05373612  0.68716441  0.09226292
-#> [3,] -0.06697635 -0.217177252 -0.10981408 -0.20229225 -0.14341128
-#> [4,] -0.06332902 -0.184020593  0.16697188  0.30978833 -0.03255698
-#> [5,] -0.17713830 -0.148149267  0.07439355 -0.69996458 -0.51233627
-#> [6,] -0.05815461  0.008916266 -0.05256217 -0.23281914 -0.24435683
+#>              lka         lv          lcl          lq         lvp      logn.sd
+#> [1,] -0.24310499 -0.3069419 -0.009243328 -0.09784732  0.01242648  0.005394559
+#> [2,] -0.18784810 -0.2623023 -0.039100147  0.07996672  0.01376370  0.003423098
+#> [3,]  0.08075177  0.1022470  0.011021375 -0.02801452  0.04737219 -0.008515521
+#> [4,] -0.13312090 -0.2126346 -0.065836851 -0.05694813 -0.03591474 -0.013095814
+#> [5,] -0.17585009 -0.1394264 -0.106183413 -0.18323328 -0.01257307  0.022512342
+#> [6,]  0.36172057  0.4628480  0.062899895  0.08703887  0.00156359  0.001694008
 ```
 
 You can also see the covariance matricies that are simulated (note they
 come from an inverse Wishart distribution):
 
 ``` r
+
 head(sim1$omegaList)
 #> [[1]]
-#>              eta.ka        eta.v       eta.cl
-#> eta.ka  0.012623191 -0.004464206 -0.003035283
-#> eta.v  -0.004464206  0.150338686  0.016213674
-#> eta.cl -0.003035283  0.016213674  0.511307406
+#>               eta.ka         eta.v       eta.cl
+#> eta.ka  0.0097386012 -0.0009766941 -0.001299979
+#> eta.v  -0.0009766941  0.0148086539  0.002559209
+#> eta.cl -0.0012999793  0.0025592095  0.195150912
 #> 
 #> [[2]]
-#>              eta.ka        eta.v       eta.cl
-#> eta.ka  0.010590789 -0.002237411 -0.005009739
-#> eta.v  -0.002237411  0.134165266  0.023422769
-#> eta.cl -0.005009739  0.023422769  0.480798833
+#>               eta.ka         eta.v       eta.cl
+#> eta.ka  0.0084458971 -0.0005014409 -0.002246153
+#> eta.v  -0.0005014409  0.0135118622  0.003784047
+#> eta.cl -0.0022461527  0.0037840471  0.185596834
 #> 
 #> [[3]]
 #>              eta.ka         eta.v       eta.cl
-#> eta.ka 0.0099509533  0.0008136218  0.005543711
-#> eta.v  0.0008136218  0.1349640454 -0.056394136
-#> eta.cl 0.0055437113 -0.0563941356  0.483792201
+#> eta.ka 0.0080249125  0.0002111766  0.002587580
+#> eta.v  0.0002111766  0.0135033706 -0.009131818
+#> eta.cl 0.0025875804 -0.0091318182  0.186541471
 #> 
 #> [[4]]
 #>              eta.ka        eta.v      eta.cl
-#> eta.ka 0.0123884759 0.0002081887 0.003492112
-#> eta.v  0.0002081887 0.1040441775 0.016897162
-#> eta.cl 0.0034921121 0.0168971618 0.440930357
+#> eta.ka 9.608690e-03 4.361314e-05 0.001587391
+#> eta.v  4.361314e-05 1.099009e-02 0.002838064
+#> eta.cl 1.587391e-03 2.838064e-03 0.172858719
 #> 
 #> [[5]]
-#>              eta.ka       eta.v       eta.cl
-#> eta.ka  0.012777103 0.003651706 -0.003321946
-#> eta.v   0.003651706 0.140182692  0.009462842
-#> eta.cl -0.003321946 0.009462842  0.492853429
+#>               eta.ka        eta.v       eta.cl
+#> eta.ka  0.0098398893 0.0008144681 -0.001500053
+#> eta.v   0.0008144681 0.0140092814  0.001514191
+#> eta.cl -0.0015000529 0.0015141913  0.189391288
 #> 
 #> [[6]]
 #>              eta.ka        eta.v       eta.cl
-#> eta.ka  0.012372109 -0.007659249 -0.007657738
-#> eta.v  -0.007659249  0.123751802  0.032497415
-#> eta.cl -0.007657738  0.032497415  0.496990248
+#> eta.ka  0.009532787 -0.001736875 -0.003261606
+#> eta.v  -0.001736875  0.012642187  0.005263468
+#> eta.cl -0.003261606  0.005263468  0.190687544
 ```
 
 ``` r
+
 head(sim1$sigmaList)
 #> [[1]]
 #>                rxerr.rxLinCmt
-#> rxerr.rxLinCmt      0.9911237
+#> rxerr.rxLinCmt      0.9926866
 #> 
 #> [[2]]
 #>                rxerr.rxLinCmt
-#> rxerr.rxLinCmt       1.028955
+#> rxerr.rxLinCmt       1.023488
 #> 
 #> [[3]]
 #>                rxerr.rxLinCmt
-#> rxerr.rxLinCmt       1.016967
+#> rxerr.rxLinCmt       1.013763
 #> 
 #> [[4]]
 #>                rxerr.rxLinCmt
-#> rxerr.rxLinCmt       1.024366
+#> rxerr.rxLinCmt       1.019769
 #> 
 #> [[5]]
 #>                rxerr.rxLinCmt
-#> rxerr.rxLinCmt      0.9737614
+#> rxerr.rxLinCmt      0.9784425
 #> 
 #> [[6]]
 #>                rxerr.rxLinCmt
-#> rxerr.rxLinCmt       1.025798
+#> rxerr.rxLinCmt        1.02093
 ```
 
 It is also easy enough to create a plot to see what is going on with the
 simulation:
 
 ``` r
+
 conf <- confint(sim1, "sim")
 
 p1 <- plot(conf) ## This returns a ggplot2 object
@@ -779,6 +724,7 @@ p1 +
 ![](xgxr-nlmixr-ggpmx_files/figure-html/fig-simulate-1.png)
 
 ``` r
+
 
 # And put the same plot on a semi-log plot
 p1 +

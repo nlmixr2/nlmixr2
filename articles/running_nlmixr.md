@@ -12,6 +12,7 @@ dataset generously provided by Dr. Robert A. Upton of the University of
 California, San Francisco:
 
 ``` r
+
 ## Load libraries
 library(nlmixr2)
 str(theo_sd)
@@ -29,6 +30,7 @@ We can try fitting a simple one-compartment PK model to this small
 dataset. We write the model as follows:
 
 ``` r
+
 one.cmt <- function() {
   ini({
     ## You may label each parameter with a comment
@@ -57,16 +59,9 @@ f <- nlmixr(one.cmt)
 We can now run the model…
 
 ``` r
+
 fit <- nlmixr(one.cmt, theo_sd, est="focei",
               control=list(print=0))
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
-#> 
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
@@ -75,43 +70,68 @@ fit <- nlmixr(one.cmt, theo_sd, est="focei",
 #> done
 
 print(fit)
-#> ── nlmixr² FOCEi (outer: nlminb) ──
+#> ── nlmixr² FOCEi (outer: bobyqa) ──
 #> 
-#>           OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)
-#> FOCEi 116.8044 373.4042 393.5838      -179.7021         68.7787        9.398479
+#>           OBJF      AIC     BIC Log-likelihood Condition#(Cov) Condition#(Cor)
+#> FOCEi 116.8076 373.4073 393.587      -179.7037        538873.5        3771.305
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>            setup optimize covariance table compress    other
-#> elapsed 0.001634 0.246641   0.246642 0.049    0.001 3.387083
+#>            setup  optimize covariance preprocess postprocess table compress
+#> elapsed 3.214152 0.2796719  0.5017284       0.05       0.031 0.059    0.001
+#>             other
+#> elapsed 0.2704478
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
-#>        Parameter  Est.     SE %RSE Back-transformed(95%CI) BSV(CV%) Shrink(SD)%
-#> tka              0.464  0.195 42.1       1.59 (1.08, 2.33)     70.6      1.94% 
-#> tcl               1.01 0.0751 7.42       2.75 (2.38, 3.19)     26.8      3.96% 
-#> tv         log V  3.46 0.0435 1.26       31.8 (29.2, 34.6)     13.9      10.3% 
-#> add.sd           0.693                               0.693                     
+#>        Parameter  Est.      SE  %RSE Back-transformed(95%CI) BSV(CV%)
+#> tka              0.472   0.208  44.1       1.60 (1.07, 2.41)     69.9
+#> tcl               1.01 0.00728 0.719       2.75 (2.71, 2.79)     27.0
+#> tv         log V  3.46  0.0460  1.33       31.8 (29.1, 34.8)     13.9
+#> add.sd           0.695  0.0940  13.5    0.695 (0.511, 0.880)         
+#>        Shrink(SD)%
+#> tka          1.34 
+#> tcl          4.41 
+#> tv           10.4 
+#> add.sd            
 #>  
-#>   Covariance Type ($covMethod): r,s
+#>   Covariance Type ($covMethod): r,s (full)
+#>     other calculated covs (setCov()): r, s, r,s, r (full), s (full)
+#>   Some strong fixed parameter correlations exist ($cor) :
+#>                 cor:tcl,tka              cor:tv,tka          cor:add.sd,tka 
+#>                  0.316                   0.288                   -0.177   
+#>       cor:om.eta.ka,tka       cor:om.eta.cl,tka        cor:om.eta.v,tka 
+#>                  0.735                  -0.163                   -0.220   
+#>              cor:tv,tcl          cor:add.sd,tcl       cor:om.eta.ka,tcl 
+#>                 -0.296                   -0.281                    0.260   
+#>       cor:om.eta.cl,tcl        cor:om.eta.v,tcl           cor:add.sd,tv 
+#>                -0.0127                    0.178                   -0.381  
+#>        cor:om.eta.ka,tv        cor:om.eta.cl,tv         cor:om.eta.v,tv 
+#>                  0.274                   -0.102                  -0.0694   
+#>    cor:om.eta.ka,add.sd    cor:om.eta.cl,add.sd     cor:om.eta.v,add.sd 
+#>                 -0.411                 -0.0705                   -0.595  
+#> cor:om.eta.cl,om.eta.ka  cor:om.eta.v,om.eta.ka  cor:om.eta.v,om.eta.cl 
+#>                 -0.276                    0.452                 -0.0799   
+#>  
+#> 
 #>   No correlations in between subject variability (BSV) matrix
 #>   Full BSV covariance ($omega) or correlation ($omegaR; diagonals=SDs) 
 #>   Distribution stats (mean/skewness/kurtosis/p-value) available in $shrink 
 #>   Information about run found ($runInfo):
-#>    • gradient problems with initial estimate and covariance; see $scaleInfo 
+#>    • gradient problems with covariance; see $scaleInfo 
+#>    • last objective function was not at minimum, possible problems in optimization 
 #>    • ETAs were reset to zero during optimization; (Can control by foceiControl(resetEtaP=.)) 
-#>    • initial ETAs were nudged; (can control by foceiControl(etaNudge=., etaNudge2=)) 
 #>   Censoring ($censInformation): No censoring
 #>   Minimization message ($message):  
-#>     relative convergence (4) 
+#>     Normal exit from bobyqa 
 #> 
 #> ── Fit Data (object is a modified tibble): ──
 #> # A tibble: 132 × 22
 #>   ID     TIME    DV  PRED    RES   WRES IPRED   IRES  IWRES CPRED   CRES  CWRES
 #>   <fct> <dbl> <dbl> <dbl>  <dbl>  <dbl> <dbl>  <dbl>  <dbl> <dbl>  <dbl>  <dbl>
-#> 1 1      0     0.74  0     0.74   1.07   0     0.74   1.07   0     0.74   1.07 
-#> 2 1      0.25  2.84  3.26 -0.424 -0.226  3.85 -1.01  -1.45   3.22 -0.380 -0.178
-#> 3 1      0.57  6.57  5.83  0.738  0.296  6.79 -0.215 -0.310  5.78  0.793  0.286
+#> 1 1      0     0.74  0     0.74   1.06   0     0.74   1.06   0     0.74   1.06 
+#> 2 1      0.25  2.84  3.28 -0.445 -0.237  3.85 -1.01  -1.45   3.24 -0.404 -0.190
+#> 3 1      0.57  6.57  5.86  0.711  0.287  6.79 -0.216 -0.310  5.81  0.763  0.278
 #> # ℹ 129 more rows
 #> # ℹ 10 more variables: eta.ka <dbl>, eta.cl <dbl>, eta.v <dbl>, depot <dbl>,
 #> #   central <dbl>, ka <dbl>, cl <dbl>, v <dbl>, tad <dbl>, dosenum <dbl>
@@ -121,6 +141,7 @@ We can alternatively express the same model by ordinary differential
 equations (ODEs):
 
 ``` r
+
 one.compartment <- function() {
   ini({
     tka <- 0.45 # Log Ka
@@ -146,12 +167,9 @@ one.compartment <- function() {
 We can try the Stochastic Approximation EM (SAEM) method to this model:
 
 ``` r
+
 fit2 <- nlmixr(one.compartment, theo_sd,  est="saem",
                control=list(print=0))
-#> [====|====|====|====|====|====|====|====|====|====
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
@@ -163,18 +181,21 @@ print(fit2)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>            setup covariance  saem table compress    other
-#> elapsed 0.002052   0.010011 3.613 0.064    0.043 0.767937
+#>            setup   optimize covariance preprocess configure  saem postprocess
+#> elapsed 0.133492 3.5326e-05  0.0170048       0.05     0.754 8.286       0.903
+#>         table compress     other
+#> elapsed 0.067    0.049 0.1994678
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
 #>         Est.     SE %RSE Back-transformed(95%CI) BSV(CV%) Shrink(SD)%
-#> tka    0.464  0.195   42       1.59 (1.09, 2.33)     71.1   -0.0900% 
-#> tcl     1.01  0.085 8.43       2.74 (2.32, 3.24)     27.4      4.80% 
-#> tv      3.46 0.0447 1.29         31.7 (29, 34.6)     13.1      8.77% 
-#> add.sd 0.696                               0.696                     
+#> tka    0.452  0.189 41.8       1.57 (1.09, 2.28)     70.3     -0.343 
+#> tcl     1.01 0.0831 8.19       2.76 (2.34, 3.25)     27.6       4.54 
+#> tv      3.45 0.0430 1.25       31.5 (29.0, 34.3)     13.3       10.1 
+#> add.sd 0.698 0.0473 6.78    0.698 (0.606, 0.791)                     
 #>  
-#>   Covariance Type ($covMethod): linFim
+#>   Covariance Type ($covMethod): sa
+#>   Fixed parameter correlations in $cor
 #>   No correlations in between subject variability (BSV) matrix
 #>   Full BSV covariance ($omega) or correlation ($omegaR; diagonals=SDs) 
 #>   Distribution stats (mean/skewness/kurtosis/p-value) available in $shrink 
@@ -184,9 +205,9 @@ print(fit2)
 #> # A tibble: 132 × 19
 #>   ID     TIME    DV  PRED    RES IPRED   IRES  IWRES eta.ka eta.cl   eta.v    cp
 #>   <fct> <dbl> <dbl> <dbl>  <dbl> <dbl>  <dbl>  <dbl>  <dbl>  <dbl>   <dbl> <dbl>
-#> 1 1      0     0.74  0     0.74   0     0.74   1.06  0.0839 -0.477 -0.0849  0   
-#> 2 1      0.25  2.84  3.28 -0.437  3.83 -0.991 -1.42  0.0839 -0.477 -0.0849  3.83
-#> 3 1      0.57  6.57  5.86  0.715  6.76 -0.194 -0.278 0.0839 -0.477 -0.0849  6.76
+#> 1 1      0     0.74  0     0.74   0     0.74   1.06   0.109 -0.487 -0.0780  0   
+#> 2 1      0.25  2.84  3.26 -0.419  3.86 -1.02  -1.46   0.109 -0.487 -0.0780  3.86
+#> 3 1      0.57  6.57  5.84  0.734  6.80 -0.229 -0.327  0.109 -0.487 -0.0780  6.80
 #> # ℹ 129 more rows
 #> # ℹ 7 more variables: depot <dbl>, center <dbl>, ka <dbl>, cl <dbl>, v <dbl>,
 #> #   tad <dbl>, dosenum <dbl>
@@ -196,55 +217,54 @@ And if we wanted to, we could even apply the traditional R method nlme
 method to this model:
 
 ``` r
+
 fitN <- nlmixr(one.compartment, theo_sd, list(pnlsTol=0.5), est="nlme")
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> 
 #> **Iteration 1
-#> LME step: Loglik: -183.2083, nlminb iterations: 1
+#> LME step: Loglik: -183.1969, nlminb iterations: 1
 #> reStruct  parameters:
 #>       ID1       ID2       ID3 
-#> 0.2195819 0.9924330 1.6502972 
+#> 0.2196634 0.9922169 1.6502749 
 #>  Beginning PNLS step: ..  completed fit_nlme() step.
-#> PNLS step: RSS =  64.99503 
-#>  fixed effects: 0.4599482  1.034609  3.451128  
+#> PNLS step: RSS =  64.49993 
+#>  fixed effects: 0.3647292  1.027952  3.45063  
 #>  iterations: 3 
-#> Convergence crit. (must all become <= tolerance = 1e-05):
-#>      fixed   reStruct 
-#> 0.03345135 0.52961889 
+#> Convergence crit. (must all become <= tolerance = 0.0001):
+#>     fixed  reStruct 
+#> 0.2337920 0.7763722 
 #> 
 #> **Iteration 2
-#> LME step: Loglik: -182.0885, nlminb iterations: 1
+#> LME step: Loglik: -179.7021, nlminb iterations: 1
 #> reStruct  parameters:
 #>       ID1       ID2       ID3 
-#> 0.1435534 0.9710439 1.6552366 
+#> 0.1236584 0.9704155 1.6401474 
 #>  Beginning PNLS step: ..  completed fit_nlme() step.
-#> PNLS step: RSS =  64.99506 
-#>  fixed effects: 0.4599482  1.034609  3.451128  
+#> PNLS step: RSS =  64.49992 
+#>  fixed effects: 0.3647292  1.027952  3.45063  
 #>  iterations: 1 
-#> Convergence crit. (must all become <= tolerance = 1e-05):
+#> Convergence crit. (must all become <= tolerance = 0.0001):
 #>        fixed     reStruct 
-#> 0.000000e+00 6.630493e-06
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
+#> 0.000000e+00 8.270661e-07
 print(fitN)
 #> ── nlmixr² nlme by maximum likelihood ──
 #> 
 #>          OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)
-#> nlme 121.5772 378.1769 398.3565      -182.0885        12.71443               1
+#> nlme 116.8044 373.4042 393.5838      -179.7021        16.66263               1
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>            setup table compress    other
-#> elapsed 0.001625 0.057    0.005 1.516375
+#>             setup   optimize covariance preprocess postprocess table compress
+#> elapsed 0.0893842 2.2783e-05  4.668e-06      0.051       0.013 0.061    0.006
+#>            other
+#> elapsed 1.342588
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
-#>          Est.      SE  %RSE Back-transformed(95%CI) BSV(CV%) Shrink(SD)%
-#> tka    0.4599  0.1488 32.35     1.584 (1.183, 2.12)     66.6     -6.38% 
-#> tcl     1.035 0.08491 8.207    2.814 (2.383, 3.324)     27.0      7.81% 
-#> tv      3.451 0.04173 1.209    31.54 (29.06, 34.22)     13.4      6.88% 
-#> add.sd 0.6994                                0.6994                     
+#>         Est.     SE %RSE Back-transformed(95%CI) BSV(CV%) Shrink(SD)%
+#> tka    0.365  0.190 52.2      1.44 (0.992, 2.09)     67.9      -2.71 
+#> tcl     1.03 0.0849 8.26       2.80 (2.37, 3.30)     26.9       5.45 
+#> tv      3.45 0.0466 1.35       31.5 (28.8, 34.5)     13.6       11.0 
+#> add.sd 0.697                               0.697                     
 #>  
 #>   Covariance Type ($covMethod): nlme
 #>   No correlations in between subject variability (BSV) matrix
@@ -256,9 +276,9 @@ print(fitN)
 #> # A tibble: 132 × 19
 #>   ID     TIME    DV  PRED    RES IPRED   IRES  IWRES eta.ka eta.cl   eta.v    cp
 #>   <fct> <dbl> <dbl> <dbl>  <dbl> <dbl>  <dbl>  <dbl>  <dbl>  <dbl>   <dbl> <dbl>
-#> 1 1      0     0.74  0     0.74   0     0.74   1.06  0.0614 -0.480 -0.0903  0   
-#> 2 1      0.25  2.84  3.28 -0.439  3.79 -0.946 -1.35  0.0614 -0.480 -0.0903  3.79
-#> 3 1      0.57  6.57  5.86  0.710  6.72 -0.149 -0.213 0.0614 -0.480 -0.0903  6.72
+#> 1 1      0     0.74  0     0.74   0     0.74   1.06   0.210 -0.486 -0.0789  0   
+#> 2 1      0.25  2.84  3.03 -0.194  3.91 -1.07  -1.53   0.210 -0.486 -0.0789  3.91
+#> 3 1      0.57  6.57  5.52  1.05   6.86 -0.289 -0.415  0.210 -0.486 -0.0789  6.86
 #> # ℹ 129 more rows
 #> # ℹ 7 more variables: depot <dbl>, center <dbl>, ka <dbl>, cl <dbl>, v <dbl>,
 #> #   tad <dbl>, dosenum <dbl>
@@ -284,6 +304,7 @@ often contain these two components. Let’s look at a very simple
 one-compartment model with no covariates.
 
 ``` r
+
 f <- function() {
   ini({   # Initial conditions/variables
     # are specified here
@@ -304,6 +325,7 @@ In the NONMEM world, the `ini` block is analogous to `$THETA`, `$OMEGA`
 and `$SIGMA` blocks.
 
 ``` r
+
 f <- function() { # Note that arguments to the function are currently
   # ignored by nlmixr
   ini({
@@ -348,8 +370,10 @@ note that:
   not allow variable starting with `_` to be assigned without quoting
   them.
 - Naming variables that start with `rx` or `nlmixr` is not suggested,
-  since `rxode2()` and nlmixr use these prefixes internally for certain
-  estimation routines and for calculating residuals.
+  since
+  [`rxode2()`](https://nlmixr2.github.io/rxode2/reference/rxode2.html)
+  and nlmixr use these prefixes internally for certain estimation
+  routines and for calculating residuals.
 - Variable names are case-sensitive, just like they are in R. `CL` is
   not the same as `Cl`.
 
@@ -366,6 +390,7 @@ Continuing from the prior example, we can annotate the estimates for the
 between-subject error distribution…
 
 ``` r
+
 f <- function() {
   ini({
     lCl <- 1.6      ; label("log Cl (L/hr)")
@@ -413,13 +438,16 @@ The `model` block specifies the model, and is analogous to the `$PK`,
 
 Once the initialization block has been defined, you can define a model
 in terms of the variables defined in the `ini` block. You can also mix
-`rxode2()` blocks into the model if needed.
+[`rxode2()`](https://nlmixr2.github.io/rxode2/reference/rxode2.html)
+blocks into the model if needed.
 
 The current method of defining a nlmixr model is to specify the
-parameters, and then any required `rxode2()` lines. Continuing the
-annotated example:
+parameters, and then any required
+[`rxode2()`](https://nlmixr2.github.io/rxode2/reference/rxode2.html)
+lines. Continuing the annotated example:
 
 ``` r
+
 f <- function() {
   ini({
     lCl <- 1.6       # log Cl (L/hr)
@@ -512,6 +540,7 @@ Solved PK systems are also currently supported by nlmixr with the
 below:
 
 ``` r
+
 f <- function(){
   ini({
     lCl <- 1.6      ; label("log Cl (L/hr)")
@@ -561,16 +590,20 @@ interpreting it correctly by using the nlmixr function on it. Using the
 above function we can get:
 
 ``` r
+
 nlmixr(f)
 ```
 
-$$\begin{aligned}
-{Cl} & {= \exp\left( {lCl} + {eta.Cl} \right)} \\
-{Vc} & {= \exp\left( {lVc} + {eta.Vc} \right)} \\
-{KA} & {= \exp\left( {lKA} + {eta.KA} \right)} \\
-{linCmt{()}} & {\sim prop(prop.err)}
-\end{aligned}$$
+``` math
+\begin{align*}
+{Cl} & = \exp\left({lCl}+{eta.Cl}\right) \\
+{Vc} & = \exp\left({lVc}+{eta.Vc}\right) \\
+{KA} & = \exp\left({lKA}+{eta.KA}\right) \\
+linCmt() & \sim prop({prop.err})
+\end{align*}
+```
 
 In general this gives you information about the model (what type of
-solved system/`rxode2()`), initial estimates as well as the code for the
-model block.
+solved
+system/[`rxode2()`](https://nlmixr2.github.io/rxode2/reference/rxode2.html)),
+initial estimates as well as the code for the model block.

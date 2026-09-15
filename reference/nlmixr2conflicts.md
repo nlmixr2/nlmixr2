@@ -22,5 +22,6 @@ generic, so shouldn't negatively affect any existing code.
 nlmixr2conflicts()
 #> ── Conflicts ───────────────────────────────────────────── nlmixr2conflicts() ──
 #> ✖ rxode2::boxCox()     masks nlmixr2est::boxCox()
+#> ✖ coda::traceplot()    masks babelmixr2::traceplot(), nlmixr2plot::traceplot()
 #> ✖ rxode2::yeoJohnson() masks nlmixr2est::yeoJohnson()
 ```
