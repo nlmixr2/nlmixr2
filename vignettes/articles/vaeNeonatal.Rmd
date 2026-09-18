@@ -320,6 +320,22 @@ cross-covariate correlation among the neonatal covariates is about `0.2`, so
 nothing is close to interchangeable and none of the machinery below engages. A
 `cluster` column that merges two `group`s is the signal that it will.
 
+The cluster is built from the **correlation of the subject-level values** -- the
+same one-row-per-subject design the M-step regresses on. You can reproduce it
+without a fit by correlating the candidate columns:
+
+```{r}
+cand <- vaeCovariates(neonatal)
+cols <- names(neonatal)[match(unique(cand$raw), toupper(names(neonatal)))]
+round(cor(neonatal[!duplicated(neonatal$ID), cols]), 2)
+```
+
+Every off-diagonal is well under the `0.9` cut, which is why `cluster` repeats
+`group` above. Two covariates whose subject-level values really are
+near-interchangeable -- weight and lean body mass at `0.98`, say -- would share
+one `cluster` id instead, and the machinery below would then treat them as
+substitutes rather than quietly selecting one and leaving the other unremarked.
+
 A cluster is a **label, never a constraint**. It does not stop two correlated
 covariates from both being selected, and it does not change the objective. It
 only tells the two mechanisms below which covariates are substitutes for one
