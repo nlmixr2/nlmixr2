@@ -78,9 +78,9 @@ print(fit)
 #> ── Time (sec $time): ──
 #> 
 #>            setup  optimize covariance preprocess postprocess table compress
-#> elapsed 3.214152 0.2796719  0.5017284       0.05       0.031 0.059    0.001
+#> elapsed 3.202119 0.5132199   0.282712      0.051       0.037 0.059    0.001
 #>             other
-#> elapsed 0.2704478
+#> elapsed 0.2759491
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -96,7 +96,7 @@ print(fit)
 #> add.sd            
 #>  
 #>   Covariance Type ($covMethod): r,s (full)
-#>     other calculated covs (setCov()): r, s, r,s, r (full), s (full)
+#>     other calculated covs (setCov()): r; s; r,s; r (full); s (full)
 #>   Some strong fixed parameter correlations exist ($cor) :
 #>                 cor:tcl,tka              cor:tv,tka          cor:add.sd,tka 
 #>                  0.316                   0.288                   -0.177   
@@ -181,18 +181,18 @@ print(fit2)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>            setup   optimize covariance preprocess configure  saem postprocess
-#> elapsed 0.133492 3.5326e-05  0.0170048       0.05     0.754 8.286       0.903
+#>             setup   optimize covariance preprocess configure  saem postprocess
+#> elapsed 0.1288336 3.2652e-05 0.01700471      0.054     0.752 7.804       0.893
 #>         table compress     other
-#> elapsed 0.067    0.049 0.1994678
+#> elapsed 0.077    0.048 0.1981291
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
 #>         Est.     SE %RSE Back-transformed(95%CI) BSV(CV%) Shrink(SD)%
-#> tka    0.452  0.189 41.8       1.57 (1.09, 2.28)     70.3     -0.343 
-#> tcl     1.01 0.0831 8.19       2.76 (2.34, 3.25)     27.6       4.54 
-#> tv      3.45 0.0430 1.25       31.5 (29.0, 34.3)     13.3       10.1 
-#> add.sd 0.698 0.0473 6.78    0.698 (0.606, 0.791)                     
+#> tka    0.457  0.190 41.5       1.58 (1.09, 2.29)     71.0     -0.207 
+#> tcl     1.01 0.0808 7.97       2.75 (2.35, 3.23)     26.9       4.25 
+#> tv      3.45 0.0437 1.26       31.6 (29.0, 34.4)     13.8       11.0 
+#> add.sd 0.697 0.0472 6.78    0.697 (0.604, 0.789)                     
 #>  
 #>   Covariance Type ($covMethod): sa
 #>   Fixed parameter correlations in $cor
@@ -205,9 +205,9 @@ print(fit2)
 #> # A tibble: 132 × 19
 #>   ID     TIME    DV  PRED    RES IPRED   IRES  IWRES eta.ka eta.cl   eta.v    cp
 #>   <fct> <dbl> <dbl> <dbl>  <dbl> <dbl>  <dbl>  <dbl>  <dbl>  <dbl>   <dbl> <dbl>
-#> 1 1      0     0.74  0     0.74   0     0.74   1.06   0.109 -0.487 -0.0780  0   
-#> 2 1      0.25  2.84  3.26 -0.419  3.86 -1.02  -1.46   0.109 -0.487 -0.0780  3.86
-#> 3 1      0.57  6.57  5.84  0.734  6.80 -0.229 -0.327  0.109 -0.487 -0.0780  6.80
+#> 1 1      0     0.74  0     0.74   0     0.74   1.06  0.0932 -0.474 -0.0829  0   
+#> 2 1      0.25  2.84  3.27 -0.429  3.84 -1.00  -1.44  0.0932 -0.474 -0.0829  3.84
+#> 3 1      0.57  6.57  5.85  0.722  6.78 -0.210 -0.302 0.0932 -0.474 -0.0829  6.78
 #> # ℹ 129 more rows
 #> # ℹ 7 more variables: depot <dbl>, center <dbl>, ka <dbl>, cl <dbl>, v <dbl>,
 #> #   tad <dbl>, dosenum <dbl>
@@ -253,10 +253,10 @@ print(fitN)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>             setup   optimize covariance preprocess postprocess table compress
-#> elapsed 0.0893842 2.2783e-05  4.668e-06      0.051       0.013 0.061    0.006
+#>              setup   optimize covariance preprocess postprocess table compress
+#> elapsed 0.09540779 2.0358e-05  4.759e-06      0.048       0.013 0.058    0.005
 #>            other
-#> elapsed 1.342588
+#> elapsed 1.319567
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 

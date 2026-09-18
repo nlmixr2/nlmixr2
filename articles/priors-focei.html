@@ -102,7 +102,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Prior distributions in nlmixr2: general, nwpri and tnpri</h1>
             
-            <h4 data-toc-skip class="date">2026-09-15</h4>
+            <h4 data-toc-skip class="date">2026-09-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/main/vignettes/articles/priors-focei.Rmd" class="external-link"><code>vignettes/articles/priors-focei.Rmd</code></a></small>
       <div class="d-none name"><code>priors-focei.Rmd</code></div>
@@ -330,7 +330,7 @@ no prior at all as a baseline:</p>
 <span>  `var(eta.cl)` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">fitBase</span><span class="op">$</span><span class="va">omega</span><span class="op">[</span><span class="st">"eta.cl"</span>, <span class="st">"eta.cl"</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>  `add.sd` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">fitBase</span><span class="op">$</span><span class="va">theta</span><span class="op">[</span><span class="st">"add.sd"</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;         tcl var(eta.cl)      add.sd </span></span>
-<span><span class="co">#&gt;  1.00968290  0.07042478  0.69409689</span></span></code></pre></div>
+<span><span class="co">#&gt;  1.01230010  0.06936164  0.69523823</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="a-prior-on-a-population-parameter">A prior on a population parameter<a class="anchor" aria-label="anchor" href="#a-prior-on-a-population-parameter"></a>
 </h3>
@@ -357,12 +357,12 @@ alone would suggest, and we are fairly confident in it
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>`no prior` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">fitBase</span><span class="op">$</span><span class="va">theta</span><span class="op">[</span><span class="st">"tcl"</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>  `with prior` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">fitTheta</span><span class="op">$</span><span class="va">theta</span><span class="op">[</span><span class="st">"tcl"</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   no prior with prior </span></span>
-<span><span class="co">#&gt;   1.009683   1.452560</span></span></code></pre></div>
-<p>The estimate moves from the unconstrained MLE (1.01) toward the prior
-mean (1.5), landing between the two – exactly the balance a penalized
-fit is supposed to strike. <code>foceiControl(fast = TRUE)</code>
-(<code>foceif</code>) stayed on:
-<code>fitTheta$env$nAnalyticGradDirect</code> is 24, confirming the
+<span><span class="co">#&gt;    1.01230    1.45286</span></span></code></pre></div>
+<p>The estimate moves from the unconstrained MLE (1.012) toward the
+prior mean (1.5), landing between the two – exactly the balance a
+penalized fit is supposed to strike.
+<code>foceiControl(fast = TRUE)</code> (<code>foceif</code>) stayed on:
+<code>fitTheta$env$nAnalyticGradDirect</code> is 20, confirming the
 analytic outer gradient (with its own <code>d/dtheta log p(theta)</code>
 term) ran, not a finite-difference fallback.</p>
 </div>
@@ -372,7 +372,7 @@ term) ran, not a finite-difference fallback.</p>
 <p>Writing the prior directly on <code>eta.cl</code>’s own variance is
 the Monolix/NONMEM-own- estimation (<code>tnpri</code>) convention. Say
 we believe the between-subject variability on clearance is closer to 0.2
-than the unconstrained fit’s own 0.07:</p>
+than the unconstrained fit’s own 0.069:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tnpriModel</span> <span class="op">&lt;-</span> <span class="va">baseModel</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/ini.html" class="external-link">ini</a></span><span class="op">(</span><span class="fu">prior</span><span class="op">(</span><span class="va">eta.cl</span><span class="op">)</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">dnorm</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.02</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -385,7 +385,7 @@ than the unconstrained fit’s own 0.07:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>`no prior` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">fitBase</span><span class="op">$</span><span class="va">omega</span><span class="op">[</span><span class="st">"eta.cl"</span>, <span class="st">"eta.cl"</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>  `tnpri prior` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">fitTnpri</span><span class="op">$</span><span class="va">omega</span><span class="op">[</span><span class="st">"eta.cl"</span>, <span class="st">"eta.cl"</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    no prior tnpri prior </span></span>
-<span><span class="co">#&gt;  0.07042478  0.19310763</span></span></code></pre></div>
+<span><span class="co">#&gt;  0.06936164  0.19310763</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="the-common-nonmem-shape-a-joint-thetaomega-covariance">The common NONMEM shape – a joint theta+omega covariance<a class="anchor" aria-label="anchor" href="#the-common-nonmem-shape-a-joint-thetaomega-covariance"></a>
 </h4>
@@ -484,7 +484,7 @@ toward that value:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>`no prior` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">fitBase</span><span class="op">$</span><span class="va">omega</span><span class="op">[</span><span class="st">"eta.cl"</span>, <span class="st">"eta.cl"</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>  `nwpri prior (nu=4)` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">fitNwpri</span><span class="op">$</span><span class="va">omega</span><span class="op">[</span><span class="st">"eta.cl"</span>, <span class="st">"eta.cl"</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;           no prior nwpri prior (nu=4) </span></span>
-<span><span class="co">#&gt;         0.07042478         0.13689455</span></span></code></pre></div>
+<span><span class="co">#&gt;         0.06936164         0.13689455</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="the-more-common-shape-a-correlated-block">The more common shape – a correlated block<a class="anchor" aria-label="anchor" href="#the-more-common-shape-a-correlated-block"></a>
 </h4>
@@ -677,7 +677,7 @@ could be negative:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>`no prior` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">fitBase</span><span class="op">$</span><span class="va">theta</span><span class="op">[</span><span class="st">"add.sd"</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>  `half-Cauchy(0,1) prior` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">fitGeneral</span><span class="op">$</span><span class="va">theta</span><span class="op">[</span><span class="st">"add.sd"</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;               no prior half-Cauchy(0,1) prior </span></span>
-<span><span class="co">#&gt;              0.6940969              0.6922294</span></span></code></pre></div>
+<span><span class="co">#&gt;              0.6952382              0.6922291</span></span></code></pre></div>
 <p>The pull is small here – <code>add.sd</code> is well informed by
 theophylline’s own dense concentration data, and a Cauchy(0, 1) is a
 fairly diffuse belief next to that – which is itself worth seeing: a

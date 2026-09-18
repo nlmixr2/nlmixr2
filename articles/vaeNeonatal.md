@@ -618,6 +618,30 @@ cross-covariate correlation among the neonatal covariates is about
 below engages. A `cluster` column that merges two `group`s is the signal
 that it will.
 
+The cluster is built from the **correlation of the subject-level
+values** – the same one-row-per-subject design the M-step regresses on.
+You can reproduce it without a fit by correlating the candidate columns:
+
+``` r
+
+cand <- vaeCovariates(neonatal)
+cols <- names(neonatal)[match(unique(cand$raw), toupper(names(neonatal)))]
+round(cor(neonatal[!duplicated(neonatal$ID), cols]), 2)
+#>         Sex  DelM    GA  Mage Para2
+#> Sex    1.00  0.04 -0.05 -0.13  0.09
+#> DelM   0.04  1.00  0.20  0.00 -0.07
+#> GA    -0.05  0.20  1.00 -0.13  0.10
+#> Mage  -0.13  0.00 -0.13  1.00  0.01
+#> Para2  0.09 -0.07  0.10  0.01  1.00
+```
+
+Every off-diagonal is well under the `0.9` cut, which is why `cluster`
+repeats `group` above. Two covariates whose subject-level values really
+are near-interchangeable – weight and lean body mass at `0.98`, say –
+would share one `cluster` id instead, and the machinery below would then
+treat them as substitutes rather than quietly selecting one and leaving
+the other unremarked.
+
 A cluster is a **label, never a constraint**. It does not stop two
 correlated covariates from both being selected, and it does not change
 the objective. It only tells the two mechanisms below which covariates
@@ -1316,7 +1340,7 @@ ggplot(fit, aes(TIME, DV)) +
   theme_bw()
 ```
 
-![](vaeNeonatal_files/figure-html/unnamed-chunk-20-1.png)
+![](vaeNeonatal_files/figure-html/unnamed-chunk-21-1.png)
 
 ## How the method works
 
