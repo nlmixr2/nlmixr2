@@ -8,7 +8,7 @@ library(nlmixr2)
 #> ★ nlmixr2data     2.0.10          ◯ nlmixr2autoinit 1.0.1      
 #> ★ nlmixr2save     0.2.0           ◯ nlmixr2lib      0.3.2      
 #> ★ nlmixr2est      7.1.0           ◯ nlmixr2rpt      0.2.2      
-#> ★ nlmixr2extra    5.2.0           ◯ nlmixr2targets  0.1.0      
+#> ★ nlmixr2extra    5.2.1           ◯ nlmixr2targets  0.1.0      
 #> ★ nlmixr2plot     5.1.0.9000      ◯ nonmem2rx       0.1.9      
 #> ★ rxode2          5.1.8           ◯ pmxNODE         0.1.0      
 #> ◯ admixr2         0.4.1           ◯ PopED           0.7.0      

@@ -30,7 +30,7 @@ nlmixr2CheckInstall()
 #> ✔ The package 'nlmixr2' is installed and seems to be up to date, version 7.0.1
 #> ✔ The package 'nlmixr2est' is installed and seems to be up to date, version 7.1.0
 #> ✔ The package 'nlmixr2data' is installed and seems to be up to date, version 2.0.10
-#> ✔ The package 'nlmixr2extra' is installed and seems to be up to date, version 5.2.0
+#> ✔ The package 'nlmixr2extra' is installed and seems to be up to date, version 5.2.1
 #> ✔ The package 'nlmixr2plot' is installed and seems to be up to date, version 5.1.0.9000
 #> ✔ The package 'admixr2' is installed and seems to be up to date, version 0.4.1
 #> ✔ The package 'babelmixr2' is installed and seems to be up to date, version 0.1.11.9000
