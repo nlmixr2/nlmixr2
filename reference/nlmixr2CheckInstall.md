@@ -31,7 +31,7 @@ nlmixr2CheckInstall()
 #> ✔ The package 'nlmixr2est' is installed and seems to be up to date, version 7.1.0
 #> ✔ The package 'nlmixr2data' is installed and seems to be up to date, version 2.0.10
 #> ✔ The package 'nlmixr2extra' is installed and seems to be up to date, version 5.2.1
-#> ✔ The package 'nlmixr2plot' is installed and seems to be up to date, version 5.1.0.9000
+#> ✔ The package 'nlmixr2plot' is installed and seems to be up to date, version 5.2.0
 #> ✔ The package 'admixr2' is installed and seems to be up to date, version 0.4.1
 #> ✔ The package 'babelmixr2' is installed and seems to be up to date, version 0.1.11.9000
 #> ✔ The package 'FME' is installed and seems to be up to date, version 1.3.6.4
@@ -40,10 +40,10 @@ nlmixr2CheckInstall()
 #> ✔ The package 'nlmixr2auto' is installed and seems to be up to date, version 1.0.0
 #> ✔ The package 'nlmixr2autoinit' is installed and seems to be up to date, version 1.0.1
 #> ✔ The package 'nlmixr2lib' is installed and seems to be up to date, version 0.3.2
-#> ✔ The package 'nlmixr2rpt' is installed and seems to be up to date, version 0.2.2
+#> ✔ The package 'nlmixr2rpt' is installed and seems to be up to date, version 0.2.3
 #> ✔ The package 'nlmixr2targets' is installed and seems to be up to date, version 0.1.0
-#> ✔ The package 'nonmem2rx' is installed and seems to be up to date, version 0.1.9
-#> ✔ The package 'pmxNODE' is installed and seems to be up to date, version 0.1.0
+#> ✔ The package 'nonmem2rx' is installed and seems to be up to date, version 0.1.11
+#> ✔ The package 'pmxNODE' is installed and seems to be up to date, version 0.2.1
 #> ✔ The package 'PopED' is installed and seems to be up to date, version 0.7.0
 #> ✔ The package 'posologyr' is installed and seems to be up to date, version 1.2.8
 #> ✔ The package 'shinyMixR' is installed and seems to be up to date, version 0.5.3

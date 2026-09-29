@@ -107,10 +107,10 @@ names(dat) <- c("ID", "TIME", "AMT", "EVID", "DV", "dvid")
 head(dat)
 #>   ID TIME AMT EVID       DV   dvid
 #> 1  1 0.00 320    1       NA   <NA>
-#> 2  1 0.25  NA    0 2.050783 phase1
-#> 3  1 0.50  NA    0 3.410563 phase1
+#> 2  1 0.25  NA    0 2.050782 phase1
+#> 3  1 0.50  NA    0 3.410561 phase1
 #> 4  1 1.00  NA    0 4.697256 phase1
-#> 5  1 2.00  NA    0 5.267174 phase1
+#> 5  1 2.00  NA    0 5.267175 phase1
 #> 6  1 3.00  NA    0 4.995577 phase1
 table(dat$dvid, useNA="no")
 #> 
@@ -125,7 +125,7 @@ The residual standard deviations really are different in this dataset:
 c(phase1 = sd(d1$sim - d1$ipredSim, na.rm=TRUE),
   phase3 = sd(d3$sim - d3$ipredSim, na.rm=TRUE))
 #>    phase1    phase3 
-#> 0.1679217 0.7474359
+#> 0.1679217 0.8316571
 ```
 
 The `dvid` column is what selects the endpoint. It can equally be a

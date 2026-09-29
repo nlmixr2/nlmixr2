@@ -102,7 +102,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Fitting separate phase 1 and phase 3 residual error</h1>
             
-            <h4 data-toc-skip class="date">2026-09-22</h4>
+            <h4 data-toc-skip class="date">2026-09-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/main/vignettes/articles/phase-residual-error.Rmd" class="external-link"><code>vignettes/articles/phase-residual-error.Rmd</code></a></small>
       <div class="d-none name"><code>phase-residual-error.Rmd</code></div>
@@ -206,10 +206,10 @@ to recover it.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   ID TIME AMT EVID       DV   dvid</span></span>
 <span><span class="co">#&gt; 1  1 0.00 320    1       NA   &lt;NA&gt;</span></span>
-<span><span class="co">#&gt; 2  1 0.25  NA    0 2.050783 phase1</span></span>
-<span><span class="co">#&gt; 3  1 0.50  NA    0 3.410563 phase1</span></span>
+<span><span class="co">#&gt; 2  1 0.25  NA    0 2.050782 phase1</span></span>
+<span><span class="co">#&gt; 3  1 0.50  NA    0 3.410561 phase1</span></span>
 <span><span class="co">#&gt; 4  1 1.00  NA    0 4.697256 phase1</span></span>
-<span><span class="co">#&gt; 5  1 2.00  NA    0 5.267174 phase1</span></span>
+<span><span class="co">#&gt; 5  1 2.00  NA    0 5.267175 phase1</span></span>
 <span><span class="co">#&gt; 6  1 3.00  NA    0 4.995577 phase1</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">dat</span><span class="op">$</span><span class="va">dvid</span>, useNA<span class="op">=</span><span class="st">"no"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -221,7 +221,7 @@ dataset:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>phase1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">d1</span><span class="op">$</span><span class="va">sim</span> <span class="op">-</span> <span class="va">d1</span><span class="op">$</span><span class="va">ipredSim</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>  phase3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">d3</span><span class="op">$</span><span class="va">sim</span> <span class="op">-</span> <span class="va">d3</span><span class="op">$</span><span class="va">ipredSim</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    phase1    phase3 </span></span>
-<span><span class="co">#&gt; 0.1679217 0.7474359</span></span></code></pre></div>
+<span><span class="co">#&gt; 0.1679217 0.8316571</span></span></code></pre></div>
 <p>The <code>dvid</code> column is what selects the endpoint. It can
 equally be a <code>cmt</code> column, or the numeric <code>dvid</code>
 that <code>$multipleEndpoint</code> lists; dosing records leave it
