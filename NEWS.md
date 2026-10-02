@@ -1,5 +1,9 @@
 # nlmixr2 7.0.1
 
+* `library(nlmixr2)` attaches the optional packages before the core ones,
+  so a dependency such as `coda` (via `FME`) no longer masks core functions
+  like `nlmixr2plot::traceplot()` (#419).
+
 * The mixture-models article documents reading the fitted component off the
   fit table (a `mixest`/`mixnum` output variable), which needs an rxode2
   carrying nlmixr2/rxode2#1358; it also now appears in the Articles menu,
