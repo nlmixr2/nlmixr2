@@ -102,7 +102,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Using broom with nlmixr2</h1>
             
-            <h4 data-toc-skip class="date">2026-09-29</h4>
+            <h4 data-toc-skip class="date">2026-10-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/main/vignettes/broom.Rmd" class="external-link"><code>vignettes/broom.Rmd</code></a></small>
       <div class="d-none name"><code>broom.Rmd</code></div>
@@ -186,8 +186,8 @@ will give a summary of the fit metrics of goodness of fit:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 6</span></span></span>
 <span><span class="co">#&gt;    OBJF   AIC   BIC logLik `Condition#(Cov)` `Condition#(Cor)`</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  689.  986. <span style="text-decoration: underline;">1</span>004.  -<span style="color: #BB0000;">487.</span>              19.4              17.8</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  692.  989. <span style="text-decoration: underline;">1</span>007.  -<span style="color: #BB0000;">489.</span>              19.4              17.8</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  689.  986. <span style="text-decoration: underline;">1</span>004.  -<span style="color: #BB0000;">487.</span>              954.              65.1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  692.  989. <span style="text-decoration: underline;">1</span>007.  -<span style="color: #BB0000;">489.</span>              954.              65.1</span></span></code></pre></div>
 <p>Note in nlmixr it is possible to have more than one fit metric (based
 on different quadratures, FOCEi approximation etc). However, the
 <code>glance</code> only returns the fit metrics that are current.</p>
@@ -202,9 +202,9 @@ function (which was already calculated with CWRES).</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 6</span></span></span>
 <span><span class="co">#&gt;    OBJF   AIC   BIC logLik `Condition#(Cov)` `Condition#(Cor)`</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  689.  986. <span style="text-decoration: underline;">1</span>004.  -<span style="color: #BB0000;">487.</span>              19.4              17.8</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  692.  989. <span style="text-decoration: underline;">1</span>007.  -<span style="color: #BB0000;">489.</span>              19.4              17.8</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  692.  989. <span style="text-decoration: underline;">1</span>007.  -<span style="color: #BB0000;">489.</span>              19.4              17.8</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  689.  986. <span style="text-decoration: underline;">1</span>004.  -<span style="color: #BB0000;">487.</span>              954.              65.1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  692.  989. <span style="text-decoration: underline;">1</span>007.  -<span style="color: #BB0000;">489.</span>              954.              65.1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  692.  989. <span style="text-decoration: underline;">1</span>007.  -<span style="color: #BB0000;">489.</span>              954.              65.1</span></span></code></pre></div>
 <p>Of course you can always change the type of objective function that
 nlmixr uses:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -217,9 +217,9 @@ again:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 6</span></span></span>
 <span><span class="co">#&gt;    OBJF   AIC   BIC logLik `Condition#(Cov)` `Condition#(Cor)`</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  689.  986. <span style="text-decoration: underline;">1</span>004.  -<span style="color: #BB0000;">487.</span>              19.4              17.8</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  692.  989. <span style="text-decoration: underline;">1</span>007.  -<span style="color: #BB0000;">489.</span>              19.4              17.8</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  692.  989. <span style="text-decoration: underline;">1</span>007.  -<span style="color: #BB0000;">489.</span>              19.4              17.8</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  689.  986. <span style="text-decoration: underline;">1</span>004.  -<span style="color: #BB0000;">487.</span>              954.              65.1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  692.  989. <span style="text-decoration: underline;">1</span>007.  -<span style="color: #BB0000;">489.</span>              954.              65.1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  692.  989. <span style="text-decoration: underline;">1</span>007.  -<span style="color: #BB0000;">489.</span>              954.              65.1</span></span></code></pre></div>
 <p>For convenience, you can do this while you <code>glance</code> at the
 objects:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -227,9 +227,9 @@ objects:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 6</span></span></span>
 <span><span class="co">#&gt;    OBJF   AIC   BIC logLik `Condition#(Cov)` `Condition#(Cor)`</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  689.  986. <span style="text-decoration: underline;">1</span>004.  -<span style="color: #BB0000;">487.</span>              19.4              17.8</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  692.  989. <span style="text-decoration: underline;">1</span>007.  -<span style="color: #BB0000;">489.</span>              19.4              17.8</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  692.  989. <span style="text-decoration: underline;">1</span>007.  -<span style="color: #BB0000;">489.</span>              19.4              17.8</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  689.  986. <span style="text-decoration: underline;">1</span>004.  -<span style="color: #BB0000;">487.</span>              954.              65.1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>  692.  989. <span style="text-decoration: underline;">1</span>007.  -<span style="color: #BB0000;">489.</span>              954.              65.1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>  692.  989. <span style="text-decoration: underline;">1</span>007.  -<span style="color: #BB0000;">489.</span>              954.              65.1</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="tidying-the-model-parameters">Tidying the model parameters<a class="anchor" aria-label="anchor" href="#tidying-the-model-parameters"></a>

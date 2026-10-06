@@ -83,8 +83,8 @@ glance(fit.s)
 #> # A tibble: 2 × 6
 #>    OBJF   AIC   BIC logLik `Condition#(Cov)` `Condition#(Cor)`
 #>   <dbl> <dbl> <dbl>  <dbl>             <dbl>             <dbl>
-#> 1  689.  986. 1004.  -487.              19.4              17.8
-#> 2  692.  989. 1007.  -489.              19.4              17.8
+#> 1  689.  986. 1004.  -487.              954.              65.1
+#> 2  692.  989. 1007.  -489.              954.              65.1
 ```
 
 Note in nlmixr it is possible to have more than one fit metric (based on
@@ -108,9 +108,9 @@ glance(fit.s)
 #> # A tibble: 3 × 6
 #>    OBJF   AIC   BIC logLik `Condition#(Cov)` `Condition#(Cor)`
 #>   <dbl> <dbl> <dbl>  <dbl>             <dbl>             <dbl>
-#> 1  689.  986. 1004.  -487.              19.4              17.8
-#> 2  692.  989. 1007.  -489.              19.4              17.8
-#> 3  692.  989. 1007.  -489.              19.4              17.8
+#> 1  689.  986. 1004.  -487.              954.              65.1
+#> 2  692.  989. 1007.  -489.              954.              65.1
+#> 3  692.  989. 1007.  -489.              954.              65.1
 ```
 
 Of course you can always change the type of objective function that
@@ -130,9 +130,9 @@ glance(fit.s)
 #> # A tibble: 3 × 6
 #>    OBJF   AIC   BIC logLik `Condition#(Cov)` `Condition#(Cor)`
 #>   <dbl> <dbl> <dbl>  <dbl>             <dbl>             <dbl>
-#> 1  689.  986. 1004.  -487.              19.4              17.8
-#> 2  692.  989. 1007.  -489.              19.4              17.8
-#> 3  692.  989. 1007.  -489.              19.4              17.8
+#> 1  689.  986. 1004.  -487.              954.              65.1
+#> 2  692.  989. 1007.  -489.              954.              65.1
+#> 3  692.  989. 1007.  -489.              954.              65.1
 ```
 
 For convenience, you can do this while you `glance` at the objects:
@@ -143,9 +143,9 @@ glance(fit.s, type="FOCEi")
 #> # A tibble: 3 × 6
 #>    OBJF   AIC   BIC logLik `Condition#(Cov)` `Condition#(Cor)`
 #>   <dbl> <dbl> <dbl>  <dbl>             <dbl>             <dbl>
-#> 1  689.  986. 1004.  -487.              19.4              17.8
-#> 2  692.  989. 1007.  -489.              19.4              17.8
-#> 3  692.  989. 1007.  -489.              19.4              17.8
+#> 1  689.  986. 1004.  -487.              954.              65.1
+#> 2  692.  989. 1007.  -489.              954.              65.1
+#> 3  692.  989. 1007.  -489.              954.              65.1
 ```
 
 ## Tidying the model parameters
