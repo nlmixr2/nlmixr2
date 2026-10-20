@@ -7,12 +7,12 @@ library(nlmixr2)
 #> ★ lotri           1.0.5           ◯ nlmixr2auto     1.0.0      
 #> ★ nlmixr2data     2.0.10          ◯ nlmixr2autoinit 1.0.1      
 #> ★ nlmixr2save     0.2.1           ◯ nlmixr2lib      0.3.2      
-#> ★ nlmixr2est      7.1.0           ◯ nlmixr2rpt      0.2.3      
+#> ★ nlmixr2est      7.2.1           ◯ nlmixr2rpt      0.2.3      
 #> ★ nlmixr2extra    5.2.1           ◯ nlmixr2targets  0.1.0      
-#> ★ nlmixr2plot     5.2.0.9000      ◯ nonmem2rx       0.1.11     
+#> ★ nlmixr2plot     5.2.1           ◯ nonmem2rx       0.1.12     
 #> ★ rxode2          5.1.8           ◯ pmxNODE         0.2.1      
 #> ◯ admixr2         0.4.1           ◯ PopED           0.7.0      
-#> ◯ babelmixr2      0.1.11.9000     ◯ posologyr       1.2.8      
+#> ◯ babelmixr2      0.1.12.9000     ◯ posologyr       1.2.8      
 #> ◯ FME             1.3.6.4         ◯ shinyMixR       0.5.3      
 #> ◯ ggPMX           1.3.2           ◯ xpose.nlmixr2   0.4.2      
 #> ◯ monolix2rx      0.0.6

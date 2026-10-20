@@ -293,7 +293,7 @@ tnpriJointModel <- function() {
 fitTnpriJoint := nlmixr2(tnpriJointModel, nlmixr2data::theo_sd, est = "foceif",
                          control = foceiControl(print = 0L))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:03 
 #> done
 rxode2::rxUiPriors(tnpriJointModel)
 #>   name                                                                  prior
@@ -317,7 +317,7 @@ difference in *label*, not in the number the fit produces:
 fitTnpriJointExplicit := nlmixr2(tnpriJointModel, nlmixr2data::theo_sd, est = "foceif",
                                  control = foceiControl(priorMethod = "tnpri", print = 0L))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:03 
 #> done
 c(`auto objective`          = fitTnpriJoint$objective,
   `explicit-tnpri objective` = fitTnpriJointExplicit$objective)
@@ -555,7 +555,7 @@ generalModel <- function() {
 fitGeneral := nlmixr2(generalModel, nlmixr2data::theo_sd, est = "foceif",
                       control = foceiControl(print = 0L))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:03 
 #> done
 ```
 

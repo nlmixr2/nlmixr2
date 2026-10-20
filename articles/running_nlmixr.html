@@ -102,7 +102,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Running PK models with nlmixr</h1>
             
-            <h4 data-toc-skip class="date">2026-10-13</h4>
+            <h4 data-toc-skip class="date">2026-10-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/main/vignettes/running_nlmixr.Rmd" class="external-link"><code>vignettes/running_nlmixr.Rmd</code></a></small>
       <div class="d-none name"><code>running_nlmixr.Rmd</code></div>
@@ -178,9 +178,9 @@ dataset. We write the model as follows:</p>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;            setup  optimize covariance preprocess postprocess table compress</span></span>
-<span><span class="co">#&gt; elapsed 3.205264 0.6184321  0.1083607      0.054       0.028 0.053    0.001</span></span>
-<span><span class="co">#&gt;             other</span></span>
-<span><span class="co">#&gt; elapsed 0.2239428</span></span>
+<span><span class="co">#&gt; elapsed 3.133113 0.3269487  0.1128921      0.053        0.03 0.062    0.001</span></span>
+<span><span class="co">#&gt;            other</span></span>
+<span><span class="co">#&gt; elapsed 0.212046</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -269,9 +269,9 @@ model:</p>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;             setup   optimize covariance preprocess configure  saem postprocess</span></span>
-<span><span class="co">#&gt; elapsed 0.1340705 5.3341e-05  0.0370127      0.065     0.824 8.377       0.866</span></span>
+<span><span class="co">#&gt; elapsed 0.1285879 4.7949e-05 0.03101263       0.06     0.841 8.347       0.865</span></span>
 <span><span class="co">#&gt;         table compress     other</span></span>
-<span><span class="co">#&gt; elapsed 0.087    0.048 0.2588634</span></span>
+<span><span class="co">#&gt; elapsed 0.074    0.048 0.2633515</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -337,9 +337,9 @@ nlme method to this model:</p>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;              setup   optimize covariance preprocess postprocess table compress</span></span>
-<span><span class="co">#&gt; elapsed 0.08451835 2.8913e-05  1.343e-05      0.054       0.014 0.073    0.006</span></span>
+<span><span class="co">#&gt; elapsed 0.08943894 2.4706e-05  1.077e-05      0.054       0.015 0.073    0.006</span></span>
 <span><span class="co">#&gt;            other</span></span>
-<span><span class="co">#&gt; elapsed 1.225439</span></span>
+<span><span class="co">#&gt; elapsed 1.224526</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
