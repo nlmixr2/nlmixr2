@@ -7,22 +7,22 @@ library(nlmixr2)
 #>   method      from     
 #>   print.minqa RcppTrust
 #> ── Attaching packages ───────────────────────────────────────── nlmixr2 7.0.1 ──
-#> ★ lotri           1.0.5           ◯ nlmixr2auto     1.0.0      
-#> ★ nlmixr2data     2.0.10          ◯ nlmixr2autoinit 1.0.1      
-#> ★ nlmixr2save     0.2.1           ◯ nlmixr2lib      0.3.2      
-#> ★ nlmixr2est      7.2.1           ◯ nlmixr2rpt      0.2.3      
-#> ★ nlmixr2extra    5.2.1           ◯ nlmixr2targets  0.1.0      
-#> ★ nlmixr2plot     5.2.1           ◯ nonmem2rx       0.1.12     
-#> ★ rxode2          5.1.8.9000      ◯ pmxNODE         0.2.1      
 #> ◯ admixr2         0.4.1           ◯ PopED           0.7.0      
 #> ◯ babelmixr2      0.1.12.9000     ◯ posologyr       1.2.8      
 #> ◯ FME             1.3.6.4         ◯ shinyMixR       0.5.3      
 #> ◯ ggPMX           1.3.2           ◯ xpose.nlmixr2   0.4.2      
-#> ◯ monolix2rx      0.0.6
+#> ◯ monolix2rx      0.0.6           ★ lotri           1.0.5      
+#> ◯ nlmixr2auto     1.0.0           ★ nlmixr2data     2.0.10     
+#> ◯ nlmixr2autoinit 1.0.1           ★ nlmixr2save     0.2.1      
+#> ◯ nlmixr2lib      0.3.2           ★ nlmixr2est      7.2.1      
+#> ◯ nlmixr2rpt      0.2.3           ★ nlmixr2extra    5.2.1      
+#> ◯ nlmixr2targets  0.1.0           ★ nlmixr2plot     5.2.1      
+#> ◯ nonmem2rx       0.1.12          ★ rxode2          5.1.8.9000 
+#> ◯ pmxNODE         0.2.1
 #> ── Conflicts ───────────────────────────────────────────── nlmixr2conflicts() ──
-#> ✖ rxode2::boxCox()     masks nlmixr2est::boxCox()
-#> ✖ coda::traceplot()    masks babelmixr2::traceplot(), nlmixr2plot::traceplot()
-#> ✖ rxode2::yeoJohnson() masks nlmixr2est::yeoJohnson()
+#> ✖ rxode2::boxCox()         masks nlmixr2est::boxCox()
+#> ✖ nlmixr2plot::traceplot() masks coda::traceplot(), babelmixr2::traceplot()
+#> ✖ rxode2::yeoJohnson()     masks nlmixr2est::yeoJohnson()
 ```
 
 ## Censoring support in nlmixr

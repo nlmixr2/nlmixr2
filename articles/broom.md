@@ -66,7 +66,7 @@ fit.f <- nlmixr(pheno, pheno_sd, "focei",
                 control=list(print=0),
                 table=list(cwres=TRUE, npde=TRUE))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:01 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
 #> done
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 ```

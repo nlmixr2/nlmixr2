@@ -174,7 +174,7 @@ fitBase := nlmixr2(baseModel, nlmixr2data::theo_sd, est = "focei",
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:01 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00 
 #> done
 ```
 
@@ -241,7 +241,7 @@ tnpriModel <- baseModel |> ini(prior(eta.cl) ~ dnorm(0.2, 0.02))
 fitTnpri := nlmixr2(tnpriModel, nlmixr2data::theo_sd, est = "foceif",
                     control = foceiControl(print = 0L))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:01 
 #> done
 ```
 
@@ -347,7 +347,7 @@ nwpriModel <- baseModel |> ini(prior(eta.cl) ~ invWishart(4))
 fitNwpri := nlmixr2(nwpriModel, nlmixr2data::theo_sd, est = "foceif",
                     control = foceiControl(print = 0L))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:01 
 #> done
 ```
 
@@ -516,7 +516,7 @@ behavior if the model is later edited:
 fitNwpriExplicit := nlmixr2(nwpriModel, nlmixr2data::theo_sd, est = "foceif",
                             control = foceiControl(priorMethod = "nwpri", print = 0L))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:01 
 #> done
 identical(unname(fitNwpri$objective), unname(fitNwpriExplicit$objective))
 #> [1] TRUE
@@ -555,7 +555,7 @@ generalModel <- function() {
 fitGeneral := nlmixr2(generalModel, nlmixr2data::theo_sd, est = "foceif",
                       control = foceiControl(print = 0L))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:01 
 #> done
 ```
 
