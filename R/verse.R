@@ -336,7 +336,8 @@ style_grey <- function(level, ...) {
   )
   added <- .verse$optional[available & !excluded]
   ignored <- .verse$optional[!available & !excluded]
-  .verse$core <- c(.verse$core, added)
+  # attach optional packages first so core ones (e.g. nlmixr2plot) mask theirs
+  .verse$core <- c(added, .verse$core)
   .verse$missing_optional <- ignored
 }
 #' Load nlmixr2 stack
