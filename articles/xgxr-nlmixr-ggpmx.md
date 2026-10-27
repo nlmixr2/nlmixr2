@@ -416,7 +416,7 @@ it is appropriate to compare the AIC/Objective function values.)
 
 ## The controller then can be piped into a specific plot
 ctr <- pmx_nlmixr(cmt2fit.logn, conts = "WEIGHTB", cats="TRTACT", vpc=TRUE)
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:02
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:03
 ```
 
 ``` r
@@ -578,7 +578,7 @@ nlmixr2/rxode2:
 
 set.seed(100)
 sim1 <- rxSolve(cmt2fit.logn, ev, nSub=100, nStud=100)
-#> [====|====|====|====|====|====|====|====|====|====
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 print(sim1)
 #> ── Solved rxode2 object ──
 #> ── Parameters ($params): ──

@@ -271,7 +271,7 @@ confint(fit.s)
 #>          model.est    estimate      2.5 %     97.5 %
 #> tcl     -4.9898115 0.006806948 -5.1261062 -4.8535168
 #> tv       0.3401016 1.405090376  0.2372191  0.4429841
-#> add.err  2.7541167 2.754116660  2.2827292  3.2255041
+#> add.err  2.7541167 2.754116660  2.2827293  3.2255041
 ```
 
 This transforms the variables as described above. You can still use the
@@ -284,7 +284,7 @@ confint(fit.s, exponentiate=FALSE)
 #>          model.est    estimate      2.5 %     97.5 %
 #> tcl     -4.9898115 0.006806948 -5.1261062 -4.8535168
 #> tv       0.3401016 1.405090376  0.2372191  0.4429841
-#> add.err  2.7541167 2.754116660  2.2827292  3.2255041
+#> add.err  2.7541167 2.754116660  2.2827293  3.2255041
 ```
 
 However, broom has also implemented it own way to make these data a tidy
@@ -371,12 +371,12 @@ head(tidy(fit.s, effects="ran_vals"))
 #> # A tibble: 6 × 5
 #>   effect   group level term   estimate
 #>   <chr>    <chr> <fct> <fct>     <dbl>
-#> 1 ran_vals ID    1     eta.cl  -0.0969
-#> 2 ran_vals ID    2     eta.cl  -0.237 
-#> 3 ran_vals ID    3     eta.cl   0.269 
-#> 4 ran_vals ID    4     eta.cl  -0.540 
-#> 5 ran_vals ID    5     eta.cl   0.339 
-#> 6 ran_vals ID    6     eta.cl  -0.167
+#> 1 ran_vals ID    1     eta.cl   -0.102
+#> 2 ran_vals ID    2     eta.cl   -0.239
+#> 3 ran_vals ID    3     eta.cl    0.266
+#> 4 ran_vals ID    4     eta.cl   -0.549
+#> 5 ran_vals ID    5     eta.cl    0.323
+#> 6 ran_vals ID    6     eta.cl   -0.167
 ```
 
 This duplicate method of running `effects` is because the `broom`
@@ -400,8 +400,8 @@ head(tidy(fit.s, effects="ran_coef"))
 #> 1 ran_coef ID    1     tcl      -5.09
 #> 2 ran_coef ID    2     tcl      -5.23
 #> 3 ran_coef ID    3     tcl      -4.72
-#> 4 ran_coef ID    4     tcl      -5.53
-#> 5 ran_coef ID    5     tcl      -4.65
+#> 4 ran_coef ID    4     tcl      -5.54
+#> 5 ran_coef ID    5     tcl      -4.67
 #> 6 ran_coef ID    6     tcl      -5.16
 ```
 
@@ -413,20 +413,20 @@ head(tidy(fit.s, effects="ran_coef", exponentiate=NA))
 #> # A tibble: 6 × 5
 #>   effect   group level term  estimate
 #>   <chr>    <chr> <fct> <fct>    <dbl>
-#> 1 ran_coef ID    1     tcl    0.00618
-#> 2 ran_coef ID    2     tcl    0.00537
-#> 3 ran_coef ID    3     tcl    0.00890
-#> 4 ran_coef ID    4     tcl    0.00397
-#> 5 ran_coef ID    5     tcl    0.00955
+#> 1 ran_coef ID    1     tcl    0.00615
+#> 2 ran_coef ID    2     tcl    0.00536
+#> 3 ran_coef ID    3     tcl    0.00888
+#> 4 ran_coef ID    4     tcl    0.00393
+#> 5 ran_coef ID    5     tcl    0.00940
 #> 6 ran_coef ID    6     tcl    0.00576
 head(tidy(fit.s, effects="ran_coef", exponentiate=TRUE))
 #> # A tibble: 6 × 5
 #>   effect   group level term  estimate
 #>   <chr>    <chr> <fct> <fct>    <dbl>
-#> 1 ran_coef ID    1     tcl    0.00618
-#> 2 ran_coef ID    2     tcl    0.00537
-#> 3 ran_coef ID    3     tcl    0.00890
-#> 4 ran_coef ID    4     tcl    0.00397
-#> 5 ran_coef ID    5     tcl    0.00955
+#> 1 ran_coef ID    1     tcl    0.00615
+#> 2 ran_coef ID    2     tcl    0.00536
+#> 3 ran_coef ID    3     tcl    0.00888
+#> 4 ran_coef ID    4     tcl    0.00393
+#> 5 ran_coef ID    5     tcl    0.00940
 #> 6 ran_coef ID    6     tcl    0.00576
 ```

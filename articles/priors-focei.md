@@ -184,7 +184,7 @@ c(tcl = unname(fitBase$theta["tcl"]),
   `var(eta.cl)` = unname(fitBase$omega["eta.cl", "eta.cl"]),
   `add.sd` = unname(fitBase$theta["add.sd"]))
 #>         tcl var(eta.cl)      add.sd 
-#>  1.01230010  0.06936164  0.69523823
+#>  1.01230018  0.06936164  0.69523823
 ```
 
 ### A prior on a population parameter
@@ -208,7 +208,7 @@ fitTheta := nlmixr2(thetaModel, nlmixr2data::theo_sd, est = "foceif",
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:01 
 #> done
 ```
 
@@ -241,7 +241,7 @@ tnpriModel <- baseModel |> ini(prior(eta.cl) ~ dnorm(0.2, 0.02))
 fitTnpri := nlmixr2(tnpriModel, nlmixr2data::theo_sd, est = "foceif",
                     control = foceiControl(print = 0L))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:03 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
 #> done
 ```
 
@@ -293,7 +293,7 @@ tnpriJointModel <- function() {
 fitTnpriJoint := nlmixr2(tnpriJointModel, nlmixr2data::theo_sd, est = "foceif",
                          control = foceiControl(print = 0L))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:03 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:01 
 #> done
 rxode2::rxUiPriors(tnpriJointModel)
 #>   name                                                                  prior
@@ -317,7 +317,7 @@ difference in *label*, not in the number the fit produces:
 fitTnpriJointExplicit := nlmixr2(tnpriJointModel, nlmixr2data::theo_sd, est = "foceif",
                                  control = foceiControl(priorMethod = "tnpri", print = 0L))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:03 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:01 
 #> done
 c(`auto objective`          = fitTnpriJoint$objective,
   `explicit-tnpri objective` = fitTnpriJointExplicit$objective)
@@ -347,7 +347,7 @@ nwpriModel <- baseModel |> ini(prior(eta.cl) ~ invWishart(4))
 fitNwpri := nlmixr2(nwpriModel, nlmixr2data::theo_sd, est = "foceif",
                     control = foceiControl(print = 0L))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:03 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
 #> done
 ```
 
@@ -402,7 +402,7 @@ fitNwpriBlock := nlmixr2(nwpriBlockModel, nlmixr2data::theo_sd, est = "foceif",
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:03 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
 #> done
 rxode2::rxUiPriors(nwpriBlockModel)
 #>     name         prior neta1 neta2 lower upper
@@ -516,7 +516,7 @@ behavior if the model is later edited:
 fitNwpriExplicit := nlmixr2(nwpriModel, nlmixr2data::theo_sd, est = "foceif",
                             control = foceiControl(priorMethod = "nwpri", print = 0L))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:03 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
 #> done
 identical(unname(fitNwpri$objective), unname(fitNwpriExplicit$objective))
 #> [1] TRUE
@@ -555,7 +555,7 @@ generalModel <- function() {
 fitGeneral := nlmixr2(generalModel, nlmixr2data::theo_sd, est = "foceif",
                       control = foceiControl(print = 0L))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:03 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
 #> done
 ```
 

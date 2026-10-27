@@ -102,7 +102,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Running PK models with nlmixr</h1>
             
-            <h4 data-toc-skip class="date">2026-10-20</h4>
+            <h4 data-toc-skip class="date">2026-10-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/main/vignettes/running_nlmixr.Rmd" class="external-link"><code>vignettes/running_nlmixr.Rmd</code></a></small>
       <div class="d-none name"><code>running_nlmixr.Rmd</code></div>
@@ -173,14 +173,14 @@ dataset. We write the model as follows:</p>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── </span><span style="color: #0000BB; font-weight: bold;">nlmix</span><span style="color: #BB0000; font-weight: bold;">r²</span><span style="font-weight: bold;"> </span><span style="color: #BBBB00; font-weight: bold;">FOCE</span><span style="color: #BB0000; font-weight: bold;">i</span> (outer: bobyqa) ──</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;           OBJF      AIC     BIC Log-likelihood Condition#(Cov) Condition#(Cor)</span></span>
-<span><span class="co">#&gt; FOCEi 116.8076 373.4073 393.587      -179.7037        2867.904        90.70332</span></span>
+<span><span class="co">#&gt; FOCEi 116.8076 373.4073 393.587      -179.7037        2867.388        90.70326</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;            setup  optimize covariance preprocess postprocess table compress</span></span>
-<span><span class="co">#&gt; elapsed 3.133113 0.3269487  0.1128921      0.053        0.03 0.062    0.001</span></span>
-<span><span class="co">#&gt;            other</span></span>
-<span><span class="co">#&gt; elapsed 0.212046</span></span>
+<span><span class="co">#&gt; elapsed 2.332702 0.5682253 0.09010369      0.033       0.031  0.06        0</span></span>
+<span><span class="co">#&gt;             other</span></span>
+<span><span class="co">#&gt; elapsed 0.1999694</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
@@ -269,16 +269,16 @@ model:</p>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;             setup   optimize covariance preprocess configure  saem postprocess</span></span>
-<span><span class="co">#&gt; elapsed 0.1285879 4.7949e-05 0.03101263       0.06     0.841 8.347       0.865</span></span>
+<span><span class="co">#&gt; elapsed 0.1035615 4.6934e-05 0.02501316      0.047     0.604 7.265       0.653</span></span>
 <span><span class="co">#&gt;         table compress     other</span></span>
-<span><span class="co">#&gt; elapsed 0.074    0.048 0.2633515</span></span>
+<span><span class="co">#&gt; elapsed 0.062    0.036 0.1923784</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;         <span style="font-weight: bold;">Est.</span>     <span style="font-weight: bold;">SE</span> <span style="font-weight: bold;">%RSE</span> <span style="font-weight: bold;">Back-transformed(95%CI)</span> <span style="font-weight: bold;">BSV(CV%)</span> <span style="font-weight: bold;">Shrink(SD)%</span></span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>    0.457  0.190 41.5       1.58 (1.09, 2.29)     71.0     <span style="color: #BB0000; font-weight: bold;">-0.233</span> </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>     1.01 0.0808 7.97       2.75 (2.35, 3.23)     26.9       4.94 </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>      3.45 0.0437 1.26       31.6 (29.0, 34.4)     13.8       9.27 </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>    0.457  0.190 41.5       1.58 (1.09, 2.29)     71.0       2.31 </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>     1.01 0.0808 7.97       2.75 (2.35, 3.23)     26.9       4.01 </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>      3.45 0.0437 1.26       31.6 (29.0, 34.4)     13.8       10.5 </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">add.sd</span> 0.697 0.0472 6.78    0.697 (0.604, 0.789)                     </span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt;   Covariance Type (<span style="color: #0000BB; font-weight: bold;">$covMethod</span>): <span style="font-weight: bold;">sa</span></span></span>
@@ -292,9 +292,9 @@ model:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 132 × 19</span></span></span>
 <span><span class="co">#&gt;   ID     TIME    DV  PRED    RES IPRED   IRES  IWRES eta.ka eta.cl   eta.v    cp</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74  0     0.74   0     0.74   1.06  0.098<span style="text-decoration: underline;">2</span> -<span style="color: #BB0000;">0.476</span> -<span style="color: #BB0000;">0.081</span><span style="color: #BB0000; text-decoration: underline;">2</span>  0   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84  3.27 -<span style="color: #BB0000;">0.429</span>  3.85 -<span style="color: #BB0000;">1.01</span>  -<span style="color: #BB0000;">1.45</span>  0.098<span style="text-decoration: underline;">2</span> -<span style="color: #BB0000;">0.476</span> -<span style="color: #BB0000;">0.081</span><span style="color: #BB0000; text-decoration: underline;">2</span>  3.85</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57  5.85  0.722  6.79 -<span style="color: #BB0000;">0.219</span> -<span style="color: #BB0000;">0.314</span> 0.098<span style="text-decoration: underline;">2</span> -<span style="color: #BB0000;">0.476</span> -<span style="color: #BB0000;">0.081</span><span style="color: #BB0000; text-decoration: underline;">2</span>  6.79</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      0     0.74  0     0.74   0     0.74   1.06  0.091<span style="text-decoration: underline;">3</span> -<span style="color: #BB0000;">0.474</span> -<span style="color: #BB0000;">0.084</span><span style="color: #BB0000; text-decoration: underline;">7</span>  0   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 1      0.25  2.84  3.27 -<span style="color: #BB0000;">0.429</span>  3.84 -<span style="color: #BB0000;">1.00</span>  -<span style="color: #BB0000;">1.44</span>  0.091<span style="text-decoration: underline;">3</span> -<span style="color: #BB0000;">0.474</span> -<span style="color: #BB0000;">0.084</span><span style="color: #BB0000; text-decoration: underline;">7</span>  3.84</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1      0.57  6.57  5.85  0.722  6.78 -<span style="color: #BB0000;">0.214</span> -<span style="color: #BB0000;">0.308</span> 0.091<span style="text-decoration: underline;">3</span> -<span style="color: #BB0000;">0.474</span> -<span style="color: #BB0000;">0.084</span><span style="color: #BB0000; text-decoration: underline;">7</span>  6.78</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 129 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 7 more variables: depot &lt;dbl&gt;, center &lt;dbl&gt;, ka &lt;dbl&gt;, cl &lt;dbl&gt;, v &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   tad &lt;dbl&gt;, dosenum &lt;dbl&gt;</span></span></span></code></pre></div>
@@ -309,45 +309,45 @@ nlme method to this model:</p>
 <span><span class="co">#&gt;       ID1       ID2       ID3 </span></span>
 <span><span class="co">#&gt; 0.2196634 0.9922169 1.6502749 </span></span>
 <span><span class="co">#&gt;  Beginning PNLS step: ..  completed fit_nlme() step.</span></span>
-<span><span class="co">#&gt; PNLS step: RSS =  64.49993 </span></span>
-<span><span class="co">#&gt;  fixed effects: 0.3647292  1.027952  3.45063  </span></span>
+<span><span class="co">#&gt; PNLS step: RSS =  64.50938 </span></span>
+<span><span class="co">#&gt;  fixed effects: 0.3647343  1.027926  3.450634  </span></span>
 <span><span class="co">#&gt;  iterations: 3 </span></span>
 <span><span class="co">#&gt; Convergence crit. (must all become &lt;= tolerance = 0.0001):</span></span>
 <span><span class="co">#&gt;     fixed  reStruct </span></span>
-<span><span class="co">#&gt; 0.2337920 0.7763722 </span></span>
+<span><span class="co">#&gt; 0.2337750 0.8083732 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; **Iteration 2</span></span>
-<span><span class="co">#&gt; LME step: Loglik: -179.7021, nlminb iterations: 1</span></span>
+<span><span class="co">#&gt; LME step: Loglik: -179.8529, nlminb iterations: 1</span></span>
 <span><span class="co">#&gt; reStruct  parameters:</span></span>
 <span><span class="co">#&gt;       ID1       ID2       ID3 </span></span>
-<span><span class="co">#&gt; 0.1236584 0.9704155 1.6401474 </span></span>
+<span><span class="co">#&gt; 0.1214702 0.9646006 1.6506238 </span></span>
 <span><span class="co">#&gt;  Beginning PNLS step: ..  completed fit_nlme() step.</span></span>
-<span><span class="co">#&gt; PNLS step: RSS =  64.49992 </span></span>
-<span><span class="co">#&gt;  fixed effects: 0.3647292  1.027952  3.45063  </span></span>
+<span><span class="co">#&gt; PNLS step: RSS =  64.50938 </span></span>
+<span><span class="co">#&gt;  fixed effects: 0.3647343  1.027926  3.450634  </span></span>
 <span><span class="co">#&gt;  iterations: 1 </span></span>
 <span><span class="co">#&gt; Convergence crit. (must all become &lt;= tolerance = 0.0001):</span></span>
 <span><span class="co">#&gt;        fixed     reStruct </span></span>
-<span><span class="co">#&gt; 0.000000e+00 8.270661e-07</span></span>
+<span><span class="co">#&gt; 0.000000e+00 2.204222e-07</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fitN</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── </span><span style="color: #0000BB; font-weight: bold;">nlmix</span><span style="color: #BB0000; font-weight: bold;">r²</span><span style="font-weight: bold;"> </span><span style="color: #BBBB00; font-weight: bold;">nlme</span><span style="font-weight: bold;"> by </span><span style="color: #BBBB00; font-weight: bold;">maximum likelihood</span><span style="font-weight: bold;"> ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;          OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)</span></span>
-<span><span class="co">#&gt; nlme 116.8044 373.4042 393.5838      -179.7021        17.34422        1.430759</span></span>
+<span><span class="co">#&gt; nlme 117.1061 373.7059 393.8855      -179.8529        16.63438         1.61989</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Time (sec </span><span style="color: #0000BB; font-weight: bold;">$time</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;              setup   optimize covariance preprocess postprocess table compress</span></span>
-<span><span class="co">#&gt; elapsed 0.08943894 2.4706e-05  1.077e-05      0.054       0.015 0.073    0.006</span></span>
-<span><span class="co">#&gt;            other</span></span>
-<span><span class="co">#&gt; elapsed 1.224526</span></span>
+<span><span class="co">#&gt; elapsed 0.06705029 3.0395e-05  1.404e-05      0.039       0.011 0.062    0.004</span></span>
+<span><span class="co">#&gt;             other</span></span>
+<span><span class="co">#&gt; elapsed 0.9539053</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">── Population Parameters (</span><span style="color: #0000BB; font-weight: bold;">$parFixed</span><span style="font-weight: bold;"> or </span><span style="color: #0000BB; font-weight: bold;">$parFixedDf</span><span style="font-weight: bold;">): ──</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;         <span style="font-weight: bold;">Est.</span>     <span style="font-weight: bold;">SE</span> <span style="font-weight: bold;">%RSE</span> <span style="font-weight: bold;">Back-transformed(95%CI)</span> <span style="font-weight: bold;">BSV(CV%)</span> <span style="font-weight: bold;">Shrink(SD)%</span></span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>    0.365  0.188 51.6      1.44 (0.996, 2.08)     67.9      <span style="color: #BB0000; font-weight: bold;">-2.71</span> </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>     1.03 0.0839 8.17       2.80 (2.37, 3.30)     26.9       5.45 </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>      3.45 0.0461 1.33       31.5 (28.8, 34.5)     13.6       11.0 </span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">add.sd</span> 0.697                               0.697                     </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tka</span>    0.365  0.179 49.2       1.44 (1.01, 2.05)     68.2      <span style="color: #BB0000; font-weight: bold;">-2.40</span> </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tcl</span>     1.03 0.0827 8.05       2.80 (2.38, 3.29)     27.1       6.06 </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">tv</span>      3.45 0.0456 1.32       31.5 (28.8, 34.5)     13.4       10.2 </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">add.sd</span> 0.698                               0.698                     </span></span>
 <span><span class="co">#&gt;  </span></span>
 <span><span class="co">#&gt;   Covariance Type (<span style="color: #0000BB; font-weight: bold;">$covMethod</span>): <span style="font-weight: bold;">nlme</span></span></span>
 <span><span class="co">#&gt;   Fixed parameter correlations in <span style="color: #0000BB; font-weight: bold;">$cor</span></span></span>

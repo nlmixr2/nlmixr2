@@ -102,7 +102,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Using broom with nlmixr2</h1>
             
-            <h4 data-toc-skip class="date">2026-10-20</h4>
+            <h4 data-toc-skip class="date">2026-10-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/main/vignettes/broom.Rmd" class="external-link"><code>vignettes/broom.Rmd</code></a></small>
       <div class="d-none name"><code>broom.Rmd</code></div>
@@ -339,7 +339,7 @@ objects:</p>
 <span><span class="co">#&gt;          model.est    estimate      2.5 %     97.5 %</span></span>
 <span><span class="co">#&gt; tcl     -4.9898115 0.006806948 -5.1261062 -4.8535168</span></span>
 <span><span class="co">#&gt; tv       0.3401016 1.405090376  0.2372191  0.4429841</span></span>
-<span><span class="co">#&gt; add.err  2.7541167 2.754116660  2.2827292  3.2255041</span></span></code></pre></div>
+<span><span class="co">#&gt; add.err  2.7541167 2.754116660  2.2827293  3.2255041</span></span></code></pre></div>
 <p>This transforms the variables as described above. You can still use
 the <code>exponentiate</code> parameter to control the display of the
 confidence interval:</p>
@@ -348,7 +348,7 @@ confidence interval:</p>
 <span><span class="co">#&gt;          model.est    estimate      2.5 %     97.5 %</span></span>
 <span><span class="co">#&gt; tcl     -4.9898115 0.006806948 -5.1261062 -4.8535168</span></span>
 <span><span class="co">#&gt; tv       0.3401016 1.405090376  0.2372191  0.4429841</span></span>
-<span><span class="co">#&gt; add.err  2.7541167 2.754116660  2.2827292  3.2255041</span></span></code></pre></div>
+<span><span class="co">#&gt; add.err  2.7541167 2.754116660  2.2827293  3.2255041</span></span></code></pre></div>
 <p>However, broom has also implemented it own way to make these data a
 tidy dataset. The easiest way to get these values in a nlmixr dataset is
 to use:</p>
@@ -423,12 +423,12 @@ scale, you would simply use the following:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
 <span><span class="co">#&gt;   effect   group level term   estimate</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ran_vals ID    1     eta.cl  -<span style="color: #BB0000;">0.096</span><span style="color: #BB0000; text-decoration: underline;">9</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ran_vals ID    2     eta.cl  -<span style="color: #BB0000;">0.237</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> ran_vals ID    3     eta.cl   0.269 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> ran_vals ID    4     eta.cl  -<span style="color: #BB0000;">0.540</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> ran_vals ID    5     eta.cl   0.339 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> ran_vals ID    6     eta.cl  -<span style="color: #BB0000;">0.167</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ran_vals ID    1     eta.cl   -<span style="color: #BB0000;">0.102</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ran_vals ID    2     eta.cl   -<span style="color: #BB0000;">0.239</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> ran_vals ID    3     eta.cl    0.266</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> ran_vals ID    4     eta.cl   -<span style="color: #BB0000;">0.549</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> ran_vals ID    5     eta.cl    0.323</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> ran_vals ID    6     eta.cl   -<span style="color: #BB0000;">0.167</span></span></span></code></pre></div>
 <p>This duplicate method of running <code>effects</code> is because the
 <code>broom</code> package supports <code>effects="random"</code> while
 the <code>broom.mixed</code> package supports
@@ -449,8 +449,8 @@ by:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ran_coef ID    1     tcl      -<span style="color: #BB0000;">5.09</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ran_coef ID    2     tcl      -<span style="color: #BB0000;">5.23</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> ran_coef ID    3     tcl      -<span style="color: #BB0000;">4.72</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> ran_coef ID    4     tcl      -<span style="color: #BB0000;">5.53</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> ran_coef ID    5     tcl      -<span style="color: #BB0000;">4.65</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> ran_coef ID    4     tcl      -<span style="color: #BB0000;">5.54</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> ran_coef ID    5     tcl      -<span style="color: #BB0000;">4.67</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> ran_coef ID    6     tcl      -<span style="color: #BB0000;">5.16</span></span></span></code></pre></div>
 <p>This can also be changed by the <code>exponentiate</code>
 argument:</p>
@@ -459,21 +459,21 @@ argument:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
 <span><span class="co">#&gt;   effect   group level term  estimate</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ran_coef ID    1     tcl    0.006<span style="text-decoration: underline;">18</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ran_coef ID    2     tcl    0.005<span style="text-decoration: underline;">37</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> ran_coef ID    3     tcl    0.008<span style="text-decoration: underline;">90</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> ran_coef ID    4     tcl    0.003<span style="text-decoration: underline;">97</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> ran_coef ID    5     tcl    0.009<span style="text-decoration: underline;">55</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ran_coef ID    1     tcl    0.006<span style="text-decoration: underline;">15</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ran_coef ID    2     tcl    0.005<span style="text-decoration: underline;">36</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> ran_coef ID    3     tcl    0.008<span style="text-decoration: underline;">88</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> ran_coef ID    4     tcl    0.003<span style="text-decoration: underline;">93</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> ran_coef ID    5     tcl    0.009<span style="text-decoration: underline;">40</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> ran_coef ID    6     tcl    0.005<span style="text-decoration: underline;">76</span></span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">fit.s</span>, effects<span class="op">=</span><span class="st">"ran_coef"</span>, exponentiate<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
 <span><span class="co">#&gt;   effect   group level term  estimate</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ran_coef ID    1     tcl    0.006<span style="text-decoration: underline;">18</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ran_coef ID    2     tcl    0.005<span style="text-decoration: underline;">37</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> ran_coef ID    3     tcl    0.008<span style="text-decoration: underline;">90</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> ran_coef ID    4     tcl    0.003<span style="text-decoration: underline;">97</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> ran_coef ID    5     tcl    0.009<span style="text-decoration: underline;">55</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ran_coef ID    1     tcl    0.006<span style="text-decoration: underline;">15</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ran_coef ID    2     tcl    0.005<span style="text-decoration: underline;">36</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> ran_coef ID    3     tcl    0.008<span style="text-decoration: underline;">88</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> ran_coef ID    4     tcl    0.003<span style="text-decoration: underline;">93</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> ran_coef ID    5     tcl    0.009<span style="text-decoration: underline;">40</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> ran_coef ID    6     tcl    0.005<span style="text-decoration: underline;">76</span></span></span></code></pre></div>
 </div>
 </div>

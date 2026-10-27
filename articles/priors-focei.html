@@ -102,7 +102,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Prior distributions in nlmixr2: general, nwpri and tnpri</h1>
             
-            <h4 data-toc-skip class="date">2026-10-20</h4>
+            <h4 data-toc-skip class="date">2026-10-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/main/vignettes/articles/priors-focei.Rmd" class="external-link"><code>vignettes/articles/priors-focei.Rmd</code></a></small>
       <div class="d-none name"><code>priors-focei.Rmd</code></div>
@@ -330,7 +330,7 @@ no prior at all as a baseline:</p>
 <span>  `var(eta.cl)` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">fitBase</span><span class="op">$</span><span class="va">omega</span><span class="op">[</span><span class="st">"eta.cl"</span>, <span class="st">"eta.cl"</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>  `add.sd` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">fitBase</span><span class="op">$</span><span class="va">theta</span><span class="op">[</span><span class="st">"add.sd"</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;         tcl var(eta.cl)      add.sd </span></span>
-<span><span class="co">#&gt;  1.01230010  0.06936164  0.69523823</span></span></code></pre></div>
+<span><span class="co">#&gt;  1.01230018  0.06936164  0.69523823</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="a-prior-on-a-population-parameter">A prior on a population parameter<a class="anchor" aria-label="anchor" href="#a-prior-on-a-population-parameter"></a>
 </h3>
@@ -351,7 +351,7 @@ alone would suggest, and we are fairly confident in it
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; calculating covariance matrix</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:02 </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:01 </span></span>
 <span><span class="co">#&gt; done</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>`no prior` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">fitBase</span><span class="op">$</span><span class="va">theta</span><span class="op">[</span><span class="st">"tcl"</span><span class="op">]</span><span class="op">)</span>,</span>
@@ -379,7 +379,7 @@ than the unconstrained fit’s own 0.069:</p>
 <span><span class="va">fitTnpri</span> <span class="op">:=</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr2</a></span><span class="op">(</span><span class="va">tnpriModel</span>, <span class="fu">nlmixr2data</span><span class="fu">::</span><span class="va"><a href="https://nlmixr2.github.io/nlmixr2data/reference/theo_sd.html">theo_sd</a></span>, est <span class="op">=</span> <span class="st">"foceif"</span>,</span>
 <span>                    control <span class="op">=</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/foceiControl.html">foceiControl</a></span><span class="op">(</span>print <span class="op">=</span> <span class="fl">0L</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; calculating covariance matrix</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:03 </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:02 </span></span>
 <span><span class="co">#&gt; done</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>`no prior` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">fitBase</span><span class="op">$</span><span class="va">omega</span><span class="op">[</span><span class="st">"eta.cl"</span>, <span class="st">"eta.cl"</span><span class="op">]</span><span class="op">)</span>,</span>
@@ -426,7 +426,7 @@ drawn from the SAME joint normal:</p>
 <span><span class="va">fitTnpriJoint</span> <span class="op">:=</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr2</a></span><span class="op">(</span><span class="va">tnpriJointModel</span>, <span class="fu">nlmixr2data</span><span class="fu">::</span><span class="va"><a href="https://nlmixr2.github.io/nlmixr2data/reference/theo_sd.html">theo_sd</a></span>, est <span class="op">=</span> <span class="st">"foceif"</span>,</span>
 <span>                         control <span class="op">=</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/foceiControl.html">foceiControl</a></span><span class="op">(</span>print <span class="op">=</span> <span class="fl">0L</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; calculating covariance matrix</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:03 </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:01 </span></span>
 <span><span class="co">#&gt; done</span></span>
 <span><span class="fu">rxode2</span><span class="fu">::</span><span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/rxUiPriors.html" class="external-link">rxUiPriors</a></span><span class="op">(</span><span class="va">tnpriJointModel</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   name                                                                  prior</span></span>
@@ -449,7 +449,7 @@ the fit produces:</p>
 <code class="sourceCode R"><span><span class="va">fitTnpriJointExplicit</span> <span class="op">:=</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr2</a></span><span class="op">(</span><span class="va">tnpriJointModel</span>, <span class="fu">nlmixr2data</span><span class="fu">::</span><span class="va"><a href="https://nlmixr2.github.io/nlmixr2data/reference/theo_sd.html">theo_sd</a></span>, est <span class="op">=</span> <span class="st">"foceif"</span>,</span>
 <span>                                 control <span class="op">=</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/foceiControl.html">foceiControl</a></span><span class="op">(</span>priorMethod <span class="op">=</span> <span class="st">"tnpri"</span>, print <span class="op">=</span> <span class="fl">0L</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; calculating covariance matrix</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:03 </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:01 </span></span>
 <span><span class="co">#&gt; done</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>`auto objective`          <span class="op">=</span> <span class="va">fitTnpriJoint</span><span class="op">$</span><span class="va">objective</span>,</span>
 <span>  `explicit-tnpri objective` <span class="op">=</span> <span class="va">fitTnpriJointExplicit</span><span class="op">$</span><span class="va">objective</span><span class="op">)</span></span>
@@ -478,7 +478,7 @@ toward that value:</p>
 <span><span class="va">fitNwpri</span> <span class="op">:=</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr2</a></span><span class="op">(</span><span class="va">nwpriModel</span>, <span class="fu">nlmixr2data</span><span class="fu">::</span><span class="va"><a href="https://nlmixr2.github.io/nlmixr2data/reference/theo_sd.html">theo_sd</a></span>, est <span class="op">=</span> <span class="st">"foceif"</span>,</span>
 <span>                    control <span class="op">=</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/foceiControl.html">foceiControl</a></span><span class="op">(</span>print <span class="op">=</span> <span class="fl">0L</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; calculating covariance matrix</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:03 </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:02 </span></span>
 <span><span class="co">#&gt; done</span></span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>`no prior` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">fitBase</span><span class="op">$</span><span class="va">omega</span><span class="op">[</span><span class="st">"eta.cl"</span>, <span class="st">"eta.cl"</span><span class="op">]</span><span class="op">)</span>,</span>
@@ -527,7 +527,7 @@ single-eta case, just now a 2x2:</p>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span>
 <span><span class="co">#&gt; calculating covariance matrix</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:03 </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:02 </span></span>
 <span><span class="co">#&gt; done</span></span>
 <span><span class="fu">rxode2</span><span class="fu">::</span><span class="fu"><a href="https://nlmixr2.github.io/rxode2/reference/rxUiPriors.html" class="external-link">rxUiPriors</a></span><span class="op">(</span><span class="va">nwpriBlockModel</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     name         prior neta1 neta2 lower upper</span></span>
@@ -630,7 +630,7 @@ behavior if the model is later edited:</p>
 <code class="sourceCode R"><span><span class="va">fitNwpriExplicit</span> <span class="op">:=</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr2</a></span><span class="op">(</span><span class="va">nwpriModel</span>, <span class="fu">nlmixr2data</span><span class="fu">::</span><span class="va"><a href="https://nlmixr2.github.io/nlmixr2data/reference/theo_sd.html">theo_sd</a></span>, est <span class="op">=</span> <span class="st">"foceif"</span>,</span>
 <span>                            control <span class="op">=</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/foceiControl.html">foceiControl</a></span><span class="op">(</span>priorMethod <span class="op">=</span> <span class="st">"nwpri"</span>, print <span class="op">=</span> <span class="fl">0L</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; calculating covariance matrix</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:03 </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:02 </span></span>
 <span><span class="co">#&gt; done</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">fitNwpri</span><span class="op">$</span><span class="va">objective</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">fitNwpriExplicit</span><span class="op">$</span><span class="va">objective</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
@@ -671,7 +671,7 @@ could be negative:</p>
 <span><span class="va">fitGeneral</span> <span class="op">:=</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/nlmixr2.html">nlmixr2</a></span><span class="op">(</span><span class="va">generalModel</span>, <span class="fu">nlmixr2data</span><span class="fu">::</span><span class="va"><a href="https://nlmixr2.github.io/nlmixr2data/reference/theo_sd.html">theo_sd</a></span>, est <span class="op">=</span> <span class="st">"foceif"</span>,</span>
 <span>                      control <span class="op">=</span> <span class="fu"><a href="https://nlmixr2.github.io/nlmixr2est/reference/foceiControl.html">foceiControl</a></span><span class="op">(</span>print <span class="op">=</span> <span class="fl">0L</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; calculating covariance matrix</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:03 </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:02 </span></span>
 <span><span class="co">#&gt; done</span></span></code></pre></div>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>`no prior` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">fitBase</span><span class="op">$</span><span class="va">theta</span><span class="op">[</span><span class="st">"add.sd"</span><span class="op">]</span><span class="op">)</span>,</span>
