@@ -102,7 +102,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Using broom with nlmixr2</h1>
             
-            <h4 data-toc-skip class="date">2026-10-27</h4>
+            <h4 data-toc-skip class="date">2026-11-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nlmixr2/nlmixr2/blob/main/vignettes/broom.Rmd" class="external-link"><code>vignettes/broom.Rmd</code></a></small>
       <div class="d-none name"><code>broom.Rmd</code></div>
@@ -171,7 +171,7 @@ the different types of output that is used in the tidy functions.</p>
 <span>                control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>print<span class="op">=</span><span class="fl">0</span><span class="op">)</span>,</span>
 <span>                table<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cwres<span class="op">=</span><span class="cn">TRUE</span>, npde<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; calculating covariance matrix</span></span>
-<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00 </span></span>
+<span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:01 </span></span>
 <span><span class="co">#&gt; done</span></span>
 <span><span class="co">#&gt; [====|====|====|====|====|====|====|====|====|====] 0:00:00</span></span></code></pre></div>
 </div>
@@ -339,7 +339,7 @@ objects:</p>
 <span><span class="co">#&gt;          model.est    estimate      2.5 %     97.5 %</span></span>
 <span><span class="co">#&gt; tcl     -4.9898115 0.006806948 -5.1261062 -4.8535168</span></span>
 <span><span class="co">#&gt; tv       0.3401016 1.405090376  0.2372191  0.4429841</span></span>
-<span><span class="co">#&gt; add.err  2.7541167 2.754116660  2.2827293  3.2255041</span></span></code></pre></div>
+<span><span class="co">#&gt; add.err  2.7541167 2.754116660  2.2827292  3.2255041</span></span></code></pre></div>
 <p>This transforms the variables as described above. You can still use
 the <code>exponentiate</code> parameter to control the display of the
 confidence interval:</p>
@@ -348,7 +348,7 @@ confidence interval:</p>
 <span><span class="co">#&gt;          model.est    estimate      2.5 %     97.5 %</span></span>
 <span><span class="co">#&gt; tcl     -4.9898115 0.006806948 -5.1261062 -4.8535168</span></span>
 <span><span class="co">#&gt; tv       0.3401016 1.405090376  0.2372191  0.4429841</span></span>
-<span><span class="co">#&gt; add.err  2.7541167 2.754116660  2.2827293  3.2255041</span></span></code></pre></div>
+<span><span class="co">#&gt; add.err  2.7541167 2.754116660  2.2827292  3.2255041</span></span></code></pre></div>
 <p>However, broom has also implemented it own way to make these data a
 tidy dataset. The easiest way to get these values in a nlmixr dataset is
 to use:</p>

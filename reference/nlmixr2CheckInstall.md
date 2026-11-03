@@ -16,7 +16,7 @@ Nothing, called for the side effect of reporting on the installation
 
 ``` r
 nlmixr2CheckInstall()
-#> ℹ Operating system: Linux 6.17.0-1022-azure #22-Ubuntu SMP Mon Jul 27 17:24:03 UTC 2026
+#> ℹ Operating system: Linux 7.0.0-1017-azure #17~24.04.1-Ubuntu SMP PREEMPT Thu Sep 24 18:46:57 UTC 2026
 #> ✔ The 'make' command was found:  /usr/bin/make
 #> ℹ GNU Make 4.3
 #> Built for x86_64-pc-linux-gnu
