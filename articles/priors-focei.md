@@ -208,7 +208,7 @@ fitTheta := nlmixr2(thetaModel, nlmixr2data::theo_sd, est = "foceif",
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:01 
 #> done
 ```
 
@@ -241,7 +241,7 @@ tnpriModel <- baseModel |> ini(prior(eta.cl) ~ dnorm(0.2, 0.02))
 fitTnpri := nlmixr2(tnpriModel, nlmixr2data::theo_sd, est = "foceif",
                     control = foceiControl(print = 0L))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:03 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
 #> done
 ```
 
@@ -402,7 +402,7 @@ fitNwpriBlock := nlmixr2(nwpriBlockModel, nlmixr2data::theo_sd, est = "foceif",
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:03 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
 #> done
 rxode2::rxUiPriors(nwpriBlockModel)
 #>     name         prior neta1 neta2 lower upper

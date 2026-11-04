@@ -134,6 +134,12 @@
 <li>Use the native <code>|&gt;</code> pipe, not magrittr <code>%&gt;%</code> (magrittr was dropped from this package).</li>
 <li>Startup/console output uses <code>cli</code> + <code>crayon</code> (colored banner, conflict messages); keep that style if you touch <code>verse.R</code>.</li>
 </ul></div>
+<div class="section level2">
+<h2 id="cran-tests-never-assert-on-timing">CRAN tests: never assert on timing<a class="anchor" aria-label="anchor" href="#cran-tests-never-assert-on-timing"></a></h2>
+<ul><li>Never put a wall-clock timing expectation in a test that can run on CRAN: no <code>expect_lt()</code>/<code>expect_true()</code> on <code><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time()</a></code> differences, <code><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time()</a></code>, <code><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time()</a></code>, <code>bench</code>/<code>microbenchmark</code> results, or any other elapsed-time threshold. CRAN check machines are shared and heavily loaded, so elapsed time there is random and a timing assertion fails at random. Example: nlmixr2plot <code>test-model-diagram.R</code> asserted a <code>modelGraph()</code> call took &lt; 30 s; on CRAN it took 48.4 s and failed.</li>
+<li>Test the result, not the speed. If a speed regression guard is really needed, put it only in a test that starts with <code>skip_on_cran()</code> (or the package’s own CRAN skip helper), and never in examples or vignettes.</li>
+<li>Tests that take more than a few seconds should also skip on CRAN.</li>
+</ul></div>
 </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
