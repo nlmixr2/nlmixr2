@@ -184,7 +184,7 @@ c(tcl = unname(fitBase$theta["tcl"]),
   `var(eta.cl)` = unname(fitBase$omega["eta.cl", "eta.cl"]),
   `add.sd` = unname(fitBase$theta["add.sd"]))
 #>         tcl var(eta.cl)      add.sd 
-#>  1.01230010  0.06936164  0.69523823
+#>  1.01230018  0.06936164  0.69523823
 ```
 
 ### A prior on a population parameter
@@ -347,7 +347,7 @@ nwpriModel <- baseModel |> ini(prior(eta.cl) ~ invWishart(4))
 fitNwpri := nlmixr2(nwpriModel, nlmixr2data::theo_sd, est = "foceif",
                     control = foceiControl(print = 0L))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:03 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
 #> done
 ```
 
@@ -516,7 +516,7 @@ behavior if the model is later edited:
 fitNwpriExplicit := nlmixr2(nwpriModel, nlmixr2data::theo_sd, est = "foceif",
                             control = foceiControl(priorMethod = "nwpri", print = 0L))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:03 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
 #> done
 identical(unname(fitNwpri$objective), unname(fitNwpriExplicit$objective))
 #> [1] TRUE
@@ -555,7 +555,7 @@ generalModel <- function() {
 fitGeneral := nlmixr2(generalModel, nlmixr2data::theo_sd, est = "foceif",
                       control = foceiControl(print = 0L))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:03 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
 #> done
 ```
 

@@ -73,14 +73,14 @@ print(fit)
 #> ── nlmixr² FOCEi (outer: bobyqa) ──
 #> 
 #>           OBJF      AIC     BIC Log-likelihood Condition#(Cov) Condition#(Cor)
-#> FOCEi 116.8076 373.4073 393.587      -179.7037        2867.904        90.70332
+#> FOCEi 116.8076 373.4073 393.587      -179.7037        2867.388        90.70326
 #> 
 #> ── Time (sec $time): ──
 #> 
 #>            setup  optimize covariance preprocess postprocess table compress
-#> elapsed 4.005196 0.6192707  0.1213613      0.045       0.031 0.067    0.001
+#> elapsed 3.590621 0.5621386  0.1216211      0.043       0.048 0.076    0.001
 #>             other
-#> elapsed 0.2231718
+#> elapsed 0.2056191
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -176,9 +176,9 @@ print(fit2)
 #> ── Time (sec $time): ──
 #> 
 #>             setup   optimize covariance preprocess configure  saem postprocess
-#> elapsed 0.1381813 6.4782e-05 0.03101599      0.059     0.866 8.655       0.934
-#>         table compress    other
-#> elapsed 0.092    0.049 0.269738
+#> elapsed 0.1138814 4.8447e-05 0.03101153      0.053     0.774 9.528       0.836
+#>         table compress     other
+#> elapsed 0.075    0.058 0.2410586
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -220,45 +220,45 @@ fitN <- nlmixr(one.compartment, theo_sd, list(pnlsTol=0.5), est="nlme")
 #>       ID1       ID2       ID3 
 #> 0.2196634 0.9922169 1.6502749 
 #>  Beginning PNLS step: ..  completed fit_nlme() step.
-#> PNLS step: RSS =  64.49993 
-#>  fixed effects: 0.3647292  1.027952  3.45063  
+#> PNLS step: RSS =  64.50938 
+#>  fixed effects: 0.3647343  1.027926  3.450634  
 #>  iterations: 3 
 #> Convergence crit. (must all become <= tolerance = 0.0001):
 #>     fixed  reStruct 
-#> 0.2337920 0.7763722 
+#> 0.2337750 0.8083732 
 #> 
 #> **Iteration 2
-#> LME step: Loglik: -179.7021, nlminb iterations: 1
+#> LME step: Loglik: -179.8529, nlminb iterations: 1
 #> reStruct  parameters:
 #>       ID1       ID2       ID3 
-#> 0.1236584 0.9704155 1.6401474 
+#> 0.1214702 0.9646006 1.6506238 
 #>  Beginning PNLS step: ..  completed fit_nlme() step.
-#> PNLS step: RSS =  64.49992 
-#>  fixed effects: 0.3647292  1.027952  3.45063  
+#> PNLS step: RSS =  64.50938 
+#>  fixed effects: 0.3647343  1.027926  3.450634  
 #>  iterations: 1 
 #> Convergence crit. (must all become <= tolerance = 0.0001):
 #>        fixed     reStruct 
-#> 0.000000e+00 8.270661e-07
+#> 0.000000e+00 2.204222e-07
 print(fitN)
 #> ── nlmixr² nlme by maximum likelihood ──
 #> 
 #>          OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)
-#> nlme 116.8044 373.4042 393.5838      -179.7021        17.34422        1.430759
+#> nlme 117.1061 373.7059 393.8855      -179.8529        16.63438         1.61989
 #> 
 #> ── Time (sec $time): ──
 #> 
 #>              setup   optimize covariance preprocess postprocess table compress
-#> elapsed 0.09357668 3.0618e-05 1.2174e-05      0.063       0.016 0.077    0.006
+#> elapsed 0.08573301 2.8721e-05 1.1937e-05      0.052       0.015 0.075    0.006
 #>            other
-#> elapsed 1.333381
+#> elapsed 1.196226
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
 #>         Est.     SE %RSE Back-transformed(95%CI) BSV(CV%) Shrink(SD)%
-#> tka    0.365  0.188 51.6      1.44 (0.996, 2.08)     67.9      -2.71 
-#> tcl     1.03 0.0839 8.17       2.80 (2.37, 3.30)     26.9       5.45 
-#> tv      3.45 0.0461 1.33       31.5 (28.8, 34.5)     13.6       11.0 
-#> add.sd 0.697                               0.697                     
+#> tka    0.365  0.179 49.2       1.44 (1.01, 2.05)     68.2      -2.40 
+#> tcl     1.03 0.0827 8.05       2.80 (2.38, 3.29)     27.1       6.06 
+#> tv      3.45 0.0456 1.32       31.5 (28.8, 34.5)     13.4       10.2 
+#> add.sd 0.698                               0.698                     
 #>  
 #>   Covariance Type ($covMethod): nlme
 #>   Fixed parameter correlations in $cor

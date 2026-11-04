@@ -416,7 +416,7 @@ it is appropriate to compare the AIC/Objective function values.)
 
 ## The controller then can be piped into a specific plot
 ctr <- pmx_nlmixr(cmt2fit.logn, conts = "WEIGHTB", cats="TRTACT", vpc=TRUE)
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:02
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:03
 ```
 
 ``` r

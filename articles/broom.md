@@ -271,7 +271,7 @@ confint(fit.s)
 #>          model.est    estimate      2.5 %     97.5 %
 #> tcl     -4.9898115 0.006806948 -5.1261062 -4.8535168
 #> tv       0.3401016 1.405090376  0.2372191  0.4429841
-#> add.err  2.7541167 2.754116660  2.2827292  3.2255041
+#> add.err  2.7541167 2.754116660  2.2827293  3.2255041
 ```
 
 This transforms the variables as described above. You can still use the
@@ -284,7 +284,7 @@ confint(fit.s, exponentiate=FALSE)
 #>          model.est    estimate      2.5 %     97.5 %
 #> tcl     -4.9898115 0.006806948 -5.1261062 -4.8535168
 #> tv       0.3401016 1.405090376  0.2372191  0.4429841
-#> add.err  2.7541167 2.754116660  2.2827292  3.2255041
+#> add.err  2.7541167 2.754116660  2.2827293  3.2255041
 ```
 
 However, broom has also implemented it own way to make these data a tidy
