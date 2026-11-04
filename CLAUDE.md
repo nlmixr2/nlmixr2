@@ -87,3 +87,17 @@ Articles under `vignettes/` are the main deliverable here, and they matter more 
 - Use the native `|>` pipe, not magrittr `%>%` (magrittr was dropped from this package).
 - Startup/console output uses `cli` + `crayon` (colored banner, conflict messages); keep that style
   if you touch `verse.R`.
+
+## CRAN tests: never assert on timing
+
+- Never put a wall-clock timing expectation in a test that can run on CRAN:
+  no `expect_lt()`/`expect_true()` on `Sys.time()` differences,
+  `system.time()`, `proc.time()`, `bench`/`microbenchmark` results, or any
+  other elapsed-time threshold. CRAN check machines are shared and heavily
+  loaded, so elapsed time there is random and a timing assertion fails at
+  random. Example: nlmixr2plot `test-model-diagram.R` asserted a
+  `modelGraph()` call took < 30 s; on CRAN it took 48.4 s and failed.
+- Test the result, not the speed. If a speed regression guard is really
+  needed, put it only in a test that starts with `skip_on_cran()` (or the
+  package's own CRAN skip helper), and never in examples or vignettes.
+- Tests that take more than a few seconds should also skip on CRAN.
