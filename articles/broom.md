@@ -168,9 +168,9 @@ tidy(fit.s)
 #>   <chr>    <chr>         <chr>               <dbl>     <dbl>     <dbl>     <dbl>
 #> 1 fixed    NA            tcl                -4.99     0.0695    -71.8   1   e+ 0
 #> 2 fixed    NA            tv                  0.340    0.0525      6.48  6.34e-10
-#> 3 ran_pars ID            sd__eta.cl          0.511   NA          NA    NA       
-#> 4 ran_pars ID            sd__eta.v           0.396   NA          NA    NA       
-#> 5 ran_pars ID            cor__eta.v.eta.…    0.953   NA          NA    NA       
+#> 3 ran_pars ID            sd__eta.cl          0.511    0.0616     NA    NA       
+#> 4 ran_pars ID            sd__eta.v           0.396    0.0400     NA    NA       
+#> 5 ran_pars ID            cor__eta.v.eta.…    0.953    0.0542     NA    NA       
 #> 6 ran_pars Residual(add) add.err             2.75     0.241      11.5   1.77e-22
 ```
 
@@ -189,9 +189,9 @@ tidy(fit.s, exponentiate=TRUE)
 #>   <chr>    <chr>         <chr>               <dbl>     <dbl>     <dbl>     <dbl>
 #> 1 fixed    NA            tcl               0.00681  0.000473      14.4  2.93e-30
 #> 2 fixed    NA            tv                1.41     0.0738        19.1  4.51e-42
-#> 3 ran_pars ID            sd__eta.cl        0.511   NA             NA   NA       
-#> 4 ran_pars ID            sd__eta.v         0.396   NA             NA   NA       
-#> 5 ran_pars ID            cor__eta.v.eta.…  0.953   NA             NA   NA       
+#> 3 ran_pars ID            sd__eta.cl        0.511    0.0616        NA   NA       
+#> 4 ran_pars ID            sd__eta.v         0.396    0.0400        NA   NA       
+#> 5 ran_pars ID            cor__eta.v.eta.…  0.953    0.0542        NA   NA       
 #> 6 ran_pars Residual(add) add.err           2.75     0.241         11.5  1.77e-22
 ```
 
@@ -212,9 +212,9 @@ tidy(fit.s, exponentiate=FALSE) ## No transformation applied
 #>   <chr>    <chr>         <chr>               <dbl>     <dbl>     <dbl>     <dbl>
 #> 1 fixed    NA            tcl                -4.99     0.0695    -71.8   1   e+ 0
 #> 2 fixed    NA            tv                  0.340    0.0525      6.48  6.34e-10
-#> 3 ran_pars ID            sd__eta.cl          0.511   NA          NA    NA       
-#> 4 ran_pars ID            sd__eta.v           0.396   NA          NA    NA       
-#> 5 ran_pars ID            cor__eta.v.eta.…    0.953   NA          NA    NA       
+#> 3 ran_pars ID            sd__eta.cl          0.511    0.0616     NA    NA       
+#> 4 ran_pars ID            sd__eta.v           0.396    0.0400     NA    NA       
+#> 5 ran_pars ID            cor__eta.v.eta.…    0.953    0.0542     NA    NA       
 #> 6 ran_pars Residual(add) add.err             2.75     0.241      11.5   1.77e-22
 ```
 
@@ -234,9 +234,9 @@ tidy(fit.s, exponentiate=NA)
 #>   <chr>    <chr>         <chr>               <dbl>     <dbl>     <dbl>     <dbl>
 #> 1 fixed    NA            tcl               0.00681  0.000473      14.4  2.93e-30
 #> 2 fixed    NA            tv                1.41     0.0738        19.1  4.51e-42
-#> 3 ran_pars ID            sd__eta.cl        0.511   NA             NA   NA       
-#> 4 ran_pars ID            sd__eta.v         0.396   NA             NA   NA       
-#> 5 ran_pars ID            cor__eta.v.eta.…  0.953   NA             NA   NA       
+#> 3 ran_pars ID            sd__eta.cl        0.511    0.0616        NA   NA       
+#> 4 ran_pars ID            sd__eta.v         0.396    0.0400        NA   NA       
+#> 5 ran_pars ID            cor__eta.v.eta.…  0.953    0.0542        NA   NA       
 #> 6 ran_pars Residual(add) add.err           2.75     0.241         11.5  1.77e-22
 ```
 
@@ -253,9 +253,9 @@ tidy(fit.s)
 #>   <chr>    <chr>         <chr>               <dbl>     <dbl>     <dbl>     <dbl>
 #> 1 fixed    NA            tcl                -4.99     0.0695    -71.8   1   e+ 0
 #> 2 fixed    NA            tv                  0.340    0.0525      6.48  6.34e-10
-#> 3 ran_pars ID            sd__eta.cl          0.511   NA          NA    NA       
-#> 4 ran_pars ID            sd__eta.v           0.396   NA          NA    NA       
-#> 5 ran_pars ID            cor__eta.v..eta…    0.953   NA          NA    NA       
+#> 3 ran_pars ID            sd__eta.cl          0.511    0.0616     NA    NA       
+#> 4 ran_pars ID            sd__eta.v           0.396    0.0400     NA    NA       
+#> 5 ran_pars ID            cor__eta.v..eta…    0.953    0.0542     NA    NA       
 #> 6 ran_pars Residual(add) add.err             2.75     0.241      11.5   1.77e-22
 ```
 
@@ -268,10 +268,13 @@ The default R method `confint` works with nlmixr fit objects:
 ``` r
 
 confint(fit.s)
-#>          model.est    estimate      2.5 %     97.5 %
-#> tcl     -4.9898115 0.006806948 -5.1261062 -4.8535168
-#> tv       0.3401016 1.405090376  0.2372191  0.4429841
-#> add.err  2.7541167 2.754116660  2.2827293  3.2255041
+#>                     model.est    estimate      2.5 %     97.5 %
+#> tcl                -4.9898115 0.006806948 -5.1261062 -4.8535168
+#> tv                  0.3401016 1.405090376  0.2372191  0.4429841
+#> add.err             2.7541167 2.754116660  2.2827293  3.2255041
+#> sd__eta.cl          0.5114379 0.511437939  0.4038399  0.6477042
+#> sd__eta.v           0.3957069 0.395706859  0.3245360  0.4824854
+#> cor__eta.v..eta.cl  0.9529257 0.952925671  0.6083362  0.9952395
 ```
 
 This transforms the variables as described above. You can still use the
@@ -281,10 +284,13 @@ interval:
 ``` r
 
 confint(fit.s, exponentiate=FALSE)
-#>          model.est    estimate      2.5 %     97.5 %
-#> tcl     -4.9898115 0.006806948 -5.1261062 -4.8535168
-#> tv       0.3401016 1.405090376  0.2372191  0.4429841
-#> add.err  2.7541167 2.754116660  2.2827293  3.2255041
+#>                     model.est    estimate      2.5 %     97.5 %
+#> tcl                -4.9898115 0.006806948 -5.1261062 -4.8535168
+#> tv                  0.3401016 1.405090376  0.2372191  0.4429841
+#> add.err             2.7541167 2.754116660  2.2827293  3.2255041
+#> sd__eta.cl          0.5114379 0.511437939  0.4038399  0.6477042
+#> sd__eta.v           0.3957069 0.395706859  0.3245360  0.4824854
+#> cor__eta.v..eta.cl  0.9529257 0.952925671  0.6083362  0.9952395
 ```
 
 However, broom has also implemented it own way to make these data a tidy
@@ -299,10 +305,10 @@ tidy(fit.s, conf.level=0.9)
 #>   <chr>    <chr> <chr>    <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>
 #> 1 fixed    NA    tcl     -4.99     0.0695    -71.8   1   e+ 0   -5.10     -4.88 
 #> 2 fixed    NA    tv       0.340    0.0525      6.48  6.34e-10    0.254     0.426
-#> 3 ran_pars ID    sd__…    0.511   NA          NA    NA          NA        NA    
-#> 4 ran_pars ID    sd__…    0.396   NA          NA    NA          NA        NA    
-#> 5 ran_pars ID    cor_…    0.953   NA          NA    NA          NA        NA    
-#> 6 ran_pars Resi… add.…    2.75     0.241      11.5   1.77e-22   NA        NA
+#> 3 ran_pars ID    sd__…    0.511    0.0616     NA    NA           0.419     0.624
+#> 4 ran_pars ID    sd__…    0.396    0.0400     NA    NA           0.335     0.467
+#> 5 ran_pars ID    cor_…    0.953    0.0542     NA    NA           0.712     0.993
+#> 6 ran_pars Resi… add.…    2.75     0.241      11.5   1.77e-22    2.36      3.15
 ```
 
 The confidence interval is on the scale specified by `exponentiate`, by
@@ -319,10 +325,10 @@ tidy(fit.s, conf.level=0.9, exponentiate=NA)
 #>   <chr>    <chr> <chr>    <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>
 #> 1 fixed    NA    tcl    0.00681  0.000473      14.4  2.93e-30  0.00607   0.00763
 #> 2 fixed    NA    tv     1.41     0.0738        19.1  4.51e-42  1.29      1.53   
-#> 3 ran_pars ID    sd__…  0.511   NA             NA   NA        NA        NA      
-#> 4 ran_pars ID    sd__…  0.396   NA             NA   NA        NA        NA      
-#> 5 ran_pars ID    cor_…  0.953   NA             NA   NA        NA        NA      
-#> 6 ran_pars Resi… add.…  2.75     0.241         11.5  1.77e-22 NA        NA
+#> 3 ran_pars ID    sd__…  0.511    0.0616        NA   NA         0.419     0.624  
+#> 4 ran_pars ID    sd__…  0.396    0.0400        NA   NA         0.335     0.467  
+#> 5 ran_pars ID    cor_…  0.953    0.0542        NA   NA         0.712     0.993  
+#> 6 ran_pars Resi… add.…  2.75     0.241         11.5  1.77e-22  2.36      3.15
 ```
 
 ## Extracting other model information with `tidy`
@@ -354,10 +360,10 @@ tidy(fit.s, effects="ran_pars")
 #> # A tibble: 4 × 7
 #>   effect   group         term             estimate std.error statistic   p.value
 #>   <chr>    <chr>         <chr>               <dbl>     <dbl>     <dbl>     <dbl>
-#> 1 ran_pars ID            sd__eta.cl          0.511    NA          NA   NA       
-#> 2 ran_pars ID            sd__eta.v           0.396    NA          NA   NA       
-#> 3 ran_pars ID            cor__eta.v..eta…    0.953    NA          NA   NA       
-#> 4 ran_pars Residual(add) add.err             2.75      0.241      11.5  1.77e-22
+#> 1 ran_pars ID            sd__eta.cl          0.511    0.0616      NA   NA       
+#> 2 ran_pars ID            sd__eta.v           0.396    0.0400      NA   NA       
+#> 3 ran_pars ID            cor__eta.v..eta…    0.953    0.0542      NA   NA       
+#> 4 ran_pars Residual(add) add.err             2.75     0.241       11.5  1.77e-22
 ```
 
 ### Extracting random values (also called ETAs)

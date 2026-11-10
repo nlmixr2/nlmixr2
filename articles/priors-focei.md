@@ -184,7 +184,7 @@ c(tcl = unname(fitBase$theta["tcl"]),
   `var(eta.cl)` = unname(fitBase$omega["eta.cl", "eta.cl"]),
   `add.sd` = unname(fitBase$theta["add.sd"]))
 #>         tcl var(eta.cl)      add.sd 
-#>  1.01230018  0.06936164  0.69523823
+#>  1.01123749  0.06924382  0.69415376
 ```
 
 ### A prior on a population parameter
@@ -217,13 +217,13 @@ fitTheta := nlmixr2(thetaModel, nlmixr2data::theo_sd, est = "foceif",
 c(`no prior` = unname(fitBase$theta["tcl"]),
   `with prior` = unname(fitTheta$theta["tcl"]))
 #>   no prior with prior 
-#>    1.01230    1.45286
+#>   1.011237   1.452849
 ```
 
-The estimate moves from the unconstrained MLE (1.012) toward the prior
+The estimate moves from the unconstrained MLE (1.011) toward the prior
 mean (1.5), landing between the two – exactly the balance a penalized
 fit is supposed to strike. `foceiControl(fast = TRUE)` (`foceif`) stayed
-on: `fitTheta$env$nAnalyticGradDirect` is 20, confirming the analytic
+on: `fitTheta$env$nAnalyticGradDirect` is 33, confirming the analytic
 outer gradient (with its own `d/dtheta log p(theta)` term) ran, not a
 finite-difference fallback.
 
@@ -241,7 +241,7 @@ tnpriModel <- baseModel |> ini(prior(eta.cl) ~ dnorm(0.2, 0.02))
 fitTnpri := nlmixr2(tnpriModel, nlmixr2data::theo_sd, est = "foceif",
                     control = foceiControl(print = 0L))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:01 
 #> done
 ```
 
@@ -250,7 +250,7 @@ fitTnpri := nlmixr2(tnpriModel, nlmixr2data::theo_sd, est = "foceif",
 c(`no prior` = unname(fitBase$omega["eta.cl", "eta.cl"]),
   `tnpri prior` = unname(fitTnpri$omega["eta.cl", "eta.cl"]))
 #>    no prior tnpri prior 
-#>  0.06936164  0.19310763
+#>  0.06924382  0.19272368
 ```
 
 #### The common NONMEM shape – a joint theta+omega covariance
@@ -293,7 +293,7 @@ tnpriJointModel <- function() {
 fitTnpriJoint := nlmixr2(tnpriJointModel, nlmixr2data::theo_sd, est = "foceif",
                          control = foceiControl(print = 0L))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:01 
 #> done
 rxode2::rxUiPriors(tnpriJointModel)
 #>   name                                                                  prior
@@ -317,12 +317,12 @@ difference in *label*, not in the number the fit produces:
 fitTnpriJointExplicit := nlmixr2(tnpriJointModel, nlmixr2data::theo_sd, est = "foceif",
                                  control = foceiControl(priorMethod = "tnpri", print = 0L))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:01 
 #> done
 c(`auto objective`          = fitTnpriJoint$objective,
   `explicit-tnpri objective` = fitTnpriJointExplicit$objective)
 #>           auto objective explicit-tnpri objective 
-#>                 116.4363                 116.4363
+#>                 116.4311                 116.4311
 ```
 
 Single-parameter tools that only ever write one `om.eta.cl ~ ...` prior
@@ -347,7 +347,7 @@ nwpriModel <- baseModel |> ini(prior(eta.cl) ~ invWishart(4))
 fitNwpri := nlmixr2(nwpriModel, nlmixr2data::theo_sd, est = "foceif",
                     control = foceiControl(print = 0L))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:01 
 #> done
 ```
 
@@ -356,7 +356,7 @@ fitNwpri := nlmixr2(nwpriModel, nlmixr2data::theo_sd, est = "foceif",
 c(`no prior` = unname(fitBase$omega["eta.cl", "eta.cl"]),
   `nwpri prior (nu=4)` = unname(fitNwpri$omega["eta.cl", "eta.cl"]))
 #>           no prior nwpri prior (nu=4) 
-#>         0.06936164         0.13689455
+#>         0.06924382         0.13659041
 ```
 
 #### The more common shape – a correlated block
@@ -402,7 +402,7 @@ fitNwpriBlock := nlmixr2(nwpriBlockModel, nlmixr2data::theo_sd, est = "foceif",
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:01 
 #> done
 rxode2::rxUiPriors(nwpriBlockModel)
 #>     name         prior neta1 neta2 lower upper
@@ -467,7 +467,7 @@ gradient the same way the theta prior did:
 c(tnpri = fitTnpri$env$nAnalyticGradDirect,
   nwpri = fitNwpri$env$nAnalyticGradDirect)
 #> tnpri nwpri 
-#>    19    14
+#>    30    28
 ```
 
 That is the point of `foceiPriorOmegaGradAdd()` under the hood: the
@@ -516,7 +516,7 @@ behavior if the model is later edited:
 fitNwpriExplicit := nlmixr2(nwpriModel, nlmixr2data::theo_sd, est = "foceif",
                             control = foceiControl(priorMethod = "nwpri", print = 0L))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:01 
 #> done
 identical(unname(fitNwpri$objective), unname(fitNwpriExplicit$objective))
 #> [1] TRUE
@@ -555,7 +555,7 @@ generalModel <- function() {
 fitGeneral := nlmixr2(generalModel, nlmixr2data::theo_sd, est = "foceif",
                       control = foceiControl(print = 0L))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:01 
 #> done
 ```
 
@@ -564,7 +564,7 @@ fitGeneral := nlmixr2(generalModel, nlmixr2data::theo_sd, est = "foceif",
 c(`no prior` = unname(fitBase$theta["add.sd"]),
   `half-Cauchy(0,1) prior` = unname(fitGeneral$theta["add.sd"]))
 #>               no prior half-Cauchy(0,1) prior 
-#>              0.6952382              0.6922291
+#>              0.6941538              0.6924321
 ```
 
 The pull is small here – `add.sd` is well informed by theophylline’s own

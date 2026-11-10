@@ -78,9 +78,9 @@ print(fit)
 #> ── Time (sec $time): ──
 #> 
 #>            setup  optimize covariance preprocess postprocess table compress
-#> elapsed 2.787008 0.5327464 0.09615538      0.032       0.031  0.06    0.001
+#> elapsed 3.022281 0.5716502 0.09187705        0.1       0.038 0.073    0.001
 #>             other
-#> elapsed 0.1770902
+#> elapsed 0.2801918
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -175,10 +175,10 @@ print(fit2)
 #> 
 #> ── Time (sec $time): ──
 #> 
-#>              setup   optimize covariance preprocess configure  saem postprocess
-#> elapsed 0.09224154 5.2147e-05 0.02401299      0.039     0.597 8.124        0.65
+#>             setup   optimize covariance preprocess configure  saem postprocess
+#> elapsed 0.1092541 4.8132e-05 0.02601395      0.041     0.691 6.806       0.737
 #>         table compress     other
-#> elapsed 0.062    0.046 0.1926933
+#> elapsed 0.073     0.05 0.2136839
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
@@ -215,49 +215,49 @@ method to this model:
 fitN <- nlmixr(one.compartment, theo_sd, list(pnlsTol=0.5), est="nlme")
 #> 
 #> **Iteration 1
-#> LME step: Loglik: -183.1969, nlminb iterations: 1
+#> LME step: Loglik: -183.215, nlminb iterations: 1
 #> reStruct  parameters:
 #>       ID1       ID2       ID3 
-#> 0.2196634 0.9922169 1.6502749 
+#> 0.2198826 0.9924214 1.6505008 
 #>  Beginning PNLS step: ..  completed fit_nlme() step.
-#> PNLS step: RSS =  64.50938 
-#>  fixed effects: 0.3647343  1.027926  3.450634  
+#> PNLS step: RSS =  64.88699 
+#>  fixed effects: 0.458287  1.032846  3.450096  
 #>  iterations: 3 
 #> Convergence crit. (must all become <= tolerance = 0.0001):
-#>     fixed  reStruct 
-#> 0.2337750 0.8083732 
+#>      fixed   reStruct 
+#> 0.03180152 0.50195139 
 #> 
 #> **Iteration 2
-#> LME step: Loglik: -179.8529, nlminb iterations: 1
+#> LME step: Loglik: -179.5063, nlminb iterations: 1
 #> reStruct  parameters:
 #>       ID1       ID2       ID3 
-#> 0.1214702 0.9646006 1.6506238 
+#> 0.1463980 0.9665327 1.6491713 
 #>  Beginning PNLS step: ..  completed fit_nlme() step.
-#> PNLS step: RSS =  64.50938 
-#>  fixed effects: 0.3647343  1.027926  3.450634  
+#> PNLS step: RSS =  64.88701 
+#>  fixed effects: 0.458287  1.032846  3.450096  
 #>  iterations: 1 
 #> Convergence crit. (must all become <= tolerance = 0.0001):
 #>        fixed     reStruct 
-#> 0.000000e+00 2.204222e-07
+#> 0.000000e+00 5.603404e-06
 print(fitN)
 #> ── nlmixr² nlme by maximum likelihood ──
 #> 
 #>          OBJF      AIC      BIC Log-likelihood Condition#(Cov) Condition#(Cor)
-#> nlme 117.1061 373.7059 393.8855      -179.8529        16.63438         1.61989
+#> nlme 116.4128 373.0126 393.1922      -179.5063         17.0225        1.431527
 #> 
 #> ── Time (sec $time): ──
 #> 
 #>              setup   optimize covariance preprocess postprocess table compress
-#> elapsed 0.06696736 2.7942e-05 1.3095e-05       0.04       0.012 0.058    0.004
+#> elapsed 0.06985925 2.5198e-05 1.0646e-05      0.043       0.012  0.06    0.005
 #>             other
-#> elapsed 0.9559916
+#> elapsed 0.9911049
 #> 
 #> ── Population Parameters ($parFixed or $parFixedDf): ──
 #> 
 #>         Est.     SE %RSE Back-transformed(95%CI) BSV(CV%) Shrink(SD)%
-#> tka    0.365  0.179 49.2       1.44 (1.01, 2.05)     68.2      -2.40 
-#> tcl     1.03 0.0827 8.05       2.80 (2.38, 3.29)     27.1       6.06 
-#> tv      3.45 0.0456 1.32       31.5 (28.8, 34.5)     13.4       10.2 
+#> tka    0.458  0.185 40.4       1.58 (1.10, 2.27)     66.3      -6.97 
+#> tcl     1.03 0.0840 8.13       2.81 (2.38, 3.31)     27.0       8.13 
+#> tv      3.45 0.0458 1.33       31.5 (28.8, 34.5)     13.5       7.41 
 #> add.sd 0.698                               0.698                     
 #>  
 #>   Covariance Type ($covMethod): nlme
@@ -271,9 +271,9 @@ print(fitN)
 #> # A tibble: 132 × 19
 #>   ID     TIME    DV  PRED    RES IPRED   IRES  IWRES eta.ka eta.cl   eta.v    cp
 #>   <fct> <dbl> <dbl> <dbl>  <dbl> <dbl>  <dbl>  <dbl>  <dbl>  <dbl>   <dbl> <dbl>
-#> 1 1      0     0.74  0     0.74   0     0.74   1.06   0.210 -0.486 -0.0789  0   
-#> 2 1      0.25  2.84  3.03 -0.194  3.91 -1.07  -1.53   0.210 -0.486 -0.0789  3.91
-#> 3 1      0.57  6.57  5.52  1.05   6.86 -0.289 -0.415  0.210 -0.486 -0.0789  6.86
+#> 1 1      0     0.74  0     0.74   0     0.74   1.06  0.0629 -0.478 -0.0893  0   
+#> 2 1      0.25  2.84  3.28 -0.438  3.79 -0.946 -1.35  0.0629 -0.478 -0.0893  3.79
+#> 3 1      0.57  6.57  5.86  0.710  6.72 -0.148 -0.213 0.0629 -0.478 -0.0893  6.72
 #> # ℹ 129 more rows
 #> # ℹ 7 more variables: depot <dbl>, center <dbl>, ka <dbl>, cl <dbl>, v <dbl>,
 #> #   tad <dbl>, dosenum <dbl>

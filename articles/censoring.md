@@ -11,7 +11,7 @@ library(nlmixr2)
 #> ◯ babelmixr2      0.1.12.9000     ◯ posologyr       1.2.8      
 #> ◯ FME             1.3.6.4         ◯ shinyMixR       0.5.3      
 #> ◯ ggPMX           1.3.2           ◯ xpose.nlmixr2   0.4.2      
-#> ◯ monolix2rx      0.0.6           ★ lotri           1.0.5      
+#> ◯ monolix2rx      0.0.7           ★ lotri           1.0.5      
 #> ◯ nlmixr2auto     1.0.0           ★ nlmixr2data     2.0.10     
 #> ◯ nlmixr2autoinit 1.0.1           ★ nlmixr2save     0.2.1      
 #> ◯ nlmixr2lib      0.3.2           ★ nlmixr2est      7.2.1      

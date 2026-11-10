@@ -16,7 +16,7 @@ Nothing, called for the side effect of reporting on the installation
 
 ``` r
 nlmixr2CheckInstall()
-#> ℹ Operating system: Linux 7.0.0-1014-aws #14~24.04.1-Ubuntu SMP PREEMPT Fri Sep 18 21:24:59 UTC 2026
+#> ℹ Operating system: Linux 7.0.0-1017-azure #17~24.04.1-Ubuntu SMP PREEMPT Thu Sep 24 18:46:57 UTC 2026
 #> ✔ The 'make' command was found:  /usr/bin/make
 #> ℹ GNU Make 4.3
 #> Built for x86_64-pc-linux-gnu
@@ -36,7 +36,7 @@ nlmixr2CheckInstall()
 #> ✔ The package 'babelmixr2' is installed and seems to be up to date, version 0.1.12.9000
 #> ✔ The package 'FME' is installed and seems to be up to date, version 1.3.6.4
 #> ✔ The package 'ggPMX' is installed and seems to be up to date, version 1.3.2
-#> ✔ The package 'monolix2rx' is installed and seems to be up to date, version 0.0.6
+#> ✔ The package 'monolix2rx' is installed and seems to be up to date, version 0.0.7
 #> ✔ The package 'nlmixr2auto' is installed and seems to be up to date, version 1.0.0
 #> ✔ The package 'nlmixr2autoinit' is installed and seems to be up to date, version 1.0.1
 #> ✔ The package 'nlmixr2lib' is installed and seems to be up to date, version 0.3.2
