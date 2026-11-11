@@ -13,6 +13,8 @@ on:
   # Maintainers can also start PR checks by commenting "/ci" on the PR.
   issue_comment:
     types: [created]
+  # Run by hand on any branch: Actions tab -> Run workflow, or `gh workflow run`.
+  workflow_dispatch:
 
 name: test-coverage
 
