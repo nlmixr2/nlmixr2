@@ -184,7 +184,7 @@ c(tcl = unname(fitBase$theta["tcl"]),
   `var(eta.cl)` = unname(fitBase$omega["eta.cl", "eta.cl"]),
   `add.sd` = unname(fitBase$theta["add.sd"]))
 #>         tcl var(eta.cl)      add.sd 
-#>  1.01123749  0.06924382  0.69415376
+#>  1.01133886  0.07052497  0.69380842
 ```
 
 ### A prior on a population parameter
@@ -217,13 +217,13 @@ fitTheta := nlmixr2(thetaModel, nlmixr2data::theo_sd, est = "foceif",
 c(`no prior` = unname(fitBase$theta["tcl"]),
   `with prior` = unname(fitTheta$theta["tcl"]))
 #>   no prior with prior 
-#>   1.011237   1.452849
+#>   1.011339   1.452749
 ```
 
 The estimate moves from the unconstrained MLE (1.011) toward the prior
 mean (1.5), landing between the two – exactly the balance a penalized
 fit is supposed to strike. `foceiControl(fast = TRUE)` (`foceif`) stayed
-on: `fitTheta$env$nAnalyticGradDirect` is 33, confirming the analytic
+on: `fitTheta$env$nAnalyticGradDirect` is 31, confirming the analytic
 outer gradient (with its own `d/dtheta log p(theta)` term) ran, not a
 finite-difference fallback.
 
@@ -232,7 +232,7 @@ finite-difference fallback.
 Writing the prior directly on `eta.cl`’s own variance is the
 Monolix/NONMEM-own- estimation (`tnpri`) convention. Say we believe the
 between-subject variability on clearance is closer to 0.2 than the
-unconstrained fit’s own 0.069:
+unconstrained fit’s own 0.071:
 
 ``` r
 
@@ -250,7 +250,7 @@ fitTnpri := nlmixr2(tnpriModel, nlmixr2data::theo_sd, est = "foceif",
 c(`no prior` = unname(fitBase$omega["eta.cl", "eta.cl"]),
   `tnpri prior` = unname(fitTnpri$omega["eta.cl", "eta.cl"]))
 #>    no prior tnpri prior 
-#>  0.06924382  0.19272368
+#>  0.07052497  0.19312709
 ```
 
 #### The common NONMEM shape – a joint theta+omega covariance
@@ -322,7 +322,7 @@ fitTnpriJointExplicit := nlmixr2(tnpriJointModel, nlmixr2data::theo_sd, est = "f
 c(`auto objective`          = fitTnpriJoint$objective,
   `explicit-tnpri objective` = fitTnpriJointExplicit$objective)
 #>           auto objective explicit-tnpri objective 
-#>                 116.4311                 116.4311
+#>                 116.4321                 116.4321
 ```
 
 Single-parameter tools that only ever write one `om.eta.cl ~ ...` prior
@@ -356,7 +356,7 @@ fitNwpri := nlmixr2(nwpriModel, nlmixr2data::theo_sd, est = "foceif",
 c(`no prior` = unname(fitBase$omega["eta.cl", "eta.cl"]),
   `nwpri prior (nu=4)` = unname(fitNwpri$omega["eta.cl", "eta.cl"]))
 #>           no prior nwpri prior (nu=4) 
-#>         0.06924382         0.13659041
+#>         0.07052497         0.13736322
 ```
 
 #### The more common shape – a correlated block
@@ -467,7 +467,7 @@ gradient the same way the theta prior did:
 c(tnpri = fitTnpri$env$nAnalyticGradDirect,
   nwpri = fitNwpri$env$nAnalyticGradDirect)
 #> tnpri nwpri 
-#>    30    28
+#>    32    29
 ```
 
 That is the point of `foceiPriorOmegaGradAdd()` under the hood: the
@@ -564,7 +564,7 @@ fitGeneral := nlmixr2(generalModel, nlmixr2data::theo_sd, est = "foceif",
 c(`no prior` = unname(fitBase$theta["add.sd"]),
   `half-Cauchy(0,1) prior` = unname(fitGeneral$theta["add.sd"]))
 #>               no prior half-Cauchy(0,1) prior 
-#>              0.6941538              0.6924321
+#>              0.6938084              0.6924306
 ```
 
 The pull is small here – `add.sd` is well informed by theophylline’s own

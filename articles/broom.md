@@ -66,7 +66,7 @@ fit.f <- nlmixr(pheno, pheno_sd, "focei",
                 control=list(print=0),
                 table=list(cwres=TRUE, npde=TRUE))
 #> calculating covariance matrix
-#> [====|====|====|====|====|====|====|====|====|====] 0:00:01 
+#> [====|====|====|====|====|====|====|====|====|====] 0:00:02 
 #> done
 #> [====|====|====|====|====|====|====|====|====|====] 0:00:00
 ```
@@ -83,8 +83,8 @@ glance(fit.s)
 #> # A tibble: 2 × 6
 #>    OBJF   AIC   BIC logLik `Condition#(Cov)` `Condition#(Cor)`
 #>   <dbl> <dbl> <dbl>  <dbl>             <dbl>             <dbl>
-#> 1  689.  986. 1004.  -487.              953.              65.0
-#> 2  692.  989. 1007.  -489.              953.              65.0
+#> 1  689.  986. 1004.  -487.              953.              64.9
+#> 2  692.  989. 1007.  -489.              953.              64.9
 ```
 
 Note in nlmixr it is possible to have more than one fit metric (based on
@@ -108,9 +108,9 @@ glance(fit.s)
 #> # A tibble: 3 × 6
 #>    OBJF   AIC   BIC logLik `Condition#(Cov)` `Condition#(Cor)`
 #>   <dbl> <dbl> <dbl>  <dbl>             <dbl>             <dbl>
-#> 1  689.  986. 1004.  -487.              953.              65.0
-#> 2  692.  989. 1007.  -489.              953.              65.0
-#> 3  692.  989. 1007.  -489.              953.              65.0
+#> 1  689.  986. 1004.  -487.              953.              64.9
+#> 2  692.  989. 1007.  -489.              953.              64.9
+#> 3  692.  989. 1007.  -489.              953.              64.9
 ```
 
 Of course you can always change the type of objective function that
@@ -130,9 +130,9 @@ glance(fit.s)
 #> # A tibble: 3 × 6
 #>    OBJF   AIC   BIC logLik `Condition#(Cov)` `Condition#(Cor)`
 #>   <dbl> <dbl> <dbl>  <dbl>             <dbl>             <dbl>
-#> 1  689.  986. 1004.  -487.              953.              65.0
-#> 2  692.  989. 1007.  -489.              953.              65.0
-#> 3  692.  989. 1007.  -489.              953.              65.0
+#> 1  689.  986. 1004.  -487.              953.              64.9
+#> 2  692.  989. 1007.  -489.              953.              64.9
+#> 3  692.  989. 1007.  -489.              953.              64.9
 ```
 
 For convenience, you can do this while you `glance` at the objects:
@@ -143,9 +143,9 @@ glance(fit.s, type="FOCEi")
 #> # A tibble: 3 × 6
 #>    OBJF   AIC   BIC logLik `Condition#(Cov)` `Condition#(Cor)`
 #>   <dbl> <dbl> <dbl>  <dbl>             <dbl>             <dbl>
-#> 1  689.  986. 1004.  -487.              953.              65.0
-#> 2  692.  989. 1007.  -489.              953.              65.0
-#> 3  692.  989. 1007.  -489.              953.              65.0
+#> 1  689.  986. 1004.  -487.              953.              64.9
+#> 2  692.  989. 1007.  -489.              953.              64.9
+#> 3  692.  989. 1007.  -489.              953.              64.9
 ```
 
 ## Tidying the model parameters
@@ -187,7 +187,7 @@ tidy(fit.s, exponentiate=TRUE)
 #> # A tibble: 6 × 7
 #>   effect   group         term             estimate std.error statistic   p.value
 #>   <chr>    <chr>         <chr>               <dbl>     <dbl>     <dbl>     <dbl>
-#> 1 fixed    NA            tcl               0.00681  0.000473      14.4  2.93e-30
+#> 1 fixed    NA            tcl               0.00681  0.000473      14.4  2.91e-30
 #> 2 fixed    NA            tv                1.41     0.0738        19.1  4.51e-42
 #> 3 ran_pars ID            sd__eta.cl        0.511    0.0616        NA   NA       
 #> 4 ran_pars ID            sd__eta.v         0.396    0.0400        NA   NA       
@@ -232,7 +232,7 @@ tidy(fit.s, exponentiate=NA)
 #> # A tibble: 6 × 7
 #>   effect   group         term             estimate std.error statistic   p.value
 #>   <chr>    <chr>         <chr>               <dbl>     <dbl>     <dbl>     <dbl>
-#> 1 fixed    NA            tcl               0.00681  0.000473      14.4  2.93e-30
+#> 1 fixed    NA            tcl               0.00681  0.000473      14.4  2.91e-30
 #> 2 fixed    NA            tv                1.41     0.0738        19.1  4.51e-42
 #> 3 ran_pars ID            sd__eta.cl        0.511    0.0616        NA   NA       
 #> 4 ran_pars ID            sd__eta.v         0.396    0.0400        NA   NA       
@@ -268,13 +268,13 @@ The default R method `confint` works with nlmixr fit objects:
 ``` r
 
 confint(fit.s)
-#>                     model.est    estimate      2.5 %     97.5 %
-#> tcl                -4.9898115 0.006806948 -5.1261062 -4.8535168
-#> tv                  0.3401016 1.405090376  0.2372191  0.4429841
-#> add.err             2.7541167 2.754116660  2.2827293  3.2255041
-#> sd__eta.cl          0.5114379 0.511437939  0.4038399  0.6477042
-#> sd__eta.v           0.3957069 0.395706859  0.3245360  0.4824854
-#> cor__eta.v..eta.cl  0.9529257 0.952925671  0.6083362  0.9952395
+#>                     model.est   estimate      2.5 %     97.5 %
+#> tcl                -4.9898200 0.00680689 -5.1260998 -4.8535402
+#> tv                  0.3401063 1.40509695  0.2372222  0.4429904
+#> add.err             2.7541478 2.75414776  2.2827575  3.2255380
+#> sd__eta.cl          0.5114393 0.51143928  0.4038402  0.6477070
+#> sd__eta.v           0.3957069 0.39570687  0.3245359  0.4824857
+#> cor__eta.v..eta.cl  0.9529245 0.95292454  0.6083307  0.9952393
 ```
 
 This transforms the variables as described above. You can still use the
@@ -284,13 +284,13 @@ interval:
 ``` r
 
 confint(fit.s, exponentiate=FALSE)
-#>                     model.est    estimate      2.5 %     97.5 %
-#> tcl                -4.9898115 0.006806948 -5.1261062 -4.8535168
-#> tv                  0.3401016 1.405090376  0.2372191  0.4429841
-#> add.err             2.7541167 2.754116660  2.2827293  3.2255041
-#> sd__eta.cl          0.5114379 0.511437939  0.4038399  0.6477042
-#> sd__eta.v           0.3957069 0.395706859  0.3245360  0.4824854
-#> cor__eta.v..eta.cl  0.9529257 0.952925671  0.6083362  0.9952395
+#>                     model.est   estimate      2.5 %     97.5 %
+#> tcl                -4.9898200 0.00680689 -5.1260998 -4.8535402
+#> tv                  0.3401063 1.40509695  0.2372222  0.4429904
+#> add.err             2.7541478 2.75414776  2.2827575  3.2255380
+#> sd__eta.cl          0.5114393 0.51143928  0.4038402  0.6477070
+#> sd__eta.v           0.3957069 0.39570687  0.3245359  0.4824857
+#> cor__eta.v..eta.cl  0.9529245 0.95292454  0.6083307  0.9952393
 ```
 
 However, broom has also implemented it own way to make these data a tidy
@@ -323,7 +323,7 @@ tidy(fit.s, conf.level=0.9, exponentiate=NA)
 #> # A tibble: 6 × 9
 #>   effect   group term  estimate std.error statistic   p.value conf.low conf.high
 #>   <chr>    <chr> <chr>    <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>
-#> 1 fixed    NA    tcl    0.00681  0.000473      14.4  2.93e-30  0.00607   0.00763
+#> 1 fixed    NA    tcl    0.00681  0.000473      14.4  2.91e-30  0.00607   0.00763
 #> 2 fixed    NA    tv     1.41     0.0738        19.1  4.51e-42  1.29      1.53   
 #> 3 ran_pars ID    sd__…  0.511    0.0616        NA   NA         0.419     0.624  
 #> 4 ran_pars ID    sd__…  0.396    0.0400        NA   NA         0.335     0.467  
