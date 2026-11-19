@@ -31,9 +31,19 @@ navbar:
           href: articles/broom.html
         - text: "Censoring in nlmixr2 (M3 and others)"
           href: articles/censoring.html
+        - text: "Mixture models (latent subpopulations)"
+          href: articles/mixture-models.html
+        - text: "Separate phase 1 and phase 3 residual error"
+          href: articles/phase-residual-error.html
+        - text: "Simulations with individually-titrated dosing"
+          href: articles/simulate-titrated-dosing.html
         - text: "--------------------------"
         - text: "Integrated development with xgxr/nlmixr/ggPMX"
           href: articles/xgxr-nlmixr-ggpmx.html
+        - text: "--------------------------"
+        - text: "For contributors"
+        - text: "Contributing a long-running example (precompute + cache)"
+          href: articles/precompute-articles.html
         - text: "--------------------------"
         - text: "Citations of nlmixr2"
           href: articles/citations.html
@@ -51,6 +61,28 @@ navbar:
           href: articles/mavoglurant.html
         - text: "PKPD -- Myelosuppression model"
           href: articles/wbc.html
+        - text: "DDEs -- Lifespan and delayed-response models"
+          href: articles/delays.html
+        - text: "--------------------------"
+        - text: "VAE-NLME -- neonatal growth with covariate selection"
+          href: articles/vaeNeonatal.html
+        - text: "--------------------------"
+        - text: "Estimation: conditional/quadrature ladder (fo...agq)"
+          href: articles/linearized-quadrature-ladder.html
+        - text: "Priors in FOCEi: general, nwpri and tnpri"
+          href: articles/priors-focei.html
+        - text: "Estimation: SAEM"
+          href: articles/saem.html
+        - text: "Estimation: NLM-family optimizers (population-only)"
+          href: articles/nlm-family-optimizers.html
+        - text: "Estimation: external engines via babelmixr2"
+          href: articles/babelmixr2-external-engines.html
+        - text: "Estimation: importance-sampling EM (imp/impmap/qrpem)"
+          href: articles/imp-impmap-qrpem.html
+        - text: "Nonparametric NLME (npag/npb) vs Pmetrics"
+          href: articles/nonparametric-npag-npb.html
+        - text: "Variational inference (emvi/fbvi) vs FOCEI/SAEM/Stan/VAE"
+          href: articles/variational-inference.html
   - text: "Cheat Sheet"
     icon: fa-scroll fa-lg
     href: https://github.com/nlmixr2/nlmixr2/raw/main/CheatSheet_nlmixr_220621.pdf

@@ -1,6 +1,6 @@
 Package: nlmixr2
 Title: Nonlinear Mixed Effects Models in Population PK/PD
-Version: 6.0.0
+Version: 7.0.1
 Authors@R: c(person("Matthew","Fidler", role = c("aut", "cre"), email = "matthew.fidler@gmail.com", comment=c(ORCID="0000-0001-8538-6691")),
    person("Anne", "Keunecke", role="ctb"),
    person("Rik", "Schoemaker", role = "ctb", email = "rik.schoemaker@occams.com", comment=c(ORCID="0000-0002-7538-3005")),
@@ -21,7 +21,8 @@ Description: Fit and compare nonlinear mixed-effects models in differential
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+Depends:
+    R (>= 4.1.0)
 Imports:
     clisymbols,
     cli (>= 1.0.0),
@@ -35,14 +36,30 @@ Imports:
     lotri (>= 0.4.3),
     nlmixr2plot (>= 5.0.0),
     tibble,
-    magrittr
+    nlmixr2save (>= 0.1.0)
 Suggests:
-    rmarkdown,
-    knitr,
-    devtools,
+    admixr2,
+    babelmixr2,
+    DiagrammeR,
+    ggPMX,
     ggplot2,
-    testthat,
+    knitr,
+    monolix2rx,
     n1qn1,
-    withr
+    nlmixr2auto,
+    nlmixr2autoinit,
+    nlmixr2lib,
+    nlmixr2rpt,
+    nlmixr2targets,
+    nonmem2rx,
+    pmxNODE,
+    posologyr,
+    rmarkdown,
+    shinyMixR,
+    testthat,
+    withr,
+    xpose.nlmixr2,
+    devtools
 BugReports: https://github.com/nlmixr2/nlmixr2/issues/
 URL: https://nlmixr2.org/, https://github.com/nlmixr2/nlmixr2/
+Config/roxygen2/version: 8.1.0

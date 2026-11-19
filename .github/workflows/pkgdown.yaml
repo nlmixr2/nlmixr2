@@ -60,6 +60,10 @@ jobs:
         with:
           use-public-rspm: true
 
+      - name: Include fit cache in package build
+        run: sed -i '/inst\/cache/d' .Rbuildignore
+        shell: bash
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           pak-version: devel
@@ -69,10 +73,13 @@ jobs:
             nlmixr2/dparser-R
             nlmixr2/lotri
             nlmixr2/rxode2ll
+            nlmixr2/rxode2lincmt
             nlmixr2/rxode2
             nlmixr2/nlmixr2est
             nlmixr2/nlmixr2extra
             nlmixr2/nlmixr2plot
+            nlmixr2/nlmixr2save
+            nlmixr2/babelmixr2
             lixoftConnectors=?ignore
             dotwhisker=?ignore
             glmmADMB=?ignore
