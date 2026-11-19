@@ -15,30 +15,6 @@ knitr::opts_chunk$set(
 
 # nlmixr2
 
-<!--
-## CRAN updating
-
-[![CRAN-status](https://img.shields.io/badge/CRAN-Updating-red)](https://github.com/nlmixr2/rxode2/actions/workflows/R-CMD-check.yaml)
-
-Currently we are updating `PreciseSums` on CRAN; `nlmixr2est` is
-linked to `rxode2` which in turn is linked to `PreciseSums`.  While
-`PreciseSums`, `rxode2` and `nlmixr2est` are being submitted, the most stable
-version of `nlmixr2` comes from the `r-universe`:
-
-```r
-install.packages(c("PreciseSums", "dparser", "nlmixr2data", "lotri",
-                   "rxode2ll", "rxode2parse", "rxode2random", "rxode2et",
-                   "rxode2",  "nlmixr2est", "nlmixr2extra", "nlmixr2plot",
-                   "nlmixr2"),
-                 repos = c('ttps://nlmixr2.r-universe.dev',
-                           'https://cloud.r-project.org'))
-```
-
-This is temporary and should resolve itself in a couple of weeks.
-
-You could also compile from source to work around the issue.
-
--->
 <!-- badges: start -->
 ![Cran updating status](https://img.shields.io/badge/CRAN-Not%20Updating-green)
 [![R-CMD-check](https://github.com/nlmixr2/nlmixr2/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/nlmixr2/nlmixr2/actions/workflows/R-CMD-check.yaml)
@@ -254,18 +230,16 @@ If you have difficulties due to errors while compiling models, it may
 be useful to re-install all of nlmixr2 and its dependencies.  For
 development versions, please use the `remotes::install_github()` or
 the `install.package()` with the `r-universe` above.  For the stable version,
-please use the following command:
+you can get the command with:
 
 ``` r
-install.packages(c("dparser", "lotri", "rxode2ll", "rxode2parse",
-                   "rxode2random", "rxode2et", "rxode2",
-                   "nlmixr2data", "nlmixr2est", "nlmixr2extra",
-                   "nlmixr2plot", "nlmixr2"))
+library(nlmixr2)
+nlmixr2update()
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example of a non-linear mixed effect model
 
 ```{r example, message=FALSE}
 library(nlmixr2)

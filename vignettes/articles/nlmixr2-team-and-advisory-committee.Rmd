@@ -21,6 +21,8 @@ The nlmixr2 team currently has the following members:
 
 - Richard Hooijmaijers
 
+- Anne Keunecke
+
 - Theodoros Papathanasiou
 
 - Rik Schoemaker
@@ -56,5 +58,3 @@ They also have the following emeritus members:
 - Mats Karlsson
 
 - Joseph Standing
-
-## nlmixr2

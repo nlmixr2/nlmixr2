@@ -347,20 +347,20 @@ Models can be fitted several ways, including via the [magrittr] forward-pipe
 operator.
 
 ```
-fit <- nlmixr(one.compartment) %>% saem.fit(data=theo_sd)
+fit <- nlmixr(one.compartment) %>% nlmixr(data = theo_sd, est = "saem")
 ```
 ```
-fit2 <- nlmixr(one.compartment, data=theo_sd, est="saem")
+fit2 <- nlmixr(one.compartment, data = theo_sd, est = "saem")
 ```
 ```
-fit3 <- one.compartment %>% saem.fit(data=theo_sd)
+fit3 <- one.compartment %>% nlmixr(data = theo_sd, est = "saem")
 ```
 
 Options to the estimation routines can be specified using nlmeControl
 for nlme estimation:
 
 ```
-fit4 <- nlmixr(one.compartment, theo_sd,est="nlme",control = nlmeControl(pnlsTol = .5))
+fit4 <- nlmixr(one.compartment, theo_sd, est = "nlme", control = nlmeControl(pnlsTol = .5))
 ```
 
 where options are specified in the `nlme` documentation.
